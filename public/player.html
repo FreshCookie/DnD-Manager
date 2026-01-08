@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>D&D Player View</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-family: "Cinzel", serif;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="player-root"></div>
+
+    <script type="module">
+      import React from "https://esm.sh/react@18.2.0";
+      import ReactDOM from "https://esm.sh/react-dom@18.2.0/client";
+
+      const { useState, useEffect } = React;
+
+      const themes = {
+        // Bestehende Themes
+        dark: {
+          bg: "bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900",
+          text: "text-gray-100",
+          accent: "text-purple-400",
+          cardBg: "bg-gray-800/50",
+          border: "border-purple-500/30",
+        },
+        fire: {
+          bg: "bg-gradient-to-br from-red-950 via-orange-900 to-black",
+          text: "text-gray-100",
+          accent: "text-orange-400",
+          cardBg: "bg-red-900/30",
+          border: "border-orange-500/30",
+        },
+        forest: {
+          bg: "bg-gradient-to-br from-green-950 via-emerald-900 to-gray-900",
+          text: "text-gray-100",
+          accent: "text-emerald-400",
+          cardBg: "bg-green-900/30",
+          border: "border-emerald-500/30",
+        },
+        ice: {
+          bg: "bg-gradient-to-br from-cyan-950 via-blue-900 to-gray-900",
+          text: "text-gray-100",
+          accent: "text-cyan-400",
+          cardBg: "bg-blue-900/30",
+          border: "border-cyan-500/30",
+        },
+
+        // Neue Premium Themes
+        cathedral: {
+          bg: "bg-gradient-to-br from-amber-950 via-yellow-900 to-stone-950",
+          text: "text-amber-50",
+          accent: "text-amber-300",
+          cardBg: "bg-gradient-to-br from-amber-900/40 to-yellow-950/40",
+          border: "border-amber-400/60",
+        },
+        abyss: {
+          bg: "bg-gradient-to-br from-slate-900 via-purple-950 to-black",
+          text: "text-slate-100",
+          accent: "text-teal-300",
+          cardBg:
+            "bg-gradient-to-br from-slate-900/60 via-purple-950/40 to-indigo-950/50",
+          border: "border-teal-400/50",
+        },
+        bloodmoon: {
+          bg: "bg-gradient-to-br from-rose-950 via-red-950 to-black",
+          text: "text-rose-50",
+          accent: "text-rose-300",
+          cardBg:
+            "bg-gradient-to-br from-red-950/50 via-rose-900/40 to-black/60",
+          border: "border-rose-500/60",
+        },
+        arcane: {
+          bg: "bg-gradient-to-br from-purple-950 via-fuchsia-950 to-indigo-950",
+          text: "text-purple-50",
+          accent: "text-fuchsia-300",
+          cardBg:
+            "bg-gradient-to-br from-purple-900/40 via-fuchsia-900/30 to-indigo-900/40",
+          border: "border-fuchsia-400/60",
+        },
+        desert: {
+          bg: "bg-gradient-to-br from-orange-950 via-amber-900 to-yellow-950",
+          text: "text-orange-50",
+          accent: "text-amber-300",
+          cardBg:
+            "bg-gradient-to-br from-orange-900/40 via-amber-800/30 to-yellow-900/40",
+          border: "border-orange-400/50",
+        },
+        volcanic: {
+          bg: "bg-gradient-to-br from-orange-600 via-red-950 to-black",
+          text: "text-orange-50",
+          accent: "text-orange-300",
+          cardBg:
+            "bg-gradient-to-t from-red-950/60 via-orange-950/40 to-black/50",
+          border: "border-orange-500/70",
+        },
+        celestial: {
+          bg: "bg-gradient-to-br from-indigo-900 via-blue-950 to-slate-950",
+          text: "text-blue-50",
+          accent: "text-blue-300",
+          cardBg:
+            "bg-gradient-to-br from-indigo-900/40 via-blue-900/30 to-slate-900/50",
+          border: "border-blue-400/60",
+        },
+        nether: {
+          bg: "bg-gradient-to-br from-violet-950 via-purple-950 to-black",
+          text: "text-violet-50",
+          accent: "text-lime-300",
+          cardBg:
+            "bg-gradient-to-br from-violet-900/40 via-purple-950/40 to-black/60",
+          border: "border-lime-400/50",
+        },
+      };
+
+      const formatTime = (seconds) => {
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        const secs = seconds % 60;
+        return `${hours.toString().padStart(2, "0")}:${minutes
+          .toString()
+          .padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+      };
+
+      const formatChallengeTime = (seconds) => {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${mins.toString().padStart(2, "0")}:${secs
+          .toString()
+          .padStart(2, "0")}`;
+      };
+
+      // Helper function um zu checken ob Location ein gültiges Bild hat
+      const hasValidLocationImage = (location) => {
+        if (!location || !location.images || location.images.length === 0) {
+          return false;
+        }
+        const selectedImage = location.images[location.selectedImageIndex || 0];
+        return selectedImage && selectedImage.trim() !== "";
+      };
+
+      function PlayerView() {
+        const [displayData, setDisplayData] = useState(null);
+        const [currentTheme, setCurrentTheme] = useState("dark");
+        const [sessionTime, setSessionTime] = useState(0);
+        const [currentTime, setCurrentTime] = useState(new Date());
+        const [challenge, setChallenge] = useState(null);
+
+        const theme = themes[currentTheme];
+
+        useEffect(() => {
+          const broadcast = new BroadcastChannel("dnd-session");
+
+          broadcast.onmessage = (event) => {
+            const data = event.data;
+
+            if (data.type === "theme") {
+              setCurrentTheme(data.theme);
+            } else if (data.type === "sessionTime") {
+              setSessionTime(data.time);
+            } else if (data.type === "challenge") {
+              setChallenge(data.data);
+            } else if (data.type === "clear") {
+              // Clear everything
+              setDisplayData(null);
+              setChallenge(null);
+            } else {
+              setDisplayData(data);
+            }
+          };
+
+          // Update current time every second
+          const timeInterval = setInterval(() => {
+            setCurrentTime(new Date());
+          }, 1000);
+
+          return () => {
+            broadcast.close();
+            clearInterval(timeInterval);
+          };
+        }, []);
+
+        // Timer und Uhr Component
+        const TimerDisplay = () => {
+          return React.createElement(
+            "div",
+            {
+              className: `fixed bottom-4 right-4 ${theme.cardBg} backdrop-blur-sm rounded-lg p-4 border ${theme.border}`,
+            },
+            React.createElement(
+              "div",
+              { className: `${theme.text} text-sm mb-1` },
+              currentTime.toLocaleTimeString("de-DE")
+            ),
+            sessionTime > 0 &&
+              React.createElement(
+                "div",
+                { className: `${theme.accent} text-xs` },
+                "Session: " + formatTime(sessionTime)
+              )
+          );
+        };
+
+        // Challenge Overlay
+        if (challenge) {
+          return React.createElement(
+            "div",
+            {
+              className: `min-h-screen ${theme.bg} flex items-center justify-center p-8`,
+            },
+            React.createElement(
+              "div",
+              { className: "max-w-4xl w-full text-center" },
+              React.createElement(
+                "h1",
+                {
+                  className: `${theme.text} text-6xl font-bold mb-6`,
+                  style: { fontFamily: "Georgia, serif" },
+                },
+                challenge.title
+              ),
+              challenge.description &&
+                React.createElement(
+                  "p",
+                  { className: `${theme.text} text-2xl mb-8 opacity-80` },
+                  challenge.description
+                ),
+              React.createElement(
+                "div",
+                {
+                  className: `${theme.cardBg} backdrop-blur-sm border-4 ${theme.border} rounded-2xl p-12 mb-8`,
+                },
+                React.createElement(
+                  "div",
+                  {
+                    className: `${
+                      challenge.timeLeft <= 10 && challenge.timeLeft > 0
+                        ? "text-red-400 animate-pulse"
+                        : theme.accent
+                    } text-9xl font-bold font-mono`,
+                  },
+                  formatChallengeTime(challenge.timeLeft)
+                ),
+                challenge.timeLeft === 0 &&
+                  React.createElement(
+                    "div",
+                    {
+                      className:
+                        "text-red-400 text-4xl font-bold mt-4 animate-pulse",
+                    },
+                    "⏰ ZEIT ABGELAUFEN! ⏰"
+                  )
+              ),
+              React.createElement(TimerDisplay)
+            )
+          );
+        }
+
+        // D Rektor Intro
+        if (displayData && displayData.type === "direktor") {
+          return React.createElement(
+            "div",
+            {
+              className: `min-h-screen ${theme.bg} flex items-center justify-center p-8`,
+            },
+            React.createElement(
+              "div",
+              { className: "max-w-5xl w-full" },
+              React.createElement(
+                "div",
+                {
+                  className: `${theme.cardBg} backdrop-blur-sm border-4 ${theme.border} rounded-2xl p-12 text-center`,
+                },
+                React.createElement(
+                  "h1",
+                  {
+                    className: `${theme.text} text-6xl font-bold mb-8`,
+                    style: { fontFamily: "Georgia, serif" },
+                  },
+                  displayData.data.title
+                ),
+                displayData.data.image &&
+                  React.createElement("img", {
+                    src: displayData.data.image,
+                    alt: "D Rektor",
+                    className:
+                      "w-48 h-48 object-cover rounded-full mx-auto mb-8 border-4 " +
+                      theme.border,
+                  }),
+                React.createElement(
+                  "div",
+                  {
+                    className: `${theme.text} text-2xl leading-relaxed whitespace-pre-wrap`,
+                  },
+                  displayData.data.text
+                )
+              ),
+              React.createElement(TimerDisplay)
+            )
+          );
+        }
+
+        // CITY
+        if (displayData && displayData.type === "city") {
+          return React.createElement(
+            "div",
+            {
+              className: `min-h-screen ${theme.bg} flex items-center justify-center p-8`,
+            },
+            React.createElement(
+              "div",
+              { className: "max-w-5xl w-full text-center" },
+              React.createElement(
+                "h1",
+                {
+                  className: `${theme.text} text-6xl font-bold mb-8`,
+                  style: { fontFamily: "Georgia, serif" },
+                },
+                displayData.data.name
+              ),
+              displayData.data.image &&
+                React.createElement("img", {
+                  src: displayData.data.image,
+                  alt: displayData.data.name,
+                  className:
+                    "w-full max-h-96 object-cover rounded-xl shadow-2xl mb-6",
+                }),
+              React.createElement(TimerDisplay)
+            )
+          );
+        }
+
+        // Companion
+        if (displayData && displayData.type === "companion") {
+          return React.createElement(
+            "div",
+            {
+              className: `min-h-screen ${theme.bg} flex items-center justify-center p-8`,
+            },
+            React.createElement(
+              "div",
+              { className: "max-w-4xl w-full text-center" },
+              React.createElement(
+                "h1",
+                {
+                  className: `${theme.text} text-6xl font-bold mb-8`,
+                  style: { fontFamily: "Georgia, serif" },
+                },
+                displayData.data.name
+              ),
+              displayData.data.image &&
+                React.createElement("img", {
+                  src: displayData.data.image,
+                  alt: displayData.data.name,
+                  className: "max-w-md mx-auto rounded-xl shadow-2xl mb-6",
+                }),
+              displayData.data.description &&
+                React.createElement(
+                  "p",
+                  { className: `${theme.text} text-xl mb-6 max-w-2xl mx-auto` },
+                  displayData.data.description
+                ),
+              displayData.data.ability &&
+                React.createElement(
+                  "div",
+                  {
+                    className:
+                      "bg-purple-900/40 border-2 border-purple-500/60 rounded-xl p-6 max-w-2xl mx-auto",
+                  },
+                  React.createElement(
+                    "div",
+                    { className: `${theme.accent} text-2xl font-bold mb-3` },
+                    "🌟 Spezialfähigkeit"
+                  ),
+                  React.createElement(
+                    "p",
+                    { className: `${theme.text} text-lg` },
+                    displayData.data.ability
+                  )
+                ),
+              React.createElement(TimerDisplay)
+            )
+          );
+        }
+
+        // SubLocation (Objekt/Entdeckung)
+        if (displayData && displayData.type === "subLocation") {
+          return React.createElement(
+            "div",
+            {
+              className: `min-h-screen ${theme.bg} flex items-center justify-center p-8`,
+            },
+            React.createElement(
+              "div",
+              { className: "max-w-4xl w-full text-center" },
+              React.createElement(
+                "h1",
+                {
+                  className: `${theme.text} text-5xl font-bold mb-8`,
+                  style: { fontFamily: "Georgia, serif" },
+                },
+                displayData.data.name
+              ),
+              displayData.data.image &&
+                React.createElement("img", {
+                  src: displayData.data.image,
+                  alt: displayData.data.name,
+                  className: "max-w-2xl mx-auto rounded-xl shadow-2xl mb-6",
+                }),
+              displayData.data.description &&
+                React.createElement(
+                  "div",
+                  {
+                    className: `${theme.cardBg} ${theme.border} border-2 rounded-xl p-6 max-w-2xl mx-auto`,
+                  },
+                  React.createElement(
+                    "p",
+                    {
+                      className: `${theme.text} text-xl leading-relaxed whitespace-pre-wrap`,
+                    },
+                    displayData.data.description
+                  )
+                ),
+              React.createElement(TimerDisplay)
+            )
+          );
+        }
+
+        if (!displayData) {
+          return React.createElement(
+            "div",
+            {
+              className: `min-h-screen ${theme.bg} flex items-center justify-center p-8`,
+            },
+            React.createElement(
+              "div",
+              { className: "text-center" },
+              React.createElement(
+                "div",
+                {
+                  className: `${theme.text} text-3xl font-bold mb-4`,
+                  style: { fontFamily: "Georgia, serif" },
+                },
+                "D&D Player View"
+              ),
+              React.createElement(
+                "p",
+                { className: `${theme.accent} text-xl` },
+                "Der GM hat gerade nichts zu zeigen..."
+              ),
+              React.createElement(TimerDisplay)
+            )
+          );
+        }
+
+        const type = displayData?.type;
+        const data = displayData?.data;
+        const location = displayData?.location;
+        const npc = displayData?.npc;
+
+        // Both Location and NPC - nur Location zeigen wenn Bild vorhanden
+        if (type === "both" && location && npc) {
+          const showLocation = hasValidLocationImage(location);
+
+          // Wenn keine Location Bilder: Zeige nur NPC (zentriert, volle Breite)
+          if (!showLocation) {
+            return React.createElement(
+              "div",
+              {
+                className: `min-h-screen ${theme.bg} flex items-center justify-center p-8`,
+              },
+              React.createElement(
+                "div",
+                { className: "max-w-6xl w-full" },
+                React.createElement(
+                  "div",
+                  { className: "text-center" },
+                  React.createElement(
+                    "h1",
+                    {
+                      className: `${theme.text} text-5xl font-bold mb-4`,
+                      style: { fontFamily: "Georgia, serif" },
+                    },
+                    npc.name
+                  ),
+                  React.createElement(
+                    "p",
+                    { className: `${theme.accent} text-2xl mb-8` },
+                    npc.profession
+                  ),
+                  npc.images &&
+                    npc.images.length > 0 &&
+                    npc.images[npc.selectedImageIndex || 0] &&
+                    React.createElement("img", {
+                      src: npc.images[npc.selectedImageIndex || 0],
+                      alt: npc.name,
+                      className: "max-w-lg mx-auto rounded-xl shadow-2xl",
+                      style: { maxHeight: "70vh", objectFit: "contain" },
+                    })
+                ),
+                React.createElement(TimerDisplay)
+              )
+            );
+          }
+
+          // Beide anzeigen (Location + NPC)
+          return React.createElement(
+            "div",
+            { className: `min-h-screen ${theme.bg} p-8` },
+            React.createElement(
+              "div",
+              { className: "max-w-7xl mx-auto" },
+              React.createElement(
+                "div",
+                { className: "grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8" },
+                // Location (links)
+                React.createElement(
+                  "div",
+                  { className: "text-center" },
+                  React.createElement(
+                    "h2",
+                    {
+                      className: `${theme.text} text-3xl font-bold mb-4`,
+                      style: { fontFamily: "Georgia, serif" },
+                    },
+                    location.name
+                  ),
+                  location.images &&
+                    location.images.length > 0 &&
+                    location.images[location.selectedImageIndex || 0] &&
+                    React.createElement("img", {
+                      src: location.images[location.selectedImageIndex || 0],
+                      alt: location.name,
+                      className: "w-full rounded-xl shadow-2xl",
+                      style: { maxHeight: "60vh", objectFit: "cover" },
+                    })
+                ),
+                // NPC (rechts)
+                React.createElement(
+                  "div",
+                  { className: "text-center" },
+                  React.createElement(
+                    "h2",
+                    {
+                      className: `${theme.text} text-3xl font-bold mb-2`,
+                      style: { fontFamily: "Georgia, serif" },
+                    },
+                    npc.name
+                  ),
+                  React.createElement(
+                    "p",
+                    { className: `${theme.accent} text-xl mb-4` },
+                    npc.profession
+                  ),
+                  npc.images &&
+                    npc.images.length > 0 &&
+                    npc.images[npc.selectedImageIndex || 0] &&
+                    React.createElement("img", {
+                      src: npc.images[npc.selectedImageIndex || 0],
+                      alt: npc.name,
+                      className: "max-w-full mx-auto rounded-xl shadow-2xl",
+                      style: { maxHeight: "60vh", objectFit: "contain" },
+                    })
+                )
+              ),
+              React.createElement(TimerDisplay)
+            )
+          );
+        }
+
+        // Only NPC
+        if (type === "npc") {
+          return React.createElement(
+            "div",
+            {
+              className: `min-h-screen ${theme.bg} flex items-center justify-center p-8`,
+            },
+            React.createElement(
+              "div",
+              { className: "max-w-6xl w-full" },
+              React.createElement(
+                "div",
+                { className: "text-center" },
+                React.createElement(
+                  "h1",
+                  {
+                    className: `${theme.text} text-5xl font-bold mb-4`,
+                    style: { fontFamily: "Georgia, serif" },
+                  },
+                  data.name
+                ),
+                React.createElement(
+                  "p",
+                  { className: `${theme.accent} text-2xl mb-8` },
+                  data.profession
+                ),
+                data.images &&
+                  data.images.length > 0 &&
+                  data.images[data.selectedImageIndex || 0] &&
+                  React.createElement("img", {
+                    src: data.images[data.selectedImageIndex || 0],
+                    alt: data.name,
+                    className: "max-w-lg mx-auto rounded-xl shadow-2xl",
+                    style: { maxHeight: "70vh", objectFit: "contain" },
+                  })
+              ),
+              React.createElement(TimerDisplay)
+            )
+          );
+        }
+
+        // Only Location
+        if (type === "location") {
+          return React.createElement(
+            "div",
+            {
+              className: `min-h-screen ${theme.bg} flex items-center justify-center p-8`,
+            },
+            React.createElement(
+              "div",
+              { className: "max-w-6xl w-full" },
+              React.createElement(
+                "div",
+                { className: "text-center" },
+                React.createElement(
+                  "h1",
+                  {
+                    className: `${theme.text} text-5xl font-bold mb-8`,
+                    style: { fontFamily: "Georgia, serif" },
+                  },
+                  data.name
+                ),
+                data.images &&
+                  data.images.length > 0 &&
+                  data.images[data.selectedImageIndex || 0] &&
+                  React.createElement("img", {
+                    src: data.images[data.selectedImageIndex || 0],
+                    alt: data.name,
+                    className: "w-full rounded-xl shadow-2xl",
+                    style: { maxHeight: "70vh", objectFit: "cover" },
+                  })
+              ),
+              React.createElement(TimerDisplay)
+            )
+          );
+        }
+
+        // Item
+        if (type === "item") {
+          return React.createElement(
+            "div",
+            {
+              className: `min-h-screen ${theme.bg} flex items-center justify-center p-8`,
+            },
+            React.createElement(
+              "div",
+              { className: "max-w-6xl w-full" },
+              React.createElement(
+                "div",
+                { className: "text-center" },
+                React.createElement(
+                  "h1",
+                  {
+                    className: `${theme.text} text-5xl font-bold mb-8`,
+                    style: { fontFamily: "Georgia, serif" },
+                  },
+                  data.name
+                ),
+                data.image &&
+                  React.createElement("img", {
+                    src: data.image,
+                    alt: data.name,
+                    className: "max-w-md mx-auto rounded-xl shadow-2xl mb-6",
+                  }),
+                data.description &&
+                  React.createElement(
+                    "p",
+                    {
+                      className: `${theme.text} text-xl mb-6 max-w-2xl mx-auto`,
+                    },
+                    data.description
+                  ),
+                React.createElement(
+                  "div",
+                  {
+                    className:
+                      "grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto",
+                  },
+                  data.positiveStats &&
+                    React.createElement(
+                      "div",
+                      {
+                        className:
+                          "bg-green-900/30 border-2 border-green-500/50 rounded-lg p-4",
+                      },
+                      React.createElement(
+                        "div",
+                        { className: "text-green-400 text-2xl font-bold mb-2" },
+                        "✓ Vorteile"
+                      ),
+                      React.createElement(
+                        "p",
+                        { className: theme.text },
+                        data.positiveStats
+                      )
+                    ),
+                  data.negativeStats &&
+                    React.createElement(
+                      "div",
+                      {
+                        className:
+                          "bg-red-900/30 border-2 border-red-500/50 rounded-lg p-4",
+                      },
+                      React.createElement(
+                        "div",
+                        { className: "text-red-400 text-2xl font-bold mb-2" },
+                        "✗ Nachteile"
+                      ),
+                      React.createElement(
+                        "p",
+                        { className: theme.text },
+                        data.negativeStats
+                      )
+                    )
+                )
+              ),
+              React.createElement(TimerDisplay)
+            )
+          );
+        }
+
+        return null;
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("player-root"));
+      root.render(React.createElement(PlayerView));
+    </script>
+  </body>
+</html>

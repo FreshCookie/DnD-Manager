@@ -1,0 +1,777 @@
+{
+  "cities": [
+    {
+      "id": "1762975693689-97lnjx5tu",
+      "name": "Nexarion",
+      "createdAt": 1762975693689
+    },
+    {
+      "id": "1763041424429-4npzmnmqo",
+      "name": "Aurelius",
+      "createdAt": 1763041424429,
+      "description": "Die Stadt für wenn Sascha mal nicht da ist oder keine Zeit hat oder keine Lust hat",
+      "image": "/images/Aurelius/city/aurelius.jpeg"
+    }
+  ],
+  "stories": [
+    {
+      "title": "Die Zentauren",
+      "description": "Die Zentauren werden von Untoten und Skeletten heimgesucht. Alles hat angefangen, als einer ihrer Männer wegen Mordes zu Tode verurteilt wurde.",
+      "status": "completed",
+      "completionTime": 0,
+      "creator": "Sascha",
+      "image": "",
+      "id": "1763037636232-4p3us0yqx",
+      "cityId": "1762975693689-97lnjx5tu",
+      "createdAt": 1763037636232
+    },
+    {
+      "title": "Die Zyklopen",
+      "description": "Komische Dinge gehen vor sich seit dem der Juwelier so tolle Edelsteine verkauft. Seit dem leuchtet sein Haus jede Nacht rot und es erscheinen Imps in der Nacht. Könnte er was damit zu tun haben?",
+      "status": "completed",
+      "completionTime": 0,
+      "creator": "Kevin",
+      "image": "",
+      "id": "1763037759421-x87p0hk8e",
+      "cityId": "1762975693689-97lnjx5tu",
+      "createdAt": 1763037759421
+    },
+    {
+      "title": "Die Drachengeborenen",
+      "description": "Keine Ahnung was da passiert Sascha kommt nicht aus dem Knick um es mir zu schicken.",
+      "status": "wip",
+      "completionTime": 0,
+      "creator": "Sascha",
+      "image": "",
+      "id": "1763037798305-hvv6waeso",
+      "cityId": "1762975693689-97lnjx5tu",
+      "createdAt": 1763037798305
+    },
+    {
+      "title": "Die Feen",
+      "description": "Seit 2 Wochen meldet sich die Bürgermeisterin der Feen nicht mehr. Gollomini macht sich sorgen und schickt die Truppe dort hin um nachzusehen.",
+      "status": "completed",
+      "completionTime": 0,
+      "creator": "Kevin",
+      "image": "",
+      "id": "1763037870185-sjvpy9yg5",
+      "cityId": "1762975693689-97lnjx5tu",
+      "createdAt": 1763037870185
+    },
+    {
+      "title": "Die Tabaxi",
+      "description": "Die Spieler werden auf ein alljährliches Fest der Sonne eingeladen. Ein wichtiges Event der Tabaxi um alle 4 Elemente im Gleichgewicht zu behalten. Doch dieses Jahr kam es anders als erwartet. Zudem lernt Theresa (Georgi) ihre Eltern kennen und erfährt mehr über sich (Backstory).",
+      "status": "wip",
+      "completionTime": 0,
+      "creator": "Kevin",
+      "image": "",
+      "id": "1763038020231-hfgfxm2x9",
+      "cityId": "1762975693689-97lnjx5tu",
+      "createdAt": 1763038020231
+    },
+    {
+      "title": "Die Tieflinge",
+      "description": "Keine Ahnung hab mir noch keine Gedanken dazu gemacht. Auf jedenfall kommt dort der Tiefling Händler aus der Feen Story vor.",
+      "status": "wip",
+      "completionTime": 0,
+      "creator": "Kevin",
+      "image": "",
+      "id": "1763038078711-9b7z6xn77",
+      "cityId": "1762975693689-97lnjx5tu",
+      "createdAt": 1763038078711
+    },
+    {
+      "title": "Die Hexengilde",
+      "description": "Die Hexen führen wieder ihr alljährliches Schutzritual durch doch ihnen fehlen noch ein paar Dinge dafür. Die Spieler werden gebeten dieses zu holen. Doch dieses Jahr funktionierte das Schutzritual nicht wie erhofft.",
+      "status": "ready",
+      "completionTime": 0,
+      "creator": "Kevin",
+      "image": "/images/Aurelius/locations/hexengilde.jpeg",
+      "id": "1763041578827-nscg8bc33",
+      "cityId": "1763041424429-4npzmnmqo",
+      "createdAt": 1763041578827
+    }
+  ],
+  "npcs": [
+    {
+      "name": "hh",
+      "profession": "hh",
+      "description": "hh",
+      "images": [
+        "/images/npcs/Händler.jpeg"
+      ],
+      "locationId": "1762978422701-tkun29de8",
+      "id": "1762978368495-f34jlnk96",
+      "storyId": "1762975726705-20ecwctqc"
+    },
+    {
+      "name": "gg",
+      "profession": "gg",
+      "description": "gg",
+      "images": [
+        "/images/npcs/Händler.jpeg"
+      ],
+      "id": "1763010716530-9kqgx2vw7",
+      "storyId": "1763010680206-326y1hz4h",
+      "locationId": "1763010690064-d7cxlw09b"
+    },
+    {
+      "name": "Gollomini",
+      "profession": "Präsidentin der Stadt Nexarion",
+      "description": "",
+      "images": [],
+      "sound": "",
+      "id": "1763038579936-lacdvw1r7",
+      "storyId": "1763037636232-4p3us0yqx",
+      "locationId": "1763038532127-l4c2zxk25",
+      "createdAt": 1763038579936
+    },
+    {
+      "name": "Der Magier",
+      "profession": "Magier",
+      "description": "",
+      "images": [],
+      "sound": "",
+      "id": "1763038590875-wcclqpzjg",
+      "storyId": "1763037636232-4p3us0yqx",
+      "locationId": "1763038532127-l4c2zxk25",
+      "createdAt": 1763038590875
+    },
+    {
+      "name": "Roric",
+      "profession": "Wirt",
+      "description": "Klatsch und Tratsch",
+      "images": [
+        "/images/Aurelius/npcs/rurik.jpeg"
+      ],
+      "sound": "",
+      "id": "1763043212456-tgvo7mxpd",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763042161024-lag38dse8"
+    },
+    {
+      "name": "Jace",
+      "profession": "Trickspieler",
+      "description": "Hier können die Spieler Geld Gewinnen oder auch verlieren",
+      "images": [
+        "/images/Aurelius/npcs/jace.jpeg"
+      ],
+      "sound": "",
+      "id": "1763043257556-oc8fumi9y",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763042161024-lag38dse8"
+    },
+    {
+      "name": "Kai",
+      "profession": "Antiquitäten Händler",
+      "description": "Er verkauft Antiquitäten",
+      "images": [
+        "/images/Aurelius/npcs/kai.jpeg"
+      ],
+      "sound": "",
+      "id": "1763043492204-tn63g4ht8",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763042169436-9kz66ihuc"
+    },
+    {
+      "name": "Bella",
+      "profession": "Händlerin",
+      "description": "",
+      "images": [
+        "/images/Aurelius/npcs/bella.jpeg"
+      ],
+      "sound": "",
+      "id": "1763043520714-0ygs2osol",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763042393398-u5z305llp"
+    },
+    {
+      "name": "Hildegard",
+      "profession": "Verkäuferin",
+      "description": "Sie verkauft Lebensmittel und ja sie ist im zweiten Monat Schwanger",
+      "images": [
+        "/images/Aurelius/npcs/hildegard.jpeg"
+      ],
+      "sound": "",
+      "id": "1763043560147-2y7t0e5af",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763042478096-9aea5rmw8"
+    },
+    {
+      "name": "Meisterin Lira",
+      "profession": "Hexen Anführerin",
+      "description": "Sie hat die Spieler beauftragt die Gegenstände zu besorgen. Sie gibt den Spielern zudem noch ein Glass mit um die Erde sicher zu verstauen. \"Das Ritual es muss vollbracht werden. Wir haben nur noch 3 Monde lang Zeit. Bitte beeilt euch.\"\nWir würden es ja gerne selber erledigen aber wir müssen das Ritual vorbereiten wir sind dieses Jahr etwas spät dran.",
+      "images": [
+        "/images/Aurelius/npcs/lira.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1763043629741-8dneyoq98",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763042582263-tqc778dhw"
+    },
+    {
+      "name": "Jorin",
+      "profession": "Wache der Hexengilde",
+      "description": "Lässt die Spieler anfangs nicht rein",
+      "images": [
+        "/images/Aurelius/npcs/jorin.jpeg"
+      ],
+      "sound": "",
+      "id": "1763043671902-7a97ywn8g",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763042582263-tqc778dhw"
+    },
+    {
+      "name": "Talia",
+      "profession": "Alchemistin",
+      "description": "Fokus auf Zutaten und Rituale",
+      "images": [
+        "/images/Aurelius/npcs/talia.jpeg"
+      ],
+      "sound": "",
+      "id": "1763043723654-mk1cwrfzd",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763042582263-tqc778dhw"
+    },
+    {
+      "name": "Seb",
+      "profession": "Händler",
+      "description": "Ein ja das hab ich hier Laden",
+      "images": [
+        "/images/Aurelius/npcs/seb.jpeg"
+      ],
+      "sound": "",
+      "id": "1763043767877-9fku4v0xz",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763042739039-zqmqzrez7"
+    },
+    {
+      "name": "Theodor",
+      "profession": "Bürger",
+      "description": "Das ist der nächstbeste mal schauen was die erfahren",
+      "images": [
+        "/images/Aurelius/npcs/theodor.jpeg"
+      ],
+      "sound": "",
+      "id": "1763043805663-oxvyj5r3l",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763042899296-cd7q2txuj"
+    },
+    {
+      "name": "Vanessa",
+      "profession": "Bürgerin",
+      "description": "Das ist die nächst beste mal schauen was die erfahren",
+      "images": [
+        "/images/Aurelius/npcs/vanessa.jpeg"
+      ],
+      "sound": "",
+      "id": "1763043846352-jlrujkwtj",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763042899296-cd7q2txuj"
+    },
+    {
+      "name": "Banditen",
+      "profession": "Gegner",
+      "description": "Gegner. DC 4 für Hit. 2d12 DC13 für Gegenangriff",
+      "images": [
+        "/images/Aurelius/npcs/banditen.jpeg"
+      ],
+      "sound": "/music/combat/Kampf.mp3",
+      "isEnemy": true,
+      "id": "1763044656922-9a0jp9qth",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763044450148-8szpmvwew"
+    },
+    {
+      "name": "Banditen Anführer",
+      "profession": "Gegner",
+      "description": "DC 8 für Hit. 2d12 DC10 für Gegenangriff",
+      "images": [
+        "/images/Aurelius/npcs/banditen-boss.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": true,
+      "id": "1763044707131-6wfoluc87",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763044450148-8szpmvwew"
+    },
+    {
+      "name": "Herbert",
+      "profession": "Stadtwache",
+      "description": "Könnte bei Entdeckung Gegner werden. DC 13 für Hit",
+      "images": [
+        "/images/Aurelius/npcs/herbert.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": true,
+      "id": "1763044899417-f1tj6feyb",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763044823420-f3p6fq2nl"
+    },
+    {
+      "name": "Mahatma",
+      "profession": "Stadtwache",
+      "description": "Mahatma Glück, mal pech, mal Ghandi. DC 13 für Hit",
+      "images": [
+        "/images/Aurelius/npcs/mahatma.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": true,
+      "id": "1763045007791-4v0y2gdnw",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763044823420-f3p6fq2nl"
+    },
+    {
+      "name": "Stadtwachen",
+      "profession": "Patroulieren",
+      "description": "Sind einfach beide damit die Spieler sie sehen",
+      "images": [
+        "/images/Aurelius/npcs/guards-turm.jpeg"
+      ],
+      "sound": "",
+      "id": "1763045055976-yonlceamg",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763044823420-f3p6fq2nl"
+    },
+    {
+      "name": "Fredderick & Voltimer",
+      "profession": "Leibwachen",
+      "description": "Bleiben ruhig außer man greift Varos an",
+      "images": [
+        "/images/Aurelius/npcs/leibwachen.jpeg"
+      ],
+      "sound": "",
+      "id": "1763045284342-b7lhqmtdl",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763045201310-aj5cjb1pb"
+    },
+    {
+      "name": "Herr Varos",
+      "profession": "Bänker",
+      "description": "Lyra ist im Safe. Aber den kriegt ihr nicht. Misstrauisch. Überzeugung braucht DC18. Wenn man mit ihm ein bisschen trinkt braucht man DC10 für Überzeugung. Hat einen kleinen Flachmann in der Hand für \"wenn man mal Durst bekommt\"",
+      "images": [
+        "/images/Aurelius/npcs/varos.jpeg"
+      ],
+      "sound": "",
+      "id": "1763045360203-vgfs36g9v",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763045201310-aj5cjb1pb"
+    },
+    {
+      "name": "Goblins",
+      "profession": "Gegner",
+      "description": "Werden von den Totems geheilt. DC 16 für sofort Tod. DC 12 für Hit ohne Totem. Wenn unter DC 16 und Totem nicht zerstört dann sofort Heilung grüner Schimmer um Goblin und zack geheilt.",
+      "images": [
+        "/images/Aurelius/npcs/goblins.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": true,
+      "id": "1763045503013-qogi25wjr",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763045423961-rrslhsywq"
+    },
+    {
+      "name": "Totem",
+      "profession": "Heilungsartefakt",
+      "description": "DC 6 zum zerstören. 4 Stück insgesamt",
+      "images": [
+        "/images/Aurelius/locations/specific/heilungstotem.jpeg"
+      ],
+      "sound": "",
+      "id": "1763045572908-oeyoklw7z",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763045423961-rrslhsywq"
+    },
+    {
+      "name": "Rabe",
+      "profession": "Vogel",
+      "description": "Wenn nicht entdeckt alles gut. Wenn entdeckt dann Kampf oder runterschmeißen. DC13 für Hit",
+      "images": [
+        "/images/Aurelius/npcs/rabe.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": true,
+      "id": "1763109114031-538d40oar",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763044823420-f3p6fq2nl"
+    }
+  ],
+  "locations": [
+    {
+      "name": "gg",
+      "description": "gg",
+      "images": [
+        "/images/locations/Händler.jpeg"
+      ],
+      "id": "1762978422701-tkun29de8",
+      "storyId": "1762975726705-20ecwctqc",
+      "createdAt": 1762978422701
+    },
+    {
+      "name": "gg",
+      "description": "gg",
+      "images": [
+        "/images/locations/Händler.jpeg",
+        "/images/locations/Händler Rave.jpeg"
+      ],
+      "sound": "/music/market/Markt.mp3",
+      "id": "1763010690064-d7cxlw09b",
+      "storyId": "1763010680206-326y1hz4h"
+    },
+    {
+      "name": "Taverne",
+      "description": "Test",
+      "images": [
+        "/images/locations/Taverne.jpeg",
+        "/images/locations/Taverne.jpeg"
+      ],
+      "sound": "",
+      "id": "1763023590683-hcu7tj08g",
+      "storyId": "1763010680206-326y1hz4h",
+      "createdAt": 1763023590684
+    },
+    {
+      "name": "Haupt Marktplatz",
+      "description": "Hier können sich die Spieler frei bewegen. Es gibt Händler, Tavernen, jede Art von stand. Es gibt hier alles. Es ist mitunter der Hauptspot aller Rassen wo sie sich alle treffen können.",
+      "images": [],
+      "sound": "",
+      "id": "1763038466685-hzg1tokq3",
+      "storyId": "1763037636232-4p3us0yqx",
+      "createdAt": 1763038466685
+    },
+    {
+      "name": "Gollominis Palast",
+      "description": "",
+      "images": [],
+      "sound": "",
+      "id": "1763038532127-l4c2zxk25",
+      "storyId": "1763037636232-4p3us0yqx",
+      "createdAt": 1763038532127
+    },
+    {
+      "name": "Taverne",
+      "description": "Die Taverne zum besaufen und Geld verzocken",
+      "images": [
+        "/images/Aurelius/locations/taverne.jpeg"
+      ],
+      "sound": "",
+      "isCityWide": true,
+      "id": "1763042161024-lag38dse8",
+      "storyId": null,
+      "cityId": "1763041424429-4npzmnmqo"
+    },
+    {
+      "name": "Second Hand Laden",
+      "description": "Hier gibt es viele Crazy dinge die andere Leute hergebracht haben. Daher auch Second Hand. Die Spieler werden auch mit einem Händeschütteln begrüßt es ist aber eine zusätzliche Hand die der Spieler dann in der Hand hält. Und der Typ scherzt von wegen Second Hand und so.",
+      "images": [
+        "/images/Aurelius/locations/second-hand.jpeg"
+      ],
+      "sound": "",
+      "isCityWide": true,
+      "id": "1763042169436-9kz66ihuc",
+      "storyId": null,
+      "cityId": "1763041424429-4npzmnmqo"
+    },
+    {
+      "name": "Gemischtwaren Laden",
+      "description": "Hier gibt es fast alles was die Spieler haben wollen. Außer Tränke und Kräuter.",
+      "images": [
+        "/images/Aurelius/locations/gemischt-laden.jpeg"
+      ],
+      "sound": "",
+      "isCityWide": true,
+      "id": "1763042393398-u5z305llp",
+      "storyId": null,
+      "cityId": "1763041424429-4npzmnmqo"
+    },
+    {
+      "name": "Lebensmittel Laden",
+      "description": "Ja hier werden Lebensmittel verkauft",
+      "images": [
+        "/images/Aurelius/locations/lebensmittel-laden.jpeg"
+      ],
+      "sound": "",
+      "isCityWide": true,
+      "id": "1763042478096-9aea5rmw8",
+      "storyId": null,
+      "cityId": "1763041424429-4npzmnmqo"
+    },
+    {
+      "name": "Unterkunft der Hexengilde",
+      "description": "Hier sind die Hexen zuhause.",
+      "images": [
+        "/images/Aurelius/locations/hexengilde.jpeg"
+      ],
+      "sound": "",
+      "isCityWide": false,
+      "id": "1763042582263-tqc778dhw",
+      "storyId": "1763041578827-nscg8bc33",
+      "cityId": null
+    },
+    {
+      "name": "Mobiler Marktstand",
+      "description": "Das hier dient als Backup für ein \"Ja den Laden gibt es hier\" der ist direkt dahinten um die Ecke.",
+      "images": [
+        "/images/Aurelius/locations/fahrender-händler.jpeg"
+      ],
+      "sound": "",
+      "isCityWide": true,
+      "id": "1763042739039-zqmqzrez7",
+      "storyId": null,
+      "cityId": "1763041424429-4npzmnmqo"
+    },
+    {
+      "name": "Der nächstbeste",
+      "description": "Wenn der Spieler mal sagt \"Ich frage mal den nächstbesten auf der Straße\" jap da ist er der nächstbeste 😂",
+      "images": [],
+      "sound": "",
+      "id": "1763042899296-cd7q2txuj",
+      "storyId": "1763041578827-nscg8bc33",
+      "createdAt": 1763042899296
+    },
+    {
+      "name": "Der alte Steinbruch",
+      "description": "Kampf und Gelände: Die Gruppe muss den Kristall aus dem Oger brechen, aber der Ort wird von gierigen Grabräubern bewacht, die glauben, der Kristall sei ein Schatz.",
+      "images": [
+        "/images/Aurelius/locations/steinbruch.jpeg"
+      ],
+      "sound": "",
+      "id": "1763044450148-8szpmvwew",
+      "storyId": "1763041578827-nscg8bc33"
+    },
+    {
+      "name": "Der Hohe Glockenturm",
+      "description": "Infiltration und Geschicklichkeit: Die Feder liegt im Nest auf der Spitze des Turms. Der Turm ist ein wichtiger Beobachtungspunkt der Stadtwache.",
+      "images": [
+        "/images/Aurelius/locations/glockenturm.jpeg"
+      ],
+      "sound": "",
+      "id": "1763044823420-f3p6fq2nl",
+      "storyId": "1763041578827-nscg8bc33"
+    },
+    {
+      "name": "Das Herrenhaus von Herr Varos",
+      "description": "Soziale Interaktion und Rätsel: Der Sammler Varos ist paranoid und wird die Lyra nicht freiwillig hergeben. Die Lyra ist in einem Safe. DC 15 Überzeugen, DC18 Safe knacken. Sonst Code im Tagebuch.",
+      "images": [
+        "/images/Aurelius/locations/herrenhaus.jpeg"
+      ],
+      "sound": "",
+      "id": "1763045201310-aj5cjb1pb",
+      "storyId": "1763041578827-nscg8bc33"
+    },
+    {
+      "name": "Die Moor-Niederungen",
+      "description": "Wildnis und Taktik: Die Erde wird von Goblins als heilig verehrt und aktiv verteidigt.",
+      "images": [
+        "/images/Aurelius/locations/swamp.jpeg"
+      ],
+      "sound": "",
+      "id": "1763045423961-rrslhsywq",
+      "storyId": "1763041578827-nscg8bc33"
+    }
+  ],
+  "items": [
+    {
+      "name": "Der tropfen des Glimmer-Ogers",
+      "description": "Ein versteinerter Tränenkristall aus dem Auge eines versteinerten Ogers.",
+      "positiveStats": "",
+      "negativeStats": "",
+      "image": "/images/Aurelius/items/träne-oger.jpeg",
+      "category": "quest",
+      "id": "1763044155593-1d7vs9exs",
+      "storyId": "1763041578827-nscg8bc33"
+    },
+    {
+      "name": "Die Feder des Mitternachtsraben",
+      "description": "Eine einzelne, große, schwarze Feder von einem seltenen, magischen Raben.",
+      "positiveStats": "",
+      "negativeStats": "",
+      "image": "/images/Aurelius/items/feder.jpeg",
+      "category": "quest",
+      "id": "1763044289753-3tgh8v1z2",
+      "storyId": "1763041578827-nscg8bc33"
+    },
+    {
+      "name": "Der Gesang der stummen Sirene",
+      "description": "Ein versiegeltes Musikinstrument  mit einem magischen Fluch.",
+      "positiveStats": "",
+      "negativeStats": "",
+      "image": "/images/Aurelius/items/lyra.jpeg",
+      "category": "quest",
+      "id": "1763044316879-f5s82z9qy",
+      "storyId": "1763041578827-nscg8bc33"
+    },
+    {
+      "name": "Die Erde des gefallenen Sterns",
+      "description": "Magisch aufgeladener Lehm von einem alten Meteoriten-Einschlag.",
+      "positiveStats": "",
+      "negativeStats": "",
+      "image": "/images/Aurelius/items/jar-of-dirt.jpeg",
+      "category": "quest",
+      "id": "1763044344978-6tykdl17h",
+      "storyId": "1763041578827-nscg8bc33"
+    }
+  ],
+  "intros": [
+    {
+      "title": "Eure heutige Mission lautet...",
+      "text": "...dieser Auftrag ist von höchster Priorität. Wir wissen leider nichts über diesen Auftrag. Aber was wir wissen ist, dass ihr euch bei Gollomini melden sollt. Sie wird euch dann alles weitere Erklären.",
+      "image": "",
+      "id": "1763038309044-2in8j3ev0",
+      "storyId": "1763037636232-4p3us0yqx",
+      "createdAt": 1763038309044
+    },
+    {
+      "title": "Die bitte der Hexen",
+      "text": "Fahrende Falken heute erwartet euch was ganz neues. Ein neuer Ort und neue Leute. Es geht heute nach Aurelius. Dort haben uns die Hexen gebeten ein wenig zu helfen um ihr Schutzritual auszuführen. Sie erwarten euch bereits also lasst euch nicht zu viel Zeit. Sie meinten irgendwas mit \"Es muss erledigt werden vor dem Blutmond\" also scheint es wohl zu eilen.",
+      "image": "/images/D-Rektor/d-rektor.jpeg",
+      "id": "1763041933947-9kxrkcbi2",
+      "storyId": "1763041578827-nscg8bc33"
+    }
+  ],
+  "sessionTimes": {
+    "1763105466547-gsfy1usfx": 5,
+    "1763041578827-nscg8bc33": {
+      "totalTime": 90,
+      "notes": ""
+    },
+    "1763223522870-mtaadu48k": {
+      "notes": ""
+    },
+    "1763038020231-hfgfxm2x9": {
+      "notes": ""
+    }
+  },
+  "players": [
+    {
+      "name": "Riku Hoshido (Andreas)",
+      "description": "Mensch / Dieb\nVermutlich unter 30 das genaue Alter ist nicht bekannt. Kommt aus einer ländlichen Region, ist als Jugendlicher bei einer Adelsfamilie aufgewachsen. Hat ein Fable für Backsteine entwickelt.",
+      "image": "./public/CardCreator/images/chars/riku.jpeg",
+      "companionId": "",
+      "id": "1763475489508-hz9cqmehj"
+    },
+    {
+      "name": "Eleonore (Maya)",
+      "description": "Aasimar",
+      "image": "./public/CardCreator/images/chars/eleonore.jpeg",
+      "companionId": "",
+      "id": "1763475536348-7g98s1ae4",
+      "createdAt": 1763475536348
+    },
+    {
+      "name": "Jagger the Dagger (Lars)",
+      "description": "Gnom",
+      "image": "./public/CardCreator/images/chars/jagger.jpg",
+      "companionId": "",
+      "id": "1763475580459-acotz1i7m"
+    },
+    {
+      "name": "Nira (Lars)",
+      "description": "Werwolfsmensch / Mönch",
+      "image": "./public/CardCreator/images/chars/nira.jpeg",
+      "companionId": "",
+      "id": "1763475657265-frmmbudua",
+      "createdAt": 1763475657265
+    },
+    {
+      "name": "Rotbart (Sascha)",
+      "description": "Zwerg / Säufer",
+      "image": "./public/CardCreator/images/chars/rotbart.jpeg",
+      "companionId": "",
+      "id": "1763475850406-vesaokdtw"
+    },
+    {
+      "name": "Sir Echselot (Dennis)",
+      "description": "Echsenmensch / Paladin",
+      "image": "./public/CardCreator/images/chars/sir-echselot.jpeg",
+      "companionId": "",
+      "id": "1763475892135-qccgu977g",
+      "createdAt": 1763475892135
+    },
+    {
+      "name": "Theresa (Georgi)",
+      "description": "Katzenmensch / Avatar",
+      "image": "./public/CardCreator/images/chars/theresa.jpeg",
+      "companionId": "",
+      "id": "1763475921843-kazuian50",
+      "createdAt": 1763475921843
+    },
+    {
+      "name": "Rimuru (Timo)",
+      "description": "Aasimar / Paladin",
+      "image": "./public/CardCreator/images/chars/timo.jpg",
+      "companionId": "",
+      "id": "1763476044999-dls1drx2t"
+    },
+    {
+      "name": "??? (Carlos)",
+      "description": "Changeling",
+      "image": "./public/CardCreator/images/chars/carlos.jpeg",
+      "companionId": "",
+      "id": "1763476910974-pzm0fwtbn"
+    }
+  ],
+  "companions": [
+    {
+      "name": "Papagei",
+      "description": "Dieser farbenfrohe Papagei ist ein Meister der Imitation und liebt es, im Mittelpunkt zu stehen.",
+      "ability": "Der Papagei kann Phrasen, Stimmen und sogar Geräusche wie knarrende Türen perfekt imitieren. Er lenkt Leute durch sein endloses Geplapper ab und überbringt mündliche Nachrichten zu Personen in Sichtweite. Bei Gefahren warnt er lautstark durch Kreischen.",
+      "image": "./public/CardCreator/images/companions/papagei.jpeg",
+      "id": "1764261544823-vrff5ixb8"
+    },
+    {
+      "name": "Kapuziner Affe",
+      "description": "Klein, wendig und unglaublich geschickt - dieser Affe ist der perfekte Helfer für knifflige Situationen.",
+      "ability": "Der Affe klettert mühelos überall hin und kann Seile oder improvisierte Leitern vorbereiten. Mit seinen flinken Fingern stibitzt er kleine glänzende Gegenstände unbemerkt und bringt im Notfall Heiltränke oder wichtige Items zu Verbündeten. Außerdem bedient er einfache Mechanismen wie Hebel oder Knöpfe.",
+      "image": "./public/CardCreator/images/companions/affe.jpeg",
+      "id": "1764261610379-31i6h5qil"
+    },
+    {
+      "name": "Hund",
+      "description": "Loyal bis in den Tod ist dieser Hund mehr als ein Haustier - er ist ein verlässlicher Gefährte.",
+      "ability": "Der Hund folgt Spuren über weite Strecken und findet vermisste Personen oder versteckte Gegenstände am Geruch. Er schlägt zuverlässig Alarm wenn sich Fremde nähern und holt geworfene oder versteckte Gegenstände zurück. Seine vielleicht wichtigste Fähigkeit ist es, gestresste Gruppenmitglieder zu trösten und durch seine Anwesenheit zu beruhigen.",
+      "image": "./public/CardCreator/images/companions/hund.jpeg",
+      "id": "1764262968018-p3e3rnjzj"
+    },
+    {
+      "name": "Fledermaus",
+      "description": "Diese kleine Fledermaus ist ein Meister der Nacht und navigiert mühelos in absoluter Dunkelheit.",
+      "ability": "Durch ihre Echoortung fliegt die Fledermaus selbst in kompletter Dunkelheit problemlos und kann versteckte Wesen oder sogar unsichtbare Gegner aufspüren. Sie passt durch kleinste Spalten und Öffnungen und ist dabei so leise, dass niemand sie bemerkt - perfekt für heimliche Erkundungen.",
+      "image": "./public/CardCreator/images/companions/fledermaus.jpeg",
+      "id": "1764262987428-m1cmpk022"
+    },
+    {
+      "name": "Spinne",
+      "description": "Unscheinbar aber wertvoll - diese Spinne ist praktisch unsichtbar und überall zugleich.",
+      "ability": "Die Spinne webt feine Netze, die als Frühwarnsystem dienen - ihr Besitzer spürt sofort wenn jemand hindurchgeht. Sie krabbelt überall hin: Wände hoch, über Decken, durch winzige Ritzen und unter Türen. Durch ihre Größe bleibt sie praktisch unsichtbar, und in Notfällen kann ihr Biss einen Gegner kurzzeitig benommen machen.",
+      "image": "./public/CardCreator/images/companions/spinne.jpeg",
+      "id": "1764263003723-hibitk1z6"
+    },
+    {
+      "name": "Taschendrache",
+      "description": "Dieser winzige Drache ist verspielt, neugierig und voller Magie - noch zu jung für echtes Feuer.",
+      "ability": "Der Taschendrache kann sich nach Belieben unsichtbar machen, allerdings nur für begrenzte Zeit. Sein Nebelatem erschafft eine praktische Nebelwolke zum Verstecken oder Ablenken. Die telepathische Verbindung zu seinem Besitzer ermöglicht stille Kommunikation über Distanz. Obwohl er fliegen kann, braucht er regelmäßige Pausen um seine kleinen Flügel auszuruhen.",
+      "image": "./public/CardCreator/images/companions/drache.jpeg",
+      "id": "1764263018532-5zvoil14t"
+    },
+    {
+      "name": "Waschbär",
+      "description": "Clever, neugierig und mit geschickten Pfoten ausgestattet - dieser Waschbär findet immer etwas Nützliches.",
+      "ability": "Der Waschbär kann einfache Schlösser und Verschlüsse mit seinen sensiblen Pfoten öffnen. Seine Sammelleidenschaft macht ihn zum perfekten Finder - ständig taucht er mit nützlichem Kleinkram wie Schnur, Nägeln oder Münzen auf. Besonders bemerkenswert ist sein Instinkt: Er weigert sich hartnäckig vergiftete oder verfluchte Gegenstände anzufassen und warnt so indirekt vor Gefahren. Dank seiner Nachtsicht sieht er in der Dunkelheit perfekt.",
+      "image": "./public/CardCreator/images/companions/waschbär.jpeg",
+      "id": "1764263040683-rf9ffb5uj"
+    },
+    {
+      "name": "Geist",
+      "description": "",
+      "ability": "",
+      "image": "./public/CardCreator/images/companions/geist.jpeg",
+      "id": "1764264404203-bmr01m9nb",
+      "createdAt": 1764264404203
+    }
+  ],
+  "activePlayers": [],
+  "subLocations": [],
+  "theme": "forest"
+}

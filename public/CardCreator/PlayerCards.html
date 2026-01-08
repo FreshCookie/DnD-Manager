@@ -1,0 +1,4091 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trading Cards</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @media print {
+        body {
+          background: white;
+          padding: 0;
+        }
+        .card {
+          page-break-inside: avoid;
+          break-inside: avoid;
+        }
+      }
+
+      .card {
+        position: relative;
+        width: 63mm;
+        height: 88mm;
+        overflow: hidden;
+      }
+
+      .card img.bg-image {
+        position: absolute;
+        object-fit: cover;
+        z-index: 0;
+      }
+
+      .card img.frame {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 10;
+        pointer-events: none;
+      }
+
+      .card .name {
+        position: absolute;
+        z-index: 20;
+        font-family: sans-serif;
+        font-weight: bold;
+      }
+
+      .card .class {
+        position: absolute;
+        z-index: 20;
+        font-family: sans-serif;
+        font-style: italic;
+      }
+
+      .card .description {
+        position: absolute;
+        z-index: 20;
+        font-family: sans-serif;
+      }
+
+      body {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1mm;
+        justify-items: center;
+        padding: 0mm;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- KARTE 1 - Andreas -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/chars/riku.jpeg"
+        alt="Char Bild"
+        style="top: 12%; left: 0%; width: 100%; height: 100%"
+      />
+      <div
+        class="name"
+        style="
+          top: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Riku Hoshido
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Mensch / Dieb
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 22%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Vermutlich unter 30 das genaue Alter ist nicht bekannt. Kommt aus einer
+        ländlichen Region, ist als Jugendlicher bei einer Adelsfamilie
+        aufgewachsen. Hat ein Fable für Backsteine entwickelt.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/chars/andreas-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+
+    <!-- KARTE 2 - Carlos -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/chars/carlos.jpeg"
+        alt="Char Bild"
+        style="top: 10%; left: 2%; width: 90%; height: 90%"
+      />
+      <div
+        class="name"
+        style="
+          top: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        ???
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Changeling / Barde
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 20%;
+          left: 8%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Leidet unter Amnesie weshalb nicht mal er weiß wie er heißt. Leidet
+        unter einem ernsten Glücksspiel Problem. Liebt es Deals und Wetten
+        abzuschließen. Ist seit kurzem in das Element Feuer Verliebt. Kennt
+        seine eigene Ursprungsform nicht.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/chars/carlos-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+
+    <!-- KARTE 3 - Dennis -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/chars/sir-echselot.jpeg"
+        alt="Char Bild"
+        style="top: 5%; left: 0%; width: 100%; height: 100%"
+      />
+      <div
+        class="name"
+        style="
+          top: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Sir Echselot
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Echsenmensch / Paladin
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 11.5%;
+          left: 9.5%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Sir Echselot ist ein Echsenmensch-Paladin, dessen göttliche Kräfte ihn
+        verlassen haben. <br />Stets bewaffnet mit Schwert und Schild stürzt er
+        sich kopfüber in jede Situation. Extrovertiert und kontaktfreudig geht
+        er offen auf andere zu und ist immer mittendrin statt nur dabei. Mit
+        seinem <br />
+        Schild hat er schon oft seine Gefährten beschützt, besonders Eleonore,
+        auf die er einen großen Crush hat.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/chars/dennis-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+
+    <!-- KARTE 4 - Fee -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/chars/faerie.png"
+        alt="Char Bild"
+        style="top: 0%; left: 0%; width: 100%; height: 100%"
+      />
+      <div
+        class="name"
+        style="
+          top: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Seraphina
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Fee / Druide
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 16%;
+          left: 10%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Seraphina ist eine junge, naturverbundene Fee <br />
+        mit ausgeprägtem Sinn für Mode. Ihre größte Angst ist, zerquetscht zu
+        werden. Als Teenager unter den Feen ist sie emotional unberechenbar -
+        mal ruhig und nachdenklich, mal zickig und aufbrausend. Eine echte Diva,
+        die Natur und <br />
+        Style gleichermaßen liebt.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/chars/kevin-bg2.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+
+    <!-- KARTE 5 - Georgi -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/chars/theresa.jpeg"
+        alt="Char Bild"
+        style="top: 2%; left: 0%; width: 100%; height: 100%"
+      />
+      <div
+        class="name"
+        style="
+          top: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Theresa
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Tabaxi / Schamanin
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 13%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Theresa ist eine schüchterne Tabaxi-Schamanin ohne Erinnerung an ihre
+        Herkunft. Verwirrt über ihren Lebensweg weiß sie nur: Elemente sind
+        <br />
+        ihre Leidenschaft. Sie experimentiert ständig mit Feuer, Wasser, Erde
+        und Luft, auch wenn ihre Kontrolle noch unvollkommen ist. Zurückhaltend
+        und orientierungslos, kann sie dennoch explosiv aufbrausen - so
+        unberechenbar wie die <br />
+        Elemente selbst.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/chars/georgi-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+
+    <!-- KARTE 6 - Lars -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/chars/nira.jpeg"
+        alt="Char Bild"
+        style="top: 12%; left: 0%; width: 100%; height: 100%"
+      />
+      <div
+        class="name"
+        style="
+          top: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Nira
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Werwolfsmensch / Mönch
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 15%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Nira des ersten Reifs wuchs im Darjeeling <br />Kloster auf, ausgebildet
+        in Meditation, Magie und Kampfkunst von Mönch Dao. Mit 30 Jahren ist
+        <br />sie eine Meisterin ihres Fachs - erfahren genug, um selbst als
+        Mentorin zu dienen. Sie gibt die Weisheiten ihres Meisters an andere
+        weiter und verkörpert die Gelassenheit, die Dao sie einst lehrte.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/chars/lars-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+
+    <!-- KARTE 7 - Maya -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/chars/eleonore.jpeg"
+        alt="Char Bild"
+        style="top: 5%; left: 5%; width: 90%; height: 90%"
+      />
+      <div
+        class="name"
+        style="
+          top: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Eleonore
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Aasimar / Klerikerin
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 15%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Eleonore ist eine 22-jährige Aasimar, Tochter eines mächtigen
+        Zaubererpaares aus Aurelion. <br />
+        Als Teenager erhielt sie göttliche Kräfte. Schüchtern und zurückhaltend
+        träumt sie davon, eines Tages so mächtig wie ihre Eltern zu werden. Mit
+        Zauberbuch und Runenbuch bewaffnet, gekleidet in Weiß und Gold, verbirgt
+        sie einen heimlichen Crush auf Sir Echselot.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/chars/maya-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+
+    <!-- KARTE 8 - Sascha -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/chars/rotbart.jpeg"
+        alt="Char Bild"
+        style="top: 2%; left: -5%; width: 100%; height: 100%"
+      />
+      <div
+        class="name"
+        style="
+          top: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Rotbart
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Zwerg / Artificer
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 15%;
+          left: 10%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Rotbart ist ein Zwerg mit legendärem Durst und meisterhafter
+        Handwerkskunst. Sein magischer Rucksack hat immer das Nötige dabei
+        <br />
+        besonders Bier für alle. Er kann beinahe alles in Windeseile herstellen.
+        Sein langgezogenes "Mooooooin" kündigt seine Ankunft an. Doch die raue
+        Schale täuscht: Beim Anblick von Blumen schmilzt er dahin, fasziniert
+        von ihrer Schönheit.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/chars/sascha-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+
+    <!-- KARTE 9 - Kealan -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/chars/kealen.png"
+        alt="Char Bild"
+        style="top: 8%; left: 0%; width: 100%; height: 100%"
+      />
+      <div
+        class="name"
+        style="
+          top: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Kealan
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Dunkelelf / Steampunk
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 15%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Ein Dunkelelf, der nach einem wissenschaftlichen Unfall von seinem
+        besten Freund gerettet wurde. Seine Steampunk-Hälfte wurde später durch
+        eine edle silberne Seite ersetzt. Der kristalline Kern in seinem Herzen
+        speichert seine Energie und Lebenskraft - zu viel Verbrauch bedeutet den
+        sicheren Tod.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/chars/kevin-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+
+    <!-- RÜCKSEITEN -->
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-dennis.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-carlos.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-andreas.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-lars.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-georgi.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-fee.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-steampunk.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-sascha.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-maya.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+
+    <!-- KARTE 10 - Timo -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/chars/timo.jpg"
+        alt="Char Bild"
+        style="top: 4%; left: 0%; width: 100%; height: 100%"
+      />
+      <div
+        class="name"
+        style="
+          top: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Timo
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Aasimar / Paladin
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 12%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Rimuru (oft Marvin genannt) ist ein Aasimar-Paladin in der Midlife
+        Crisis. Mit der besonderen Gabe, Schritte und Spuren zu erkennen,
+        verfolgt er seinen Weg - oft mit einem Bier in der Hand. Wenn die Last
+        des Lebens zu schwer wird, ertränkt er seine Sorgen im Alkohol. Zwischen
+        göttlichem Erbe und menschlichen Schwächen sucht er seinen Platz in
+        einer Welt, die ihm plötzlich fremd geworden ist.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/chars/timo-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+
+    <!-- KARTE 11 - Jagger -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/chars/jagger.jpg"
+        alt="Char Bild"
+        style="top: -7%; left: 0%; width: 100%; height: 100%"
+      />
+      <div
+        class="name"
+        style="
+          top: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Jagger the Dagger
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Gnom / Rogue
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 16%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Jagger the Dagger ist ein Gnom und ehemaliger Seemann, der
+        jahrzehntelang die Meere <br />
+        bereiste. Eine Meerhexe verfluchte ihn und versenkte sein Schiff - seine
+        gesamte Crew ertrank. Seither ist <br />
+        er stets tropfnass, als käme er gerade aus dem Meer. Die Angst, erneut
+        den Tod über eine Crew zu bringen, verfolgt ihn auf jedem Schritt an
+        Land.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/chars/lars-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+
+    <!-- Items -->
+    <!-- Darkbringer Positive no Char -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/darkbringer.jpg"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./images/items/darkbringer.jpg"
+        alt="Item Bild"
+        style="
+          top: -2%;
+          left: 12%;
+          width: 80%;
+          height: 80%;
+          transform: rotate(-50deg);
+          z-index: 1;
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Darkbringer
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Ausrüstungsgegenstand
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 28%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Dieser Dolch kann blitzartig eine dicke schwarze Wolke aus Nebel um sich
+        herum erzeugen die seinen Träger verbirgt.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/items/items-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+    <!-- Darkbringer Negative no Char -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/darkbringer.jpg"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./images/items/darkbringer.jpg"
+        alt="Item Bild"
+        style="
+          top: -2%;
+          left: 12%;
+          width: 80%;
+          height: 80%;
+          transform: rotate(-50deg);
+          z-index: 1;
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Darkbringer
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Ausrüstungsgegenstand
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 26%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Dieser Dolch kann blitzartig eine dicke schwarze Wolke aus Nebel um sich
+        herum erzeugen die seinen Träger verbirgt. Der Träger ist immun gegen
+        stärkende heilige und Licht Zauber.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/items/items-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+    <!-- Berserker Axt Positive no Char -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/item-bg.png"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./images/items/axt-2.png"
+        alt="Item Bild"
+        style="
+          top: 10%;
+          left: 20%;
+          width: 60%;
+          height: 60%;
+          z-index: 1;
+          transform: rotate(-50deg);
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Berserker Axt
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Ausrüstungsgegenstand
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 28%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Jeder Angriff trifft automatisch und macht massiven Schaden. Kann in
+        einem Hieb mehrere Gegner erwischen.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/items/items-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+    <!-- Berserker Axt Negative no Char -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/item-bg.png"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./images/items/axt-2.png"
+        alt="Item Bild"
+        style="
+          top: 10%;
+          left: 20%;
+          width: 60%;
+          height: 60%;
+          z-index: 1;
+          transform: rotate(-50deg);
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Berserker Axt
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Ausrüstungsgegenstand
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 26%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Nach jedem Angriff wird der Träger agressiver <br />und
+        unkontrollierter. defensive ist nicht mehr möglich. Auch die
+        Unterscheidung zwischen Freund und Feind fällt immer schwerer.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/items/items-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+    <!-- Spähermaus Georgia -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/item-bg.png"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./images/items/spähermaus.png"
+        alt="Item Bild"
+        style="
+          top: -20%;
+          left: 0%;
+          width: 110%;
+          height: 110%;
+          z-index: 1;
+          object-fit: contain;
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Spähermaus der Geheimnisse
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Maus / Tiergefährte
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 26%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Eine magisch mit dem Besitzer verbundene Spähermaus, die einfache
+        Konzepte (Gegner <br />hier, Beute gefunden, Vorsicht, usw.)<br />
+        telepathisch kommunizieren kann.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/items/items-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+    <!-- Souls End Georgia Positive -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/souls-end.jpg"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./images/items/souls-end.jpg"
+        alt="Item Bild"
+        style="
+          top: 12%;
+          left: 26%;
+          width: 50%;
+          height: 50%;
+          z-index: 1;
+          transform: rotate(-0deg);
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Souls End
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Ausrüstungsgegenstand
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 29%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Dieses Schwert verzehrt die Seelen seiner Opfer. Sein Träger kann die
+        daraus gewonnene energie für Zauber nutzen.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/items/items-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+    <!-- Phönixseele Georgia Positive -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/item-bg.png"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./images/items/phönix-amulett.png"
+        alt="Item Bild"
+        style="
+          top: 12%;
+          left: 26%;
+          width: 50%;
+          height: 50%;
+          z-index: 1;
+          transform: rotate(-0deg);
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Phönixseele
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Ausrüstungsgegenstand
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 26%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Bei Aktivierung wird der/die Träger*in von einer flammenden Phönix-Aura
+        umhüllt sie kann kurzzeitig fliegen und Gegner in reiner Hitze vergehen
+        lassen.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/items/items-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+
+    <!-- WEITERE RÜCKSEITEN -->
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back3.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-jagger.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-timo.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back3.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back3.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back3.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-georgi.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-georgi.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-georgi.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+
+    <!-- Phönixseele Georgia Positive -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/item-bg.png"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./images/items/phönix.png"
+        alt="Item Bild"
+        style="
+          top: 4%;
+          left: 18%;
+          width: 65%;
+          height: 65%;
+          z-index: 1;
+          transform: rotate(-0deg);
+          object-fit: contain;
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Phönixseele
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Ausrüstungsgegenstand
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 18%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Bei Aktivierung wird der/die Träger*in von einer flammenden Phönix-Aura
+        umhüllt sie kann kurzzeitig fliegen und Gegner in reiner Hitze vergehen
+        lassen. <br /><br />
+        Bei Aktivierung verbrennen alle Haare des Nutzers.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/items/items-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+    <!-- Knochenbogen Timo Positive -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/item-bg.png"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./images/items/bonebow.png"
+        alt="Item Bild"
+        style="
+          top: 4%;
+          left: 18%;
+          width: 65%;
+          height: 65%;
+          z-index: 1;
+          transform: rotate(-0deg);
+          object-fit: contain;
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Knochenbogen
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Ausrüstungsgegenstand
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 29%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Dieser Bogen erzeugt automatisch Geschosse aus reiner Energie. Trifft
+        jedes Ziel, das der<br />
+        Träger sehen kann.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/items/items-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+    <!-- Knochenbogen Timo Negative -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/item-bg.png"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./images/items/bonebow.png"
+        alt="Item Bild"
+        style="
+          top: 4%;
+          left: 18%;
+          width: 65%;
+          height: 65%;
+          z-index: 1;
+          transform: rotate(-0deg);
+          object-fit: contain;
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Knochenbogen
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Ausrüstungsgegenstand
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 18%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Dieser Bogen erzeugt automatisch Geschosse aus reiner Energie. Trifft
+        jedes Ziel, das der<br />
+        Träger sehen kann. <br /><br />
+        Mit jedem Schuss werden die Knochen des Trägers brüchiger. Er/Sie bewegt
+        sich <br />zunehmend steifer und langsamer.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/items/items-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+    <!-- Mondring Nira -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/item-bg.png"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./images/items/moonring.png"
+        alt="Item Bild"
+        style="
+          top: 2%;
+          left: 16%;
+          width: 70%;
+          height: 70%;
+          z-index: 1;
+          transform: rotate(-0deg);
+          object-fit: contain;
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Mondring
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Ausrüstungsgegenstand
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 29%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Ermöglicht dem Träger zwischen seiner <br />Normalen Form und der
+        Werwolfsform zu wechseln.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/items/items-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+    <!-- Supernova Chakra Nira Fähigkeit -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/item-bg.png"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./images/spells/punch.png"
+        alt="Item Bild"
+        style="
+          top: -14%;
+          left: 0%;
+          width: 100%;
+          height: 100%;
+          z-index: 1;
+          transform: rotate(-0deg);
+          object-fit: contain;
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Supernova Chakra
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Fähigkeit
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 29%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Du schlägst einen Gegner oder den Boden hart und löst eine magische
+        Schockwelle aus, die alle in der Nähe zurückwirft.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/spells/spells-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+    <!-- Bombe Rotbart Fähigkeit -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/item-bg.png"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./images/spells/bomb.png"
+        alt="Item Bild"
+        style="
+          top: -14%;
+          left: 0%;
+          width: 100%;
+          height: 100%;
+          z-index: 1;
+          transform: rotate(-0deg);
+          object-fit: contain;
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Selbstgebaute Bombe
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Fähigkeit
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 31%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Du wirfst eine selbstgabeute Bombe, die nach kurzer Zeit in einem
+        Feuerball explodiert.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/spells/spells-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+    <!-- Taktischer Rückzug Andreas Fähigkeit -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/item-bg.png"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./images/spells/retreat.png"
+        alt="Item Bild"
+        style="
+          top: -11%;
+          left: 0%;
+          width: 95%;
+          height: 95%;
+          z-index: 1;
+          transform: rotate(-0deg);
+          object-fit: contain;
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Taktischer Rückzug
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Fähigkeit
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 29%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Du analysierst einen perfekten Fluchtweg, lenkst Gegner ab und
+        verschwindest in einem geeigneten Versteck.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/spells/spells-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+    <!-- Narrenjuwel Andreas Positive -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/item-bg.png"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./images/items/narrenjuwel.png"
+        alt="Item Bild"
+        style="
+          top: 1.5%;
+          left: 16%;
+          width: 70%;
+          height: 70%;
+          z-index: 1;
+          transform: rotate(-0deg);
+          object-fit: contain;
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Narrenjuwel
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Ausrüstungsgegenstand
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 32%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Der Träger wirkt auf andere harmlos, unterschätzt und ungefährlich.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/items/items-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+    <!-- Narrenjuwel Andreas Negative -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/item-bg.png"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./images/items/narrenjuwel.png"
+        alt="Item Bild"
+        style="
+          top: 1.5%;
+          left: 16%;
+          width: 70%;
+          height: 70%;
+          z-index: 1;
+          transform: rotate(-0deg);
+          object-fit: contain;
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Narrenjuwel
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Ausrüstungsgegenstand
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 24%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Der Träger wirkt auf andere harmlos, unterschätzt und ungefährlich.
+        <br /><br />
+        Mit der Zeit verwandeln sich alle geklauten Besitztümer des Trägers in
+        Mayonaise.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/items/items-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+
+    <!--Weitere Karten Rückseiten-->
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-timo.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-timo.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-georgi.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-sascha.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-lars.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-lars.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-andreas.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-andreas.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-andreas.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+
+    <!-- Lupe des Architekten Andreas -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/item-bg.png"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./images/items/lupe.png"
+        alt="Item Bild"
+        style="
+          top: -13.5%;
+          left: 3%;
+          width: 95%;
+          height: 95%;
+          z-index: 1;
+          transform: rotate(15deg);
+          object-fit: contain;
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Lupe des Architekten
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Ausrüstungsgegenstand
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 28%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Der Nutzer kann damit durch Backsteine sehen und somit auch die Echtheit
+        eines Backsteins ermitteln.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/items/items-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+    <!-- Ring der Nebelsicht Andreas -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/item-bg.png"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./images/items/fogsight.png"
+        alt="Item Bild"
+        style="
+          top: -8%;
+          left: 4%;
+          width: 90%;
+          height: 90%;
+          z-index: 1;
+          transform: rotate(-15deg);
+          object-fit: contain;
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Ring der Nebelsicht
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Ausrüstungsgegenstand
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 31%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Der Träger dieses Rings kann durch Nebel und Rauch sehen als wären sie
+        nicht da.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/items/items-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+    <!-- Dornenranken Fee Fähigkeit -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/item-bg.png"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./images/spells/thorns.png"
+        alt="Item Bild"
+        style="
+          top: -8%;
+          left: 4%;
+          width: 100%;
+          height: 100%;
+          z-index: 1;
+          transform: rotate(0deg);
+          object-fit: contain;
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Dornenranken
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Fähigkeit
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 31%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Du beschwörst dornige Ranken in einem kleinen Bereich, die jeden
+        einwickeln und festhalten.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/spells/spells-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+    <!-- Ring des Schmerzens Fee Positive -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/item-bg.png"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./images/items/schmerzring.png"
+        alt="Item Bild"
+        style="
+          top: -12%;
+          left: 0%;
+          width: 100%;
+          height: 100%;
+          z-index: 1;
+          transform: rotate(0deg);
+          object-fit: contain;
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Ring des Schmerzes
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Ausrüstungsgegenstand
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 32%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Der Träger dieses Rings kann einer Kreatur in<br />
+        der Nähe unerträgliche Schmerzen bereiten.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/items/items-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+    <!-- Ring des Schmerzens Fee Negative -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/item-bg.png"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./images/items/schmerzring.png"
+        alt="Item Bild"
+        style="
+          top: -12%;
+          left: 0%;
+          width: 100%;
+          height: 100%;
+          z-index: 1;
+          transform: rotate(0deg);
+          object-fit: contain;
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Ring des Schmerzes
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Ausrüstungsgegenstand
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 21%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Der Träger dieses Rings kann einer Kreatur in <br />der Nähe
+        unerträgliche Schmerzen bereiten. In der folgenden Nacht erleidet der
+        Träger die gleichen Schmerzen. Der Ring kann nicht abgenommen werden bis
+        der Schmerz "entladen" ist.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/items/items-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+    <!-- Halskette des Lichts Maya -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/item-bg.png"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./images/items/kreuzkette.png"
+        alt="Item Bild"
+        style="
+          top: -12%;
+          left: 0%;
+          width: 100%;
+          height: 100%;
+          z-index: 1;
+          transform: rotate(0deg);
+          object-fit: contain;
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Halskette des Lichts
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Ausrüstungsgegenstand
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 32%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Erleuchtet im Dunklen den Weg. Verstärkt Hinweiszauber.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/items/items-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+    <!-- Brennendes Licht Maya Fähigkeit -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/item-bg.png"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./images/spells/light.png"
+        alt="Item Bild"
+        style="
+          top: -12%;
+          left: 0%;
+          width: 100%;
+          height: 100%;
+          z-index: 1;
+          transform: rotate(0deg);
+          object-fit: contain;
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Brennendes Licht
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Fähigkeit
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 29%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Du erzeugst ein unglaublich helles Licht, das blendet und schwache
+        Untote und Dämonen vernichtet.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/spells/spells-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+    <!-- Heiligenschein Maya Positive -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/item-bg.png"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./images/items/krone.jpg"
+        alt="Item Bild"
+        style="
+          top: -12%;
+          left: 0%;
+          width: 100%;
+          height: 100%;
+          z-index: 1;
+          transform: rotate(0deg);
+          object-fit: contain;
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Heiligenschein
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Ausrüstungsgegenstand
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 29%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Der/die Träger*in wird als Engelswesen wahrgenommen und seine/ihre Worte
+        sind besonders überzeugend.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/items/items-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+    <!-- Heiligenschein Maya Positive -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/item-bg.png"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./images/items/krone.jpg"
+        alt="Item Bild"
+        style="
+          top: -12%;
+          left: 0%;
+          width: 100%;
+          height: 100%;
+          z-index: 1;
+          transform: rotate(0deg);
+          object-fit: contain;
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Heiligenschein
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Ausrüstungsgegenstand
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 18%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Der/die Träger*in wird als Engelswesen wahrgenommen und seine/ihre Worte
+        sind besonders überzeugend. <br /><br />
+        Einmal aufgesetzt lässt sich der Heiligenschein nicht abnehmen und sein
+        Licht macht das Verstecken sehr schwer.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/items/items-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+
+    <!--Weitere Karten Rückseiten-->
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-fee.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-andreas.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-andreas.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-maya.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-fee.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-fee.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-maya.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-maya.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-maya.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+
+    <!-- Amulett der Kontrolle Maya Positive -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/item-bg.png"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./images/items/amulet-der-kontrolle.png"
+        alt="Item Bild"
+        style="
+          top: -14%;
+          left: 0%;
+          width: 100%;
+          height: 100%;
+          z-index: 1;
+          transform: rotate(0deg);
+          object-fit: contain;
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Amulett der Kontrolle
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Ausrüstungsgegenstand
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 29%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Dieses Amulett erlaubt es dem Träger <br />schwächere Kreaturen zu
+        kommandieren und zu kontrollieren.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/items/items-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+    <!-- Amulett der Kontrolle Maya Negative -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/item-bg.png"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./images/items/amulet-der-kontrolle.png"
+        alt="Item Bild"
+        style="
+          top: -14%;
+          left: 0%;
+          width: 100%;
+          height: 100%;
+          z-index: 1;
+          transform: rotate(0deg);
+          object-fit: contain;
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Amulett der Kontrolle
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Ausrüstungsgegenstand
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 21%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Dieses Amulett erlaubt es dem Träger<br />
+        schwächere Kreaturen zu kommandieren und zu kontrollieren. <br /><br />
+        Gleichermaßen ist der Träger aber auch anfällig für die Kontrolle
+        anderer.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/items/items-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+    <!-- Paladin Schuppen Schild Dennis -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/item-bg.png"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./images/items/schild.png"
+        alt="Item Bild"
+        style="
+          top: 6.5%;
+          left: 22%;
+          width: 60%;
+          height: 60%;
+          z-index: 1;
+          transform: rotate(-35deg);
+          object-fit: contain;
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Paladin Schuppen Schild
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Ausrüstungsgegenstand
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 26%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Kann in den Boden gerammt werden um ein Schutzschild zu errichten
+        (Kugelförmiges magisches Schild). Dieser kann leichte Angriffe, Pfeile
+        und leichte Magie abwehren.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/items/items-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+    <!-- Mächtiger Schutzzauber Dennis Fähigkeit -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/item-bg.png"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./images/spells/protection.png"
+        alt="Item Bild"
+        style="
+          top: -14%;
+          left: 0%;
+          width: 100%;
+          height: 100%;
+          z-index: 1;
+          transform: rotate(0deg);
+          object-fit: contain;
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Mächtiger Schutzzauber
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Fähigkeit
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 29%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Magische Schilde erscheinen um dich herum<br />
+        und verhindern für kurze Zeit, dass du verwundet werden kannst.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/spells/spells-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+    <!-- Kristallflamme Dennis Positive -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/item-bg.png"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./images/items/feuerschwert.png"
+        alt="Item Bild"
+        style="
+          top: 3%;
+          left: 15%;
+          width: 70%;
+          height: 70%;
+          z-index: 1;
+          transform: rotate(-10deg);
+          object-fit: contain;
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Kristallflamme
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Ausrüstungsgegenstand
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 32%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Ein normales Schwert, dass sich per Knopfdruck in ein Flammenschwert
+        verwandelt.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/items/items-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+    <!-- Kristallflamme Dennis Negative -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/item-bg.png"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./images/items/feuerschwert.png"
+        alt="Item Bild"
+        style="
+          top: 3%;
+          left: 15%;
+          width: 70%;
+          height: 70%;
+          z-index: 1;
+          transform: rotate(-10deg);
+          object-fit: contain;
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Kristallflamme
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Ausrüstungsgegenstand
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 24%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Ein normales Schwert, dass sich per Knopfdruck in ein Flammenschwert
+        verwandelt. <br /><br />
+        Ist das Feuerschwert aktiv wird der Träger sofort hitzköpfig und der
+        Impuls zur Gewalt steigt.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/items/items-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+    <!-- Plate of Hate Dennis Positive -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/item-bg.png"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./images/items/plate-of-hate.png"
+        alt="Item Bild"
+        style="
+          top: -0%;
+          left: 12%;
+          width: 75%;
+          height: 75%;
+          z-index: 1;
+          transform: rotate(0deg);
+          object-fit: contain;
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Plate of Hate
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Ausrüstungsgegenstand
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 29%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Solange der Träger dieser Rüstung Hass auf jemanden oder etwas verspürt
+        kann er/sie nicht sterben.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/items/items-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+    <!-- Plate of Hate Dennis Negative -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/item-bg.png"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./images/items/plate-of-hate.png"
+        alt="Item Bild"
+        style="
+          top: -0%;
+          left: 12%;
+          width: 75%;
+          height: 75%;
+          z-index: 1;
+          transform: rotate(0deg);
+          object-fit: contain;
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Plate of Hate
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Ausrüstungsgegenstand
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 18%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Solange der Träger dieser Rüstung Hass auf jemanden oder etwas verspürt
+        kann er/sie nicht sterben. <br /><br />
+        Jedes mal wenn der /die Tragende sterben<br />
+        würde verliert er/sie stattdessen einen Teil seiner/ihrer Seele.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/items/items-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+    <!-- Platzhalter -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/item-bg.png"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./Placeholder.png"
+        alt="Item Bild"
+        style="
+          top: 0%;
+          left: 0%;
+          width: 100%;
+          height: 100%;
+          z-index: 1;
+          transform: rotate(0deg);
+          object-fit: contain;
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Platzhalter
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Platzhalter
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 35%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Beschreibung des Platzhalters.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/items/items-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+
+    <!--Weitere Karten Rückseiten-->
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-dennis.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-maya.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-maya.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-dennis.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-dennis.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-dennis.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back3.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-dennis.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-dennis.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <!-- KARTE 10 - Timo nochmal weil ich es oben verkackt habe -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/chars/timo.jpg"
+        alt="Char Bild"
+        style="top: 4%; left: 0%; width: 100%; height: 100%"
+      />
+      <div
+        class="name"
+        style="
+          top: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Rimuru
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Aasimar / Paladin
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 12%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Rimuru (oft Marvin genannt) ist ein Aasimar-Paladin in der Midlife
+        Crisis. Mit der besonderen Gabe, Schritte und Spuren zu erkennen,
+        verfolgt er seinen Weg - oft mit einem Bier in der Hand. Wenn die Last
+        des Lebens zu schwer wird, ertränkt er seine Sorgen im Alkohol. Zwischen
+        göttlichem Erbe und menschlichen Schwächen sucht er seinen Platz in
+        einer Welt, die ihm plötzlich fremd geworden ist.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/chars/timo-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+    <!-- Ein Testgeist weil für Georgia -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/item-bg.png"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./Placeholder.png"
+        alt="Item Bild"
+        style="
+          top: 0%;
+          left: 0%;
+          width: 100%;
+          height: 100%;
+          z-index: 1;
+          transform: rotate(0deg);
+          object-fit: contain;
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Testgeist
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        BooHoo
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 26%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Hab Angst vor dem Testgeist er wird dir sagen ob deine einstellungen
+        Druck geeignet sind. Nur er kann dir die Wahrheit offenbaren. Und er ist
+        gar nicht so gruselig Boooo.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/chars/georgi-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+    <!-- Ab hier bitte Companions -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/item-bg.png"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./Placeholder.png"
+        alt="Item Bild"
+        style="
+          top: 0%;
+          left: 0%;
+          width: 100%;
+          height: 100%;
+          z-index: 1;
+          transform: rotate(0deg);
+          object-fit: contain;
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Companion Platzhalter
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Companion / Platzhalter
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 34%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Beschreibung des Companion Platzhalters.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/items/items-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+    <!-- Companion Platzhalter -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/item-bg.png"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./Placeholder.png"
+        alt="Item Bild"
+        style="
+          top: 0%;
+          left: 0%;
+          width: 100%;
+          height: 100%;
+          z-index: 1;
+          transform: rotate(0deg);
+          object-fit: contain;
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Companion Platzhalter
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Companion / Platzhalter
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 34%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Beschreibung des Companion Platzhalters.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/items/items-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+    <!-- Companion Platzhalter -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/item-bg.png"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./Placeholder.png"
+        alt="Item Bild"
+        style="
+          top: 0%;
+          left: 0%;
+          width: 100%;
+          height: 100%;
+          z-index: 1;
+          transform: rotate(0deg);
+          object-fit: contain;
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Companion Platzhalter
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Companion / Platzhalter
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 34%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Beschreibung des Companion Platzhalters.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/items/items-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+    <!-- Companion Platzhalter -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/item-bg.png"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./Placeholder.png"
+        alt="Item Bild"
+        style="
+          top: 0%;
+          left: 0%;
+          width: 100%;
+          height: 100%;
+          z-index: 1;
+          transform: rotate(0deg);
+          object-fit: contain;
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Companion Platzhalter
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Companion / Platzhalter
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 34%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Beschreibung des Companion Platzhalters.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/items/items-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+    <!-- Companion Platzhalter -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/item-bg.png"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./Placeholder.png"
+        alt="Item Bild"
+        style="
+          top: 0%;
+          left: 0%;
+          width: 100%;
+          height: 100%;
+          z-index: 1;
+          transform: rotate(0deg);
+          object-fit: contain;
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Companion Platzhalter
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Companion / Platzhalter
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 34%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Beschreibung des Companion Platzhalters.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/items/items-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+    <!-- Companion Platzhalter -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/item-bg.png"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="./Placeholder.png"
+        alt="Item Bild"
+        style="
+          top: 0%;
+          left: 0%;
+          width: 100%;
+          height: 100%;
+          z-index: 1;
+          transform: rotate(0deg);
+          object-fit: contain;
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Companion Platzhalter
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Companion / Platzhalter
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 34%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Beschreibung des Companion Platzhalters.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/items/items-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+    <!-- Companion Platzhalter -->
+    <div class="card">
+      <img
+        class="bg-image"
+        src="./images/items/item-bg.png"
+        alt="Item Hintergrund"
+        style="top: 0%; left: 0%; width: 100%; height: 100%; object-fit: cover"
+      />
+      <img
+        class="bg-image"
+        src="images/companions/geist.jpeg"
+        alt="Item Bild"
+        style="
+          top: 0%;
+          left: 0%;
+          width: 100%;
+          height: 100%;
+          z-index: 1;
+          transform: rotate(0deg);
+          object-fit: contain;
+        "
+      />
+      <div
+        class="name"
+        style="
+          top: 5%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 14px;
+        "
+      >
+        Geist
+      </div>
+      <div
+        class="class"
+        style="
+          bottom: 6%;
+          left: 5%;
+          width: 90%;
+          text-align: center;
+          color: black;
+          font-size: 10px;
+        "
+      >
+        Geist / Companion
+      </div>
+      <div
+        class="description"
+        style="
+          bottom: 34%;
+          left: 9%;
+          width: 85%;
+          text-align: left;
+          color: black;
+          font-size: 9px;
+          line-height: 1;
+        "
+      >
+        Muss ich mir noch überlegen was er kann.
+      </div>
+      <img
+        class="frame"
+        src="./images/front/items/items-bg.png"
+        alt="Kartenrahmen"
+      />
+    </div>
+
+    <!--Noch viel mehr Karten Rückseiten-->
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back3.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back3.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back3.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back3.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back3.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back3.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back-georgi.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back3.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+    <div class="card">
+      <img
+        class="frame"
+        src="./images/back/card-back3.jpeg"
+        alt="Kartenrückseite"
+      />
+    </div>
+  </body>
+</html>
