@@ -39,25 +39,29 @@ const GMView = () => {
   };
 
   return (
-    <div className={`min-h-screen ${theme.bg} p-4`}>
-      <div className="w-full mx-auto px-4">
+    <div className={`min-h-screen ${theme.bg} p-2 md:p-4 overflow-x-hidden`}>
+      <div className="w-full max-w-[100vw] mx-auto px-2 md:px-4 overflow-x-hidden">
         {/* Sound Control Button */}
         <SoundControl theme={theme} />
         {/* Header */}
         <div
-          className={`${theme.cardBg} ${theme.border} border-2 rounded-xl p-6 shadow-2xl mb-6`}
+          className={`${theme.cardBg} ${theme.border} border-2 rounded-xl p-4 md:p-6 shadow-2xl mb-4 md:mb-6`}
         >
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div>
               <h1
-                className={`${theme.text} text-4xl font-bold mb-2`}
+                className={`${theme.text} text-2xl md:text-3xl lg:text-4xl font-bold mb-1 md:mb-2`}
                 style={{ fontFamily: "Georgia, serif" }}
               >
                 D&D Session Manager
               </h1>
-              <p className={`${theme.accent} text-lg`}>Game Master View</p>
+              <p className={`${theme.accent} text-base md:text-lg`}>
+                Game Master View
+              </p>
               {selectedStory && (
-                <p className={`${theme.text} text-sm mt-2 opacity-70`}>
+                <p
+                  className={`${theme.text} text-xs md:text-sm mt-2 opacity-70`}
+                >
                   Aktive Story:{" "}
                   <span className={theme.accent}>{selectedStory.title}</span>
                 </p>
@@ -65,7 +69,7 @@ const GMView = () => {
             </div>
             <button
               onClick={openPlayerView}
-              className={`${theme.button} px-6 py-3 rounded-lg flex items-center gap-2 transition-all hover:scale-105 font-semibold`}
+              className={`${theme.button} px-4 py-2 md:px-6 md:py-3 rounded-lg flex items-center gap-2 transition-all hover:scale-105 font-semibold text-sm md:text-base whitespace-nowrap w-full md:w-auto justify-center`}
             >
               <ExternalLink className="w-5 h-5" /> Player View öffnen
             </button>
@@ -73,10 +77,10 @@ const GMView = () => {
         </div>
 
         {/* Navigation Tabs */}
-        <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
+        <div className="flex gap-2 mb-4 md:mb-6 overflow-x-auto pb-2 scrollbar-thin">
           <button
             onClick={() => setActiveTab("overview")}
-            className={`px-6 py-3 rounded-lg font-semibold transition-all hover:scale-105 flex items-center gap-2 whitespace-nowrap ${
+            className={`px-4 py-2 md:px-6 md:py-3 rounded-lg font-semibold transition-all hover:scale-105 flex items-center gap-2 whitespace-nowrap text-sm md:text-base ${
               activeTab === "overview"
                 ? theme.button
                 : `${theme.cardBg} ${theme.border} border ${theme.text} opacity-70`
@@ -86,7 +90,7 @@ const GMView = () => {
           </button>
           <button
             onClick={() => setActiveTab("stories")}
-            className={`px-6 py-3 rounded-lg font-semibold transition-all hover:scale-105 flex items-center gap-2 whitespace-nowrap ${
+            className={`px-4 py-2 md:px-6 md:py-3 rounded-lg font-semibold transition-all hover:scale-105 flex items-center gap-2 whitespace-nowrap text-sm md:text-base ${
               activeTab === "stories"
                 ? theme.button
                 : `${theme.cardBg} ${theme.border} border ${theme.text} opacity-70`
@@ -96,7 +100,7 @@ const GMView = () => {
           </button>
           <button
             onClick={() => setActiveTab("direktor")}
-            className={`px-6 py-3 rounded-lg font-semibold transition-all hover:scale-105 flex items-center gap-2 whitespace-nowrap ${
+            className={`px-4 py-2 md:px-6 md:py-3 rounded-lg font-semibold transition-all hover:scale-105 flex items-center gap-2 whitespace-nowrap text-sm md:text-base ${
               activeTab === "direktor"
                 ? theme.button
                 : `${theme.cardBg} ${theme.border} border ${theme.text} opacity-70`
@@ -106,7 +110,7 @@ const GMView = () => {
           </button>
           <button
             onClick={() => setActiveTab("locations")}
-            className={`px-6 py-3 rounded-lg font-semibold transition-all hover:scale-105 flex items-center gap-2 whitespace-nowrap ${
+            className={`px-4 py-2 md:px-6 md:py-3 rounded-lg font-semibold transition-all hover:scale-105 flex items-center gap-2 whitespace-nowrap text-sm md:text-base ${
               activeTab === "locations"
                 ? theme.button
                 : `${theme.cardBg} ${theme.border} border ${theme.text} opacity-70`
@@ -116,7 +120,7 @@ const GMView = () => {
           </button>
           <button
             onClick={() => setActiveTab("items")}
-            className={`px-6 py-3 rounded-lg font-semibold transition-all hover:scale-105 flex items-center gap-2 whitespace-nowrap ${
+            className={`px-4 py-2 md:px-6 md:py-3 rounded-lg font-semibold transition-all hover:scale-105 flex items-center gap-2 whitespace-nowrap text-sm md:text-base ${
               activeTab === "items"
                 ? theme.button
                 : `${theme.cardBg} ${theme.border} border ${theme.text} opacity-70`
@@ -126,7 +130,7 @@ const GMView = () => {
           </button>
           <button
             onClick={() => setActiveTab("players")}
-            className={`px-6 py-3 rounded-lg font-semibold transition-all hover:scale-105 flex items-center gap-2 whitespace-nowrap ${
+            className={`px-4 py-2 md:px-6 md:py-3 rounded-lg font-semibold transition-all hover:scale-105 flex items-center gap-2 whitespace-nowrap text-sm md:text-base ${
               activeTab === "players"
                 ? theme.button
                 : `${theme.cardBg} ${theme.border} border ${theme.text} opacity-70`
@@ -136,7 +140,7 @@ const GMView = () => {
           </button>
           <button
             onClick={() => setActiveTab("companions")}
-            className={`px-6 py-3 rounded-lg font-semibold transition-all hover:scale-105 flex items-center gap-2 whitespace-nowrap ${
+            className={`px-4 py-2 md:px-6 md:py-3 rounded-lg font-semibold transition-all hover:scale-105 flex items-center gap-2 whitespace-nowrap text-sm md:text-base ${
               activeTab === "companions"
                 ? theme.button
                 : `${theme.cardBg} ${theme.border} border ${theme.text} opacity-70`
@@ -147,9 +151,9 @@ const GMView = () => {
         </div>
 
         {/* Main Content Area */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 md:gap-6 w-full overflow-x-hidden">
           {/* Left Column - Main Content */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="xl:col-span-2 space-y-4 md:space-y-6 min-w-0">
             {activeTab === "overview" && (
               <>
                 <CitySelector theme={theme} />
@@ -165,7 +169,7 @@ const GMView = () => {
           </div>
 
           {/* Right Column - Tools */}
-          <div className="space-y-6">
+          <div className="space-y-4 md:space-y-6 min-w-0">
             {selectedStory && selectedStory.id && (
               <SessionTimer
                 key={selectedStory.id}

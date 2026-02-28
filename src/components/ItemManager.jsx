@@ -59,8 +59,8 @@ const ItemManager = ({ theme }) => {
                 id: editingItem.id,
                 storyId: selectedStory?.id || editingItem.storyId,
               }
-            : i
-        )
+            : i,
+        ),
       );
     } else {
       const newItem = {
@@ -102,27 +102,29 @@ const ItemManager = ({ theme }) => {
 
   return (
     <div
-      className={`${theme.cardBg} ${theme.border} border-2 rounded-xl p-6 shadow-2xl`}
+      className={`${theme.cardBg} ${theme.border} border-2 rounded-xl p-4 md:p-6 shadow-2xl overflow-x-hidden w-full`}
     >
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-4 md:mb-6 gap-3">
         <div className="flex items-center gap-3">
           <Package className={`${theme.accent} w-6 h-6`} />
-          <h3 className={`${theme.text} text-2xl font-bold`}>Items</h3>
+          <h3 className={`${theme.text} text-xl md:text-2xl font-bold`}>
+            Items
+          </h3>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2 w-full md:w-auto">
           <button
             onClick={() => setShowAllItems(!showAllItems)}
             className={`${
               showAllItems
                 ? theme.button
                 : `${theme.cardBg} ${theme.border} border ${theme.text} opacity-70`
-            } px-4 py-2 rounded-lg flex items-center gap-2 transition-all hover:scale-105 font-semibold`}
+            } px-4 py-2 md:px-4 md:py-2 rounded-lg flex items-center gap-2 transition-all hover:scale-105 font-semibold text-sm md:text-base flex-1 md:flex-initial justify-center`}
           >
             <List className="w-5 h-5" /> Alle Items
           </button>
           <button
             onClick={() => setIsAdding(true)}
-            className={`${theme.button} px-6 py-3 rounded-lg flex items-center gap-2 transition-all hover:scale-105 font-semibold`}
+            className={`${theme.button} px-4 py-2 md:px-6 md:py-3 rounded-lg flex items-center gap-2 transition-all hover:scale-105 font-semibold text-sm md:text-base flex-1 md:flex-initial justify-center`}
           >
             <Plus className="w-5 h-5" /> Item hinzufügen
           </button>
@@ -130,13 +132,13 @@ const ItemManager = ({ theme }) => {
       </div>
       {/* Kategorie-Filter */}
       <div className="mb-4">
-        <div className={`${theme.text} text-sm font-semibold mb-2`}>
+        <div className={`${theme.text} text-sm md:text-sm font-semibold mb-2`}>
           Kategorie Filter:
         </div>
         <div className="flex flex-wrap gap-2">
           <button
             onClick={() => setCategoryFilter("all")}
-            className={`px-3 py-2 rounded-lg text-sm font-semibold transition-all ${
+            className={`px-2 py-1 sm:px-3 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all ${
               categoryFilter === "all"
                 ? theme.button
                 : `${theme.cardBg} ${theme.border} border ${theme.text} opacity-70`
@@ -148,13 +150,13 @@ const ItemManager = ({ theme }) => {
             <button
               key={key}
               onClick={() => setCategoryFilter(key)}
-              className={`px-3 py-2 rounded-lg text-sm font-semibold transition-all ${
+              className={`px-2 py-1 sm:px-3 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all ${
                 categoryFilter === key
                   ? `bg-${cat.color}-500/30 border-2 border-${cat.color}-500 text-${cat.color}-300`
                   : `${theme.cardBg} ${theme.border} border ${theme.text} opacity-70`
               }`}
             >
-              {cat.icon} {cat.name}
+              {cat.icon} <span className="hidden sm:inline">{cat.name}</span>
             </button>
           ))}
         </div>
@@ -214,7 +216,7 @@ const ItemManager = ({ theme }) => {
                 ))}
               </select>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
               <div>
                 <label className={`${theme.text} block mb-2 font-semibold`}>
                   Positive Stats
@@ -279,11 +281,11 @@ const ItemManager = ({ theme }) => {
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-3 md:gap-4 w-full">
         {displayItems
           .filter(
             (item) =>
-              categoryFilter === "all" || item.category === categoryFilter
+              categoryFilter === "all" || item.category === categoryFilter,
           )
           .map((item) => (
             <div

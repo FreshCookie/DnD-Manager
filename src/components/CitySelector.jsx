@@ -52,7 +52,7 @@ const CitySelector = ({ theme }) => {
   const deleteCity = (cityId) => {
     if (
       window.confirm(
-        "Möchtest du diese Stadt wirklich löschen? Alle zugehörigen Storys werden ebenfalls gelöscht!"
+        "Möchtest du diese Stadt wirklich löschen? Alle zugehörigen Storys werden ebenfalls gelöscht!",
       )
     ) {
       setCities(cities.filter((c) => c.id !== cityId));
@@ -81,18 +81,18 @@ const CitySelector = ({ theme }) => {
 
   return (
     <div
-      className={`${theme.cardBg} ${theme.border} border-2 rounded-xl p-6 shadow-2xl`}
+      className={`${theme.cardBg} ${theme.border} border-2 rounded-xl p-4 md:p-6 shadow-2xl overflow-x-hidden w-full`}
     >
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-4 gap-3">
         <div className="flex items-center gap-3">
           <MapPin className={`${theme.accent} w-6 h-6`} />
           <h3 className={`${theme.text} text-xl font-bold`}>Städte</h3>
         </div>
         <button
           onClick={() => setIsAdding(true)}
-          className={`${theme.button} px-4 py-2 rounded-lg flex items-center gap-2 transition-all hover:scale-105`}
+          className={`${theme.button} px-4 py-2 md:px-4 md:py-2 rounded-lg flex items-center gap-2 transition-all hover:scale-105 text-sm md:text-base w-full md:w-auto justify-center`}
         >
-          <Plus className="w-4 h-4" /> Stadt hinzufügen
+          <Plus className="w-5 h-5" /> Stadt hinzufügen
         </button>
       </div>
 
@@ -246,7 +246,7 @@ const CitySelector = ({ theme }) => {
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full">
         {cities.map((city) => {
           const isExpanded = expandedCities[city.id];
 

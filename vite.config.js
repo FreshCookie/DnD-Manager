@@ -3,6 +3,15 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
+  build: {
+    rollupOptions: {
+      input: {
+        main: "./index.html",
+        player: "./public/player.html",
+        hexagonPlayer: "./public/hexagon-player.html",
+      },
+    },
+  },
   server: {
     host: "0.0.0.0",
     allowedHosts: [

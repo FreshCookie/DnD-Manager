@@ -25,27 +25,29 @@ const ThemeSelector = ({ theme }) => {
 
   return (
     <div
-      className={`${theme.cardBg} ${theme.border} border-2 rounded-xl p-6 shadow-2xl`}
+      className={`${theme.cardBg} ${theme.border} border-2 rounded-xl p-4 md:p-6 shadow-2xl w-full overflow-hidden`}
     >
       <div className="flex items-center gap-3 mb-4">
         <Palette className={`${theme.accent} w-6 h-6`} />
-        <h3 className={`${theme.text} text-xl font-bold`}>Theme</h3>
+        <h3 className={`${theme.text} text-lg md:text-xl font-bold`}>Theme</h3>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-3 w-full">
         {Object.entries(themes).map(([key, t]) => (
           <button
             key={key}
             onClick={() => handleThemeChange(key)}
             className={`${t.cardBg} ${
               t.border
-            } border-2 rounded-lg p-4 transition-all hover:scale-105 ${
+            } border-2 rounded-lg p-3 md:p-4 transition-all hover:scale-105 ${
               currentTheme === key ? "ring-2 ring-white" : ""
             }`}
           >
-            <div className={t.text + " font-semibold mb-2"}>{t.name}</div>
+            <div className={t.text + " font-semibold mb-2 text-xs md:text-sm"}>
+              {t.name}
+            </div>
             <div className="flex gap-2">
-              <div className={`${t.bg} w-full h-8 rounded`}></div>
+              <div className={`${t.bg} w-full h-6 md:h-8 rounded`}></div>
             </div>
           </button>
         ))}

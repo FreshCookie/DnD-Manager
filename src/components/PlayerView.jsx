@@ -1,126 +1,87 @@
 import React, { useState, useEffect } from "react";
 
 const PlayerView = () => {
-  const [displayData, setDisplayData] = useState(null);
-  const [theme] = useState({
-    bg: "bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900",
-    text: "text-gray-100",
-    accent: "text-purple-400",
-  });
+  const [tooltips, setTooltips] = useState([]);
+  const [currentTooltip, setCurrentTooltip] = useState("");
+  const [fadeIn, setFadeIn] = useState(true);
 
+  // Lade Tooltips beim Start
   useEffect(() => {
-    const broadcast = new BroadcastChannel("dnd-session");
+    const loadTooltips = async () => {
+      try {
+        const response = await fetch("/Tooltips/Tooltip_List.txt");
+        const text = await response.text();
 
-    broadcast.onmessage = (event) => {
-      setDisplayData(event.data);
+        // Parse die Tooltips - entferne Kategorie-Überschriften und leere Zeilen
+        const lines = text
+          .split("\n")
+          .map((line) => line.trim())
+          .filter(
+            (line) =>
+              line &&
+              line !== "Ernstgemeint:" &&
+              line !== "Witzig und Obviously:",
+          );
+
+        setTooltips(lines);
+
+        // Setze initialen Tooltip
+        if (lines.length > 0) {
+          setCurrentTooltip(lines[Math.floor(Math.random() * lines.length)]);
+        }
+      } catch (error) {
+        console.error("Fehler beim Laden der Tooltips:", error);
+      }
     };
 
-    return () => {
-      broadcast.close();
-    };
+    loadTooltips();
   }, []);
 
-  if (!displayData) {
-    return (
-      <div
-        className={`min-h-screen ${theme.bg} flex items-center justify-center p-8`}
-      >
-        <div className="text-center">
-          <div
-            className={`${theme.text} text-3xl font-bold mb-4`}
-            style={{ fontFamily: "Georgia, serif" }}
-          >
-            D&D Session Manager
-          </div>
-          <p className={`${theme.accent} text-xl`}>Warte auf GM Input...</p>
-        </div>
-      </div>
-    );
-  }
+  // Wechsle Tooltip alle 30 Sekunden
+  useEffect(() => {
+    if (tooltips.length === 0) return;
 
-  const { type, data } = displayData;
+    const interval = setInterval(() => {
+      // Fade out
+      setFadeIn(false);
+
+      // Nach 500ms neuen Tooltip setzen und fade in
+      setTimeout(() => {
+        const randomIndex = Math.floor(Math.random() * tooltips.length);
+        setCurrentTooltip(tooltips[randomIndex]);
+        setFadeIn(true);
+      }, 500);
+    }, 30000); // 30 Sekunden
+
+    return () => clearInterval(interval);
+  }, [tooltips]);
 
   return (
-    <div
-      className={`min-h-screen ${theme.bg} flex items-center justify-center p-8`}
-    >
-      <div className="max-w-6xl w-full">
-        {type === "npc" && (
-          <div className="text-center">
-            <h1
-              className={`${theme.text} text-5xl font-bold mb-4`}
-              style={{ fontFamily: "Georgia, serif" }}
-            >
-              {data.name}
-            </h1>
-            <p className={`${theme.accent} text-2xl mb-8`}>{data.profession}</p>
-            {data.image && (
-              <img
-                src={data.image}
-                alt={data.name}
-                className="max-w-lg mx-auto rounded-xl shadow-2xl"
-                style={{ maxHeight: "70vh", objectFit: "contain" }}
-              />
-            )}
-          </div>
-        )}
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 flex items-center justify-center p-8">
+      <div className="text-center max-w-4xl">
+        <h1
+          className="text-gray-100 text-4xl font-bold mb-4"
+          style={{ fontFamily: "Georgia, serif" }}
+        >
+          PlayerView
+        </h1>
+        <p className="text-purple-400 text-xl mb-8">
+          Der Dungeon Master hat derzeit nichts was er euch zeigen möchte
+        </p>
 
-        {type === "location" && (
-          <div className="text-center">
-            <h1
-              className={`${theme.text} text-5xl font-bold mb-8`}
-              style={{ fontFamily: "Georgia, serif" }}
+        {/* Tooltip Bereich */}
+        {currentTooltip && (
+          <div className="mt-12 pt-8 border-t border-purple-700/30">
+            <div
+              className="transition-opacity duration-500 ease-in-out"
+              style={{ opacity: fadeIn ? 1 : 0 }}
             >
-              {data.name}
-            </h1>
-            {data.image && (
-              <img
-                src={data.image}
-                alt={data.name}
-                className="w-full rounded-xl shadow-2xl"
-                style={{ maxHeight: "70vh", objectFit: "cover" }}
-              />
-            )}
-          </div>
-        )}
-
-        {type === "item" && (
-          <div className="text-center">
-            <h1
-              className={`${theme.text} text-5xl font-bold mb-8`}
-              style={{ fontFamily: "Georgia, serif" }}
-            >
-              {data.name}
-            </h1>
-            {data.image && (
-              <img
-                src={data.image}
-                alt={data.name}
-                className="max-w-md mx-auto rounded-xl shadow-2xl mb-6"
-              />
-            )}
-            {data.description && (
-              <p className={`${theme.text} text-xl mb-6 max-w-2xl mx-auto`}>
-                {data.description}
+              <p className="text-purple-300/80 text-lg mb-3">
+                <span className="font-semibold text-purple-200">Tooltip:</span>
               </p>
-            )}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto">
-              {data.positiveStats && (
-                <div className="bg-green-900/30 border-2 border-green-500/50 rounded-lg p-4">
-                  <div className="text-green-400 text-2xl font-bold mb-2">
-                    ✓ Vorteile
-                  </div>
-                  <p className={theme.text}>{data.positiveStats}</p>
-                </div>
-              )}
-              {data.negativeStats && (
-                <div className="bg-red-900/30 border-2 border-red-500/50 rounded-lg p-4">
-                  <div className="text-red-400 text-2xl font-bold mb-2">
-                    ✗ Nachteile
-                  </div>
-                  <p className={theme.text}>{data.negativeStats}</p>
-                </div>
-              )}
+              <p className="text-gray-300 text-base italic max-w-2xl mx-auto leading-relaxed">
+                {currentTooltip}
+              </p>
             </div>
           </div>
         )}

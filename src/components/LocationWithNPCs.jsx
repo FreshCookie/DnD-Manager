@@ -28,15 +28,18 @@ const LocationWithNPCs = ({ theme }) => {
     sendToPlayerView,
     currentLocation,
     currentNPC,
+    subLocations,
+    setSubLocations,
   } = useData();
   const [isAddingLocation, setIsAddingLocation] = useState(false);
   const [isAddingNPC, setIsAddingNPC] = useState(null); // locationId
+  const [isAddingNPCToSubLocation, setIsAddingNPCToSubLocation] =
+    useState(null); // subLocationId
   const [editingLocation, setEditingLocation] = useState(null);
   const [editingNPC, setEditingNPC] = useState(null);
   const [expandedLocations, setExpandedLocations] = useState({});
   const [expandedDescriptions, setExpandedDescriptions] = useState({});
   const [locationFilter, setLocationFilter] = useState("all");
-  const [subLocations, setSubLocations] = useState([]);
   const [isAddingSubLocation, setIsAddingSubLocation] = useState(null); // locationId
   const [editingSubLocation, setEditingSubLocation] = useState(null);
   const [subLocationFormData, setSubLocationFormData] = useState({
@@ -66,15 +69,15 @@ const LocationWithNPCs = ({ theme }) => {
   const storyLocations = locations.filter(
     (l) =>
       l.storyId === selectedStory?.id ||
-      (l.cityId === selectedCity?.id && !l.storyId)
+      (l.cityId === selectedCity?.id && !l.storyId),
   );
 
   // Separate Listen für Filter
   const cityWideLocations = locations.filter(
-    (l) => l.cityId === selectedCity?.id && !l.storyId
+    (l) => l.cityId === selectedCity?.id && !l.storyId,
   );
   const storySpecificLocations = locations.filter(
-    (l) => l.storyId === selectedStory?.id
+    (l) => l.storyId === selectedStory?.id,
   );
 
   const toggleLocation = (locationId) => {
@@ -93,7 +96,7 @@ const LocationWithNPCs = ({ theme }) => {
 
   const getNPCsForLocation = (locationId) => {
     return npcs.filter(
-      (n) => n.locationId === locationId && n.storyId === selectedStory?.id
+      (n) => n.locationId === locationId && n.storyId === selectedStory?.id,
     );
   };
 
@@ -114,15 +117,21 @@ const LocationWithNPCs = ({ theme }) => {
       setSubLocations(
         subLocations.map((sl) =>
           sl.id === editingSubLocation.id
-            ? { ...subLocationFormData, id: editingSubLocation.id, locationId }
-            : sl
-        )
+            ? {
+                ...subLocationFormData,
+                id: editingSubLocation.id,
+                locationId,
+                storyId: selectedStory.id,
+              }
+            : sl,
+        ),
       );
     } else {
       const newSubLocation = {
         ...subLocationFormData,
         id: generateId(),
         locationId,
+        storyId: selectedStory.id,
         createdAt: Date.now(),
       };
       setSubLocations([...subLocations, newSubLocation]);
@@ -157,6 +166,13 @@ const LocationWithNPCs = ({ theme }) => {
     return subLocations.filter((sl) => sl.locationId === locationId);
   };
 
+  const getNPCsForSubLocation = (subLocationId) => {
+    return npcs.filter(
+      (n) =>
+        n.subLocationId === subLocationId && n.storyId === selectedStory?.id,
+    );
+  };
+
   // Location Functions
   const resetLocationForm = () => {
     setLocationFormData({
@@ -177,7 +193,7 @@ const LocationWithNPCs = ({ theme }) => {
     }
 
     const cleanImages = locationFormData.images.filter(
-      (img) => img.trim() !== ""
+      (img) => img.trim() !== "",
     );
 
     if (editingLocation) {
@@ -191,8 +207,8 @@ const LocationWithNPCs = ({ theme }) => {
                 storyId: locationFormData.isCityWide ? null : selectedStory.id,
                 cityId: locationFormData.isCityWide ? selectedCity.id : null,
               }
-            : l
-        )
+            : l,
+        ),
       );
     } else {
       const newLocation = {
@@ -224,7 +240,7 @@ const LocationWithNPCs = ({ theme }) => {
   const handleDeleteLocation = (locationId) => {
     if (
       window.confirm(
-        "Möchtest du diese Location wirklich löschen? Alle zugehörigen NPCs werden ebenfalls gelöscht!"
+        "Möchtest du diese Location wirklich löschen? Alle zugehörigen NPCs werden ebenfalls gelöscht!",
       )
     ) {
       setLocations(locations.filter((l) => l.id !== locationId));
@@ -266,7 +282,7 @@ const LocationWithNPCs = ({ theme }) => {
     setEditingNPC(null);
   };
 
-  const handleSaveNPC = (locationId) => {
+  const handleSaveNPC = (locationId, subLocationId = null) => {
     if (!npcFormData.name.trim() || !npcFormData.profession.trim()) {
       alert("Name und Profession sind Pflichtfelder!");
       return;
@@ -283,10 +299,11 @@ const LocationWithNPCs = ({ theme }) => {
                 images: cleanImages,
                 id: editingNPC.id,
                 storyId: selectedStory.id,
-                locationId: locationId,
+                locationId: subLocationId ? null : locationId,
+                subLocationId: subLocationId || null,
               }
-            : n
-        )
+            : n,
+        ),
       );
     } else {
       const newNPC = {
@@ -294,7 +311,8 @@ const LocationWithNPCs = ({ theme }) => {
         images: cleanImages,
         id: generateId(),
         storyId: selectedStory.id,
-        locationId: locationId,
+        locationId: subLocationId ? null : locationId,
+        subLocationId: subLocationId || null,
         createdAt: Date.now(),
       };
       setNpcs([...npcs, newNPC]);
@@ -312,7 +330,13 @@ const LocationWithNPCs = ({ theme }) => {
       sound: npc.sound || "",
       isEnemy: npc.isEnemy || false,
     });
-    setIsAddingNPC(npc.locationId);
+    if (npc.subLocationId) {
+      setIsAddingNPCToSubLocation(npc.subLocationId);
+      setIsAddingNPC(null);
+    } else {
+      setIsAddingNPC(npc.locationId);
+      setIsAddingNPCToSubLocation(null);
+    }
   };
 
   const handleDeleteNPC = (npcId) => {
@@ -322,19 +346,33 @@ const LocationWithNPCs = ({ theme }) => {
   };
 
   const showNPCToPlayers = (npc, npcImageIndex = 0, locationImageIndex = 0) => {
-    const location = locations.find((l) => l.id === npc.locationId);
+    // Check if NPC belongs to SubLocation or Location
+    const location = npc.locationId
+      ? locations.find((l) => l.id === npc.locationId)
+      : null;
+    const subLocation = npc.subLocationId
+      ? subLocations.find((sl) => sl.id === npc.subLocationId)
+      : null;
 
     const npcToSend = {
       ...npc,
       selectedImageIndex: npcImageIndex,
     };
 
-    const locationToSend = location
+    // Send SubLocation OR Location (SubLocation has priority)
+    const locationToSend = subLocation
       ? {
-          ...location,
+          ...subLocation,
           selectedImageIndex: locationImageIndex,
+          isSubLocation: true, // Flag to identify as SubLocation
         }
-      : null;
+      : location
+        ? {
+            ...location,
+            selectedImageIndex: locationImageIndex,
+            isSubLocation: false,
+          }
+        : null;
 
     sendToPlayerView({
       type: "both",
@@ -342,10 +380,13 @@ const LocationWithNPCs = ({ theme }) => {
       npc: npcToSend,
     });
 
-    // Spiele NPC Sound ab wenn vorhanden, sonst Location Sound
+    // Spiele NPC Sound ab wenn vorhanden, sonst Location/SubLocation Sound
     if (npc.sound) {
       stopMusicPlayer(); // Music Player stoppen
       playSound(npc.sound);
+    } else if (subLocation?.sound) {
+      stopMusicPlayer(); // Music Player stoppen
+      playSound(subLocation.sound);
     } else if (location?.sound) {
       stopMusicPlayer(); // Music Player stoppen
       playSound(location.sound);
@@ -408,27 +449,27 @@ const LocationWithNPCs = ({ theme }) => {
 
   return (
     <div
-      className={`${theme.cardBg} ${theme.border} border-2 rounded-xl p-6 shadow-2xl`}
+      className={`${theme.cardBg} ${theme.border} border-2 rounded-xl p-4 md:p-6 shadow-2xl overflow-x-hidden w-full`}
     >
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-4 md:mb-6 gap-3">
         <div className="flex items-center gap-3">
           <MapPin className={`${theme.accent} w-6 h-6`} />
-          <h3 className={`${theme.text} text-2xl font-bold`}>
+          <h3 className={`${theme.text} text-xl md:text-2xl font-bold`}>
             Locations & NPCs
           </h3>
         </div>
         <button
           onClick={() => setIsAddingLocation(true)}
-          className={`${theme.button} px-6 py-3 rounded-lg flex items-center gap-2 transition-all hover:scale-105 font-semibold`}
+          className={`${theme.button} px-4 py-2 md:px-6 md:py-3 rounded-lg flex items-center gap-2 transition-all hover:scale-105 font-semibold text-sm md:text-base w-full md:w-auto justify-center`}
         >
           <Plus className="w-5 h-5" /> Location hinzufügen
         </button>
       </div>
       {/* Filter Buttons */}
-      <div className="flex gap-2 mb-4">
+      <div className="flex flex-wrap gap-2 mb-4">
         <button
           onClick={() => setLocationFilter("all")}
-          className={`px-4 py-2 rounded-lg font-semibold transition-all text-sm ${
+          className={`px-3 py-2 md:px-4 md:py-2 rounded-lg font-semibold transition-all text-sm md:text-base ${
             locationFilter === "all"
               ? theme.button
               : `${theme.cardBg} ${theme.border} border ${theme.text} opacity-70`
@@ -438,7 +479,7 @@ const LocationWithNPCs = ({ theme }) => {
         </button>
         <button
           onClick={() => setLocationFilter("city")}
-          className={`px-4 py-2 rounded-lg font-semibold transition-all text-sm ${
+          className={`px-3 py-2 md:px-4 md:py-2 rounded-lg font-semibold transition-all text-sm md:text-base ${
             locationFilter === "city"
               ? "bg-purple-500/30 border-2 border-purple-500 text-purple-300"
               : `${theme.cardBg} ${theme.border} border ${theme.text} opacity-70`
@@ -448,7 +489,7 @@ const LocationWithNPCs = ({ theme }) => {
         </button>
         <button
           onClick={() => setLocationFilter("story")}
-          className={`px-4 py-2 rounded-lg font-semibold transition-all text-sm ${
+          className={`px-3 py-2 md:px-4 md:py-2 rounded-lg font-semibold transition-all text-sm md:text-base ${
             locationFilter === "story"
               ? "bg-blue-500/30 border-2 border-blue-500 text-blue-300"
               : `${theme.cardBg} ${theme.border} border ${theme.text} opacity-70`
@@ -639,7 +680,7 @@ const LocationWithNPCs = ({ theme }) => {
       )}
 
       {/* Locations List */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-4 md:gap-6 w-full">
         {storyLocations
           .filter((location) => {
             if (locationFilter === "all") return true;
@@ -659,105 +700,97 @@ const LocationWithNPCs = ({ theme }) => {
               >
                 {/* Location Header */}
                 <div className="p-4">
-                  <div className="flex items-start justify-between mb-3">
-                    <div className="flex items-start gap-3 flex-1">
-                      <button
+                  <div className="flex items-start gap-3 mb-3">
+                    <div className="flex-1">
+                      <h4
                         onClick={() => toggleLocation(location.id)}
-                        className={`${theme.text} hover:${theme.accent} transition-colors`}
+                        className={`${theme.text} text-lg font-bold mb-2 flex items-center gap-2 cursor-pointer hover:${theme.accent} transition-colors`}
                       >
                         {isExpanded ? (
-                          <ChevronUp className="w-6 h-6" />
+                          <ChevronUp className="w-5 h-5" />
                         ) : (
-                          <ChevronDown className="w-6 h-6" />
+                          <ChevronDown className="w-5 h-5" />
                         )}
-                      </button>
-                      <div className="flex-1">
-                        <h4
-                          className={`${theme.text} text-lg font-bold mb-2 flex items-center gap-2`}
-                        >
-                          {location.name}
-                          {location.cityId && !location.storyId && (
-                            <span className="text-xs px-2 py-1 bg-purple-500/30 border border-purple-500 text-purple-300 rounded">
-                              🏰 Stadt
-                            </span>
-                          )}
-                        </h4>
-                        <ImageSelector
-                          ref={(el) =>
-                            (locationImageRefs.current[location.id] = el)
-                          }
-                          images={location.images}
-                          alt={location.name}
-                          className="w-30 h-30 object-cover rounded-lg mb-2 items-center justify-center"
-                          theme={theme}
-                        />
-                        {location.description && (
-                          <div>
-                            <p
-                              className={`${
-                                theme.text
-                              } text-sm opacity-70 mb-2 ${
-                                !expandedDescriptions[`loc-${location.id}`]
-                                  ? "line-clamp-2"
-                                  : ""
-                              }`}
+                        {location.name}
+                        {location.cityId && !location.storyId && (
+                          <span className="text-xs px-2 py-1 bg-purple-500/30 border border-purple-500 text-purple-300 rounded">
+                            🏰 Stadt
+                          </span>
+                        )}
+                      </h4>
+                      <ImageSelector
+                        ref={(el) =>
+                          (locationImageRefs.current[location.id] = el)
+                        }
+                        images={location.images}
+                        alt={location.name}
+                        className="w-30 h-30 object-cover rounded-lg mb-2 items-center justify-center"
+                        theme={theme}
+                      />
+                      {location.description && (
+                        <div>
+                          <p
+                            className={`${theme.text} text-sm opacity-70 mb-2 ${
+                              !expandedDescriptions[`loc-${location.id}`]
+                                ? "line-clamp-2"
+                                : ""
+                            }`}
+                          >
+                            {location.description}
+                          </p>
+                          {location.description.length > 100 && (
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                toggleDescription(`loc-${location.id}`);
+                              }}
+                              className={`${theme.accent} text-xs flex items-center gap-1 hover:underline`}
                             >
-                              {location.description}
-                            </p>
-                            {location.description.length > 100 && (
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  toggleDescription(`loc-${location.id}`);
-                                }}
-                                className={`${theme.accent} text-xs flex items-center gap-1 hover:underline`}
-                              >
-                                {expandedDescriptions[`loc-${location.id}`] ? (
-                                  <>
-                                    <ChevronUp className="w-3 h-3" /> Weniger
-                                  </>
-                                ) : (
-                                  <>
-                                    <ChevronDown className="w-3 h-3" /> Mehr
-                                  </>
-                                )}
-                              </button>
-                            )}
-                          </div>
-                        )}
-                        <div
-                          className={`${theme.text} text-xs opacity-50 mt-2`}
-                        >
-                          {locationNPCs.length} NPC
-                          {locationNPCs.length !== 1 ? "s" : ""}
+                              {expandedDescriptions[`loc-${location.id}`] ? (
+                                <>
+                                  <ChevronUp className="w-3 h-3" /> Weniger
+                                </>
+                              ) : (
+                                <>
+                                  <ChevronDown className="w-3 h-3" /> Mehr
+                                </>
+                              )}
+                            </button>
+                          )}
                         </div>
+                      )}
+                      <div
+                        className={`${theme.text} text-xs opacity-50 mt-2 mb-3`}
+                      >
+                        {locationNPCs.length} NPC
+                        {locationNPCs.length !== 1 ? "s" : ""}
                       </div>
-                    </div>
-                    <div className="flex gap-2 ml-2">
-                      <button
-                        onClick={() => {
-                          const imageIndex =
-                            locationImageRefs.current[
-                              location.id
-                            ]?.getCurrentIndex() || 0;
-                          showLocationToPlayers(location, imageIndex);
-                        }}
-                        className={`${theme.button} px-3 py-2 rounded-lg transition-all hover:scale-105`}
-                      >
-                        <Eye className="w-4 h-4" />
-                      </button>
-                      <button
-                        onClick={() => handleEditLocation(location)}
-                        className={`${theme.button} px-3 py-2 rounded-lg transition-all hover:scale-105`}
-                      >
-                        <Edit className="w-4 h-4" />
-                      </button>
-                      <button
-                        onClick={() => handleDeleteLocation(location.id)}
-                        className="bg-red-600 hover:bg-red-700 px-3 py-2 rounded-lg transition-all hover:scale-105"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => {
+                            const imageIndex =
+                              locationImageRefs.current[
+                                location.id
+                              ]?.getCurrentIndex() || 0;
+                            showLocationToPlayers(location, imageIndex);
+                          }}
+                          className={`${theme.button} px-3 py-2 rounded-lg transition-all hover:scale-105 flex items-center gap-2`}
+                        >
+                          <Eye className="w-4 h-4" /> Zeigen
+                        </button>
+                        <button
+                          onClick={() => handleEditLocation(location)}
+                          className={`${theme.button} px-3 py-2 rounded-lg transition-all hover:scale-105`}
+                        >
+                          <Edit className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => handleDeleteLocation(location.id)}
+                          className="bg-red-600 hover:bg-red-700 px-3 py-2 rounded-lg transition-all hover:scale-105"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -973,30 +1006,70 @@ const LocationWithNPCs = ({ theme }) => {
                             key={npc.id}
                             className={`${theme.cardBg} ${theme.border} border rounded-lg p-3`}
                           >
-                            <ImageSelector
-                              ref={(el) => (npcImageRefs.current[npc.id] = el)}
-                              images={npc.images}
-                              alt={npc.name}
-                              className="w-20 h-20 object-cover rounded-lg mb-2"
-                              theme={theme}
-                            />
-                            <h6 className={`${theme.text} font-bold`}>
-                              {npc.name}
-                              {npc.isEnemy && (
-                                <span className="ml-2 text-xs px-2 py-1 bg-red-500/30 border border-red-500 text-red-300 rounded">
-                                  ⚔️ Gegner
-                                </span>
-                              )}
-                            </h6>
-                            <p className={`${theme.accent} text-sm mb-2`}>
-                              {npc.profession}
-                            </p>
+                            <div className="flex gap-3 mb-3">
+                              <ImageSelector
+                                ref={(el) =>
+                                  (npcImageRefs.current[npc.id] = el)
+                                }
+                                images={npc.images}
+                                alt={npc.name}
+                                className="w-20 h-20 object-cover rounded-lg flex-shrink-0"
+                                theme={theme}
+                              />
+                              <div className="flex-1">
+                                <h6 className={`${theme.text} font-bold`}>
+                                  {npc.name}
+                                  {npc.isEnemy && (
+                                    <span className="ml-2 text-xs px-2 py-1 bg-red-500/30 border border-red-500 text-red-300 rounded">
+                                      ⚔️ Gegner
+                                    </span>
+                                  )}
+                                </h6>
+                                <p className={`${theme.accent} text-sm`}>
+                                  {npc.profession}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="flex gap-2 mb-3">
+                              <button
+                                onClick={() => {
+                                  const npcImageIndex =
+                                    npcImageRefs.current[
+                                      npc.id
+                                    ]?.getCurrentIndex() || 0;
+                                  const locationImageIndex =
+                                    locationImageRefs.current[
+                                      location.id
+                                    ]?.getCurrentIndex() || 0;
+                                  showNPCToPlayers(
+                                    npc,
+                                    npcImageIndex,
+                                    locationImageIndex,
+                                  );
+                                }}
+                                className={`${theme.button} flex-1 px-3 py-2 rounded-lg text-sm flex items-center justify-center gap-1`}
+                              >
+                                <Eye className="w-4 h-4" /> Zeigen
+                              </button>
+                              <button
+                                onClick={() => handleEditNPC(npc)}
+                                className={`${theme.button} px-3 py-2 rounded-lg`}
+                              >
+                                <Edit className="w-4 h-4" />
+                              </button>
+                              <button
+                                onClick={() => handleDeleteNPC(npc.id)}
+                                className="bg-red-600 hover:bg-red-700 px-3 py-2 rounded-lg"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                            </div>
                             {npc.description && (
                               <div>
                                 <p
                                   className={`${
                                     theme.text
-                                  } text-xs opacity-70 mb-2 ${
+                                  } text-xs opacity-70 ${
                                     !expandedDescriptions[`npc-${npc.id}`]
                                       ? "line-clamp-2"
                                       : ""
@@ -1010,7 +1083,7 @@ const LocationWithNPCs = ({ theme }) => {
                                       e.stopPropagation();
                                       toggleDescription(`npc-${npc.id}`);
                                     }}
-                                    className={`${theme.accent} text-xs flex items-center gap-1 hover:underline mb-2`}
+                                    className={`${theme.accent} text-xs flex items-center gap-1 hover:underline mt-1`}
                                   >
                                     {expandedDescriptions[`npc-${npc.id}`] ? (
                                       <>
@@ -1026,40 +1099,6 @@ const LocationWithNPCs = ({ theme }) => {
                                 )}
                               </div>
                             )}
-                            <div className="flex gap-2">
-                              <button
-                                onClick={() => {
-                                  const npcImageIndex =
-                                    npcImageRefs.current[
-                                      npc.id
-                                    ]?.getCurrentIndex() || 0;
-                                  const locationImageIndex =
-                                    locationImageRefs.current[
-                                      location.id
-                                    ]?.getCurrentIndex() || 0;
-                                  showNPCToPlayers(
-                                    npc,
-                                    npcImageIndex,
-                                    locationImageIndex
-                                  );
-                                }}
-                                className={`${theme.button} flex-1 px-2 py-1 rounded text-xs flex items-center justify-center gap-1`}
-                              >
-                                <Eye className="w-3 h-3" /> Zeigen
-                              </button>
-                              <button
-                                onClick={() => handleEditNPC(npc)}
-                                className={`${theme.button} px-2 py-1 rounded`}
-                              >
-                                <Edit className="w-3 h-3" />
-                              </button>
-                              <button
-                                onClick={() => handleDeleteNPC(npc.id)}
-                                className="bg-red-600 hover:bg-red-700 px-2 py-1 rounded"
-                              >
-                                <Trash2 className="w-3 h-3" />
-                              </button>
-                            </div>
                           </div>
                         ))}
                       </div>
@@ -1221,7 +1260,7 @@ const LocationWithNPCs = ({ theme }) => {
                                         onClick={(e) => {
                                           e.stopPropagation();
                                           toggleDescription(
-                                            `subloc-${subLoc.id}`
+                                            `subloc-${subLoc.id}`,
                                           );
                                         }}
                                         className={`${theme.accent} text-xs flex items-center gap-1 hover:underline mb-2`}
@@ -1243,34 +1282,258 @@ const LocationWithNPCs = ({ theme }) => {
                                     )}
                                   </div>
                                 )}
-                                <div className="flex gap-2">
+                                <div className="flex gap-2 mt-2">
                                   <button
                                     onClick={() =>
                                       showSubLocationToPlayers(subLoc)
                                     }
-                                    className={`${theme.button} flex-1 px-2 py-1 rounded text-xs flex items-center justify-center gap-1`}
+                                    className={`${theme.button} flex-1 px-3 py-2 rounded-lg text-sm flex items-center justify-center gap-1`}
                                   >
-                                    <Eye className="w-3 h-3" /> Zeigen
+                                    <Eye className="w-4 h-4" /> Zeigen
                                   </button>
                                   <button
                                     onClick={() =>
                                       handleEditSubLocation(subLoc)
                                     }
-                                    className={`${theme.button} px-2 py-1 rounded`}
+                                    className={`${theme.button} px-3 py-2 rounded-lg`}
                                   >
-                                    <Edit className="w-3 h-3" />
+                                    <Edit className="w-4 h-4" />
                                   </button>
                                   <button
                                     onClick={() =>
                                       handleDeleteSubLocation(subLoc.id)
                                     }
-                                    className="bg-red-600 hover:bg-red-700 px-2 py-1 rounded"
+                                    className="bg-red-600 hover:bg-red-700 px-3 py-2 rounded-lg"
                                   >
-                                    <Trash2 className="w-3 h-3" />
+                                    <Trash2 className="w-4 h-4" />
                                   </button>
                                 </div>
+
+                                {/* NPCs in this SubLocation */}
+                                {getNPCsForSubLocation(subLoc.id).length >
+                                  0 && (
+                                  <div className="mt-3 pt-3 border-t border-gray-700/50">
+                                    <div className="flex items-center gap-1 mb-2">
+                                      <Users className="w-3 h-3 text-purple-400" />
+                                      <span className="text-xs text-purple-400 font-semibold">
+                                        NPCs hier:
+                                      </span>
+                                    </div>
+                                    <div className="space-y-2">
+                                      {getNPCsForSubLocation(subLoc.id).map(
+                                        (npc) => (
+                                          <div
+                                            key={npc.id}
+                                            className="bg-black/20 rounded p-2"
+                                          >
+                                            <div className="flex gap-2 mb-2">
+                                              {npc.images && npc.images[0] && (
+                                                <img
+                                                  src={npc.images[0]}
+                                                  alt={npc.name}
+                                                  className="w-12 h-12 object-cover rounded flex-shrink-0"
+                                                  onError={(e) =>
+                                                    (e.target.style.display =
+                                                      "none")
+                                                  }
+                                                />
+                                              )}
+                                              <div className="flex-1">
+                                                <div
+                                                  className={`${theme.text} text-xs font-semibold`}
+                                                >
+                                                  {npc.name}
+                                                </div>
+                                                <div
+                                                  className={`${theme.accent} text-xs opacity-70`}
+                                                >
+                                                  {npc.profession}
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div className="flex gap-1 mb-2">
+                                              <button
+                                                onClick={() => {
+                                                  showNPCToPlayers(npc, 0, 0);
+                                                }}
+                                                className={`${theme.button} flex-1 px-2 py-1 rounded text-xs flex items-center justify-center gap-1`}
+                                              >
+                                                <Eye className="w-3 h-3" />{" "}
+                                                Zeigen
+                                              </button>
+                                              <button
+                                                onClick={() =>
+                                                  handleEditNPC(npc)
+                                                }
+                                                className={`${theme.button} px-2 py-1 rounded text-xs`}
+                                              >
+                                                <Edit className="w-3 h-3" />
+                                              </button>
+                                              <button
+                                                onClick={() =>
+                                                  handleDeleteNPC(npc.id)
+                                                }
+                                                className="bg-red-600 hover:bg-red-700 px-2 py-1 rounded text-xs"
+                                              >
+                                                <Trash2 className="w-3 h-3" />
+                                              </button>
+                                            </div>
+                                            {npc.description && (
+                                              <div>
+                                                <p
+                                                  className={`${
+                                                    theme.text
+                                                  } text-xs opacity-70 ${
+                                                    !expandedDescriptions[
+                                                      `npc-subloc-${npc.id}`
+                                                    ]
+                                                      ? "line-clamp-2"
+                                                      : ""
+                                                  }`}
+                                                >
+                                                  {npc.description}
+                                                </p>
+                                                {npc.description.length >
+                                                  80 && (
+                                                  <button
+                                                    onClick={(e) => {
+                                                      e.stopPropagation();
+                                                      toggleDescription(
+                                                        `npc-subloc-${npc.id}`,
+                                                      );
+                                                    }}
+                                                    className={`${theme.accent} text-xs flex items-center gap-1 hover:underline mt-1`}
+                                                  >
+                                                    {expandedDescriptions[
+                                                      `npc-subloc-${npc.id}`
+                                                    ] ? (
+                                                      <>
+                                                        <ChevronUp className="w-3 h-3" />{" "}
+                                                        Weniger
+                                                      </>
+                                                    ) : (
+                                                      <>
+                                                        <ChevronDown className="w-3 h-3" />{" "}
+                                                        Mehr
+                                                      </>
+                                                    )}
+                                                  </button>
+                                                )}
+                                              </div>
+                                            )}
+                                          </div>
+                                        ),
+                                      )}
+                                    </div>
+                                  </div>
+                                )}
+
+                                {/* Add NPC to SubLocation Button */}
+                                <div className="mt-3 pt-3 border-t border-gray-700/50">
+                                  {isAddingNPCToSubLocation !== subLoc.id ? (
+                                    <button
+                                      onClick={() =>
+                                        setIsAddingNPCToSubLocation(subLoc.id)
+                                      }
+                                      className={`${theme.button} w-full px-2 py-2 rounded text-xs flex items-center justify-center gap-1`}
+                                    >
+                                      <Plus className="w-3 h-3" /> NPC
+                                      hinzufügen
+                                    </button>
+                                  ) : (
+                                    <div className="bg-black/30 rounded-lg p-3 space-y-2">
+                                      <div className="flex items-center justify-between mb-2">
+                                        <span
+                                          className={`${theme.text} text-xs font-semibold`}
+                                        >
+                                          NPC hinzufügen
+                                        </span>
+                                        <button
+                                          onClick={() => {
+                                            setIsAddingNPCToSubLocation(null);
+                                            resetNPCForm();
+                                          }}
+                                          className="text-gray-400 hover:text-white text-xs"
+                                        >
+                                          ✕
+                                        </button>
+                                      </div>
+                                      <input
+                                        type="text"
+                                        placeholder="NPC Name *"
+                                        value={npcFormData.name}
+                                        onChange={(e) =>
+                                          setNpcFormData({
+                                            ...npcFormData,
+                                            name: e.target.value,
+                                          })
+                                        }
+                                        className={`w-full px-2 py-1 ${theme.cardBg} ${theme.border} border rounded ${theme.text} text-xs`}
+                                      />
+                                      <input
+                                        type="text"
+                                        placeholder="Beruf/Rolle *"
+                                        value={npcFormData.profession}
+                                        onChange={(e) =>
+                                          setNpcFormData({
+                                            ...npcFormData,
+                                            profession: e.target.value,
+                                          })
+                                        }
+                                        className={`w-full px-2 py-1 ${theme.cardBg} ${theme.border} border rounded ${theme.text} text-xs`}
+                                      />
+                                      <textarea
+                                        placeholder="Beschreibung"
+                                        value={npcFormData.description}
+                                        onChange={(e) =>
+                                          setNpcFormData({
+                                            ...npcFormData,
+                                            description: e.target.value,
+                                          })
+                                        }
+                                        rows="2"
+                                        className={`w-full px-2 py-1 ${theme.cardBg} ${theme.border} border rounded ${theme.text} text-xs`}
+                                      />
+                                      <input
+                                        type="text"
+                                        placeholder="Bild URL"
+                                        value={npcFormData.images[0] || ""}
+                                        onChange={(e) =>
+                                          setNpcFormData({
+                                            ...npcFormData,
+                                            images: [e.target.value],
+                                          })
+                                        }
+                                        className={`w-full px-2 py-1 ${theme.cardBg} ${theme.border} border rounded ${theme.text} text-xs`}
+                                      />
+                                      <div className="flex gap-2">
+                                        <button
+                                          onClick={() => {
+                                            handleSaveNPC(
+                                              location.id,
+                                              subLoc.id,
+                                            );
+                                            setIsAddingNPCToSubLocation(null);
+                                          }}
+                                          className={`${theme.button} flex-1 px-2 py-1 rounded text-xs font-semibold`}
+                                        >
+                                          Speichern
+                                        </button>
+                                        <button
+                                          onClick={() => {
+                                            setIsAddingNPCToSubLocation(null);
+                                            resetNPCForm();
+                                          }}
+                                          className="bg-gray-600 hover:bg-gray-700 px-2 py-1 rounded text-xs font-semibold"
+                                        >
+                                          Abbrechen
+                                        </button>
+                                      </div>
+                                    </div>
+                                  )}
+                                </div>
                               </div>
-                            )
+                            ),
                           )}
                         </div>
                       ) : (

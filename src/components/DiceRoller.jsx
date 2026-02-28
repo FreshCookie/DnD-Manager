@@ -45,11 +45,13 @@ const DiceRoller = ({ theme }) => {
 
   return (
     <div
-      className={`${theme.cardBg} ${theme.border} border-2 rounded-xl p-6 shadow-2xl`}
+      className={`${theme.cardBg} ${theme.border} border-2 rounded-xl p-4 md:p-6 shadow-2xl`}
     >
       <div className="flex items-center gap-3 mb-4">
         <Dices className={`${theme.accent} w-6 h-6`} />
-        <h3 className={`${theme.text} text-xl font-bold`}>Würfel Roller</h3>
+        <h3 className={`${theme.text} text-lg md:text-xl font-bold`}>
+          Würfel Roller
+        </h3>
       </div>
 
       <div className="flex gap-2 mb-4">
@@ -58,32 +60,36 @@ const DiceRoller = ({ theme }) => {
           value={diceInput}
           onChange={(e) => setDiceInput(e.target.value)}
           placeholder="z.B. 2d20"
-          className={`flex-1 px-4 py-2 ${theme.cardBg} ${theme.border} border rounded-lg ${theme.text} focus:outline-none focus:ring-2 focus:ring-purple-500`}
+          className={`flex-1 px-4 py-2 md:px-4 md:py-2 ${theme.cardBg} ${theme.border} border rounded-lg ${theme.text} focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm md:text-base`}
           onKeyPress={(e) => e.key === "Enter" && rollDice()}
         />
         <button
           onClick={rollDice}
           disabled={isRolling}
-          className={`${theme.button} px-6 py-2 rounded-lg ${theme.text} font-semibold transition-all disabled:opacity-50`}
+          className={`${theme.button} px-4 py-2 md:px-6 md:py-2 rounded-lg ${theme.text} font-semibold transition-all disabled:opacity-50 text-sm md:text-base whitespace-nowrap`}
         >
           {isRolling ? "Würfelt..." : "Würfeln"}
         </button>
       </div>
 
       {isRolling && (
-        <div className="flex justify-center items-center py-12 animate-bounce">
-          <Dices className={`${theme.accent} w-24 h-24 animate-spin`} />
+        <div className="flex justify-center items-center py-8 sm:py-12 animate-bounce">
+          <Dices
+            className={`${theme.accent} w-16 h-16 sm:w-24 sm:h-24 animate-spin`}
+          />
         </div>
       )}
 
       {result && !isRolling && (
         <div
-          className={`${theme.border} border-2 rounded-lg p-6 text-center mb-4 animate-pulse`}
+          className={`${theme.border} border-2 rounded-lg p-4 sm:p-6 text-center mb-4 animate-pulse`}
         >
-          <div className={`${theme.accent} text-6xl font-bold mb-2`}>
+          <div
+            className={`${theme.accent} text-4xl sm:text-5xl md:text-6xl font-bold mb-2`}
+          >
             {result.total}
           </div>
-          <div className={`${theme.text} text-sm opacity-70`}>
+          <div className={`${theme.text} text-xs sm:text-sm opacity-70`}>
             Würfe: {result.rolls.join(" + ")}
           </div>
         </div>

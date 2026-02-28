@@ -32,7 +32,7 @@ const StoryCard = ({ story, theme, onClick, onEdit, onDelete }) => {
   return (
     <div
       onClick={handleCardClick}
-      className={`${theme.cardBg} ${theme.border} border-2 rounded-xl p-6 shadow-lg hover:shadow-2xl transition-all cursor-pointer hover:scale-105 group relative`}
+      className={`${theme.cardBg} ${theme.border} border-2 rounded-xl p-4 sm:p-6 shadow-lg hover:shadow-2xl transition-all cursor-pointer hover:scale-105 group relative overflow-hidden w-full`}
     >
       {/* Story Bild wenn vorhanden */}
       {story.image && (
@@ -44,17 +44,18 @@ const StoryCard = ({ story, theme, onClick, onEdit, onDelete }) => {
         />
       )}
 
-      <div className="flex items-start justify-between mb-4 gap-2">
-        <div className="flex items-start gap-3 flex-1 min-w-0 pr-2">
-          <BookOpen className={`${theme.accent} w-6 h-6 flex-shrink-0 mt-1`} />
+      <div className="flex items-start justify-between mb-4 gap-2 flex-wrap">
+        <div className="flex items-start gap-2 sm:gap-3 flex-1 min-w-0">
+          <BookOpen
+            className={`${theme.accent} w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 mt-1`}
+          />
           <h3
-            className={`${theme.text} ${getTitleClass()} font-bold`}
-            style={{ wordBreak: "normal", overflowWrap: "normal" }}
+            className={`${theme.text} ${getTitleClass()} font-bold break-words`}
           >
             {story.title}
           </h3>
         </div>
-        <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 ml-2">
+        <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
           <button
             onClick={(e) => {
               e.stopPropagation();

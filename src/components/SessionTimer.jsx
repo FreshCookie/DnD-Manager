@@ -128,15 +128,19 @@ const SessionTimer = ({ theme, storyId }) => {
   return (
     <>
       <div
-        className={`${theme.cardBg} ${theme.border} border-2 rounded-xl p-6 shadow-2xl`}
+        className={`${theme.cardBg} ${theme.border} border-2 rounded-xl p-4 md:p-6 shadow-2xl`}
       >
         <div className="flex items-center gap-3 mb-4">
           <Clock className={`${theme.accent} w-6 h-6`} />
-          <h3 className={`${theme.text} text-xl font-bold`}>Session Timer</h3>
+          <h3 className={`${theme.text} text-lg md:text-xl font-bold`}>
+            Session Timer
+          </h3>
         </div>
 
-        <div className={`text-center mb-6`}>
-          <div className={`${theme.accent} text-5xl font-bold font-mono`}>
+        <div className={`text-center mb-4 md:mb-6`}>
+          <div
+            className={`${theme.accent} text-3xl md:text-4xl lg:text-5xl font-bold font-mono`}
+          >
             {formatTime(seconds)}
           </div>
           {!isRunning && seconds > 0 && (

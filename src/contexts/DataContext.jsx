@@ -26,6 +26,7 @@ export const DataProvider = ({ children }) => {
   const [theme, setTheme] = useState("dark");
   const [currentLocation, setCurrentLocation] = useState(null);
   const [currentNPC, setCurrentNPC] = useState(null);
+  const [currentSubLocation, setCurrentSubLocation] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [sessionTimes, setSessionTimes] = useState({});
@@ -53,28 +54,37 @@ export const DataProvider = ({ children }) => {
         setActivePlayers(data.activePlayers || []);
         setSubLocations(data.subLocations || []);
         console.log("✅ Daten erfolgreich vom Server geladen");
+      } else {
+        // Server antwortet mit Fehler → Fallback auf LocalStorage
+        console.warn("⚠️ Server-Fehler, lade aus LocalStorage");
+        loadFromLocalStorage();
       }
     } catch (error) {
-      console.error("❌ Fehler beim Laden der Daten:", error);
-      // Fallback auf LocalStorage wenn Server nicht erreichbar
-      const savedData = localStorage.getItem("dnd-session-data");
-      if (savedData) {
-        const parsed = JSON.parse(savedData);
-        setCities(parsed.cities || []);
-        setStories(parsed.stories || []);
-        setNpcs(parsed.npcs || []);
-        setLocations(parsed.locations || []);
-        setItems(parsed.items || []);
-        setIntros(parsed.intros || []);
-        setTheme(parsed.theme || "dark");
-        setSessionTimes(parsed.sessionTimes || {});
-        setPlayers(parsed.players || []);
-        setCompanions(parsed.companions || []);
-        setActivePlayers(parsed.activePlayers || []);
-        console.log("⚠️ Fallback: Daten aus LocalStorage geladen");
-      }
+      // Netzwerkfehler → Fallback auf LocalStorage
+      console.error("❌ Netzwerkfehler beim Laden der Daten:", error);
+      loadFromLocalStorage();
     } finally {
       setIsLoaded(true);
+    }
+  };
+
+  const loadFromLocalStorage = () => {
+    const savedData = localStorage.getItem("dnd-session-data");
+    if (savedData) {
+      const parsed = JSON.parse(savedData);
+      setCities(parsed.cities || []);
+      setStories(parsed.stories || []);
+      setNpcs(parsed.npcs || []);
+      setLocations(parsed.locations || []);
+      setItems(parsed.items || []);
+      setIntros(parsed.intros || []);
+      setTheme(parsed.theme || "dark");
+      setSessionTimes(parsed.sessionTimes || {});
+      setPlayers(parsed.players || []);
+      setCompanions(parsed.companions || []);
+      setActivePlayers(parsed.activePlayers || []);
+      setSubLocations(parsed.subLocations || []);
+      console.log("📦 Daten aus LocalStorage geladen");
     }
   };
 
@@ -164,11 +174,24 @@ export const DataProvider = ({ children }) => {
     if (data.type === "location") {
       setCurrentLocation(data.data);
       setCurrentNPC(null);
+      setCurrentSubLocation(null);
+    } else if (data.type === "subLocation") {
+      setCurrentSubLocation(data.data);
+      setCurrentLocation(null);
+      setCurrentNPC(null);
     } else if (data.type === "npc") {
       setCurrentNPC(data.data);
       setCurrentLocation(null);
+      setCurrentSubLocation(null);
     } else if (data.type === "both") {
-      setCurrentLocation(data.location);
+      // Check if location is actually a SubLocation
+      if (data.location?.isSubLocation) {
+        setCurrentSubLocation(data.location);
+        setCurrentLocation(null);
+      } else {
+        setCurrentLocation(data.location);
+        setCurrentSubLocation(null);
+      }
       setCurrentNPC(data.npc);
     } else if (
       data.type === "direktor" ||
@@ -177,6 +200,7 @@ export const DataProvider = ({ children }) => {
     ) {
       setCurrentLocation(null);
       setCurrentNPC(null);
+      setCurrentSubLocation(null);
     }
   };
 
@@ -214,6 +238,8 @@ export const DataProvider = ({ children }) => {
     setCurrentLocation,
     currentNPC,
     setCurrentNPC,
+    currentSubLocation,
+    setCurrentSubLocation,
     subLocations,
     setSubLocations,
     isSaving,

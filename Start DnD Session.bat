@@ -12,8 +12,8 @@ echo ============================================
 echo.
 
 
-:: Pfad zum Projekt
-cd /d "C:\Users\kevin\Desktop\DnD Session Manager\dnd-session-manager"
+:: Pfad zum Projekt (dynamisch)
+cd /d "%~dp0"
 
 echo [Backend] wird gestartet...
 start /min "Backend"  cmd /k "node server.js"

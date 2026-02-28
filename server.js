@@ -33,10 +33,15 @@ if (!fs.existsSync(DATA_FILE)) {
         items: [],
         intros: [],
         theme: "dark",
+        sessionTimes: {},
+        players: [],
+        companions: [],
+        activePlayers: [],
+        subLocations: [],
       },
       null,
-      2
-    )
+      2,
+    ),
   );
 }
 

@@ -12,6 +12,8 @@ const MusicPlayer = ({ theme }) => {
     ambient: [
       { name: "Village", file: "/music/ambient/Neutral.mp3" },
       { name: "Forest", file: "/music/ambient/Mysteriöser Wald.mp3" },
+      { name: "Festival", file: "/music/ambient/Festival.mp3" },
+      { name: "Dramatic", file: "/music/ambient/Dramatic.mp3" },
     ],
     tavern: [{ name: "Tavern Music", file: "/music/tavern/Taverne.mp3" }],
     market: [{ name: "Market", file: "/music/market/Markt.mp3" }],
@@ -65,21 +67,23 @@ const MusicPlayer = ({ theme }) => {
 
   return (
     <div
-      className={`${theme.cardBg} ${theme.border} border-2 rounded-xl p-6 shadow-2xl`}
+      className={`${theme.cardBg} ${theme.border} border-2 rounded-xl p-4 md:p-6 shadow-2xl`}
     >
       <div className="flex items-center gap-3 mb-4">
         <Music className={`${theme.accent} w-6 h-6`} />
-        <h3 className={`${theme.text} text-xl font-bold`}>Music Player</h3>
+        <h3 className={`${theme.text} text-lg md:text-xl font-bold`}>
+          Music Player
+        </h3>
       </div>
 
       <audio ref={audioRef} loop onEnded={() => setIsPlaying(false)} />
 
-      <div className="flex gap-2 mb-4">
+      <div className="flex flex-wrap gap-2 mb-4">
         {Object.keys(playlists).map((category) => (
           <button
             key={category}
             onClick={() => setCurrentCategory(category)}
-            className={`px-4 py-2 rounded-lg font-semibold transition-all ${
+            className={`px-3 py-2 md:px-4 md:py-2 rounded-lg font-semibold transition-all text-sm md:text-sm ${
               currentCategory === category
                 ? theme.button
                 : `${theme.cardBg} ${theme.border} border ${theme.text} opacity-70 hover:opacity-100`

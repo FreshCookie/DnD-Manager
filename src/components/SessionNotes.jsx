@@ -59,16 +59,18 @@ const SessionNotes = ({ theme }) => {
 
   return (
     <div
-      className={`${theme.cardBg} ${theme.border} border-2 rounded-xl p-4 shadow-2xl`}
+      className={`${theme.cardBg} ${theme.border} border-2 rounded-xl p-4 md:p-4 shadow-2xl w-full overflow-hidden`}
     >
-      <div className="flex items-center justify-between mb-3">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-3 gap-2">
         <div className="flex items-center gap-2">
           <FileText className={`${theme.accent} w-5 h-5`} />
-          <h3 className={`${theme.text} text-lg font-bold`}>Notizen</h3>
+          <h3 className={`${theme.text} text-base md:text-lg font-bold`}>
+            Notizen
+          </h3>
         </div>
         <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className={`${theme.button} px-3 py-1 rounded text-xs`}
+          className={`${theme.button} px-3 py-1 md:px-3 md:py-1 rounded text-xs`}
         >
           {isExpanded ? "Minimieren" : "Erweitern"}
         </button>
