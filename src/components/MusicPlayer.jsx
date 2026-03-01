@@ -24,14 +24,69 @@ const MusicPlayer = ({ theme }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(0.5);
   const [isMuted, setIsMuted] = useState(false);
+  const [loadedTracks, setLoadedTracks] = useState(new Set());
   const audioRef = useRef(null);
+  const preloadedAudios = useRef({});
 
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.volume = isMuted ? 0 : volume;
-      setMusicPlayerRef(audioRef.current); // Diese Zeile hinzufügen
+      setMusicPlayerRef(audioRef.current);
     }
   }, [volume, isMuted]);
+
+  // Preload Audio Funktion
+  const preloadAudio = (file) => {
+    return new Promise((resolve) => {
+      const audio = new Audio();
+      audio.preload = "auto";
+
+      const onCanPlayThrough = () => {
+        audio.removeEventListener("canplaythrough", onCanPlayThrough);
+        audio.removeEventListener("error", onError);
+        preloadedAudios.current[file] = audio;
+        setLoadedTracks((prev) => new Set([...prev, file]));
+        resolve(true);
+      };
+
+      const onError = () => {
+        audio.removeEventListener("canplaythrough", onCanPlayThrough);
+        audio.removeEventListener("error", onError);
+        console.log(`Fehler beim Preloaden von ${file}`);
+        resolve(false);
+      };
+
+      audio.addEventListener("canplaythrough", onCanPlayThrough);
+      audio.addEventListener("error", onError);
+      audio.src = file;
+      audio.load();
+    });
+  };
+
+  // Starte Preloading beim Mount - Ambient zuerst, dann Rest
+  useEffect(() => {
+    const loadAllTracks = async () => {
+      // 1. Erst alle Ambient-Sounds laden (wichtigste Kategorie)
+      console.log("🎵 Starte Preloading: Ambient Sounds...");
+      for (const track of playlists.ambient) {
+        await preloadAudio(track.file);
+      }
+
+      // 2. Dann die anderen Kategorien
+      console.log("🎵 Preloading: Weitere Kategorien...");
+      const otherCategories = Object.keys(playlists).filter(
+        (cat) => cat !== "ambient",
+      );
+      for (const category of otherCategories) {
+        for (const track of playlists[category]) {
+          await preloadAudio(track.file);
+        }
+      }
+      console.log("✅ Alle Audios vorgeladen!");
+    };
+
+    loadAllTracks();
+  }, [playlists]);
 
   const playTrack = (track) => {
     // Stoppe Location/NPC Sounds
@@ -43,7 +98,13 @@ const MusicPlayer = ({ theme }) => {
     } else {
       setCurrentTrack(track);
       if (audioRef.current) {
-        audioRef.current.src = track.file;
+        // Nutze vorgeladenes Audio falls verfügbar
+        if (preloadedAudios.current[track.file]) {
+          const preloadedAudio = preloadedAudios.current[track.file];
+          audioRef.current.src = preloadedAudio.src;
+        } else {
+          audioRef.current.src = track.file;
+        }
         audioRef.current
           .play()
           .catch((err) => console.log("Playback error:", err));
@@ -95,22 +156,36 @@ const MusicPlayer = ({ theme }) => {
       </div>
 
       <div className="space-y-2 mb-4">
-        {playlists[currentCategory].map((track, idx) => (
-          <div
-            key={idx}
-            onClick={() => playTrack(track)}
-            className={`${theme.cardBg} ${
-              theme.border
-            } border rounded-lg p-3 cursor-pointer transition-all hover:scale-105 flex items-center justify-between ${
-              currentTrack?.file === track.file ? "ring-2 ring-purple-500" : ""
-            }`}
-          >
-            <span className={theme.text}>{track.name}</span>
-            {currentTrack?.file === track.file && isPlaying && (
-              <Play className={`${theme.accent} w-5 h-5 animate-pulse`} />
-            )}
-          </div>
-        ))}
+        {playlists[currentCategory].map((track, idx) => {
+          const isLoaded = loadedTracks.has(track.file);
+          return (
+            <div
+              key={idx}
+              onClick={() => playTrack(track)}
+              className={`${theme.cardBg} ${
+                theme.border
+              } border rounded-lg p-3 cursor-pointer transition-all hover:scale-105 flex items-center justify-between ${
+                currentTrack?.file === track.file
+                  ? "ring-2 ring-purple-500"
+                  : ""
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                {/* Lade-Indikator: Rot = nicht geladen, Grün = geladen */}
+                <div
+                  className={`w-3 h-3 rounded-full ${
+                    isLoaded ? "bg-green-500" : "bg-red-500"
+                  } ${!isLoaded && "animate-pulse"}`}
+                  title={isLoaded ? "Geladen" : "Wird geladen..."}
+                />
+                <span className={theme.text}>{track.name}</span>
+              </div>
+              {currentTrack?.file === track.file && isPlaying && (
+                <Play className={`${theme.accent} w-5 h-5 animate-pulse`} />
+              )}
+            </div>
+          );
+        })}
       </div>
 
       {currentTrack && (

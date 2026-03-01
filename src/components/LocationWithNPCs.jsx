@@ -10,12 +10,322 @@ import {
   Users,
   FileText,
   Package,
+  BookOpen,
+  ToggleLeft,
+  ToggleRight,
 } from "lucide-react";
 import { useData } from "../contexts/DataContext";
 import { generateId } from "../utils/helpers";
 import ImageSelector from "./ImageSelector";
 import { playSound, stopSound } from "./SoundManager";
 import { stopMusicPlayer } from "../utils/audioController";
+
+// Kleine Ansicht für Beschreibungen (außerhalb des Edit-Modus)
+const DescriptionList = ({ descriptions = [], theme, onShow }) => {
+  const [expandedIds, setExpandedIds] = useState(new Set());
+
+  if (!descriptions || descriptions.length === 0) return null;
+
+  const toggleExpanded = (id) => {
+    setExpandedIds((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
+      return newSet;
+    });
+  };
+
+  return (
+    <div className="mt-3 space-y-2">
+      {descriptions.map((desc) => {
+        const isExpanded = expandedIds.has(desc.id);
+        const needsExpansion = desc.text && desc.text.length > 100;
+
+        return (
+          <div
+            key={desc.id}
+            className={`${theme.cardBg} ${theme.border} border rounded-lg p-2`}
+          >
+            <div className="flex items-start gap-2">
+              <div
+                className={`flex-shrink-0 ${desc.showToPlayers ? "text-green-400" : "text-gray-500"}`}
+                title={
+                  desc.showToPlayers
+                    ? "Für Spieler sichtbar"
+                    : "Nur für GM sichtbar"
+                }
+              >
+                {desc.showToPlayers ? (
+                  <ToggleRight className="w-4 h-4" />
+                ) : (
+                  <ToggleLeft className="w-4 h-4" />
+                )}
+              </div>
+              <div className="flex-1 min-w-0">
+                {desc.title && (
+                  <div className={`${theme.text} font-semibold text-xs mb-1`}>
+                    {desc.title}
+                  </div>
+                )}
+                <div
+                  className={`${theme.text} text-xs opacity-70 whitespace-pre-wrap ${!isExpanded && needsExpansion ? "line-clamp-2" : ""}`}
+                >
+                  {desc.text}
+                </div>
+                {needsExpansion && (
+                  <button
+                    type="button"
+                    onClick={() => toggleExpanded(desc.id)}
+                    className={`${theme.accent} text-xs mt-1 hover:underline`}
+                  >
+                    {isExpanded ? "Weniger anzeigen" : "Mehr anzeigen..."}
+                  </button>
+                )}
+              </div>
+              {desc.showToPlayers && onShow && (
+                <button
+                  type="button"
+                  onClick={() => onShow(desc)}
+                  className={`${theme.button} px-2 py-1 rounded text-xs flex items-center gap-1 flex-shrink-0`}
+                >
+                  <Eye className="w-3 h-3" />
+                </button>
+              )}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+// Beschreibungs-Manager Komponente
+const DescriptionManager = ({
+  descriptions = [],
+  onUpdate,
+  theme,
+  onShow,
+  parentType,
+  parentName,
+}) => {
+  const [isAdding, setIsAdding] = useState(false);
+  const [editingId, setEditingId] = useState(null);
+  const [formData, setFormData] = useState({ title: "", text: "" });
+
+  const handleSave = () => {
+    if (!formData.text.trim()) {
+      alert("Beschreibungstext ist erforderlich!");
+      return;
+    }
+
+    console.log("=== DescriptionManager handleSave ===");
+    console.log("Current descriptions:", descriptions);
+    console.log("FormData:", formData);
+    console.log("Editing ID:", editingId);
+
+    if (editingId) {
+      // Bearbeiten
+      const updated = descriptions.map((d) =>
+        d.id === editingId ? { ...d, ...formData } : d,
+      );
+      console.log("Updated descriptions (edit):", updated);
+      onUpdate(updated);
+    } else {
+      // Neu hinzufügen
+      const newDesc = {
+        id: generateId(),
+        title: formData.title,
+        text: formData.text,
+        showToPlayers: false,
+        createdAt: Date.now(),
+      };
+      const updated = [...descriptions, newDesc];
+      console.log("Updated descriptions (new):", updated);
+      onUpdate(updated);
+    }
+
+    setFormData({ title: "", text: "" });
+    setIsAdding(false);
+    setEditingId(null);
+  };
+
+  const handleEdit = (desc) => {
+    setEditingId(desc.id);
+    setFormData({ title: desc.title || "", text: desc.text });
+    setIsAdding(true);
+  };
+
+  const handleDelete = (id) => {
+    if (window.confirm("Diese Beschreibung wirklich löschen?")) {
+      onUpdate(descriptions.filter((d) => d.id !== id));
+    }
+  };
+
+  const handleToggle = (id) => {
+    onUpdate(
+      descriptions.map((d) =>
+        d.id === id ? { ...d, showToPlayers: !d.showToPlayers } : d,
+      ),
+    );
+  };
+
+  const handleCancel = () => {
+    setFormData({ title: "", text: "" });
+    setIsAdding(false);
+    setEditingId(null);
+  };
+
+  console.log("=== Rendering DescriptionManager ===");
+  console.log("descriptions:", descriptions);
+
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-3">
+        <label
+          className={`${theme.text} font-semibold flex items-center gap-2`}
+        >
+          <BookOpen className="w-5 h-5" />
+          Beschreibungen ({descriptions?.length || 0})
+        </label>
+        {!isAdding && (
+          <button
+            type="button"
+            onClick={() => {
+              console.log("=== Add Description Button Clicked ===");
+              console.log("Current descriptions:", descriptions);
+              setIsAdding(true);
+            }}
+            className={`${theme.button} px-3 py-1 rounded text-sm flex items-center gap-1`}
+          >
+            <Plus className="w-4 h-4" /> Hinzufügen
+          </button>
+        )}
+      </div>
+
+      {/* Beschreibungs-Form */}
+      {isAdding && (
+        <div
+          className={`${theme.border} border rounded-lg p-3 mb-3 bg-black/20`}
+        >
+          <div className="space-y-2">
+            <input
+              type="text"
+              value={formData.title}
+              onChange={(e) =>
+                setFormData({ ...formData, title: e.target.value })
+              }
+              className={`w-full px-3 py-2 ${theme.cardBg} ${theme.border} border rounded ${theme.text} text-sm`}
+              placeholder="Überschrift (optional)"
+            />
+            <textarea
+              value={formData.text}
+              onChange={(e) =>
+                setFormData({ ...formData, text: e.target.value })
+              }
+              rows={4}
+              className={`w-full px-3 py-2 ${theme.cardBg} ${theme.border} border rounded ${theme.text} text-sm`}
+              placeholder="Beschreibungstext..."
+            />
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={handleSave}
+                className={`${theme.button} flex-1 px-3 py-2 rounded text-sm font-semibold`}
+              >
+                Speichern
+              </button>
+              <button
+                type="button"
+                onClick={handleCancel}
+                className="bg-gray-600 hover:bg-gray-700 px-3 py-2 rounded text-sm font-semibold"
+              >
+                Abbrechen
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Beschreibungsliste */}
+      {descriptions && descriptions.length > 0 ? (
+        <div className="space-y-2">
+          {descriptions.map((desc) => (
+            <div
+              key={desc.id}
+              className={`${theme.cardBg} ${theme.border} border rounded-lg p-3`}
+            >
+              <div className="flex items-start gap-2 mb-2">
+                <button
+                  type="button"
+                  onClick={() => handleToggle(desc.id)}
+                  className={`flex-shrink-0 ${desc.showToPlayers ? "text-green-400" : "text-gray-500"}`}
+                  title={
+                    desc.showToPlayers
+                      ? "Spieler dürfen diese Beschreibung sehen"
+                      : "Nur für GM sichtbar"
+                  }
+                >
+                  {desc.showToPlayers ? (
+                    <ToggleRight className="w-6 h-6" />
+                  ) : (
+                    <ToggleLeft className="w-6 h-6" />
+                  )}
+                </button>
+                <div className="flex-1 min-w-0">
+                  {desc.title && (
+                    <div className={`${theme.text} font-semibold text-sm mb-1`}>
+                      {desc.title}
+                    </div>
+                  )}
+                  <div
+                    className={`${theme.text} text-xs opacity-70 line-clamp-2`}
+                  >
+                    {desc.text}
+                  </div>
+                </div>
+              </div>
+              <div className="flex gap-2">
+                {desc.showToPlayers && onShow && (
+                  <button
+                    type="button"
+                    onClick={() => onShow(desc)}
+                    className={`${theme.button} px-3 py-1 rounded text-xs flex items-center gap-1 flex-1`}
+                  >
+                    <Eye className="w-3 h-3" /> Anzeigen
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={() => handleEdit(desc)}
+                  className={`${theme.button} px-3 py-1 rounded text-xs`}
+                >
+                  <Edit className="w-3 h-3" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleDelete(desc.id)}
+                  className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-xs"
+                >
+                  <Trash2 className="w-3 h-3" />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        !isAdding && (
+          <div className={`${theme.text} text-xs opacity-50 text-center py-3`}>
+            Noch keine Beschreibungen vorhanden. Klicke auf "+ Hinzufügen" um
+            eine neue Beschreibung zu erstellen.
+          </div>
+        )
+      )}
+    </div>
+  );
+};
 
 const LocationWithNPCs = ({ theme }) => {
   const {
@@ -44,12 +354,12 @@ const LocationWithNPCs = ({ theme }) => {
   const [editingSubLocation, setEditingSubLocation] = useState(null);
   const [subLocationFormData, setSubLocationFormData] = useState({
     name: "",
-    description: "",
+    descriptions: [],
     image: "",
   });
   const [locationFormData, setLocationFormData] = useState({
     name: "",
-    description: "",
+    descriptions: [],
     images: [""],
     sound: "",
     isCityWide: false,
@@ -57,7 +367,7 @@ const LocationWithNPCs = ({ theme }) => {
   const [npcFormData, setNpcFormData] = useState({
     name: "",
     profession: "",
-    description: "",
+    descriptions: [],
     images: [""],
     sound: "",
     isEnemy: false,
@@ -102,7 +412,7 @@ const LocationWithNPCs = ({ theme }) => {
 
   // SubLocation Functions
   const resetSubLocationForm = () => {
-    setSubLocationFormData({ name: "", description: "", image: "" });
+    setSubLocationFormData({ name: "", descriptions: [], image: "" });
     setIsAddingSubLocation(null);
     setEditingSubLocation(null);
   };
@@ -143,7 +453,7 @@ const LocationWithNPCs = ({ theme }) => {
     setEditingSubLocation(subLocation);
     setSubLocationFormData({
       name: subLocation.name,
-      description: subLocation.description || "",
+      descriptions: subLocation.descriptions || [],
       image: subLocation.image || "",
     });
     setIsAddingSubLocation(subLocation.locationId);
@@ -177,7 +487,7 @@ const LocationWithNPCs = ({ theme }) => {
   const resetLocationForm = () => {
     setLocationFormData({
       name: "",
-      description: "",
+      descriptions: [],
       images: [""],
       sound: "",
       isCityWide: false,
@@ -228,7 +538,7 @@ const LocationWithNPCs = ({ theme }) => {
     setEditingLocation(location);
     setLocationFormData({
       name: location.name,
-      description: location.description || "",
+      descriptions: location.descriptions || [],
       images:
         location.images && location.images.length > 0 ? location.images : [""],
       sound: location.sound || "",
@@ -268,12 +578,24 @@ const LocationWithNPCs = ({ theme }) => {
     }
   };
 
+  const showDescriptionToPlayers = (description, parentData, parentType) => {
+    sendToPlayerView({
+      type: "description",
+      data: {
+        description,
+        parent: parentData,
+        parentType, // 'location', 'subLocation', 'npc'
+      },
+    });
+    stopSound(); // Stoppe alle Sounds
+  };
+
   // NPC Functions
   const resetNPCForm = () => {
     setNpcFormData({
       name: "",
       profession: "",
-      description: "",
+      descriptions: [],
       images: [""],
       sound: "",
       isEnemy: false,
@@ -325,7 +647,7 @@ const LocationWithNPCs = ({ theme }) => {
     setNpcFormData({
       name: npc.name,
       profession: npc.profession,
-      description: npc.description || "",
+      descriptions: npc.descriptions || [],
       images: npc.images && npc.images.length > 0 ? npc.images : [""],
       sound: npc.sound || "",
       isEnemy: npc.isEnemy || false,
@@ -547,20 +869,27 @@ const LocationWithNPCs = ({ theme }) => {
               />
             </div>
             <div>
-              <label className={`${theme.text} block mb-2 font-semibold`}>
-                Beschreibung (für GM)
-              </label>
-              <textarea
-                value={locationFormData.description}
-                onChange={(e) =>
+              <DescriptionManager
+                descriptions={locationFormData.descriptions}
+                onUpdate={(newDescs) =>
                   setLocationFormData({
                     ...locationFormData,
-                    description: e.target.value,
+                    descriptions: newDescs,
                   })
                 }
-                rows={4}
-                className={`w-full px-4 py-3 ${theme.cardBg} ${theme.border} border rounded-lg ${theme.text} focus:outline-none focus:ring-2 focus:ring-purple-500`}
-                placeholder="Was passiert an dieser Location?"
+                onShow={
+                  editingLocation
+                    ? (desc) =>
+                        showDescriptionToPlayers(
+                          desc,
+                          editingLocation,
+                          "location",
+                        )
+                    : null
+                }
+                theme={theme}
+                parentType="location"
+                parentName={locationFormData.name}
               />
             </div>
             <div>
@@ -727,44 +1056,21 @@ const LocationWithNPCs = ({ theme }) => {
                         className="w-30 h-30 object-cover rounded-lg mb-2 items-center justify-center"
                         theme={theme}
                       />
-                      {location.description && (
-                        <div>
-                          <p
-                            className={`${theme.text} text-sm opacity-70 mb-2 ${
-                              !expandedDescriptions[`loc-${location.id}`]
-                                ? "line-clamp-2"
-                                : ""
-                            }`}
-                          >
-                            {location.description}
-                          </p>
-                          {location.description.length > 100 && (
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                toggleDescription(`loc-${location.id}`);
-                              }}
-                              className={`${theme.accent} text-xs flex items-center gap-1 hover:underline`}
-                            >
-                              {expandedDescriptions[`loc-${location.id}`] ? (
-                                <>
-                                  <ChevronUp className="w-3 h-3" /> Weniger
-                                </>
-                              ) : (
-                                <>
-                                  <ChevronDown className="w-3 h-3" /> Mehr
-                                </>
-                              )}
-                            </button>
-                          )}
-                        </div>
-                      )}
                       <div
                         className={`${theme.text} text-xs opacity-50 mt-2 mb-3`}
                       >
                         {locationNPCs.length} NPC
-                        {locationNPCs.length !== 1 ? "s" : ""}
+                        {locationNPCs.length !== 1 ? "s" : ""} •{" "}
+                        {location.descriptions?.length || 0} Beschreibung
+                        {location.descriptions?.length !== 1 ? "en" : ""}
                       </div>
+                      <DescriptionList
+                        descriptions={location.descriptions}
+                        theme={theme}
+                        onShow={(desc) =>
+                          showDescriptionToPlayers(desc, location, "location")
+                        }
+                      />
                       <div className="flex gap-2">
                         <button
                           onClick={() => {
@@ -861,22 +1167,27 @@ const LocationWithNPCs = ({ theme }) => {
                             />
                           </div>
                           <div>
-                            <label
-                              className={`${theme.text} block mb-1 text-sm font-semibold`}
-                            >
-                              Beschreibung
-                            </label>
-                            <textarea
-                              value={npcFormData.description}
-                              onChange={(e) =>
+                            <DescriptionManager
+                              descriptions={npcFormData.descriptions}
+                              onUpdate={(newDescs) =>
                                 setNpcFormData({
                                   ...npcFormData,
-                                  description: e.target.value,
+                                  descriptions: newDescs,
                                 })
                               }
-                              rows={2}
-                              className={`w-full px-3 py-2 ${theme.cardBg} ${theme.border} border rounded-lg ${theme.text} text-sm focus:outline-none focus:ring-2 focus:ring-purple-500`}
-                              placeholder="Was erfahren die Spieler?"
+                              onShow={
+                                editingNPC
+                                  ? (desc) =>
+                                      showDescriptionToPlayers(
+                                        desc,
+                                        editingNPC,
+                                        "npc",
+                                      )
+                                  : null
+                              }
+                              theme={theme}
+                              parentType="npc"
+                              parentName={npcFormData.name}
                             />
                           </div>
                           <div>
@@ -1030,6 +1341,13 @@ const LocationWithNPCs = ({ theme }) => {
                                 </p>
                               </div>
                             </div>
+                            <DescriptionList
+                              descriptions={npc.descriptions}
+                              theme={theme}
+                              onShow={(desc) =>
+                                showDescriptionToPlayers(desc, npc, "npc")
+                              }
+                            />
                             <div className="flex gap-2 mb-3">
                               <button
                                 onClick={() => {
@@ -1064,41 +1382,6 @@ const LocationWithNPCs = ({ theme }) => {
                                 <Trash2 className="w-4 h-4" />
                               </button>
                             </div>
-                            {npc.description && (
-                              <div>
-                                <p
-                                  className={`${
-                                    theme.text
-                                  } text-xs opacity-70 ${
-                                    !expandedDescriptions[`npc-${npc.id}`]
-                                      ? "line-clamp-2"
-                                      : ""
-                                  }`}
-                                >
-                                  {npc.description}
-                                </p>
-                                {npc.description.length > 80 && (
-                                  <button
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      toggleDescription(`npc-${npc.id}`);
-                                    }}
-                                    className={`${theme.accent} text-xs flex items-center gap-1 hover:underline mt-1`}
-                                  >
-                                    {expandedDescriptions[`npc-${npc.id}`] ? (
-                                      <>
-                                        <ChevronUp className="w-3 h-3" />{" "}
-                                        Weniger
-                                      </>
-                                    ) : (
-                                      <>
-                                        <ChevronDown className="w-3 h-3" /> Mehr
-                                      </>
-                                    )}
-                                  </button>
-                                )}
-                              </div>
-                            )}
                           </div>
                         ))}
                       </div>
@@ -1157,22 +1440,27 @@ const LocationWithNPCs = ({ theme }) => {
                               />
                             </div>
                             <div>
-                              <label
-                                className={`${theme.text} block mb-1 text-sm font-semibold`}
-                              >
-                                Beschreibung
-                              </label>
-                              <textarea
-                                value={subLocationFormData.description}
-                                onChange={(e) =>
+                              <DescriptionManager
+                                descriptions={subLocationFormData.descriptions}
+                                onUpdate={(newDescs) =>
                                   setSubLocationFormData({
                                     ...subLocationFormData,
-                                    description: e.target.value,
+                                    descriptions: newDescs,
                                   })
                                 }
-                                rows={2}
-                                className={`w-full px-3 py-2 ${theme.cardBg} ${theme.border} border rounded-lg ${theme.text} text-sm focus:outline-none focus:ring-2 focus:ring-purple-500`}
-                                placeholder="Was steht darin / was finden die Spieler?"
+                                onShow={
+                                  editingSubLocation
+                                    ? (desc) =>
+                                        showDescriptionToPlayers(
+                                          desc,
+                                          editingSubLocation,
+                                          "subLocation",
+                                        )
+                                    : null
+                                }
+                                theme={theme}
+                                parentType="subLocation"
+                                parentName={subLocationFormData.name}
                               />
                             </div>
                             <div>
@@ -1240,48 +1528,17 @@ const LocationWithNPCs = ({ theme }) => {
                                 >
                                   {subLoc.name}
                                 </h6>
-                                {subLoc.description && (
-                                  <div>
-                                    <p
-                                      className={`${
-                                        theme.text
-                                      } text-xs opacity-70 mb-2 ${
-                                        !expandedDescriptions[
-                                          `subloc-${subLoc.id}`
-                                        ]
-                                          ? "line-clamp-2"
-                                          : ""
-                                      }`}
-                                    >
-                                      {subLoc.description}
-                                    </p>
-                                    {subLoc.description.length > 60 && (
-                                      <button
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          toggleDescription(
-                                            `subloc-${subLoc.id}`,
-                                          );
-                                        }}
-                                        className={`${theme.accent} text-xs flex items-center gap-1 hover:underline mb-2`}
-                                      >
-                                        {expandedDescriptions[
-                                          `subloc-${subLoc.id}`
-                                        ] ? (
-                                          <>
-                                            <ChevronUp className="w-3 h-3" />{" "}
-                                            Weniger
-                                          </>
-                                        ) : (
-                                          <>
-                                            <ChevronDown className="w-3 h-3" />{" "}
-                                            Mehr
-                                          </>
-                                        )}
-                                      </button>
-                                    )}
-                                  </div>
-                                )}
+                                <DescriptionList
+                                  descriptions={subLoc.descriptions}
+                                  theme={theme}
+                                  onShow={(desc) =>
+                                    showDescriptionToPlayers(
+                                      desc,
+                                      subLoc,
+                                      "subLocation",
+                                    )
+                                  }
+                                />
                                 <div className="flex gap-2 mt-2">
                                   <button
                                     onClick={() =>
@@ -1351,6 +1608,17 @@ const LocationWithNPCs = ({ theme }) => {
                                                 </div>
                                               </div>
                                             </div>
+                                            <DescriptionList
+                                              descriptions={npc.descriptions}
+                                              theme={theme}
+                                              onShow={(desc) =>
+                                                showDescriptionToPlayers(
+                                                  desc,
+                                                  npc,
+                                                  "npc",
+                                                )
+                                              }
+                                            />
                                             <div className="flex gap-1 mb-2">
                                               <button
                                                 onClick={() => {
@@ -1378,49 +1646,6 @@ const LocationWithNPCs = ({ theme }) => {
                                                 <Trash2 className="w-3 h-3" />
                                               </button>
                                             </div>
-                                            {npc.description && (
-                                              <div>
-                                                <p
-                                                  className={`${
-                                                    theme.text
-                                                  } text-xs opacity-70 ${
-                                                    !expandedDescriptions[
-                                                      `npc-subloc-${npc.id}`
-                                                    ]
-                                                      ? "line-clamp-2"
-                                                      : ""
-                                                  }`}
-                                                >
-                                                  {npc.description}
-                                                </p>
-                                                {npc.description.length >
-                                                  80 && (
-                                                  <button
-                                                    onClick={(e) => {
-                                                      e.stopPropagation();
-                                                      toggleDescription(
-                                                        `npc-subloc-${npc.id}`,
-                                                      );
-                                                    }}
-                                                    className={`${theme.accent} text-xs flex items-center gap-1 hover:underline mt-1`}
-                                                  >
-                                                    {expandedDescriptions[
-                                                      `npc-subloc-${npc.id}`
-                                                    ] ? (
-                                                      <>
-                                                        <ChevronUp className="w-3 h-3" />{" "}
-                                                        Weniger
-                                                      </>
-                                                    ) : (
-                                                      <>
-                                                        <ChevronDown className="w-3 h-3" />{" "}
-                                                        Mehr
-                                                      </>
-                                                    )}
-                                                  </button>
-                                                )}
-                                              </div>
-                                            )}
                                           </div>
                                         ),
                                       )}
@@ -1482,17 +1707,27 @@ const LocationWithNPCs = ({ theme }) => {
                                         }
                                         className={`w-full px-2 py-1 ${theme.cardBg} ${theme.border} border rounded ${theme.text} text-xs`}
                                       />
-                                      <textarea
-                                        placeholder="Beschreibung"
-                                        value={npcFormData.description}
-                                        onChange={(e) =>
+                                      <DescriptionManager
+                                        descriptions={npcFormData.descriptions}
+                                        onUpdate={(newDescs) =>
                                           setNpcFormData({
                                             ...npcFormData,
-                                            description: e.target.value,
+                                            descriptions: newDescs,
                                           })
                                         }
-                                        rows="2"
-                                        className={`w-full px-2 py-1 ${theme.cardBg} ${theme.border} border rounded ${theme.text} text-xs`}
+                                        onShow={
+                                          editingNPC
+                                            ? (desc) =>
+                                                showDescriptionToPlayers(
+                                                  desc,
+                                                  editingNPC,
+                                                  "npc",
+                                                )
+                                            : null
+                                        }
+                                        theme={theme}
+                                        parentType="npc"
+                                        parentName={npcFormData.name}
                                       />
                                       <input
                                         type="text"

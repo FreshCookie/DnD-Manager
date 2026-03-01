@@ -43,8 +43,17 @@ export const DataProvider = ({ children }) => {
         const data = await response.json();
         setCities(data.cities || []);
         setStories(data.stories || []);
-        setNpcs(data.npcs || []);
-        setLocations(data.locations || []);
+
+        const migratedNpcs = migrateDescriptions(data.npcs || []);
+        const migratedLocations = migrateDescriptions(data.locations || []);
+        const migratedSubLocations = migrateDescriptions(
+          data.subLocations || [],
+        );
+
+        setNpcs(migratedNpcs);
+        setLocations(migratedLocations);
+        setSubLocations(migratedSubLocations);
+
         setItems(data.items || []);
         setIntros(data.intros || []);
         setTheme(data.theme || "dark");
@@ -52,8 +61,11 @@ export const DataProvider = ({ children }) => {
         setPlayers(data.players || []);
         setCompanions(data.companions || []);
         setActivePlayers(data.activePlayers || []);
-        setSubLocations(data.subLocations || []);
-        console.log("✅ Daten erfolgreich vom Server geladen");
+
+        console.log("✅ Daten erfolgreich vom Server geladen und migriert");
+        console.log("Migrierte NPCs:", migratedNpcs.length);
+        console.log("Migrierte Locations:", migratedLocations.length);
+        console.log("Migrierte SubLocations:", migratedSubLocations.length);
       } else {
         // Server antwortet mit Fehler → Fallback auf LocalStorage
         console.warn("⚠️ Server-Fehler, lade aus LocalStorage");
@@ -68,14 +80,62 @@ export const DataProvider = ({ children }) => {
     }
   };
 
+  // Migration: Konvertiere alte single description zu descriptions Array
+  const migrateDescriptions = (items) => {
+    if (!items || !Array.isArray(items)) return [];
+
+    return items.map((item) => {
+      // Wenn descriptions Array bereits existiert
+      if (item.descriptions && Array.isArray(item.descriptions)) {
+        // Entferne alte description falls vorhanden
+        const { description, ...rest } = item;
+        return rest;
+      }
+
+      // Wenn alte description vorhanden - migriere zu descriptions Array
+      if (
+        item.description &&
+        typeof item.description === "string" &&
+        item.description.trim()
+      ) {
+        const { description, ...rest } = item;
+        return {
+          ...rest,
+          descriptions: [
+            {
+              id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+              title: "",
+              text: description,
+              showToPlayers: false, // GM-Notiz per default
+              createdAt: Date.now(),
+            },
+          ],
+        };
+      }
+
+      // Keine description vorhanden - initialisiere leeres Array
+      const { description, ...rest } = item;
+      return { ...rest, descriptions: [] };
+    });
+  };
+
   const loadFromLocalStorage = () => {
     const savedData = localStorage.getItem("dnd-session-data");
     if (savedData) {
       const parsed = JSON.parse(savedData);
       setCities(parsed.cities || []);
       setStories(parsed.stories || []);
-      setNpcs(parsed.npcs || []);
-      setLocations(parsed.locations || []);
+
+      const migratedNpcs = migrateDescriptions(parsed.npcs || []);
+      const migratedLocations = migrateDescriptions(parsed.locations || []);
+      const migratedSubLocations = migrateDescriptions(
+        parsed.subLocations || [],
+      );
+
+      setNpcs(migratedNpcs);
+      setLocations(migratedLocations);
+      setSubLocations(migratedSubLocations);
+
       setItems(parsed.items || []);
       setIntros(parsed.intros || []);
       setTheme(parsed.theme || "dark");
@@ -83,8 +143,11 @@ export const DataProvider = ({ children }) => {
       setPlayers(parsed.players || []);
       setCompanions(parsed.companions || []);
       setActivePlayers(parsed.activePlayers || []);
-      setSubLocations(parsed.subLocations || []);
-      console.log("📦 Daten aus LocalStorage geladen");
+
+      console.log("📦 Daten aus LocalStorage geladen und migriert");
+      console.log("Migrierte NPCs:", migratedNpcs.length);
+      console.log("Migrierte Locations:", migratedLocations.length);
+      console.log("Migrierte SubLocations:", migratedSubLocations.length);
     }
   };
 
@@ -93,18 +156,20 @@ export const DataProvider = ({ children }) => {
     if (!isLoaded || isSaving) return;
 
     setIsSaving(true);
+
+    // Migriere Daten vor dem Speichern (falls noch alte description Felder vorhanden)
     const dataToSave = {
       cities,
       stories,
-      npcs,
-      locations,
+      npcs: migrateDescriptions(npcs),
+      locations: migrateDescriptions(locations),
       items,
       intros,
       sessionTimes,
       players,
       companions,
       activePlayers,
-      subLocations,
+      subLocations: migrateDescriptions(subLocations),
       theme,
     };
 
