@@ -350,12 +350,15 @@ const LocationWithNPCs = ({ theme }) => {
   const [expandedLocations, setExpandedLocations] = useState({});
   const [expandedDescriptions, setExpandedDescriptions] = useState({});
   const [locationFilter, setLocationFilter] = useState("all");
+  const [columnsCount, setColumnsCount] = useState(2); // 1, 2, or 3 columns
+  const [innerColumnsCount, setInnerColumnsCount] = useState(2); // Columns for NPCs/SubLocations
   const [isAddingSubLocation, setIsAddingSubLocation] = useState(null); // locationId
   const [editingSubLocation, setEditingSubLocation] = useState(null);
   const [subLocationFormData, setSubLocationFormData] = useState({
     name: "",
     descriptions: [],
     image: "",
+    priority: 0,
   });
   const [locationFormData, setLocationFormData] = useState({
     name: "",
@@ -363,6 +366,7 @@ const LocationWithNPCs = ({ theme }) => {
     images: [""],
     sound: "",
     isCityWide: false,
+    priority: 0,
   });
   const [npcFormData, setNpcFormData] = useState({
     name: "",
@@ -371,16 +375,19 @@ const LocationWithNPCs = ({ theme }) => {
     images: [""],
     sound: "",
     isEnemy: false,
+    priority: 0,
   });
   const locationImageRefs = useRef({});
   const npcImageRefs = useRef({});
 
   // Stadt-weite Locations + Story-spezifische Locations
-  const storyLocations = locations.filter(
-    (l) =>
-      l.storyId === selectedStory?.id ||
-      (l.cityId === selectedCity?.id && !l.storyId),
-  );
+  const storyLocations = locations
+    .filter(
+      (l) =>
+        l.storyId === selectedStory?.id ||
+        (l.cityId === selectedCity?.id && !l.storyId),
+    )
+    .sort((a, b) => (a.priority || 999) - (b.priority || 999));
 
   // Separate Listen für Filter
   const cityWideLocations = locations.filter(
@@ -405,14 +412,21 @@ const LocationWithNPCs = ({ theme }) => {
   };
 
   const getNPCsForLocation = (locationId) => {
-    return npcs.filter(
-      (n) => n.locationId === locationId && n.storyId === selectedStory?.id,
-    );
+    return npcs
+      .filter(
+        (n) => n.locationId === locationId && n.storyId === selectedStory?.id,
+      )
+      .sort((a, b) => (a.priority || 999) - (b.priority || 999));
   };
 
   // SubLocation Functions
   const resetSubLocationForm = () => {
-    setSubLocationFormData({ name: "", descriptions: [], image: "" });
+    setSubLocationFormData({
+      name: "",
+      descriptions: [],
+      image: "",
+      priority: 0,
+    });
     setIsAddingSubLocation(null);
     setEditingSubLocation(null);
   };
@@ -423,19 +437,39 @@ const LocationWithNPCs = ({ theme }) => {
       return;
     }
 
+    // Filter subLocations to only this location
+    const locationSubLocations = subLocations.filter(
+      (sl) => sl.locationId === locationId,
+    );
+
+    // Check priority and shift if needed
+    const shiftedSubLocations = checkAndShiftPriority(
+      locationSubLocations,
+      subLocationFormData.priority,
+      editingSubLocation?.id,
+    );
+
+    if (shiftedSubLocations === null) {
+      // User cancelled
+      return;
+    }
+
+    // Merge shifted subLocations back
+    const otherSubLocations = subLocations.filter(
+      (sl) => sl.locationId !== locationId,
+    );
+
     if (editingSubLocation) {
-      setSubLocations(
-        subLocations.map((sl) =>
-          sl.id === editingSubLocation.id
-            ? {
-                ...subLocationFormData,
-                id: editingSubLocation.id,
-                locationId,
-                storyId: selectedStory.id,
-              }
-            : sl,
-        ),
+      const updatedSubLocation = {
+        ...subLocationFormData,
+        id: editingSubLocation.id,
+        locationId,
+        storyId: selectedStory.id,
+      };
+      const updatedLocationSubLocations = shiftedSubLocations.map((sl) =>
+        sl.id === editingSubLocation.id ? updatedSubLocation : sl,
       );
+      setSubLocations([...otherSubLocations, ...updatedLocationSubLocations]);
     } else {
       const newSubLocation = {
         ...subLocationFormData,
@@ -444,7 +478,11 @@ const LocationWithNPCs = ({ theme }) => {
         storyId: selectedStory.id,
         createdAt: Date.now(),
       };
-      setSubLocations([...subLocations, newSubLocation]);
+      setSubLocations([
+        ...otherSubLocations,
+        ...shiftedSubLocations,
+        newSubLocation,
+      ]);
     }
     resetSubLocationForm();
   };
@@ -455,6 +493,7 @@ const LocationWithNPCs = ({ theme }) => {
       name: subLocation.name,
       descriptions: subLocation.descriptions || [],
       image: subLocation.image || "",
+      priority: subLocation.priority || 0,
     });
     setIsAddingSubLocation(subLocation.locationId);
   };
@@ -473,14 +512,18 @@ const LocationWithNPCs = ({ theme }) => {
   };
 
   const getSubLocationsForLocation = (locationId) => {
-    return subLocations.filter((sl) => sl.locationId === locationId);
+    return subLocations
+      .filter((sl) => sl.locationId === locationId)
+      .sort((a, b) => (a.priority || 999) - (b.priority || 999));
   };
 
   const getNPCsForSubLocation = (subLocationId) => {
-    return npcs.filter(
-      (n) =>
-        n.subLocationId === subLocationId && n.storyId === selectedStory?.id,
-    );
+    return npcs
+      .filter(
+        (n) =>
+          n.subLocationId === subLocationId && n.storyId === selectedStory?.id,
+      )
+      .sort((a, b) => (a.priority || 999) - (b.priority || 999));
   };
 
   // Location Functions
@@ -491,9 +534,41 @@ const LocationWithNPCs = ({ theme }) => {
       images: [""],
       sound: "",
       isCityWide: false,
+      priority: 0,
     });
     setIsAddingLocation(false);
     setEditingLocation(null);
+  };
+
+  // Helper function: Check priority duplicate and shift if needed
+  const checkAndShiftPriority = (items, newPriority, currentItemId = null) => {
+    // Priority 0 means "no priority" - goes to end, no check needed
+    if (!newPriority || newPriority === 0) return items;
+
+    // Check if another item has this priority (excluding current item when editing)
+    const conflictItem = items.find(
+      (item) => item.priority === newPriority && item.id !== currentItemId,
+    );
+
+    if (conflictItem) {
+      // Ask user if they want to shift
+      const confirmed = window.confirm(
+        `Du hast bereits eine Karte mit Priorität ${newPriority}.\nSoll diese Karte jetzt Priorität ${newPriority} werden?\n\nBei "OK" werden alle Karten ab Prio ${newPriority} um +1 verschoben.\nBei "Abbrechen" kannst du eine andere Priorität wählen.`,
+      );
+
+      if (!confirmed) {
+        return null; // User cancelled
+      }
+
+      // Shift all items with priority >= newPriority by +1
+      return items.map((item) =>
+        item.priority >= newPriority && item.id !== currentItemId
+          ? { ...item, priority: (item.priority || 0) + 1 }
+          : item,
+      );
+    }
+
+    return items; // No conflict
   };
 
   const handleSaveLocation = () => {
@@ -502,24 +577,50 @@ const LocationWithNPCs = ({ theme }) => {
       return;
     }
 
+    // Filter locations to only same context (story or city-wide)
+    const contextLocations = locations.filter((l) => {
+      const isSameContext = locationFormData.isCityWide
+        ? l.cityId === selectedCity?.id && !l.storyId
+        : l.storyId === selectedStory?.id;
+      return isSameContext;
+    });
+
+    // Check priority and shift if needed
+    const shiftedContextLocations = checkAndShiftPriority(
+      contextLocations,
+      locationFormData.priority,
+      editingLocation?.id,
+    );
+
+    if (shiftedContextLocations === null) {
+      // User cancelled
+      return;
+    }
+
     const cleanImages = locationFormData.images.filter(
       (img) => img.trim() !== "",
     );
 
+    // Merge shifted locations back into all locations
+    const otherLocations = locations.filter((l) => {
+      const isSameContext = locationFormData.isCityWide
+        ? l.cityId === selectedCity?.id && !l.storyId
+        : l.storyId === selectedStory?.id;
+      return !isSameContext;
+    });
+
     if (editingLocation) {
-      setLocations(
-        locations.map((l) =>
-          l.id === editingLocation.id
-            ? {
-                ...locationFormData,
-                images: cleanImages,
-                id: editingLocation.id,
-                storyId: locationFormData.isCityWide ? null : selectedStory.id,
-                cityId: locationFormData.isCityWide ? selectedCity.id : null,
-              }
-            : l,
-        ),
+      const updatedLocation = {
+        ...locationFormData,
+        images: cleanImages,
+        id: editingLocation.id,
+        storyId: locationFormData.isCityWide ? null : selectedStory.id,
+        cityId: locationFormData.isCityWide ? selectedCity.id : null,
+      };
+      const updatedContextLocations = shiftedContextLocations.map((l) =>
+        l.id === editingLocation.id ? updatedLocation : l,
       );
+      setLocations([...otherLocations, ...updatedContextLocations]);
     } else {
       const newLocation = {
         ...locationFormData,
@@ -529,7 +630,11 @@ const LocationWithNPCs = ({ theme }) => {
         cityId: locationFormData.isCityWide ? selectedCity.id : null,
         createdAt: Date.now(),
       };
-      setLocations([...locations, newLocation]);
+      setLocations([
+        ...otherLocations,
+        ...shiftedContextLocations,
+        newLocation,
+      ]);
     }
     resetLocationForm();
   };
@@ -543,6 +648,7 @@ const LocationWithNPCs = ({ theme }) => {
         location.images && location.images.length > 0 ? location.images : [""],
       sound: location.sound || "",
       isCityWide: location.cityId ? true : false,
+      priority: location.priority || 0,
     });
     setIsAddingLocation(true);
   };
@@ -599,6 +705,7 @@ const LocationWithNPCs = ({ theme }) => {
       images: [""],
       sound: "",
       isEnemy: false,
+      priority: 0,
     });
     setIsAddingNPC(null);
     setEditingNPC(null);
@@ -610,23 +717,51 @@ const LocationWithNPCs = ({ theme }) => {
       return;
     }
 
+    // Filter NPCs to only thiscontext (location or subLocation)
+    const contextNPCs = npcs.filter((n) => {
+      if (subLocationId) {
+        return n.subLocationId === subLocationId;
+      } else {
+        return n.locationId === locationId && !n.subLocationId;
+      }
+    });
+
+    // Check priority and shift if needed
+    const shiftedNPCs = checkAndShiftPriority(
+      contextNPCs,
+      npcFormData.priority,
+      editingNPC?.id,
+    );
+
+    if (shiftedNPCs === null) {
+      // User cancelled
+      return;
+    }
+
     const cleanImages = npcFormData.images.filter((img) => img.trim() !== "");
 
+    // Merge shifted NPCs back
+    const otherNPCs = npcs.filter((n) => {
+      if (subLocationId) {
+        return n.subLocationId !== subLocationId;
+      } else {
+        return !(n.locationId === locationId && !n.subLocationId);
+      }
+    });
+
     if (editingNPC) {
-      setNpcs(
-        npcs.map((n) =>
-          n.id === editingNPC.id
-            ? {
-                ...npcFormData,
-                images: cleanImages,
-                id: editingNPC.id,
-                storyId: selectedStory.id,
-                locationId: subLocationId ? null : locationId,
-                subLocationId: subLocationId || null,
-              }
-            : n,
-        ),
+      const updatedNPC = {
+        ...npcFormData,
+        images: cleanImages,
+        id: editingNPC.id,
+        storyId: selectedStory.id,
+        locationId: subLocationId ? null : locationId,
+        subLocationId: subLocationId || null,
+      };
+      const updatedContextNPCs = shiftedNPCs.map((n) =>
+        n.id === editingNPC.id ? updatedNPC : n,
       );
+      setNpcs([...otherNPCs, ...updatedContextNPCs]);
     } else {
       const newNPC = {
         ...npcFormData,
@@ -637,7 +772,7 @@ const LocationWithNPCs = ({ theme }) => {
         subLocationId: subLocationId || null,
         createdAt: Date.now(),
       };
-      setNpcs([...npcs, newNPC]);
+      setNpcs([...otherNPCs, ...shiftedNPCs, newNPC]);
     }
     resetNPCForm();
   };
@@ -651,6 +786,7 @@ const LocationWithNPCs = ({ theme }) => {
       images: npc.images && npc.images.length > 0 ? npc.images : [""],
       sound: npc.sound || "",
       isEnemy: npc.isEnemy || false,
+      priority: npc.priority || 0,
     });
     if (npc.subLocationId) {
       setIsAddingNPCToSubLocation(npc.subLocationId);
@@ -821,6 +957,87 @@ const LocationWithNPCs = ({ theme }) => {
         </button>
       </div>
 
+      {/* Column Layout Buttons */}
+      <div className="flex flex-wrap gap-4 mb-4">
+        {/* Location Columns */}
+        <div className="flex flex-wrap gap-2">
+          <span
+            className={`${theme.text} opacity-70 text-sm flex items-center mr-2`}
+          >
+            Locations:
+          </span>
+          <button
+            onClick={() => setColumnsCount(1)}
+            className={`px-3 py-1.5 rounded-lg font-semibold transition-all text-sm ${
+              columnsCount === 1
+                ? theme.button
+                : `${theme.cardBg} ${theme.border} border ${theme.text} opacity-70`
+            }`}
+          >
+            1
+          </button>
+          <button
+            onClick={() => setColumnsCount(2)}
+            className={`px-3 py-1.5 rounded-lg font-semibold transition-all text-sm ${
+              columnsCount === 2
+                ? theme.button
+                : `${theme.cardBg} ${theme.border} border ${theme.text} opacity-70`
+            }`}
+          >
+            2
+          </button>
+          <button
+            onClick={() => setColumnsCount(3)}
+            className={`px-3 py-1.5 rounded-lg font-semibold transition-all text-sm ${
+              columnsCount === 3
+                ? theme.button
+                : `${theme.cardBg} ${theme.border} border ${theme.text} opacity-70`
+            }`}
+          >
+            3
+          </button>
+        </div>
+
+        {/* NPCs/SubLocations Columns */}
+        <div className="flex flex-wrap gap-2">
+          <span
+            className={`${theme.text} opacity-70 text-sm flex items-center mr-2`}
+          >
+            NPCs/Objekte:
+          </span>
+          <button
+            onClick={() => setInnerColumnsCount(1)}
+            className={`px-3 py-1.5 rounded-lg font-semibold transition-all text-sm ${
+              innerColumnsCount === 1
+                ? theme.button
+                : `${theme.cardBg} ${theme.border} border ${theme.text} opacity-70`
+            }`}
+          >
+            1
+          </button>
+          <button
+            onClick={() => setInnerColumnsCount(2)}
+            className={`px-3 py-1.5 rounded-lg font-semibold transition-all text-sm ${
+              innerColumnsCount === 2
+                ? theme.button
+                : `${theme.cardBg} ${theme.border} border ${theme.text} opacity-70`
+            }`}
+          >
+            2
+          </button>
+          <button
+            onClick={() => setInnerColumnsCount(3)}
+            className={`px-3 py-1.5 rounded-lg font-semibold transition-all text-sm ${
+              innerColumnsCount === 3
+                ? theme.button
+                : `${theme.cardBg} ${theme.border} border ${theme.text} opacity-70`
+            }`}
+          >
+            3
+          </button>
+        </div>
+      </div>
+
       {/* Aktuell angezeigt */}
       {(currentLocation || currentNPC) && (
         <div
@@ -866,6 +1083,24 @@ const LocationWithNPCs = ({ theme }) => {
                 }
                 className={`w-full px-4 py-3 ${theme.cardBg} ${theme.border} border rounded-lg ${theme.text} focus:outline-none focus:ring-2 focus:ring-purple-500`}
                 placeholder="z.B. Die verfluchte Taverne"
+              />
+            </div>
+            <div>
+              <label className={`${theme.text} block mb-2 font-semibold`}>
+                Priorität (kleinere Zahl = weiter oben)
+              </label>
+              <input
+                type="number"
+                value={locationFormData.priority}
+                onChange={(e) =>
+                  setLocationFormData({
+                    ...locationFormData,
+                    priority: parseInt(e.target.value) || 0,
+                  })
+                }
+                className={`w-full px-4 py-3 ${theme.cardBg} ${theme.border} border rounded-lg ${theme.text} focus:outline-none focus:ring-2 focus:ring-purple-500`}
+                placeholder="z.B. 1, 2, 3..."
+                min="0"
               />
             </div>
             <div>
@@ -1009,7 +1244,15 @@ const LocationWithNPCs = ({ theme }) => {
       )}
 
       {/* Locations List */}
-      <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-4 md:gap-6 w-full">
+      <div
+        className={`grid gap-4 md:gap-6 w-full ${
+          columnsCount === 1
+            ? "grid-cols-1"
+            : columnsCount === 2
+              ? "grid-cols-1 md:grid-cols-2"
+              : "grid-cols-1 md:grid-cols-2 2xl:grid-cols-3"
+        }`}
+      >
         {storyLocations
           .filter((location) => {
             if (locationFilter === "all") return true;
@@ -1167,6 +1410,26 @@ const LocationWithNPCs = ({ theme }) => {
                             />
                           </div>
                           <div>
+                            <label
+                              className={`${theme.text} block mb-1 text-sm font-semibold`}
+                            >
+                              Priorität (kleinere Zahl = weiter oben)
+                            </label>
+                            <input
+                              type="number"
+                              value={npcFormData.priority}
+                              onChange={(e) =>
+                                setNpcFormData({
+                                  ...npcFormData,
+                                  priority: parseInt(e.target.value) || 0,
+                                })
+                              }
+                              className={`w-full px-3 py-2 ${theme.cardBg} ${theme.border} border rounded-lg ${theme.text} text-sm focus:outline-none focus:ring-2 focus:ring-purple-500`}
+                              placeholder="z.B. 1, 2, 3..."
+                              min="0"
+                            />
+                          </div>
+                          <div>
                             <DescriptionManager
                               descriptions={npcFormData.descriptions}
                               onUpdate={(newDescs) =>
@@ -1311,7 +1574,15 @@ const LocationWithNPCs = ({ theme }) => {
 
                     {/* NPCs List */}
                     {locationNPCs.length > 0 ? (
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <div
+                        className={`grid gap-3 ${
+                          innerColumnsCount === 1
+                            ? "grid-cols-1"
+                            : innerColumnsCount === 2
+                              ? "grid-cols-1 md:grid-cols-2"
+                              : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+                        }`}
+                      >
                         {locationNPCs.map((npc) => (
                           <div
                             key={npc.id}
@@ -1440,6 +1711,26 @@ const LocationWithNPCs = ({ theme }) => {
                               />
                             </div>
                             <div>
+                              <label
+                                className={`${theme.text} block mb-1 text-sm font-semibold`}
+                              >
+                                Priorität (kleinere Zahl = weiter oben)
+                              </label>
+                              <input
+                                type="number"
+                                value={subLocationFormData.priority}
+                                onChange={(e) =>
+                                  setSubLocationFormData({
+                                    ...subLocationFormData,
+                                    priority: parseInt(e.target.value) || 0,
+                                  })
+                                }
+                                className={`w-full px-3 py-2 ${theme.cardBg} ${theme.border} border rounded-lg ${theme.text} text-sm focus:outline-none focus:ring-2 focus:ring-purple-500`}
+                                placeholder="z.B. 1, 2, 3..."
+                                min="0"
+                              />
+                            </div>
+                            <div>
                               <DescriptionManager
                                 descriptions={subLocationFormData.descriptions}
                                 onUpdate={(newDescs) =>
@@ -1506,7 +1797,15 @@ const LocationWithNPCs = ({ theme }) => {
 
                       {/* SubLocations List */}
                       {getSubLocationsForLocation(location.id).length > 0 ? (
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div
+                          className={`grid gap-3 ${
+                            innerColumnsCount === 1
+                              ? "grid-cols-1"
+                              : innerColumnsCount === 2
+                                ? "grid-cols-1 md:grid-cols-2"
+                                : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+                          }`}
+                        >
                           {getSubLocationsForLocation(location.id).map(
                             (subLoc) => (
                               <div

@@ -37,23 +37,31 @@ export const DataProvider = ({ children }) => {
 
   // Lade Daten vom Server
   const loadData = async () => {
+    console.time("⏱️ Gesamte Ladezeit");
     try {
+      console.time("⏱️ Fetch Request");
       const response = await fetch(`${API_BASE_URL}/api/data`);
-      if (response.ok) {
-        const data = await response.json();
-        setCities(data.cities || []);
-        setStories(data.stories || []);
+      console.timeEnd("⏱️ Fetch Request");
 
+      if (response.ok) {
+        console.time("⏱️ JSON Parse");
+        const data = await response.json();
+        console.timeEnd("⏱️ JSON Parse");
+
+        console.time("⏱️ Migration");
         const migratedNpcs = migrateDescriptions(data.npcs || []);
         const migratedLocations = migrateDescriptions(data.locations || []);
         const migratedSubLocations = migrateDescriptions(
           data.subLocations || [],
         );
+        console.timeEnd("⏱️ Migration");
 
+        console.time("⏱️ Set States");
+        setCities(data.cities || []);
+        setStories(data.stories || []);
         setNpcs(migratedNpcs);
         setLocations(migratedLocations);
         setSubLocations(migratedSubLocations);
-
         setItems(data.items || []);
         setIntros(data.intros || []);
         setTheme(data.theme || "dark");
@@ -61,6 +69,7 @@ export const DataProvider = ({ children }) => {
         setPlayers(data.players || []);
         setCompanions(data.companions || []);
         setActivePlayers(data.activePlayers || []);
+        console.timeEnd("⏱️ Set States");
 
         console.log("✅ Daten erfolgreich vom Server geladen und migriert");
         console.log("Migrierte NPCs:", migratedNpcs.length);
@@ -76,6 +85,7 @@ export const DataProvider = ({ children }) => {
       console.error("❌ Netzwerkfehler beim Laden der Daten:", error);
       loadFromLocalStorage();
     } finally {
+      console.timeEnd("⏱️ Gesamte Ladezeit");
       setIsLoaded(true);
     }
   };
@@ -233,6 +243,26 @@ export const DataProvider = ({ children }) => {
   // BroadcastChannel für Player View
   const broadcast = new BroadcastChannel("dnd-session");
 
+  // Empfange Error-Messages von PlayerView
+  useEffect(() => {
+    const handlePlayerViewError = (event) => {
+      if (
+        event.data?.type === "error" &&
+        event.data?.error === "image_load_failed"
+      ) {
+        alert(
+          `Leider ist beim Anzeigen auf der Player View schief gelaufen.\n\nBild: ${event.data.item}\nPfad: ${event.data.image}`,
+        );
+      }
+    };
+
+    broadcast.onmessage = handlePlayerViewError;
+
+    return () => {
+      broadcast.onmessage = null;
+    };
+  }, []);
+
   const sendToPlayerView = (data) => {
     broadcast.postMessage(data);
 
@@ -308,6 +338,7 @@ export const DataProvider = ({ children }) => {
     subLocations,
     setSubLocations,
     isSaving,
+    isLoaded,
   };
 
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;

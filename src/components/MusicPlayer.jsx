@@ -35,7 +35,7 @@ const MusicPlayer = ({ theme }) => {
     }
   }, [volume, isMuted]);
 
-  // Preload Audio Funktion
+  // Preload Audio Funktion - Nutzt Browser Cache wenn möglich
   const preloadAudio = (file) => {
     return new Promise((resolve) => {
       const audio = new Audio();
@@ -44,6 +44,7 @@ const MusicPlayer = ({ theme }) => {
       const onCanPlayThrough = () => {
         audio.removeEventListener("canplaythrough", onCanPlayThrough);
         audio.removeEventListener("error", onError);
+        audio.removeEventListener("loadstart", onLoadStart);
         preloadedAudios.current[file] = audio;
         setLoadedTracks((prev) => new Set([...prev, file]));
         resolve(true);
@@ -52,37 +53,52 @@ const MusicPlayer = ({ theme }) => {
       const onError = () => {
         audio.removeEventListener("canplaythrough", onCanPlayThrough);
         audio.removeEventListener("error", onError);
+        audio.removeEventListener("loadstart", onLoadStart);
         console.log(`Fehler beim Preloaden von ${file}`);
         resolve(false);
       };
 
+      // Wenn Audio aus Cache kommt, ist readyState sofort hoch
+      const onLoadStart = () => {
+        if (audio.readyState >= 3) {
+          // HAVE_FUTURE_DATA oder besser
+          onCanPlayThrough();
+        }
+      };
+
       audio.addEventListener("canplaythrough", onCanPlayThrough);
       audio.addEventListener("error", onError);
+      audio.addEventListener("loadstart", onLoadStart);
       audio.src = file;
       audio.load();
+
+      // Sofortiger Check für Cache-Treffer
+      setTimeout(() => {
+        if (audio.readyState >= 3) {
+          onCanPlayThrough();
+        }
+      }, 50);
     });
   };
 
-  // Starte Preloading beim Mount - Ambient zuerst, dann Rest
+  // Starte Preloading beim Mount - Parallel statt sequentiell!
   useEffect(() => {
     const loadAllTracks = async () => {
-      // 1. Erst alle Ambient-Sounds laden (wichtigste Kategorie)
-      console.log("🎵 Starte Preloading: Ambient Sounds...");
-      for (const track of playlists.ambient) {
-        await preloadAudio(track.file);
-      }
-
-      // 2. Dann die anderen Kategorien
-      console.log("🎵 Preloading: Weitere Kategorien...");
-      const otherCategories = Object.keys(playlists).filter(
-        (cat) => cat !== "ambient",
+      console.log(
+        "🎵 Starte schnelles Audio-Check (nutzt PreloadScreen Cache)...",
       );
-      for (const category of otherCategories) {
-        for (const track of playlists[category]) {
-          await preloadAudio(track.file);
-        }
-      }
-      console.log("✅ Alle Audios vorgeladen!");
+
+      // Alle Tracks sammeln
+      const allTracks = [];
+      Object.values(playlists).forEach((categoryTracks) => {
+        allTracks.push(...categoryTracks);
+      });
+
+      // Parallel laden (nutzt Cache vom PreloadScreen!)
+      const loadPromises = allTracks.map((track) => preloadAudio(track.file));
+      await Promise.all(loadPromises);
+
+      console.log("✅ Alle Audios bereit!");
     };
 
     loadAllTracks();

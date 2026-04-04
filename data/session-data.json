@@ -3,7 +3,8 @@
     {
       "id": "1762975693689-97lnjx5tu",
       "name": "Nexarion",
-      "createdAt": 1762975693689
+      "createdAt": 1762975693689,
+      "image": "/images/Nexarion/Nexarion.jpg"
     },
     {
       "id": "1763041424429-4npzmnmqo",
@@ -90,17 +91,6 @@
       "id": "1763041578827-nscg8bc33",
       "cityId": "1763041424429-4npzmnmqo",
       "createdAt": 1763041578827
-    },
-    {
-      "title": "Test Story",
-      "description": "",
-      "status": "wip",
-      "completionTime": 0,
-      "creator": "Kevin",
-      "image": "",
-      "id": "1772314089281-quq1rick9",
-      "cityId": "1762975693689-97lnjx5tu",
-      "createdAt": 1772314089282
     }
   ],
   "npcs": [
@@ -840,20 +830,6 @@
       ]
     },
     {
-      "name": "Abendlaternen auf dem Kanal",
-      "profession": "Tradition",
-      "images": [
-        "/images/Nexarion/Tabaxi/locations/Abendlaternen.jpeg"
-      ],
-      "sound": "",
-      "isEnemy": false,
-      "id": "1772194612441-jvy32xgnd",
-      "storyId": "1763038020231-hfgfxm2x9",
-      "locationId": null,
-      "subLocationId": "1772194575020-a58g4nl05",
-      "descriptions": []
-    },
-    {
       "name": "Oru",
       "profession": "Alter Wassermechaniker",
       "images": [
@@ -1218,94 +1194,6 @@
       "descriptions": []
     },
     {
-      "name": "Brenne",
-      "profession": "Feuertänzerin",
-      "images": [
-        "/images/Nexarion/Tabaxi/npcs/Brenne.jpeg"
-      ],
-      "sound": "",
-      "isEnemy": false,
-      "id": "1772201688495-p21tx9jpw",
-      "storyId": "1763038020231-hfgfxm2x9",
-      "locationId": null,
-      "subLocationId": "1772201642790-ul90s2jcc",
-      "descriptions": [
-        {
-          "id": "1772360060436-2sxarecfy",
-          "title": "",
-          "text": "Macht wieder ihre Feuertänze",
-          "showToPlayers": false,
-          "createdAt": 1772360060436
-        }
-      ]
-    },
-    {
-      "name": "Oru",
-      "profession": "Alter Wassermechaniker",
-      "images": [
-        "/images/Nexarion/Tabaxi/npcs/Oru.jpeg"
-      ],
-      "sound": "",
-      "isEnemy": false,
-      "id": "1772201731363-loihly49l",
-      "storyId": "1763038020231-hfgfxm2x9",
-      "locationId": null,
-      "subLocationId": "1772201642790-ul90s2jcc",
-      "descriptions": [
-        {
-          "id": "1772360060436-2k9vmhyfv",
-          "title": "",
-          "text": "Erklärt stolz allen das Wassersystem (keiner versteht ihn so wirklich)",
-          "showToPlayers": false,
-          "createdAt": 1772360060436
-        }
-      ]
-    },
-    {
-      "name": "Shaya",
-      "profession": "Kräuterkundige & Gärtnerin",
-      "images": [
-        "/images/Nexarion/Tabaxi/npcs/Shaya.jpeg"
-      ],
-      "sound": "",
-      "isEnemy": false,
-      "id": "1772201757021-ntt2kzafk",
-      "storyId": "1763038020231-hfgfxm2x9",
-      "locationId": null,
-      "subLocationId": "1772201642790-ul90s2jcc",
-      "descriptions": [
-        {
-          "id": "1772360060436-4i7ojdpwi",
-          "title": "",
-          "text": "Verteilt ihre Kräutermischung in kleinen Flaschen an alle die Kosten wollen.",
-          "showToPlayers": false,
-          "createdAt": 1772360060436
-        }
-      ]
-    },
-    {
-      "name": "Mira",
-      "profession": "Kerzenzieherin",
-      "images": [
-        "/images/Nexarion/Tabaxi/npcs/Mira.jpeg"
-      ],
-      "sound": "",
-      "isEnemy": false,
-      "id": "1772201928304-3s9d7hjju",
-      "storyId": "1763038020231-hfgfxm2x9",
-      "locationId": null,
-      "subLocationId": "1772201642790-ul90s2jcc",
-      "descriptions": [
-        {
-          "id": "1772360060436-w2iwyx3yh",
-          "title": "",
-          "text": "Heute letzte Chance eine Kerze zu machen für die kommende Zeremonie.",
-          "showToPlayers": false,
-          "createdAt": 1772360060436
-        }
-      ]
-    },
-    {
       "name": "Tessik",
       "profession": "Händler",
       "images": [],
@@ -1447,20 +1335,6 @@
           "createdAt": 1772360060436
         }
       ]
-    },
-    {
-      "name": "Gleiter Akrobatik",
-      "profession": "Show",
-      "images": [
-        "/images/Nexarion/Tabaxi/events/gleiter_show.jpeg"
-      ],
-      "sound": "",
-      "isEnemy": false,
-      "id": "1772204663601-yrxblcy4l",
-      "storyId": "1763038020231-hfgfxm2x9",
-      "locationId": null,
-      "subLocationId": "1772201642790-ul90s2jcc",
-      "descriptions": []
     },
     {
       "name": "Tessik",
@@ -2001,36 +1875,6 @@
       "descriptions": []
     },
     {
-      "name": "Gleiter Akrobatik",
-      "profession": "Show",
-      "images": [
-        "/images/Nexarion/Tabaxi/events/gleiter_show.jpeg"
-      ],
-      "sound": "",
-      "isEnemy": false,
-      "id": "1772275218917-tibo2jos6",
-      "storyId": "1763038020231-hfgfxm2x9",
-      "locationId": null,
-      "subLocationId": "1772200467693-fotlfzl12",
-      "createdAt": 1772275218917,
-      "descriptions": []
-    },
-    {
-      "name": "Abendmahl",
-      "profession": "Leckeres Essen",
-      "images": [
-        "/images/Nexarion/Tabaxi/locations/Abendmahl.jpeg"
-      ],
-      "sound": "",
-      "isEnemy": false,
-      "id": "1772285390733-nj57o7bya",
-      "storyId": "1763038020231-hfgfxm2x9",
-      "locationId": null,
-      "subLocationId": "1772285347753-zvlx2orrh",
-      "createdAt": 1772285390733,
-      "descriptions": []
-    },
-    {
       "name": "Test NPC der Location",
       "profession": "Händler",
       "descriptions": [
@@ -2066,6 +1910,720 @@
       "subLocationId": "1772314328905-42cxt1lhw",
       "createdAt": 1772314365387,
       "descriptions": []
+    },
+    {
+      "name": "Abendlaternen auf dem Kanal",
+      "profession": "Tradition",
+      "images": [
+        "/images/Nexarion/Tabaxi/locations/Abendlaternen.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772194612441-jvy32xgnd",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772194575020-a58g4nl05",
+      "descriptions": []
+    },
+    {
+      "name": "Syla",
+      "profession": "Wassertänzerin",
+      "descriptions": [],
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Syla.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772734950096-6i96eqih8",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772194575020-a58g4nl05",
+      "createdAt": 1772734950096
+    },
+    {
+      "name": "Abendmahl",
+      "profession": "Leckeres Essen",
+      "images": [
+        "/images/Nexarion/Tabaxi/locations/Abendmahl.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772285390733-nj57o7bya",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772285347753-zvlx2orrh",
+      "createdAt": 1772285390733,
+      "descriptions": []
+    },
+    {
+      "name": "Roka",
+      "profession": "Erd-Schamane",
+      "descriptions": [],
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Roka.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772735127540-8ify0zpmc",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772285347753-zvlx2orrh",
+      "createdAt": 1772735127540
+    },
+    {
+      "name": "Gleiter Akrobatik",
+      "profession": "Show",
+      "images": [
+        "/images/Nexarion/Tabaxi/events/gleiter_show.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772275218917-tibo2jos6",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772200467693-fotlfzl12",
+      "createdAt": 1772275218917,
+      "descriptions": []
+    },
+    {
+      "name": "Abend Windspiel",
+      "profession": "Tradition",
+      "descriptions": [],
+      "images": [
+        "/images/Nexarion/Tabaxi/locations/Abend_Windspiel.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772735291170-t7ipqrmw3",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772200467693-fotlfzl12",
+      "createdAt": 1772735291170
+    },
+    {
+      "name": "Zael",
+      "profession": "Zauber Meister",
+      "descriptions": [],
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Zael.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772735975981-34zi1btb4",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772735706794-il6ockqjg",
+      "createdAt": 1772735975981
+    },
+    {
+      "name": "Pex",
+      "profession": "Elixier Meister",
+      "descriptions": [],
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Pex.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772736224582-kw5ayly54",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772735728117-u2rt7gg1a",
+      "createdAt": 1772736224582
+    },
+    {
+      "name": "York",
+      "profession": "Rätsler",
+      "descriptions": [
+        {
+          "id": "1772736785347-bakpfb30r",
+          "title": "Antworten",
+          "text": "Rätsel 1:\nWasser\n\nRätsel 2:\nEis\n\nRätsel 3:\nStrömung, Welle, Tsunami",
+          "showToPlayers": false,
+          "createdAt": 1772736785347
+        },
+        {
+          "id": "1772736801250-876worpxo",
+          "title": "Rätsel 1",
+          "text": "\"Ich habe keine Kehle und doch singe ich. Ich habe keine Beine und doch reise ich weiter als jeder Wanderer. Ich forme Täler ohne Hände und trage Schiffe ohne Arme. Was bin ich?\"",
+          "showToPlayers": true,
+          "createdAt": 1772736801250
+        },
+        {
+          "id": "1772736815326-sufy1vip8",
+          "title": "Rätsel 2",
+          "text": "\"Ich bin Wasser – und doch fließe ich nicht. Ich bin kälter als die Nacht und härter als Stein. Berühre mich zu lange und ich nehme dich mit in meine Stille. Was bin ich?\"",
+          "showToPlayers": true,
+          "createdAt": 1772736815326
+        },
+        {
+          "id": "1772736829410-jvnw78yhq",
+          "title": "Rätsel 3",
+          "text": "\"Drei Schwestern schlafen tief im Meer. Wenn die jüngste aufwacht bleibt sie unsichtbar. Wenn die mittlere aufwacht bewegt sie Schiffe und formt Strände. Wenn die älteste aufwacht – läuft alles weg. Was sind die drei Schwestern?\"",
+          "showToPlayers": true,
+          "createdAt": 1772736829410
+        }
+      ],
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/York.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772735015148-j28fkfuk7",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772734985159-t7sjk1st3"
+    },
+    {
+      "name": "York",
+      "profession": "Rätsler",
+      "descriptions": [
+        {
+          "id": "1772736891187-yit3l8e5k",
+          "title": "Antworten",
+          "text": "Rätsel 1:\nSamen\n\nRätsel 2:\nNatur\n\nRätsel 3:\nErde, Stein, Felsen",
+          "showToPlayers": false,
+          "createdAt": 1772736891187
+        },
+        {
+          "id": "1772736903339-6echrs5jv",
+          "title": "Rätsel 1",
+          "text": "\"Ich bin kleiner als deine Faust und doch trage ich in mir einen Wald. Ich schlafe solange bis jemand an mich glaubt. Dann sprenge ich alles was mich hält. Was bin ich?\"",
+          "showToPlayers": true,
+          "createdAt": 1772736903339
+        },
+        {
+          "id": "1772736920071-vs1v4y9ao",
+          "title": "Rätsel 2",
+          "text": "\"Ich habe keinen Namen und doch nennen mich alle. Ich habe keinen Körper und doch bin ich in allem was lebt. Ich sterbe nie weil ich selbst der Tod und die Geburt bin. Was bin ich?\"",
+          "showToPlayers": true,
+          "createdAt": 1772736920071
+        },
+        {
+          "id": "1772736932644-x7h5oqubg",
+          "title": "Rätsel 3",
+          "text": "\"Drei Brüder schlafen übereinander. Der erste ist weich und gibt jedem Samen ein Zuhause. Der zweite ist hart und trägt Burgen auf seinen Schultern seit Jahrhunderten. Der dritte ist so alt wie die Welt selbst – er hat noch nie nachgegeben, noch nie gezittert, noch nie gebeten. Kein Werkzeug der Welt hinterlässt mehr als einen Kratzer an ihm. Alle drei sind dasselbe – was sind die drei Brüder?\"",
+          "showToPlayers": true,
+          "createdAt": 1772736932644
+        }
+      ],
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/York.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772735175707-3egm3mr5o",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772735152520-darh78sxc"
+    },
+    {
+      "name": "York",
+      "profession": "Rätsler",
+      "descriptions": [
+        {
+          "id": "1772737008683-k6pukdsl0",
+          "title": "Antworten",
+          "text": "Rätsel 1:\nOrkan\n\nRätsel 2:\nHurrikan\n\nRätsel 3:\nLeichte Brise / Wind",
+          "showToPlayers": false,
+          "createdAt": 1772737008683
+        },
+        {
+          "id": "1772737022145-alx03980f",
+          "title": "Rätsel 1",
+          "text": "\"Ich bin der älteste Bruder. Wenn ich atme versinken Küsten im Meer. Wenn ich tanze verschwinden Wälder. Kein Stein bleibt wo er war wenn ich vorbeikomme. Selbst die anderen Elemente weichen mir aus. Was bin ich?\"",
+          "showToPlayers": true,
+          "createdAt": 1772737022145
+        },
+        {
+          "id": "1772737033883-903gfzqj0",
+          "title": "Rätsel 2",
+          "text": "\"Mein Bruder ist stärker als ich – und doch bin ich berühmter. Ich trage einen Namen, er nicht. Ich drehe mich im Kreis und fresse alles in meiner Mitte. Das Meer fürchtet mich mehr als das Land. Was bin ich?\"",
+          "showToPlayers": true,
+          "createdAt": 1772737033883
+        },
+        {
+          "id": "1772737046849-waezq20vm",
+          "title": "Rätsel 3",
+          "text": "\"Ich bin der jüngste Bruder und der sanfteste. Ich trage Samen über Meere und trockne Tränen auf Wangen. Niemand fürchtet mich – aber ohne mich wäre die Welt still und heiß. Was bin ich?\"",
+          "showToPlayers": true,
+          "createdAt": 1772737046849
+        }
+      ],
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/York.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772735428845-7w6jljv5l",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772735397996-mzox1wb1h"
+    },
+    {
+      "name": "York",
+      "profession": "Rätsler",
+      "descriptions": [
+        {
+          "id": "1772737174357-a4m0jr2su",
+          "title": "Antworten",
+          "text": "Rätsel 1:\nWasser und Erde\n\nRätsel 2:\nFeuer und Eis\n\nRätsel 3:\nLuft und Erde\n\nRätsel 4:\nFeuer und Erde\n\nRätsel 5:\nLuft und Wasser\n\nRätsel 6:\nBlut(bändigen) und Blitz",
+          "showToPlayers": false,
+          "createdAt": 1772737174357
+        },
+        {
+          "id": "1772737209762-lvrucpgnr",
+          "title": "Rätsel 1",
+          "text": "\"Ich brauche ihn um zu wurzeln und sie um nicht zu verdursten. Ohne ihn bin ich Sand, ohne sie bin ich Staub. Zusammen lassen sie mich wachsen bis ich den Himmel berühre. Was bin ich – und wer sind er und sie?\"",
+          "showToPlayers": true,
+          "createdAt": 1772737209762
+        },
+        {
+          "id": "1772737222973-87l61vm75",
+          "title": "Rätsel 2",
+          "text": "\"Er zerstört mich mit einem Hauch und ich lösche ihn wenn ich schmelze. Wir sind Feinde – und doch sind wir beide nur zwei Gesichter derselben Temperatur. Was sind wir?\"",
+          "showToPlayers": true,
+          "createdAt": 1772737222973
+        },
+        {
+          "id": "1772737233171-hfa7w066c",
+          "title": "Rätsel 3",
+          "text": "\"Ich trage ihre Samen durch die Welt und sie gibt mir einen Grund zu wehen. Ohne sie wehe ich ins Leere, ohne mich bleibt sie stumm und still. Zusammen lassen wir Wüsten entstehen – oder Wiesen. Was sind wir?\"",
+          "showToPlayers": true,
+          "createdAt": 1772737233171
+        },
+        {
+          "id": "1772737249124-wy57r7kqd",
+          "title": "Rätsel 4",
+          "text": "\"Er macht mich flüssig und ich halte ihn am Leben. Er gebiert mich aus seinem Innern und ich forme ihn zu neuen Welten. Ohne ihn bin ich kalt und grau – ohne mich würde er niemals fließen. Was sind wir?\"",
+          "showToPlayers": true,
+          "createdAt": 1772737249124
+        },
+        {
+          "id": "1772737265354-r0oqo223u",
+          "title": "Rätsel 5",
+          "text": "\"Ich brauche sie um zu entstehen und sie braucht mich um sich zu bewegen. Ohne mich ist sie ein stiller Spiegel – ohne sie bin ich nichts als ein leeres Seufzen. Zusammen können wir Schiffe bewegen oder Stürme gebären. Was sind wir?\"",
+          "showToPlayers": true,
+          "createdAt": 1772737265354
+        },
+        {
+          "id": "1772737286724-jd0u6pxbt",
+          "title": "Rätsel 6",
+          "text": "\"Das erste ist Wasser – aber es fließt nicht bergab. Es gehorcht nicht dem Regen, nicht dem Meer, nicht der Schwerkraft. Es gehorcht nur einem einzigen Willen – und dieser Wille ist selten gut.\nDas zweite ist Feuer – aber es leuchtet nicht warm. Es zuckt, es spaltet, es trifft ohne Vorwarnung.\nBeide sind mächtig. Beide sind selten. Beide haben einen Preis den niemand gerne zahlt. Was sind diese zwei?\"",
+          "showToPlayers": true,
+          "createdAt": 1772737286724
+        },
+        {
+          "id": "1772737315239-bfa6ei6fu",
+          "title": "Vorwort",
+          "text": "\"Die ersten fünf Rätsel heute sind Rätsel des Gleichgewichts. Zwei Elemente die zusammen etwas ergeben das keines allein könnte. Denkt nach – nicht an ein Element, sondern an das was entsteht wenn zwei sich berühren.\"\n\"Das sechste Rätsel... ist anders. Es gibt Kräfte die sich an den Elementen bedienen ohne zu ihnen zu gehören. Sie tragen die Form der Elemente aber nicht ihr Herz. Ich nenne sie damit ihr sie erkennt. Nicht damit ihr sie sucht.\"",
+          "showToPlayers": false,
+          "createdAt": 1772737315239
+        }
+      ],
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/York.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772735922004-espn2aka7",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772735661788-avodb5l92"
+    },
+    {
+      "name": "Spiegel",
+      "profession": "Magisch",
+      "descriptions": [],
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Spiegel.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772736273286-6ngvcg6me",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772735832500-3brmc1uq2",
+      "createdAt": 1772736273286
+    },
+    {
+      "name": "Mio",
+      "profession": "Mönch",
+      "descriptions": [],
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Mio.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772871506217-5201csrm4",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772735832500-3brmc1uq2",
+      "createdAt": 1772871506217
+    },
+    {
+      "name": "Drak",
+      "profession": "General",
+      "descriptions": [],
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Drak.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772871600487-y5ck25svs",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772735817789-kxcrjxlzg",
+      "createdAt": 1772871600487
+    },
+    {
+      "name": "Brenne",
+      "profession": "Feuertänzerin",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Brenne.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772201688495-p21tx9jpw",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772201642790-ul90s2jcc",
+      "descriptions": [
+        {
+          "id": "1772360060436-2sxarecfy",
+          "title": "",
+          "text": "Macht wieder ihre Feuertänze",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Oru",
+      "profession": "Alter Wassermechaniker",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Oru.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772201731363-loihly49l",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772201642790-ul90s2jcc",
+      "descriptions": [
+        {
+          "id": "1772360060436-2k9vmhyfv",
+          "title": "",
+          "text": "Erklärt stolz allen das Wassersystem (keiner versteht ihn so wirklich)",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Shaya",
+      "profession": "Kräuterkundige & Gärtnerin",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Shaya.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772201757021-ntt2kzafk",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772201642790-ul90s2jcc",
+      "descriptions": [
+        {
+          "id": "1772360060436-4i7ojdpwi",
+          "title": "",
+          "text": "Verteilt ihre Kräutermischung in kleinen Flaschen an alle die Kosten wollen.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Mira",
+      "profession": "Kerzenzieherin",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Mira.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772201928304-3s9d7hjju",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772201642790-ul90s2jcc",
+      "descriptions": [
+        {
+          "id": "1772360060436-w2iwyx3yh",
+          "title": "",
+          "text": "Heute letzte Chance eine Kerze zu machen für die kommende Zeremonie.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Gleiter Akrobatik",
+      "profession": "Show",
+      "images": [
+        "/images/Nexarion/Tabaxi/events/gleiter_show.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772204663601-yrxblcy4l",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772201642790-ul90s2jcc",
+      "descriptions": []
+    },
+    {
+      "name": "Syla",
+      "profession": "Wassertänzerin",
+      "descriptions": [],
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Syla.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772735513082-b6fx0ysm9",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772201642790-ul90s2jcc",
+      "createdAt": 1772735513082
+    },
+    {
+      "name": "Roka",
+      "profession": "Erd-Schamane",
+      "descriptions": [],
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Roka.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772735535642-xhhotjn0v",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772201642790-ul90s2jcc",
+      "createdAt": 1772735535642
+    },
+    {
+      "name": "Der Blitz",
+      "profession": "Einklang der Elemente",
+      "descriptions": [],
+      "images": [
+        "/images/Nexarion/Tabaxi/moment/Blitz_Moment.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772736568319-cpdf7gh1v",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772201642790-ul90s2jcc",
+      "createdAt": 1772736568319
+    },
+    {
+      "name": "Der neue Stern",
+      "profession": "Stern",
+      "descriptions": [],
+      "images": [
+        "/images/Nexarion/Tabaxi/moment/Neuer_Stern.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772736631749-l8oabquyg",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772201642790-ul90s2jcc",
+      "createdAt": 1772736631749
+    },
+    {
+      "name": "Gale",
+      "profession": "Element Akrobat",
+      "descriptions": [
+        {
+          "id": "1772871734791-6omij06o8",
+          "title": "Wahrheit über Gale",
+          "text": "Er kann nicht wirklich alle Elemente kontrollieren. Es sieht aber so aus da die anderen ihre Elemente einfach weiter kontrollieren und er einfach nur so tut als ob er es machen würde.",
+          "showToPlayers": false,
+          "createdAt": 1772871734791
+        }
+      ],
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Gale.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772871748700-w30rrt664",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772201642790-ul90s2jcc",
+      "createdAt": 1772871748700
+    },
+    {
+      "name": "Pfad des Feuers",
+      "profession": "Parcour",
+      "descriptions": [
+        {
+          "id": "1772873159064-n3dnc5lhv",
+          "title": "Hindernis 1",
+          "text": "Die Flammenwand\nEine breite Wand aus Flammen blockiert den Weg komplett. Die Flammen haben ein Muster – sie pulsen rhythmisch, alle drei Sekunden gibt es eine kurze Lücke in der Mitte.\n\nWer einfach durchrennt ohne zu schauen: Wurf mit Nachteil, bei Misserfolg leichte Verbrennungen und nochmal von vorne\n\nWer das Muster beobachtet und wartet: normaler Wurf\n\nWer Wasser oder feuchtes Tuch dabei hat und sich schützt: Wurf mit Vorteil\n\nWer den Umweg über die Seite sucht: findet eine niedrigere Stelle – kein Wurf, aber kostet Zeit",
+          "showToPlayers": false,
+          "createdAt": 1772873159064
+        },
+        {
+          "id": "1772873220078-byj2qfkad",
+          "title": "Hindernis 2",
+          "text": "Die Glut\nDer Boden der nächsten zehn Meter ist glühende Kohle. Vereinzelt liegen flache Steine drauf – nicht genug um einfach drüberzuhüpfen, aber genug um clever zu navigieren.\n\nWer einfach drüberläuft: Wurf, bei Misserfolg heißer Boden unter den Füßen – Nachteil für nächsten Wurf\n\nWer die Steine als Trittsteine nutzt und den Weg vorher plant: kein Wurf nötig\n\nWer etwas als Unterlage benutzt – Umhang, Holzbrett vom Stand nebenan: kein Wurf, kreativer Bonus",
+          "showToPlayers": false,
+          "createdAt": 1772873220078
+        },
+        {
+          "id": "1772873248373-2hbrchevw",
+          "title": "Belohnung",
+          "text": "Kleines Fläschchen Feuerbalsam – schützt für eine Stunde gegen Kälte.",
+          "showToPlayers": true,
+          "createdAt": 1772873248373
+        }
+      ],
+      "images": [
+        "/images/Nexarion/Tabaxi/locations/Pfad Feuer.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772736024631-ty67xh1n5",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772735672279-4q2935eg7"
+    },
+    {
+      "name": "Pfad des Wassers",
+      "profession": "Parcour",
+      "descriptions": [
+        {
+          "id": "1772873302935-yzpub93kl",
+          "title": "Hindernis 1",
+          "text": "Der reißende Kanal\nDer Parcours führt direkt durch den Kanal – das Wasser geht bis zur Hüfte, die Strömung ist stark und zieht nach rechts wo Wasserstrudel warten.\n\nWer einfach durchläuft: Wurf, bei Misserfolg wird man abgetrieben und muss zurück\n\nWer gegen die Strömung ankämpft und einen Mitspieler als Anker nimmt: Wurf mit Vorteil\n\nWer das Seil benutzt das quer über den Kanal gespannt ist und sich daran entlanghangelt: kein Wurf nötig – aber man muss es erst entdecken",
+          "showToPlayers": false,
+          "createdAt": 1772873302935
+        },
+        {
+          "id": "1772873405545-51uhrozbo",
+          "title": "Hindernis 2",
+          "text": "Die nassen Steine\nHinter dem Kanal: ein steiler glitschiger Felsabhang nach oben. Kein Seil, keine Griffe – nur nasser Stein.\n\nWer einfach klettert: Wurf, bei Misserfolg rutscht man ab und landet wieder im Wasser\n\nWer Sand oder Dreck vom Boden nimmt und die Hände damit einreibt für mehr Grip: Wurf mit Vorteil\n\nWer einen anderen Weg sucht: findet auf der linken Seite eine grobe Holztreppe die ein früherer Teilnehmer gebaut hat – kein Wurf, aber sie wackelt stark",
+          "showToPlayers": false,
+          "createdAt": 1772873405545
+        },
+        {
+          "id": "1772873428595-efk175dva",
+          "title": "Belohnung",
+          "text": "Kleines Fläschchen Stilles Wasser – regeneriert leichte Erschöpfung sofort.",
+          "showToPlayers": true,
+          "createdAt": 1772873428595
+        }
+      ],
+      "images": [
+        "/images/Nexarion/Tabaxi/locations/Pfad Wasser.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772736053826-543toz40m",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772735672279-4q2935eg7"
+    },
+    {
+      "name": "Pfad der Erde",
+      "profession": "Parcour",
+      "descriptions": [
+        {
+          "id": "1772873479747-xoq1t0j6a",
+          "title": "Hindernis 1",
+          "text": "Das Wurzelgeflecht\nEin dichtes Netz aus dicken Wurzeln überspannt den Weg von Boden bis Decke. Manche Wurzeln sind fest, manche geben nach und federn zurück.\n\nWer einfach durchbricht: die Wurzeln wachsen sofort nach – kein Fortkommen\n\nWer sich die Zeit nimmt die Wurzeln zu beobachten: sieht dass manche leicht zittern – das sind die labilen. Wer die stabilen als Griffe nutzt und sich durchhangelt: normaler Wurf\n\nWer ganz unten am Boden bleibt und sich durchschlängelt: kein Wurf, dauert aber länger",
+          "showToPlayers": false,
+          "createdAt": 1772873479747
+        },
+        {
+          "id": "1772873525658-2d8sivdko",
+          "title": "Hindernis 2",
+          "text": "Der Schlammpfad\nEin langer Pfad aus tiefem Schlamm – bei jedem Schritt sinkt man tiefer ein. Wer stehenbleibt sinkt schneller.\n\nWer einfach durchläuft und dabei stehen bleibt: Wurf, bei Misserfolg steckt man fest\n\nWer in Bewegung bleibt und große schnelle Schritte macht: normaler Wurf\n\nWer breite flache Gegenstände als Schneeschuhe unter die Füße bindet – Holzbrettchen, große Blätter: Wurf mit Vorteil\n\nWer den Rand des Pfades nutzt wo Grasbüschel wachsen: kein Wurf, schmalerer Weg aber fester Boden",
+          "showToPlayers": false,
+          "createdAt": 1772873525658
+        },
+        {
+          "id": "1772873541894-clg0xzezl",
+          "title": "Belohnung",
+          "text": "Kleiner Erdstein – warm beim Anfassen, zeigt ob Boden darunter hohl ist.",
+          "showToPlayers": true,
+          "createdAt": 1772873541894
+        }
+      ],
+      "images": [
+        "/images/Nexarion/Tabaxi/locations/Pfad Erde.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772736081168-10jcsuswx",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772735672279-4q2935eg7"
+    },
+    {
+      "name": "Pfad der Luft",
+      "profession": "Parcour",
+      "descriptions": [
+        {
+          "id": "1772873612626-l4t22fppb",
+          "title": "Hindernis 1",
+          "text": "Der Windtunnel\nEin enger Durchgang zwischen zwei hohen Mauern. Ein konstanter starker Gegenwind bläst direkt entgegen – stark genug um einen zurückzudrängen.\n\nWer einfach dagegen ankämpft: Wurf, bei Misserfolg wird man zurückgeworfen\n\nWer sich klein macht, duckt und dicht an der Wand entlanggeht wo der Wind schwächer ist: Wurf mit Vorteil\n\nWer schwere Gegenstände aus dem Inventar nimmt um sich zu beschweren: kein Wurf, langsam aber sicher\n\nWer einen Mitspieler als Windschutz vor sich gehen lässt: beide kommen leichter durch, beide würfeln mit Vorteil",
+          "showToPlayers": false,
+          "createdAt": 1772873612626
+        },
+        {
+          "id": "1772873680428-audlxfqxq",
+          "title": "Hindernis 2",
+          "text": "Die Hängebrücke\nEine schmale Hängebrücke über eine Schlucht – starke Windböen kommen von der Seite und bringen die Brücke zum Schwingen. Die Böen kommen unregelmäßig.\n\nWer einfach schnell drüberrennt: Wurf, bei Misserfolg muss man sich festhalten und verliert Zeit\n\nWer das Muster der Böen beobachtet bevor er losläuft: erkennt dass sie alle paar Sekunden nachlassen – normaler Wurf im richtigen Moment\n\nWer sich am Seil der Brücke festhält und langsam geht: kein Wurf, dauert aber länger und die nächste Böe kommt sicher noch",
+          "showToPlayers": false,
+          "createdAt": 1772873680428
+        },
+        {
+          "id": "1772873703254-8j7fmta9v",
+          "title": "Belohnung",
+          "text": "Kleine Windpfeife – erzeugt einmal täglich eine starke Böe.",
+          "showToPlayers": true,
+          "createdAt": 1772873703254
+        }
+      ],
+      "images": [
+        "/images/Nexarion/Tabaxi/locations/Pfad Luft.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772736107738-72c9sgxnv",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772735672279-4q2935eg7"
     }
   ],
   "locations": [
@@ -2362,6 +2920,33 @@
       ]
     },
     {
+      "name": "Test Location",
+      "descriptions": [
+        {
+          "id": "1772361004781-3ao5dc5ve",
+          "title": "Test 1",
+          "text": "Test 1",
+          "showToPlayers": false,
+          "createdAt": 1772361004781
+        },
+        {
+          "id": "1772361012772-wrwfr3w40",
+          "title": "Test 2",
+          "text": "Test 2",
+          "showToPlayers": true,
+          "createdAt": 1772361012772
+        }
+      ],
+      "images": [
+        "/images/Nexarion/locations/Palast.jpeg"
+      ],
+      "sound": "",
+      "isCityWide": false,
+      "id": "1772314213955-2c5ezarzi",
+      "storyId": "1772314089281-quq1rick9",
+      "cityId": null
+    },
+    {
       "name": "Tabaxi Bezirk Tag 1 Feuer",
       "images": [],
       "sound": "",
@@ -2466,14 +3051,6 @@
     },
     {
       "name": "Map Tabaxi Bezirk",
-      "images": [
-        "/images/Nexarion/Tabaxi/map.jpeg"
-      ],
-      "sound": "",
-      "isCityWide": false,
-      "id": "1772276769814-moyqak98r",
-      "storyId": "1763038020231-hfgfxm2x9",
-      "cityId": null,
       "descriptions": [
         {
           "id": "1772360060436-x27o7u9pv",
@@ -2482,33 +3059,15 @@
           "showToPlayers": false,
           "createdAt": 1772360060436
         }
-      ]
-    },
-    {
-      "name": "Test Location",
-      "descriptions": [
-        {
-          "id": "1772361004781-3ao5dc5ve",
-          "title": "Test 1",
-          "text": "Test 1",
-          "showToPlayers": false,
-          "createdAt": 1772361004781
-        },
-        {
-          "id": "1772361012772-wrwfr3w40",
-          "title": "Test 2",
-          "text": "Test 2",
-          "showToPlayers": true,
-          "createdAt": 1772361012772
-        }
       ],
       "images": [
-        "/images/Nexarion/locations/Palast.jpeg"
+        "/images/Nexarion/Tabaxi/map.jpeg"
       ],
       "sound": "",
       "isCityWide": false,
-      "id": "1772314213955-2c5ezarzi",
-      "storyId": "1772314089281-quq1rick9",
+      "priority": 1,
+      "id": "1772276769814-moyqak98r",
+      "storyId": "1763038020231-hfgfxm2x9",
       "cityId": null
     }
   ],
@@ -2588,13 +3147,22 @@
       "notes": ""
     },
     "1763038020231-hfgfxm2x9": {
-      "totalTime": 9002,
-      "notes": "Nira, Theresa, Rimuru haben Handwärmer im Kohle Stil und einen ewigen Feuerstein erhalten.\nNira hat einen Doppelgriff hergestellt (Dildo).\nRimuru hat sich 2 Speere erstellt einer in guter Qualität und einer der eher aussieht als ob er schnell brechen würde.\nTheresa hat sich 2 Morgensterne hergestellt einer der nach ein paar angriffen kaputt gehen könnte und einer der doch eine sehr gute Qualität hat.\nNira hat sich eine Kerze gemacht die naja eher sehr schlecht ist mit Lavendel Duft in einem perfekten Pink.\nRimuru hat eine Kerze mit mittlerer Qualität riecht nach Bier und sieht aus wie Bier.\nTheresa hat eine perfekte Kerze in Form eines Spielkarten Kreuz aus also ähnlich wie Kleeblatt mit Rosenduft.\nTheresa hat sich eine ewige Rose gekauft die sie beruhigen kann."
+      "totalTime": 20846,
+      "notes": "Notiz Tag 1 Feuer\nAlle drei haben Handwärmer und einen ewigen Feuerstein mitgenommen. An der Schmiede hat Nira sich einen Doppelgriff gebastelt, Rimuru zwei Speere (einer gut, einer brüchig) und Theresa zwei Morgensterne (einer gut, einer brüchig). Bei den Kerzen hat Nira eine schlechte Lavendelkerze in Pink gemacht, Rimuru eine mittelmäßige Bierkerze die auch wie Bier aussieht, und Theresa eine perfekte Rosenkerze in Kleeblatt-Form. Theresa hat sich außerdem noch eine ewige Rose gekauft die sie beruhigen kann.\n\nNotiz Tag 2 Wasser\nBootsrennen: Rimuru Platz 3, Nira Platz 1, Theresa Platz1\nGlasmalerei: Rimuru Oval in Türkis, Nira Kreis mit Mond drauf, Theresa Wassertropfen in Regenbogen Farben in einem größeren Wassertropfen.\nYork: Alle spieler nehmen Amulett um im Wasser zu Atmen\nTheresa Vase mit verzierungen und blümchen und so Bunte Blümchen und der Rest weiß.\nRimuru Kochtopf Töpfern in Gold Braun ganz schlicht nur für funktion.\nRimuru kriegt Kristall der Pflanzen wiederbelebt, Theresa bekommt eine ewige Erdbeere immer Erdbeeren dabei haben lecker, Nira bekommt einen Samen der eine Eiche in wenigen Sekunden wachsen lässt 10m.\n\n\nNotiz Tag 3 Erde\n\n\nNotiz Tag 4 Luft\n\n\nNotiz Tag 5 Alle Elemente\n"
     },
     "1763037636232-4p3us0yqx": {
       "notes": ""
     },
     "1772314089281-quq1rick9": {
+      "notes": ""
+    },
+    "1763038078711-9b7z6xn77": {
+      "notes": ""
+    },
+    "1763037798305-hvv6waeso": {
+      "notes": ""
+    },
+    "1763037870185-sjvpy9yg5": {
       "notes": ""
     }
   },
@@ -2733,11 +3301,16 @@
   ],
   "subLocations": [
     {
+      "name": "Test SubLocation",
+      "image": "/images/Nexarion/locations/Taverne.jpeg",
+      "id": "1772314328905-42cxt1lhw",
+      "locationId": "1772314213955-2c5ezarzi",
+      "storyId": "1772314089281-quq1rick9",
+      "createdAt": 1772314328905,
+      "descriptions": []
+    },
+    {
       "name": "Festplatz",
-      "image": "/images/Nexarion/Tabaxi/variants/festplatz/Feuer.jpeg",
-      "id": "1772191193951-6h9koy1kx",
-      "locationId": "1772179931335-n4q407jxh",
-      "storyId": "1763038020231-hfgfxm2x9",
       "descriptions": [
         {
           "id": "1772360060436-9w0gzagdm",
@@ -2746,7 +3319,12 @@
           "showToPlayers": false,
           "createdAt": 1772360060436
         }
-      ]
+      ],
+      "image": "/images/Nexarion/Tabaxi/variants/festplatz/Feuer.jpeg",
+      "priority": 1,
+      "id": "1772191193951-6h9koy1kx",
+      "locationId": "1772179931335-n4q407jxh",
+      "storyId": "1763038020231-hfgfxm2x9"
     },
     {
       "name": "Schmiede",
@@ -2813,84 +3391,55 @@
       ]
     },
     {
-      "name": "Festplatz",
-      "image": "/images/Nexarion/Tabaxi/variants/festplatz/Wasser.jpeg",
-      "id": "1772194575020-a58g4nl05",
-      "locationId": "1772180076595-upkda65ll",
-      "storyId": "1763038020231-hfgfxm2x9",
+      "name": "Taverne",
       "descriptions": [
         {
-          "id": "1772360060436-8czgiri0b",
+          "id": "1772360060436-dkqdyjuur",
           "title": "",
-          "text": "Abendlaternen treiben auf dem Kanal - eine friedliche Tradition.",
+          "text": "Barro's Taverne - Feuer-Themenraum mit 'Brennende Zunge'.",
           "showToPlayers": false,
           "createdAt": 1772360060436
         }
-      ]
+      ],
+      "image": "/images/Nexarion/Tabaxi/locations/Taverne.jpeg",
+      "priority": 2,
+      "id": "1772271061130-08cv0vc88",
+      "locationId": "1772179931335-n4q407jxh",
+      "storyId": "1763038020231-hfgfxm2x9"
     },
     {
-      "name": "Wasserwerke",
-      "image": "/images/Nexarion/Tabaxi/locations/Wasserwerk.jpeg",
-      "id": "1772194853731-knhbmw96b",
-      "locationId": "1772180076595-upkda65ll",
-      "storyId": "1763038020231-hfgfxm2x9",
+      "name": "Händler Stand",
       "descriptions": [
         {
-          "id": "1772360060436-j7vklml0j",
+          "id": "1772360060436-72q2pw5uk",
           "title": "",
-          "text": "Oru und Finn kümmern sich um die Wasserleitungen.",
+          "text": "Tessik verkauft hier seine scharfe Feuersoße.",
           "showToPlayers": false,
           "createdAt": 1772360060436
         }
-      ]
+      ],
+      "image": "/images/Nexarion/Tabaxi/variants/handler/Feuer.jpeg",
+      "priority": 3,
+      "id": "1772215917915-zsdrspbsg",
+      "locationId": "1772179931335-n4q407jxh",
+      "storyId": "1763038020231-hfgfxm2x9"
     },
     {
-      "name": "Bootsstation am Kanal",
-      "image": "/images/Nexarion/Tabaxi/locations/Wasserkanal_Boot.jpeg",
-      "id": "1772194055408-a7gy85oox",
-      "locationId": "1772180076595-upkda65ll",
-      "storyId": "1763038020231-hfgfxm2x9",
+      "name": "Kräuterstube",
       "descriptions": [
         {
-          "id": "1772360060436-kaxh8yqne",
+          "id": "1772360060436-zhaes9ni8",
           "title": "",
-          "text": "Ripple bietet Bootsfahrten auf den Kanälen an.",
+          "text": "Shaya's Kräuter und Tränke.",
           "showToPlayers": false,
           "createdAt": 1772360060436
         }
-      ]
-    },
-    {
-      "name": "Glaswerkstatt",
-      "image": "/images/Nexarion/Tabaxi/locations/Glasmalerei.jpeg",
-      "id": "1772194413835-0qt51udl4",
-      "locationId": "1772180076595-upkda65ll",
-      "storyId": "1763038020231-hfgfxm2x9",
-      "descriptions": [
-        {
-          "id": "1772360060436-ir1cuez8z",
-          "title": "",
-          "text": "Sera's Glaswerkstatt - Bewundere die Kunst der Glasbläserei.",
-          "showToPlayers": false,
-          "createdAt": 1772360060436
-        }
-      ]
-    },
-    {
-      "name": "Badeanstalt",
-      "image": "/images/Nexarion/Tabaxi/locations/Schwimmbad.jpeg",
-      "id": "1772194540059-1muemosyp",
-      "locationId": "1772180076595-upkda65ll",
-      "storyId": "1763038020231-hfgfxm2x9",
-      "descriptions": [
-        {
-          "id": "1772360060436-ee8rmdeks",
-          "title": "",
-          "text": "Niru's Badeanstalt - Entspanne in den heißen Quellen.",
-          "showToPlayers": false,
-          "createdAt": 1772360060436
-        }
-      ]
+      ],
+      "image": "/images/Nexarion/Tabaxi/variants/krauter/Feuer.jpeg",
+      "priority": 4,
+      "id": "1772215928076-udtitxbyc",
+      "locationId": "1772179931335-n4q407jxh",
+      "storyId": "1763038020231-hfgfxm2x9"
     },
     {
       "name": "Steinmetz-Werkstatt",
@@ -2957,6 +3506,228 @@
       ]
     },
     {
+      "name": "Taverne",
+      "descriptions": [
+        {
+          "id": "1772360060436-bnjzdpntn",
+          "title": "",
+          "text": "Barro's Taverne - Erd-Themenraum mit 'Wurzeltrank'.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ],
+      "image": "/images/Nexarion/Tabaxi/locations/Taverne.jpeg",
+      "priority": 2,
+      "id": "1772271783760-cfxx6fzag",
+      "locationId": "1772180093574-b1nsu2xx3",
+      "storyId": "1763038020231-hfgfxm2x9"
+    },
+    {
+      "name": "Händler Stand",
+      "descriptions": [
+        {
+          "id": "1772360060436-gtlfyhcb3",
+          "title": "",
+          "text": "Tessik verkauft Wurzeln, Pilze und Kräuter.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ],
+      "image": "/images/Nexarion/Tabaxi/variants/handler/Erde.jpeg",
+      "priority": 3,
+      "id": "1772268923426-nm4f130mp",
+      "locationId": "1772180093574-b1nsu2xx3",
+      "storyId": "1763038020231-hfgfxm2x9"
+    },
+    {
+      "name": "Kräuterstube",
+      "descriptions": [
+        {
+          "id": "1772360060436-w374ghor3",
+          "title": "",
+          "text": "Führung durch Shaya's Kräutergarten.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ],
+      "image": "/images/Nexarion/Tabaxi/variants/krauter/Erde.jpeg",
+      "priority": 4,
+      "id": "1772268931498-hlqhn9o4j",
+      "locationId": "1772180093574-b1nsu2xx3",
+      "storyId": "1763038020231-hfgfxm2x9"
+    },
+    {
+      "name": "Festplatz",
+      "descriptions": [],
+      "image": "/images/Nexarion/Tabaxi/variants/festplatz/Erde.jpeg",
+      "priority": 1,
+      "id": "1772285347753-zvlx2orrh",
+      "locationId": "1772180093574-b1nsu2xx3",
+      "storyId": "1763038020231-hfgfxm2x9"
+    },
+    {
+      "name": "Rätselstand",
+      "descriptions": [],
+      "image": "/images/Nexarion/Tabaxi/locations/Rätsel_Erde.jpeg",
+      "priority": 0,
+      "id": "1772735152520-darh78sxc",
+      "locationId": "1772180093574-b1nsu2xx3",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "createdAt": 1772735152520
+    },
+    {
+      "name": "Festplatz",
+      "descriptions": [
+        {
+          "id": "1772360060436-8czgiri0b",
+          "title": "",
+          "text": "Abendlaternen treiben auf dem Kanal - eine friedliche Tradition.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ],
+      "image": "/images/Nexarion/Tabaxi/variants/festplatz/Wasser.jpeg",
+      "priority": 1,
+      "id": "1772194575020-a58g4nl05",
+      "locationId": "1772180076595-upkda65ll",
+      "storyId": "1763038020231-hfgfxm2x9"
+    },
+    {
+      "name": "Wasserwerke",
+      "image": "/images/Nexarion/Tabaxi/locations/Wasserwerk.jpeg",
+      "id": "1772194853731-knhbmw96b",
+      "locationId": "1772180076595-upkda65ll",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "descriptions": [
+        {
+          "id": "1772360060436-j7vklml0j",
+          "title": "",
+          "text": "Oru und Finn kümmern sich um die Wasserleitungen.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Bootsstation am Kanal",
+      "image": "/images/Nexarion/Tabaxi/locations/Wasserkanal_Boot.jpeg",
+      "id": "1772194055408-a7gy85oox",
+      "locationId": "1772180076595-upkda65ll",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "descriptions": [
+        {
+          "id": "1772360060436-kaxh8yqne",
+          "title": "",
+          "text": "Ripple bietet Bootsfahrten auf den Kanälen an.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Glaswerkstatt",
+      "image": "/images/Nexarion/Tabaxi/locations/Glasmalerei.jpeg",
+      "id": "1772194413835-0qt51udl4",
+      "locationId": "1772180076595-upkda65ll",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "descriptions": [
+        {
+          "id": "1772360060436-ir1cuez8z",
+          "title": "",
+          "text": "Sera's Glaswerkstatt - Bewundere die Kunst der Glasbläserei.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Badeanstalt",
+      "image": "/images/Nexarion/Tabaxi/locations/Schwimmbad.jpeg",
+      "id": "1772194540059-1muemosyp",
+      "locationId": "1772180076595-upkda65ll",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "descriptions": [
+        {
+          "id": "1772360060436-ee8rmdeks",
+          "title": "",
+          "text": "Niru's Badeanstalt - Entspanne in den heißen Quellen.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Taverne",
+      "descriptions": [
+        {
+          "id": "1772360060436-pez4eew1s",
+          "title": "",
+          "text": "Barro's Taverne - Wasser-Themenraum mit 'Stille Flut'.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ],
+      "image": "/images/Nexarion/Tabaxi/locations/Taverne.jpeg",
+      "priority": 2,
+      "id": "1772271753969-gkiwc4xtp",
+      "locationId": "1772180076595-upkda65ll",
+      "storyId": "1763038020231-hfgfxm2x9"
+    },
+    {
+      "name": "Kräuterstube",
+      "descriptions": [
+        {
+          "id": "1772360060436-1y9dgdb2b",
+          "title": "",
+          "text": "Shaya's Kräuter und Tränke.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ],
+      "image": "/images/Nexarion/Tabaxi/variants/krauter/Wasser.jpeg",
+      "priority": 4,
+      "id": "1772216713208-fy3yj93s9",
+      "locationId": "1772180076595-upkda65ll",
+      "storyId": "1763038020231-hfgfxm2x9"
+    },
+    {
+      "name": "Händler Stand",
+      "descriptions": [
+        {
+          "id": "1772360060436-t61sxqhg7",
+          "title": "",
+          "text": "Tessik's Fische und Meeresfrüchte.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ],
+      "image": "/images/Nexarion/Tabaxi/variants/handler/Wasser.jpeg",
+      "priority": 3,
+      "id": "1772216678381-pb0hdci4w",
+      "locationId": "1772180076595-upkda65ll",
+      "storyId": "1763038020231-hfgfxm2x9"
+    },
+    {
+      "name": "Rätselstand",
+      "descriptions": [],
+      "image": "/images/Nexarion/Tabaxi/locations/Rätsel_Wasser.jpeg",
+      "priority": 0,
+      "id": "1772734985159-t7sjk1st3",
+      "locationId": "1772180076595-upkda65ll",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "createdAt": 1772734985159
+    },
+    {
+      "name": "Brunnen der Wünsche",
+      "descriptions": [],
+      "image": "/images/Nexarion/Tabaxi/locations/Brunnen.jpeg",
+      "priority": 0,
+      "id": "1772735332763-lniiweb1h",
+      "locationId": "1772180076595-upkda65ll",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "createdAt": 1772735332763
+    },
+    {
       "name": "Drachenbau-Station",
       "image": "/images/Nexarion/Tabaxi/locations/Drachen_Feld.jpeg",
       "id": "1772200528567-puvuopmj6",
@@ -3006,10 +3777,6 @@
     },
     {
       "name": "Festplatz",
-      "image": "/images/Nexarion/Tabaxi/variants/festplatz/Luft.jpeg",
-      "id": "1772200467693-fotlfzl12",
-      "locationId": "1772180108727-vs777ahwc",
-      "storyId": "1763038020231-hfgfxm2x9",
       "descriptions": [
         {
           "id": "1772360060436-b3hgsdlly",
@@ -3018,14 +3785,152 @@
           "showToPlayers": false,
           "createdAt": 1772360060436
         }
+      ],
+      "image": "/images/Nexarion/Tabaxi/variants/festplatz/Luft.jpeg",
+      "priority": 1,
+      "id": "1772200467693-fotlfzl12",
+      "locationId": "1772180108727-vs777ahwc",
+      "storyId": "1763038020231-hfgfxm2x9"
+    },
+    {
+      "name": "Taverne",
+      "descriptions": [
+        {
+          "id": "1772360060436-q1vyet3ko",
+          "title": "",
+          "text": "Barro's Taverne - Luft-Themenraum mit 'Flüsternder Wind'.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ],
+      "image": "/images/Nexarion/Tabaxi/locations/Taverne.jpeg",
+      "priority": 2,
+      "id": "1772271868508-8uyp1wp2h",
+      "locationId": "1772180108727-vs777ahwc",
+      "storyId": "1763038020231-hfgfxm2x9"
+    },
+    {
+      "name": "Händler Stand",
+      "descriptions": [
+        {
+          "id": "1772360060436-59nikbb0y",
+          "title": "",
+          "text": "Tessik verkauft Windspiel-Teile.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ],
+      "image": "/images/Nexarion/Tabaxi/variants/handler/Luft.jpeg",
+      "priority": 3,
+      "id": "1772268946489-xgd2alo8p",
+      "locationId": "1772180108727-vs777ahwc",
+      "storyId": "1763038020231-hfgfxm2x9"
+    },
+    {
+      "name": "Kräuterstube",
+      "descriptions": [
+        {
+          "id": "1772360060436-u2lzar0sm",
+          "title": "",
+          "text": "Shaya's Kräuter und Tränke.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ],
+      "image": "/images/Nexarion/Tabaxi/variants/krauter/Luft.jpeg",
+      "priority": 4,
+      "id": "1772268953501-yn8cztfqp",
+      "locationId": "1772180108727-vs777ahwc",
+      "storyId": "1763038020231-hfgfxm2x9"
+    },
+    {
+      "name": "Sturmbeobachter Turm",
+      "image": "/images/Nexarion/Tabaxi/locations/Turm.jpeg",
+      "id": "1772285713422-6o6qs4zr9",
+      "locationId": "1772180108727-vs777ahwc",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "createdAt": 1772285713422,
+      "descriptions": [
+        {
+          "id": "1772360060436-2r1h5lngd",
+          "title": "",
+          "text": "Was eine aussicht",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
       ]
     },
     {
-      "name": "Zentraler Festplatz",
-      "image": "/images/Nexarion/Tabaxi/variants/festplatz/Alle.jpeg",
-      "id": "1772201642790-ul90s2jcc",
-      "locationId": "1772180133196-3h6zjgjo1",
+      "name": "Rätselstand",
+      "descriptions": [],
+      "image": "/images/Nexarion/Tabaxi/locations/Rätsel_Luft.jpeg",
+      "priority": 0,
+      "id": "1772735397996-mzox1wb1h",
+      "locationId": "1772180108727-vs777ahwc",
       "storyId": "1763038020231-hfgfxm2x9",
+      "createdAt": 1772735397996
+    },
+    {
+      "name": "Kristall der Elementare",
+      "descriptions": [],
+      "image": "/images/Nexarion/Tabaxi/items/Kristall_Alle.jpeg",
+      "priority": 0,
+      "id": "1772736355306-o9n9ngtbq",
+      "locationId": "1772203017347-xtjlv8lku",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "createdAt": 1772736355306
+    },
+    {
+      "name": "Kristall des Feuers",
+      "descriptions": [],
+      "image": "/images/Nexarion/Tabaxi/items/Kristall_Feuer.jpeg",
+      "priority": 0,
+      "id": "1772736381964-wy0zxl1lq",
+      "locationId": "1772203017347-xtjlv8lku",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "createdAt": 1772736381964
+    },
+    {
+      "name": "Kristall des Wassers",
+      "descriptions": [],
+      "image": "/images/Nexarion/Tabaxi/items/Kristall_Wasser.jpeg",
+      "priority": 0,
+      "id": "1772736399386-1c6khp6yu",
+      "locationId": "1772203017347-xtjlv8lku",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "createdAt": 1772736399386
+    },
+    {
+      "name": "Kristall der Erde",
+      "descriptions": [],
+      "image": "/images/Nexarion/Tabaxi/items/Kristall_Erde.jpeg",
+      "priority": 0,
+      "id": "1772736419166-mqsrpp97z",
+      "locationId": "1772203017347-xtjlv8lku",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "createdAt": 1772736419166
+    },
+    {
+      "name": "Kristall der Luft",
+      "descriptions": [],
+      "image": "/images/Nexarion/Tabaxi/items/Kristall_Luft.jpeg",
+      "priority": 0,
+      "id": "1772736439609-6rfdjk0bi",
+      "locationId": "1772203017347-xtjlv8lku",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "createdAt": 1772736439609
+    },
+    {
+      "name": "Storyline",
+      "descriptions": [],
+      "image": "",
+      "priority": 1,
+      "id": "1772736473812-5psmczvrx",
+      "locationId": "1772203017347-xtjlv8lku",
+      "storyId": "1763038020231-hfgfxm2x9"
+    },
+    {
+      "name": "Zentraler Festplatz",
       "descriptions": [
         {
           "id": "1772360060436-8x9o9h8cx",
@@ -3034,7 +3939,12 @@
           "showToPlayers": false,
           "createdAt": 1772360060436
         }
-      ]
+      ],
+      "image": "/images/Nexarion/Tabaxi/variants/festplatz/Alle.jpeg",
+      "priority": 1,
+      "id": "1772201642790-ul90s2jcc",
+      "locationId": "1772180133196-3h6zjgjo1",
+      "storyId": "1763038020231-hfgfxm2x9"
     },
     {
       "id": "1772201616961-epax8j1h3",
@@ -3068,74 +3978,6 @@
     },
     {
       "name": "Taverne",
-      "image": "/images/Nexarion/Tabaxi/locations/Taverne.jpeg",
-      "id": "1772271061130-08cv0vc88",
-      "locationId": "1772179931335-n4q407jxh",
-      "storyId": "1763038020231-hfgfxm2x9",
-      "descriptions": [
-        {
-          "id": "1772360060436-dkqdyjuur",
-          "title": "",
-          "text": "Barro's Taverne - Feuer-Themenraum mit 'Brennende Zunge'.",
-          "showToPlayers": false,
-          "createdAt": 1772360060436
-        }
-      ]
-    },
-    {
-      "name": "Taverne",
-      "image": "/images/Nexarion/Tabaxi/locations/Taverne.jpeg",
-      "id": "1772271753969-gkiwc4xtp",
-      "locationId": "1772180076595-upkda65ll",
-      "storyId": "1763038020231-hfgfxm2x9",
-      "descriptions": [
-        {
-          "id": "1772360060436-pez4eew1s",
-          "title": "",
-          "text": "Barro's Taverne - Wasser-Themenraum mit 'Stille Flut'.",
-          "showToPlayers": false,
-          "createdAt": 1772360060436
-        }
-      ]
-    },
-    {
-      "name": "Taverne",
-      "image": "/images/Nexarion/Tabaxi/locations/Taverne.jpeg",
-      "id": "1772271783760-cfxx6fzag",
-      "locationId": "1772180093574-b1nsu2xx3",
-      "storyId": "1763038020231-hfgfxm2x9",
-      "descriptions": [
-        {
-          "id": "1772360060436-bnjzdpntn",
-          "title": "",
-          "text": "Barro's Taverne - Erd-Themenraum mit 'Wurzeltrank'.",
-          "showToPlayers": false,
-          "createdAt": 1772360060436
-        }
-      ]
-    },
-    {
-      "name": "Taverne",
-      "image": "/images/Nexarion/Tabaxi/locations/Taverne.jpeg",
-      "id": "1772271868508-8uyp1wp2h",
-      "locationId": "1772180108727-vs777ahwc",
-      "storyId": "1763038020231-hfgfxm2x9",
-      "descriptions": [
-        {
-          "id": "1772360060436-q1vyet3ko",
-          "title": "",
-          "text": "Barro's Taverne - Luft-Themenraum mit 'Flüsternder Wind'.",
-          "showToPlayers": false,
-          "createdAt": 1772360060436
-        }
-      ]
-    },
-    {
-      "name": "Taverne",
-      "image": "/images/Nexarion/Tabaxi/locations/Taverne.jpeg",
-      "id": "1772271924482-x21qu57qp",
-      "locationId": "1772180133196-3h6zjgjo1",
-      "storyId": "1763038020231-hfgfxm2x9",
       "descriptions": [
         {
           "id": "1772360060436-dz1ltktr5",
@@ -3144,142 +3986,15 @@
           "showToPlayers": false,
           "createdAt": 1772360060436
         }
-      ]
-    },
-    {
-      "name": "Händler Stand",
-      "image": "/images/Nexarion/Tabaxi/variants/handler/Feuer.jpeg",
-      "id": "1772215917915-zsdrspbsg",
-      "locationId": "1772179931335-n4q407jxh",
-      "storyId": "1763038020231-hfgfxm2x9",
-      "descriptions": [
-        {
-          "id": "1772360060436-72q2pw5uk",
-          "title": "",
-          "text": "Tessik verkauft hier seine scharfe Feuersoße.",
-          "showToPlayers": false,
-          "createdAt": 1772360060436
-        }
-      ]
-    },
-    {
-      "name": "Kräuterstube",
-      "image": "/images/Nexarion/Tabaxi/variants/krauter/Feuer.jpeg",
-      "id": "1772215928076-udtitxbyc",
-      "locationId": "1772179931335-n4q407jxh",
-      "storyId": "1763038020231-hfgfxm2x9",
-      "descriptions": [
-        {
-          "id": "1772360060436-zhaes9ni8",
-          "title": "",
-          "text": "Shaya's Kräuter und Tränke.",
-          "showToPlayers": false,
-          "createdAt": 1772360060436
-        }
-      ]
-    },
-    {
-      "name": "Kräuterstube",
-      "image": "/images/Nexarion/Tabaxi/variants/krauter/Wasser.jpeg",
-      "id": "1772216713208-fy3yj93s9",
-      "locationId": "1772180076595-upkda65ll",
-      "storyId": "1763038020231-hfgfxm2x9",
-      "descriptions": [
-        {
-          "id": "1772360060436-1y9dgdb2b",
-          "title": "",
-          "text": "Shaya's Kräuter und Tränke.",
-          "showToPlayers": false,
-          "createdAt": 1772360060436
-        }
-      ]
-    },
-    {
-      "name": "Händler Stand",
-      "image": "/images/Nexarion/Tabaxi/variants/handler/Wasser.jpeg",
-      "id": "1772216678381-pb0hdci4w",
-      "locationId": "1772180076595-upkda65ll",
-      "storyId": "1763038020231-hfgfxm2x9",
-      "descriptions": [
-        {
-          "id": "1772360060436-t61sxqhg7",
-          "title": "",
-          "text": "Tessik's Fische und Meeresfrüchte.",
-          "showToPlayers": false,
-          "createdAt": 1772360060436
-        }
-      ]
-    },
-    {
-      "name": "Händler Stand",
-      "image": "/images/Nexarion/Tabaxi/variants/handler/Erde.jpeg",
-      "id": "1772268923426-nm4f130mp",
-      "locationId": "1772180093574-b1nsu2xx3",
-      "storyId": "1763038020231-hfgfxm2x9",
-      "descriptions": [
-        {
-          "id": "1772360060436-gtlfyhcb3",
-          "title": "",
-          "text": "Tessik verkauft Wurzeln, Pilze und Kräuter.",
-          "showToPlayers": false,
-          "createdAt": 1772360060436
-        }
-      ]
-    },
-    {
-      "name": "Kräuterstube",
-      "image": "/images/Nexarion/Tabaxi/variants/krauter/Erde.jpeg",
-      "id": "1772268931498-hlqhn9o4j",
-      "locationId": "1772180093574-b1nsu2xx3",
-      "storyId": "1763038020231-hfgfxm2x9",
-      "descriptions": [
-        {
-          "id": "1772360060436-w374ghor3",
-          "title": "",
-          "text": "Führung durch Shaya's Kräutergarten.",
-          "showToPlayers": false,
-          "createdAt": 1772360060436
-        }
-      ]
-    },
-    {
-      "name": "Händler Stand",
-      "image": "/images/Nexarion/Tabaxi/variants/handler/Luft.jpeg",
-      "id": "1772268946489-xgd2alo8p",
-      "locationId": "1772180108727-vs777ahwc",
-      "storyId": "1763038020231-hfgfxm2x9",
-      "descriptions": [
-        {
-          "id": "1772360060436-59nikbb0y",
-          "title": "",
-          "text": "Tessik verkauft Windspiel-Teile.",
-          "showToPlayers": false,
-          "createdAt": 1772360060436
-        }
-      ]
-    },
-    {
-      "name": "Kräuterstube",
-      "image": "/images/Nexarion/Tabaxi/variants/krauter/Luft.jpeg",
-      "id": "1772268953501-yn8cztfqp",
-      "locationId": "1772180108727-vs777ahwc",
-      "storyId": "1763038020231-hfgfxm2x9",
-      "descriptions": [
-        {
-          "id": "1772360060436-u2lzar0sm",
-          "title": "",
-          "text": "Shaya's Kräuter und Tränke.",
-          "showToPlayers": false,
-          "createdAt": 1772360060436
-        }
-      ]
-    },
-    {
-      "name": "Händler Stand",
-      "image": "/images/Nexarion/Tabaxi/variants/handler/Alle.jpeg",
-      "id": "1772268963546-evrbmg22k",
+      ],
+      "image": "/images/Nexarion/Tabaxi/locations/Taverne.jpeg",
+      "priority": 2,
+      "id": "1772271924482-x21qu57qp",
       "locationId": "1772180133196-3h6zjgjo1",
-      "storyId": "1763038020231-hfgfxm2x9",
+      "storyId": "1763038020231-hfgfxm2x9"
+    },
+    {
+      "name": "Händler Stand",
       "descriptions": [
         {
           "id": "1772360060436-5z1m3w3tn",
@@ -3288,42 +4003,70 @@
           "showToPlayers": false,
           "createdAt": 1772360060436
         }
-      ]
+      ],
+      "image": "/images/Nexarion/Tabaxi/variants/handler/Alle.jpeg",
+      "priority": 3,
+      "id": "1772268963546-evrbmg22k",
+      "locationId": "1772180133196-3h6zjgjo1",
+      "storyId": "1763038020231-hfgfxm2x9"
     },
     {
-      "name": "Festplatz",
-      "image": "/images/Nexarion/Tabaxi/variants/festplatz/Erde.jpeg",
-      "id": "1772285347753-zvlx2orrh",
-      "locationId": "1772180093574-b1nsu2xx3",
+      "name": "Rätselstand",
+      "descriptions": [],
+      "image": "/images/Nexarion/Tabaxi/locations/Rätsel_Alles.jpeg",
+      "priority": 0,
+      "id": "1772735661788-avodb5l92",
+      "locationId": "1772180133196-3h6zjgjo1",
+      "storyId": "1763038020231-hfgfxm2x9"
+    },
+    {
+      "name": "Elementar Pfad",
+      "descriptions": [],
+      "image": "",
+      "priority": 0,
+      "id": "1772735672279-4q2935eg7",
+      "locationId": "1772180133196-3h6zjgjo1",
       "storyId": "1763038020231-hfgfxm2x9",
-      "createdAt": 1772285347753,
-      "descriptions": []
+      "createdAt": 1772735672279
     },
     {
-      "name": "Sturmbeobachter Turm",
-      "image": "/images/Nexarion/Tabaxi/locations/Turm.jpeg",
-      "id": "1772285713422-6o6qs4zr9",
-      "locationId": "1772180108727-vs777ahwc",
+      "name": "Meister der Bindungen",
+      "descriptions": [],
+      "image": "/images/Nexarion/Tabaxi/locations/Meister_Bindung.jpeg",
+      "priority": 0,
+      "id": "1772735706794-il6ockqjg",
+      "locationId": "1772180133196-3h6zjgjo1",
       "storyId": "1763038020231-hfgfxm2x9",
-      "createdAt": 1772285713422,
-      "descriptions": [
-        {
-          "id": "1772360060436-2r1h5lngd",
-          "title": "",
-          "text": "Was eine aussicht",
-          "showToPlayers": false,
-          "createdAt": 1772360060436
-        }
-      ]
+      "createdAt": 1772735706794
     },
     {
-      "name": "Test SubLocation",
-      "image": "/images/Nexarion/locations/Taverne.jpeg",
-      "id": "1772314328905-42cxt1lhw",
-      "locationId": "1772314213955-2c5ezarzi",
-      "storyId": "1772314089281-quq1rick9",
-      "createdAt": 1772314328905,
-      "descriptions": []
+      "name": "Elixier Brauerei",
+      "descriptions": [],
+      "image": "/images/Nexarion/Tabaxi/locations/Elixier.jpeg",
+      "priority": 0,
+      "id": "1772735728117-u2rt7gg1a",
+      "locationId": "1772180133196-3h6zjgjo1",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "createdAt": 1772735728117
+    },
+    {
+      "name": "Elementar Bogen",
+      "descriptions": [],
+      "image": "/images/Nexarion/Tabaxi/locations/Elementar_Bogen.jpeg",
+      "priority": 0,
+      "id": "1772735817789-kxcrjxlzg",
+      "locationId": "1772180133196-3h6zjgjo1",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "createdAt": 1772735817789
+    },
+    {
+      "name": "Spiegel der Elemente",
+      "descriptions": [],
+      "image": "/images/Nexarion/Tabaxi/locations/Hütte_Spiegel.jpeg",
+      "priority": 0,
+      "id": "1772735832500-3brmc1uq2",
+      "locationId": "1772180133196-3h6zjgjo1",
+      "storyId": "1763038020231-hfgfxm2x9"
     }
   ],
   "theme": "ice"

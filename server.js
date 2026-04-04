@@ -13,6 +13,16 @@ const DATA_FILE = path.join(__dirname, "data", "session-data.json");
 
 // Middleware
 app.use(cors());
+
+// Optional: GZIP Kompression (benötigt: npm install compression)
+try {
+  const compression = await import("compression");
+  app.use(compression.default());
+  console.log("✓ GZIP Kompression aktiviert");
+} catch (e) {
+  console.log("ℹ️ GZIP Kompression nicht verfügbar (npm install compression)");
+}
+
 app.use(express.json({ limit: "50mb" }));
 
 // Stelle sicher dass der data Ordner existiert
@@ -49,7 +59,13 @@ if (!fs.existsSync(DATA_FILE)) {
 app.get("/api/data", (req, res) => {
   try {
     const data = fs.readFileSync(DATA_FILE, "utf8");
-    res.json(JSON.parse(data));
+    const parsedData = JSON.parse(data);
+
+    // Cache-Control: Bei Änderungen neu laden, aber kurzes Caching erlauben
+    res.setHeader("Cache-Control", "public, max-age=5, must-revalidate");
+    res.setHeader("ETag", `"${Date.now()}"`); // Vereinfachtes ETag
+
+    res.json(parsedData);
   } catch (error) {
     console.error("Fehler beim Laden der Daten:", error);
     res.status(500).json({ error: "Fehler beim Laden der Daten" });

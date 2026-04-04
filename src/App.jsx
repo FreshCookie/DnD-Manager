@@ -5,6 +5,8 @@ import GMView from "./components/GMView";
 import SoundManager from "./components/SoundManager";
 import StartScreen from "./components/StartScreen";
 import HexagonGMView from "./components/HexagonGMView";
+import PreloadScreen from "./components/PreloadScreen";
+import PenAndPaperMode from "./components/PenAndPaperMode";
 
 function App() {
   const [selectedMode, setSelectedMode] = useState(null);
@@ -30,8 +32,7 @@ function App() {
   if (selectedMode === "penandpaper") {
     return (
       <DataProvider>
-        <SoundManager />
-        <GMView />
+        <PenAndPaperMode />
       </DataProvider>
     );
   }
