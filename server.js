@@ -8,8 +8,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 const DATA_FILE = path.join(__dirname, "data", "session-data.json");
+const IS_PRODUCTION = process.env.NODE_ENV === "production";
 
 // Middleware
 app.use(cors());
@@ -83,8 +84,45 @@ app.post("/api/data", (req, res) => {
   }
 });
 
+// In Production: Serve static files from dist folder
+if (IS_PRODUCTION) {
+  const distPath = path.join(__dirname, "dist");
+
+  // Prüfe ob dist Ordner existiert
+  if (fs.existsSync(distPath)) {
+    console.log("📦 Serving static files from dist folder");
+
+    // Serve static assets (CSS, JS, images, etc.)
+    app.use(express.static(distPath));
+
+    // Serve all HTML routes
+    app.get("*", (req, res) => {
+      // Bestimme welche HTML Datei geladen werden soll
+      if (req.path.includes("/player.html")) {
+        res.sendFile(path.join(distPath, "player.html"));
+      } else if (req.path.includes("/hexagon-player.html")) {
+        res.sendFile(path.join(distPath, "hexagon-player.html"));
+      } else if (!req.path.startsWith("/api")) {
+        // Alle anderen Routen -> index.html (GM View)
+        res.sendFile(path.join(distPath, "index.html"));
+      }
+    });
+  } else {
+    console.warn("⚠️ Production mode aber kein 'dist' Ordner gefunden!");
+    console.warn("⚠️ Bitte führe 'npm run build' aus.");
+  }
+} else {
+  console.log("🔧 Development mode - Frontend wird von Vite bereitgestellt");
+}
+
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`🚀 Backend Server läuft auf Port ${PORT}`);
   console.log(`📁 Daten werden gespeichert in: ${DATA_FILE}`);
-  console.log(`🌐 Erreichbar unter: http://192.168.2.100:${PORT}`);
+  console.log(`🌐 Lokal erreichbar: http://localhost:${PORT}`);
+  console.log(`🌐 Im Netzwerk erreichbar: http://<raspberry-pi-ip>:${PORT}`);
+  if (IS_PRODUCTION) {
+    console.log(
+      "🏭 Production Mode - Frontend wird vom Backend bereitgestellt",
+    );
+  }
 });
