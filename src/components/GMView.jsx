@@ -15,6 +15,7 @@ import CurrentDisplayIndicator from "./CurrentDisplayIndicator";
 import SoundControl from "./SoundControl";
 import PlayersManager from "./PlayersManager";
 import CompanionsLibrary from "./CompanionsLibrary";
+import KinksReferenceLibrary from "./KinksReferenceLibrary";
 import SessionNotes from "./SessionNotes";
 import {
   BookOpen,
@@ -26,6 +27,7 @@ import {
   Users,
   Heart,
   FileText,
+  Book,
 } from "lucide-react";
 
 const GMView = () => {
@@ -148,6 +150,16 @@ const GMView = () => {
           >
             <Heart className="w-5 h-5" /> Companions
           </button>
+          <button
+            onClick={() => setActiveTab("kinks")}
+            className={`px-4 py-2 md:px-6 md:py-3 rounded-lg font-semibold transition-all hover:scale-105 flex items-center gap-2 whitespace-nowrap text-sm md:text-base ${
+              activeTab === "kinks"
+                ? theme.button
+                : `${theme.cardBg} ${theme.border} border ${theme.text} opacity-70`
+            }`}
+          >
+            <Book className="w-5 h-5" /> K&C Referenz
+          </button>
         </div>
 
         {/* Main Content Area */}
@@ -166,6 +178,7 @@ const GMView = () => {
             {activeTab === "items" && <ItemManager theme={theme} />}
             {activeTab === "players" && <PlayersManager theme={theme} />}
             {activeTab === "companions" && <CompanionsLibrary theme={theme} />}
+            {activeTab === "kinks" && <KinksReferenceLibrary theme={theme} />}
           </div>
 
           {/* Right Column - Tools */}

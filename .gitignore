@@ -36,3 +36,6 @@ public/*.rar
 
 # Keep folder structure with .gitkeep
 !**/.gitkeep
+
+# 18+ Content (only needed locally, not on Raspberry Pi)
+Info_DnD_18+/

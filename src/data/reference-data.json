@@ -1,0 +1,133 @@
+{
+  "kinks": [
+    {
+      "id": "kink_001",
+      "name": "Fesselspiele",
+      "category": "Bondage",
+      "shortDescription": "Körperliche Bewegungseinschränkung durch Seile, Ketten oder andere Hilfsmittel",
+      "mechanicsSummary": "Kreatur wird Restrained (Festgesetzt). Entkommen erfordert Strength/Dexterity Check.",
+      "examples": "Seile, Handschellen, Ketten, magische Fesseln"
+    },
+    {
+      "id": "kink_002",
+      "name": "Dominanz & Unterwerfung",
+      "category": "Power Exchange",
+      "shortDescription": "Machtdynamik zwischen dominanter und unterwürfiger Partei",
+      "mechanicsSummary": "Charmed-Zustand oder spezielle Status-Effekte. Rettungswürfe mit Modifikatoren.",
+      "examples": "Befehle befolgen, Gehorsam, Kontrolle abgeben"
+    },
+    {
+      "id": "kink_003",
+      "name": "Sensory Play",
+      "category": "Sensation",
+      "shortDescription": "Verstärkung oder Entzug von Sinneseindrücken",
+      "mechanicsSummary": "Blinded, Deafened oder ähnliche Zustände. Perception Checks mit Advantage/Disadvantage.",
+      "examples": "Augenbinden, Ohrstöpsel, sensorische Überstimulation"
+    }
+  ],
+  "classes": [
+    {
+      "id": "class_001",
+      "name": "Lust-Kleriker",
+      "baseClass": "Cleric",
+      "source": "Kinks & Cantrips",
+      "shortDescription": "Geweihte die Gottheiten der Lust und Freude dienen",
+      "keyFeatures": "Domain-Zauber: Charm Person, Enthrall. Channeling: Lustvolle Aura die Feinde ablenkt.",
+      "playstyle": "Supporter/Controller mit Fokus auf Charisma-basierte Effekte"
+    },
+    {
+      "id": "class_002",
+      "name": "Verführer-Barde",
+      "baseClass": "Bard",
+      "source": "Kinks & Cantrips",
+      "shortDescription": "Meister der Verführung und charmanten Manipulation",
+      "keyFeatures": "College Feature: Verführerische Performance. Bonus auf Persuasion und Deception.",
+      "playstyle": "Social encounter specialist mit Kontroll-Zaubern"
+    },
+    {
+      "id": "class_003",
+      "name": "Stitcher Rogue",
+      "baseClass": "Rogue",
+      "source": "Kinks & Cantrips",
+      "shortDescription": "Spezialist für magische Nähte und Fesselkünste",
+      "keyFeatures": "Schnelles Fesseln als Bonus Action. Expertise in Sleight of Hand für Knoten.",
+      "playstyle": "Crowd Control mit Fokus auf Restrained-Zustand"
+    }
+  ],
+  "races": [
+    {
+      "id": "race_001",
+      "name": "Cubeling",
+      "type": "Ooze",
+      "source": "Kinks & Cantrips",
+      "shortDescription": "Würfelartige Schleimwesen mit formbarem Körper",
+      "traits": "+2 CON, +1 DEX. Amorphous Shape: Kann Größe ändern (Small-Large). Acid Resistance.",
+      "culturalNotes": "Kommen aus den Tiefen, bilden Jagdstämme, werden oft missverstanden"
+    },
+    {
+      "id": "race_002",
+      "name": "Dragonkin",
+      "type": "Draconic Humanoid",
+      "source": "Kinks & Cantrips",
+      "shortDescription": "Drachenabkömmlinge mit Kink-fokussierten Fähigkeiten",
+      "traits": "+2 CHA, +1 STR. Draconic Charm: Vorteil auf Persuasion. Breath Weapon (angepasst).",
+      "culturalNotes": "Leben in Helene Pentarchy, stolze Krieger und Diplomat"
+    },
+    {
+      "id": "race_003",
+      "name": "Furfolk",
+      "type": "Anthropomorphic Animal",
+      "source": "Kinks & Cantrips",
+      "shortDescription": "Tierähnliche Humanoide mit instinktiven Fähigkeiten",
+      "traits": "+2 DEX, +1 WIS. Keen Senses: Advantage auf Perception. Natural Weapons.",
+      "culturalNotes": "Verbunden mit Dreadful Dragons und Primal Magic"
+    }
+  ],
+  "creatures": [
+    {
+      "id": "creature_001",
+      "name": "Booby Trap (Mimic)",
+      "type": "Monstrosity (Shapechanger)",
+      "cr": "3",
+      "shortDescription": "Mimic der sich als gefangene/gefesselte Person tarnt",
+      "tactics": "Nimmt Form einer hilflosen Person an. Limited Telepathy erkennt Desires. Enwrap-Angriff fesselt.",
+      "loot": "Keine besonderen Items, aber interessante Taktik für Fallen"
+    },
+    {
+      "id": "creature_002",
+      "name": "Ziicubus",
+      "type": "Fiend (Shapechanger)",
+      "cr": "12",
+      "shortDescription": "Lust-Dämon der sich von Pleasure ernährt",
+      "tactics": "Seduce-Fähigkeit zum Charmen. Draining Kiss verursacht massiven Schaden basierend auf Pleasure.",
+      "loot": "Infernal Contracts, Charm-fokussierte magische Items"
+    },
+    {
+      "id": "creature_003",
+      "name": "Laticifex Ooze",
+      "type": "Ooze",
+      "cr": "2",
+      "shortDescription": "Latex-artiger Schleim der Kreaturen umhüllt",
+      "tactics": "Engulf verschlingt Gegner. Erhöht Pleasure jeden Zug. Unfeeling (kein Pleasure/Pain).",
+      "loot": "Kann für Latex-Herstellung gezüchtet werden"
+    }
+  ],
+  "mechanics": [
+    {
+      "id": "mechanic_001",
+      "name": "Lust & Schmerz System",
+      "category": "Core Mechanic",
+      "shortDescription": "Zwei parallele Punktesysteme die Kampfdynamik erweitern",
+      "details": "Lust-Punkte: Erhöhen Verwundbarkeit, können zu Orgasma führen. Schmerz-Punkte: Ähnlich, aber anders geframet. Maximum = CON-Score.",
+      "rules": "Bei Überschreitung: CON Save (DC = Punkte). Fail = Stunned für 1 Runde."
+    },
+    {
+      "id": "mechanic_002",
+      "name": "Restrained (Festgesetzt)",
+      "category": "Condition",
+      "shortDescription": "Standard-D&D-Zustand mit besonderer Bedeutung",
+      "details": "Speed = 0. Attacks mit Disadvantage. Dex Saves mit Disadvantage. Attacks gegen dich mit Advantage.",
+      "rules": "Entkommen: Action + Strength/Dexterity Check (meist DC 13-15)"
+    }
+  ]
+}

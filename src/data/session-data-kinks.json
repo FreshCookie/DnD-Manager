@@ -1,0 +1,20 @@
+{
+  "sessions": [
+    {
+      "id": "kc_session_001",
+      "title": "Beispiel K&C Session",
+      "description": "Eine Beispiel-Session für Kinks & Cantrips",
+      "date": "2026-04-10",
+      "selectedKinks": ["kink_001", "kink_002"],
+      "selectedClasses": ["class_001"],
+      "selectedRaces": ["race_001", "race_003"],
+      "selectedCreatures": ["creature_001"],
+      "selectedMechanics": ["mechanic_001", "mechanic_002"],
+      "notes": "Notizen zur Session...",
+      "locations": [],
+      "npcs": [],
+      "encounters": []
+    }
+  ],
+  "currentSession": null
+}

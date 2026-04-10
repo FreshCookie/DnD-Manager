@@ -334,6 +334,230 @@ const PlayerView = () => {
             </div>
           </div>
         )}
+
+        {/* K&C Referenz Ansicht */}
+        {type === "kinksReference" && (
+          <div className="max-w-5xl mx-auto">
+            {/* Header mit Kategorie */}
+            <div className="text-center mb-8">
+              <h1
+                className={`${theme.accent} text-4xl font-bold mb-2 uppercase tracking-wide`}
+                style={{ fontFamily: "Georgia, serif" }}
+              >
+                {displayData.category === "kinks" && "🔗 Kink"}
+                {displayData.category === "classes" && "⚔️ Klasse"}
+                {displayData.category === "races" && "🧝 Rasse"}
+                {displayData.category === "creatures" && "🐉 Kreatur"}
+                {displayData.category === "mechanics" && "⚙️ Mechanik"}
+              </h1>
+              <h2
+                className={`${theme.text} text-6xl font-bold`}
+                style={{ fontFamily: "Georgia, serif" }}
+              >
+                {data.name}
+              </h2>
+            </div>
+
+            {/* Content basierend auf Kategorie */}
+            <div className="bg-black/40 backdrop-blur-sm rounded-2xl p-8 border-2 border-purple-500/30">
+              {/* Kink Anzeige */}
+              {displayData.category === "kinks" && (
+                <div className="space-y-6">
+                  <div className="flex items-center gap-3 pb-4 border-b border-purple-500/30">
+                    <span className="inline-block bg-purple-900/50 text-purple-300 px-4 py-2 rounded-lg text-lg font-semibold">
+                      {data.category}
+                    </span>
+                  </div>
+
+                  <div>
+                    <p
+                      className={`${theme.text} text-2xl leading-relaxed text-center`}
+                    >
+                      {data.shortDescription}
+                    </p>
+                  </div>
+
+                  {data.mechanicsSummary && (
+                    <div className="bg-purple-900/30 border-2 border-purple-500/50 rounded-xl p-6">
+                      <div className="text-purple-300 text-xl font-bold mb-3 flex items-center gap-2">
+                        🎲 Spielmechanik
+                      </div>
+                      <p className={`${theme.text} text-lg leading-relaxed`}>
+                        {data.mechanicsSummary}
+                      </p>
+                    </div>
+                  )}
+
+                  {data.examples && (
+                    <div className="bg-gray-800/50 rounded-xl p-6">
+                      <div className={`${theme.accent} text-xl font-bold mb-3`}>
+                        Beispiele
+                      </div>
+                      <p className={`${theme.text} text-lg`}>{data.examples}</p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Klassen Anzeige */}
+              {displayData.category === "classes" && (
+                <div className="space-y-6">
+                  <div className="flex flex-wrap items-center gap-3 pb-4 border-b border-blue-500/30">
+                    <span className="inline-block bg-blue-900/50 text-blue-300 px-4 py-2 rounded-lg text-lg font-semibold">
+                      {data.baseClass}
+                    </span>
+                    <span className="inline-block bg-gray-800/50 text-gray-300 px-4 py-2 rounded-lg text-lg">
+                      {data.source}
+                    </span>
+                  </div>
+
+                  <div>
+                    <p
+                      className={`${theme.text} text-2xl leading-relaxed text-center`}
+                    >
+                      {data.shortDescription}
+                    </p>
+                  </div>
+
+                  <div className="bg-blue-900/30 border-2 border-blue-500/50 rounded-xl p-6">
+                    <div className="text-blue-300 text-xl font-bold mb-3 flex items-center gap-2">
+                      ⭐ Hauptmerkmale
+                    </div>
+                    <p className={`${theme.text} text-lg leading-relaxed`}>
+                      {data.keyFeatures}
+                    </p>
+                  </div>
+
+                  <div className="bg-gray-800/50 rounded-xl p-6">
+                    <div className={`${theme.accent} text-xl font-bold mb-3`}>
+                      Spielstil
+                    </div>
+                    <p className={`${theme.text} text-lg`}>{data.playstyle}</p>
+                  </div>
+                </div>
+              )}
+
+              {/* Rassen Anzeige */}
+              {displayData.category === "races" && (
+                <div className="space-y-6">
+                  <div className="flex flex-wrap items-center gap-3 pb-4 border-b border-green-500/30">
+                    <span className="inline-block bg-green-900/50 text-green-300 px-4 py-2 rounded-lg text-lg font-semibold">
+                      {data.type}
+                    </span>
+                    <span className="inline-block bg-gray-800/50 text-gray-300 px-4 py-2 rounded-lg text-lg">
+                      {data.source}
+                    </span>
+                  </div>
+
+                  <div>
+                    <p
+                      className={`${theme.text} text-2xl leading-relaxed text-center`}
+                    >
+                      {data.shortDescription}
+                    </p>
+                  </div>
+
+                  <div className="bg-green-900/30 border-2 border-green-500/50 rounded-xl p-6">
+                    <div className="text-green-300 text-xl font-bold mb-3 flex items-center gap-2">
+                      🎯 Rasseneigenschaften
+                    </div>
+                    <p className={`${theme.text} text-lg leading-relaxed`}>
+                      {data.traits}
+                    </p>
+                  </div>
+
+                  {data.culturalNotes && (
+                    <div className="bg-gray-800/50 rounded-xl p-6">
+                      <div className={`${theme.accent} text-xl font-bold mb-3`}>
+                        Kulturelle Hintergründe
+                      </div>
+                      <p className={`${theme.text} text-lg`}>
+                        {data.culturalNotes}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Kreaturen Anzeige */}
+              {displayData.category === "creatures" && (
+                <div className="space-y-6">
+                  <div className="flex flex-wrap items-center gap-3 pb-4 border-b border-red-500/30">
+                    <span className="inline-block bg-red-900/50 text-red-300 px-4 py-2 rounded-lg text-lg font-semibold">
+                      {data.type}
+                    </span>
+                    <span className="inline-block bg-orange-900/50 text-orange-300 px-4 py-2 rounded-lg text-lg font-bold">
+                      CR {data.cr}
+                    </span>
+                  </div>
+
+                  <div>
+                    <p
+                      className={`${theme.text} text-2xl leading-relaxed text-center`}
+                    >
+                      {data.shortDescription}
+                    </p>
+                  </div>
+
+                  <div className="bg-red-900/30 border-2 border-red-500/50 rounded-xl p-6">
+                    <div className="text-red-300 text-xl font-bold mb-3 flex items-center gap-2">
+                      ⚔️ Kampftaktik
+                    </div>
+                    <p className={`${theme.text} text-lg leading-relaxed`}>
+                      {data.tactics}
+                    </p>
+                  </div>
+
+                  {data.loot && (
+                    <div className="bg-yellow-900/30 border-2 border-yellow-500/50 rounded-xl p-6">
+                      <div className="text-yellow-300 text-xl font-bold mb-3">
+                        💎 Beute
+                      </div>
+                      <p className={`${theme.text} text-lg`}>{data.loot}</p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Mechaniken Anzeige */}
+              {displayData.category === "mechanics" && (
+                <div className="space-y-6">
+                  <div className="flex items-center gap-3 pb-4 border-b border-yellow-500/30">
+                    <span className="inline-block bg-yellow-900/50 text-yellow-300 px-4 py-2 rounded-lg text-lg font-semibold">
+                      {data.category}
+                    </span>
+                  </div>
+
+                  <div>
+                    <p
+                      className={`${theme.text} text-2xl leading-relaxed text-center`}
+                    >
+                      {data.shortDescription}
+                    </p>
+                  </div>
+
+                  <div className="bg-yellow-900/30 border-2 border-yellow-500/50 rounded-xl p-6">
+                    <div className="text-yellow-300 text-xl font-bold mb-3 flex items-center gap-2">
+                      📖 Details
+                    </div>
+                    <p className={`${theme.text} text-lg leading-relaxed`}>
+                      {data.details}
+                    </p>
+                  </div>
+
+                  {data.rules && (
+                    <div className="bg-gray-800/50 rounded-xl p-6">
+                      <div className={`${theme.accent} text-xl font-bold mb-3`}>
+                        Regelwerk
+                      </div>
+                      <p className={`${theme.text} text-lg`}>{data.rules}</p>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
