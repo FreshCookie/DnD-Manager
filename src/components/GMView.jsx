@@ -33,7 +33,7 @@ import {
 
 const GMView = () => {
   const { theme: themeKey, selectedStory } = useData();
-  const { sessionId } = useAuth();
+  const { sessionId, logoutAllPlayers } = useAuth();
   const theme = themes[themeKey];
   const [activeTab, setActiveTab] = useState("overview");
 
@@ -181,7 +181,11 @@ const GMView = () => {
             {activeTab === "players" && <PlayersManager theme={theme} />}
             {activeTab === "companions" && <CompanionsLibrary theme={theme} />}
             {activeTab === "online" && (
-              <OnlinePlayersManager theme={theme} sessionId={sessionId} />
+              <OnlinePlayersManager
+                theme={theme}
+                sessionId={sessionId}
+                onLogoutAll={logoutAllPlayers}
+              />
             )}
           </div>
 

@@ -35,7 +35,7 @@ import {
 
 const GMView18Plus = () => {
   const { theme: themeKey, selectedStory, sendToPlayerView } = useData18Plus();
-  const { sessionId } = useAuth();
+  const { sessionId, logoutAllPlayers } = useAuth();
   const theme = themes[themeKey];
   const [activeTab, setActiveTab] = useState("overview");
 
@@ -199,7 +199,11 @@ const GMView18Plus = () => {
               />
             )}
             {activeTab === "online" && (
-              <OnlinePlayersManager theme={theme} sessionId={sessionId} />
+              <OnlinePlayersManager
+                theme={theme}
+                sessionId={sessionId}
+                onLogoutAll={logoutAllPlayers}
+              />
             )}
           </div>
 
