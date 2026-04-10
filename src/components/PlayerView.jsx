@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { io } from "socket.io-client";
-import { LogOut } from "lucide-react";
+import { LogOut, Menu } from "lucide-react";
+import PlayerSideMenu from "./PlayerSideMenu";
 
 const PlayerView = ({ character = null, players = [], onLogout = null }) => {
   const [displayData, setDisplayData] = useState(null);
@@ -8,6 +9,7 @@ const PlayerView = ({ character = null, players = [], onLogout = null }) => {
   const [currentTooltip, setCurrentTooltip] = useState("");
   const [fadeIn, setFadeIn] = useState(true);
   const [socket, setSocket] = useState(null);
+  const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
   const [theme] = useState({
     bg: "bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900",
     text: "text-gray-100",
@@ -207,17 +209,30 @@ const PlayerView = ({ character = null, players = [], onLogout = null }) => {
       <div
         className={`min-h-screen ${theme.bg} flex items-center justify-center p-8 relative`}
       >
-        {/* Logout Button auch im Warte-Screen */}
-        {onLogout && (
-          <button
-            onClick={onLogout}
-            className="absolute top-4 left-4 z-50 flex items-center gap-2 bg-red-500/20 hover:bg-red-500/30 border border-red-500/50 hover:border-red-500 text-red-300 hover:text-red-100 px-3 py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-red-500/50"
-            title="Logout"
-          >
-            <LogOut className="w-5 h-5" />
-            <span className="hidden sm:inline text-sm">Logout</span>
-          </button>
-        )}
+        {/* Logout & Menu Buttons auch im Warte-Screen */}
+        <div className="absolute top-4 left-4 z-50 flex gap-2">
+          {onLogout && (
+            <button
+              onClick={onLogout}
+              className="flex items-center gap-2 bg-red-500/20 hover:bg-red-500/30 border border-red-500/50 hover:border-red-500 text-red-300 hover:text-red-100 px-3 py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-red-500/50"
+              title="Logout"
+            >
+              <LogOut className="w-5 h-5" />
+              <span className="hidden sm:inline text-sm">Logout</span>
+            </button>
+          )}
+
+          {character && (
+            <button
+              onClick={() => setIsSideMenuOpen(true)}
+              className="flex items-center gap-2 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/50 hover:border-purple-500 text-purple-300 hover:text-purple-100 px-3 py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-purple-500/50"
+              title="Menü öffnen"
+            >
+              <Menu className="w-5 h-5" />
+              <span className="hidden sm:inline text-sm">Menü</span>
+            </button>
+          )}
+        </div>
 
         <div className="text-center max-w-4xl">
           <h1
@@ -249,6 +264,14 @@ const PlayerView = ({ character = null, players = [], onLogout = null }) => {
             </div>
           )}
         </div>
+
+        {/* Player SideMenu auch im Warte-Screen */}
+        <PlayerSideMenu
+          isOpen={isSideMenuOpen}
+          onClose={() => setIsSideMenuOpen(false)}
+          character={character}
+          characterData={characterData}
+        />
       </div>
     );
   }
@@ -259,17 +282,32 @@ const PlayerView = ({ character = null, players = [], onLogout = null }) => {
     <div
       className={`min-h-screen ${theme.bg} flex items-center justify-center p-8 relative`}
     >
-      {/* Logout Button (nur wenn onLogout prop vorhanden) */}
-      {onLogout && (
-        <button
-          onClick={onLogout}
-          className="absolute top-4 left-4 z-50 flex items-center gap-2 bg-red-500/20 hover:bg-red-500/30 border border-red-500/50 hover:border-red-500 text-red-300 hover:text-red-100 px-3 py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-red-500/50"
-          title="Logout"
-        >
-          <LogOut className="w-5 h-5" />
-          <span className="hidden sm:inline text-sm">Logout</span>
-        </button>
-      )}
+      {/* Logout & Menu Buttons (oben links) */}
+      <div className="absolute top-4 left-4 z-50 flex gap-2">
+        {/* Logout Button (nur wenn onLogout prop vorhanden) */}
+        {onLogout && (
+          <button
+            onClick={onLogout}
+            className="flex items-center gap-2 bg-red-500/20 hover:bg-red-500/30 border border-red-500/50 hover:border-red-500 text-red-300 hover:text-red-100 px-3 py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-red-500/50"
+            title="Logout"
+          >
+            <LogOut className="w-5 h-5" />
+            <span className="hidden sm:inline text-sm">Logout</span>
+          </button>
+        )}
+
+        {/* Hamburger Menu Button (nur für eingeloggte Spieler) */}
+        {character && (
+          <button
+            onClick={() => setIsSideMenuOpen(true)}
+            className="flex items-center gap-2 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/50 hover:border-purple-500 text-purple-300 hover:text-purple-100 px-3 py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-purple-500/50"
+            title="Menü öffnen"
+          >
+            <Menu className="w-5 h-5" />
+            <span className="hidden sm:inline text-sm">Menü</span>
+          </button>
+        )}
+      </div>
 
       {/* Character Info (nur für eingeloggte Spieler) */}
       {characterData && (
@@ -685,6 +723,14 @@ const PlayerView = ({ character = null, players = [], onLogout = null }) => {
           </div>
         )}
       </div>
+
+      {/* Player SideMenu */}
+      <PlayerSideMenu
+        isOpen={isSideMenuOpen}
+        onClose={() => setIsSideMenuOpen(false)}
+        character={character}
+        characterData={characterData}
+      />
     </div>
   );
 };
