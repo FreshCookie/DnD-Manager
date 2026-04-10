@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useData } from "../contexts/DataContext";
+import { useData18Plus } from "../contexts/DataContext18Plus";
 import PreloadScreen from "./PreloadScreen";
 import GMView18Plus from "./GMView18Plus";
 import SoundManager from "./SoundManager";
@@ -20,7 +20,7 @@ const PenAndPaperMode18Plus = () => {
     locations,
     npcs,
     intros,
-  } = useData();
+  } = useData18Plus();
 
   // Debug: Log isLoaded Status
   useEffect(() => {

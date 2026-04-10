@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Book, Search, Eye, Filter, X } from "lucide-react";
-import { useData } from "../contexts/DataContext";
 
-const KinksReferenceLibrary = ({ theme }) => {
-  const { sendToPlayerView } = useData();
+const KinksReferenceLibrary = ({ theme, sendToPlayerView }) => {
   const [referenceData, setReferenceData] = useState({
     kinks: [],
     classes: [],
@@ -21,15 +19,20 @@ const KinksReferenceLibrary = ({ theme }) => {
     mechanics: [],
   });
 
-  // Lade Referenzdaten
+  // Lade Referenzdaten vom Server
   useEffect(() => {
     const loadReferenceData = async () => {
       try {
-        const response = await fetch("/src/data/reference-data.json");
+        const apiUrl = import.meta.env.VITE_API_URL || "";
+        const response = await fetch(`${apiUrl}/api/reference-data`);
+        if (!response.ok) {
+          throw new Error("Fehler beim Laden der Referenzdaten");
+        }
         const data = await response.json();
         setReferenceData(data);
+        console.log("✅ K&C Referenzdaten geladen:", data);
       } catch (error) {
-        console.error("Fehler beim Laden der Referenzdaten:", error);
+        console.error("❌ Fehler beim Laden der Referenzdaten:", error);
       }
     };
     loadReferenceData();

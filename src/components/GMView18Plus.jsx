@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useData } from "../contexts/DataContext";
+import { useData18Plus } from "../contexts/DataContext18Plus";
 import { themes } from "../styles/themes";
 import CitySelector from "./CitySelector";
 import StoryList from "./StoryList";
@@ -31,7 +31,7 @@ import {
 } from "lucide-react";
 
 const GMView18Plus = () => {
-  const { theme: themeKey, selectedStory } = useData();
+  const { theme: themeKey, selectedStory, sendToPlayerView } = useData18Plus();
   const theme = themes[themeKey];
   const [activeTab, setActiveTab] = useState("overview");
 
@@ -178,7 +178,12 @@ const GMView18Plus = () => {
             {activeTab === "items" && <ItemManager theme={theme} />}
             {activeTab === "players" && <PlayersManager theme={theme} />}
             {activeTab === "companions" && <CompanionsLibrary theme={theme} />}
-            {activeTab === "kinks" && <KinksReferenceLibrary theme={theme} />}
+            {activeTab === "kinks" && (
+              <KinksReferenceLibrary
+                theme={theme}
+                sendToPlayerView={sendToPlayerView}
+              />
+            )}
           </div>
 
           {/* Right Column - Tools */}

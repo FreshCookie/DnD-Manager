@@ -10,6 +10,12 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3001;
 const DATA_FILE = path.join(__dirname, "data", "session-data.json");
+const DATA_FILE_18PLUS = path.join(
+  __dirname,
+  "data",
+  "session-data-18plus.json",
+);
+const REFERENCE_DATA_FILE = path.join(__dirname, "data", "reference-data.json");
 const IS_PRODUCTION = process.env.NODE_ENV === "production";
 
 // Middleware
@@ -81,6 +87,81 @@ app.post("/api/data", (req, res) => {
   } catch (error) {
     console.error("Fehler beim Speichern der Daten:", error);
     res.status(500).json({ error: "Fehler beim Speichern der Daten" });
+  }
+});
+
+// GET - Lade 18+ Session-Daten
+app.get("/api/data-18plus", (req, res) => {
+  try {
+    // Erstelle Datei falls nicht vorhanden
+    if (!fs.existsSync(DATA_FILE_18PLUS)) {
+      const initialData = {
+        cities: [],
+        stories: [],
+        npcs: [],
+        locations: [],
+        subLocations: [],
+        items: [],
+        intros: [],
+        theme: "dark",
+        sessionTimes: {},
+        players: [],
+        companions: [],
+        activePlayers: [],
+      };
+      fs.writeFileSync(DATA_FILE_18PLUS, JSON.stringify(initialData, null, 2));
+    }
+
+    const data = fs.readFileSync(DATA_FILE_18PLUS, "utf8");
+    const parsedData = JSON.parse(data);
+
+    res.setHeader("Cache-Control", "public, max-age=5, must-revalidate");
+    res.setHeader("ETag", `"${Date.now()}"`);
+
+    res.json(parsedData);
+  } catch (error) {
+    console.error("Fehler beim Laden der 18+ Daten:", error);
+    res.status(500).json({ error: "Fehler beim Laden der 18+ Daten" });
+  }
+});
+
+// POST - Speichere 18+ Session-Daten
+app.post("/api/data-18plus", (req, res) => {
+  try {
+    fs.writeFileSync(DATA_FILE_18PLUS, JSON.stringify(req.body, null, 2));
+    res.json({ success: true, message: "18+ Daten erfolgreich gespeichert" });
+  } catch (error) {
+    console.error("Fehler beim Speichern der 18+ Daten:", error);
+    res.status(500).json({ error: "Fehler beim Speichern der 18+ Daten" });
+  }
+});
+
+// GET - Lade K&C Reference-Daten
+app.get("/api/reference-data", (req, res) => {
+  try {
+    // Erstelle Datei falls nicht vorhanden
+    if (!fs.existsSync(REFERENCE_DATA_FILE)) {
+      const initialData = {
+        kinks: [],
+        classes: [],
+        races: [],
+        creatures: [],
+        mechanics: [],
+      };
+      fs.writeFileSync(
+        REFERENCE_DATA_FILE,
+        JSON.stringify(initialData, null, 2),
+      );
+    }
+
+    const data = fs.readFileSync(REFERENCE_DATA_FILE, "utf8");
+    const parsedData = JSON.parse(data);
+
+    res.setHeader("Cache-Control", "public, max-age=3600"); // Cache für 1 Stunde
+    res.json(parsedData);
+  } catch (error) {
+    console.error("Fehler beim Laden der Reference-Daten:", error);
+    res.status(500).json({ error: "Fehler beim Laden der Reference-Daten" });
   }
 });
 

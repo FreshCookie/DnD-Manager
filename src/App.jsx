@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { DataProvider } from "./contexts/DataContext";
+import { DataProvider18Plus } from "./contexts/DataContext18Plus";
 import { HexagonProvider } from "./contexts/HexagonContext";
 import GMView from "./components/GMView";
 import SoundManager from "./components/SoundManager";
@@ -41,9 +42,9 @@ function App() {
   // Pen & Paper 18+ Modus
   if (selectedMode === "penandpaper18") {
     return (
-      <DataProvider>
+      <DataProvider18Plus>
         <PenAndPaperMode18Plus />
-      </DataProvider>
+      </DataProvider18Plus>
     );
   }
 
