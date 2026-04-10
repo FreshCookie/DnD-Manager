@@ -1,8 +1,89 @@
-import React, { useState } from "react";
-import { X, User, Edit, BookOpen, Package } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { X, User, Edit, BookOpen, Package, Save } from "lucide-react";
 
 const PlayerSideMenu = ({ isOpen, onClose, character, characterData }) => {
   const [activeTab, setActiveTab] = useState("character");
+  const [editForm, setEditForm] = useState({
+    name: "",
+    class: "",
+    race: "",
+    background: "",
+    level: "",
+    hp: "",
+    maxHp: "",
+    alignment: "",
+  });
+  const [isSaving, setIsSaving] = useState(false);
+
+  // Initialize form when characterData changes
+  useEffect(() => {
+    if (characterData) {
+      setEditForm({
+        name: characterData.name || "",
+        class: characterData.class || "",
+        race: characterData.race || "",
+        background: characterData.background || characterData.description || "",
+        level: characterData.level || "",
+        hp: characterData.hp || "",
+        maxHp: characterData.maxHp || "",
+        alignment: characterData.alignment || "",
+      });
+    }
+  }, [characterData]);
+
+  const handleSaveChanges = async () => {
+    if (!editForm.name.trim()) {
+      alert("Charaktername ist erforderlich!");
+      return;
+    }
+
+    setIsSaving(true);
+    try {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
+      const response = await fetch(
+        `${API_BASE_URL}/api/characters/${character}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify(editForm),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Fehler beim Speichern der Änderungen");
+      }
+
+      alert("Änderungen erfolgreich gespeichert!");
+      setActiveTab("character");
+      // Reload page to reflect changes
+      window.location.reload();
+    } catch (error) {
+      console.error("Fehler beim Speichern:", error);
+      alert("Fehler beim Speichern der Änderungen. Bitte versuche es erneut.");
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleCancelEdit = () => {
+    // Reset form to current characterData
+    if (characterData) {
+      setEditForm({
+        name: characterData.name || "",
+        class: characterData.class || "",
+        race: characterData.race || "",
+        background: characterData.background || characterData.description || "",
+        level: characterData.level || "",
+        hp: characterData.hp || "",
+        maxHp: characterData.maxHp || "",
+        alignment: characterData.alignment || "",
+      });
+    }
+    setActiveTab("character");
+  };
 
   if (!isOpen) return null;
 
@@ -148,12 +229,163 @@ const PlayerSideMenu = ({ isOpen, onClose, character, characterData }) => {
 
           {/* Bearbeiten Tab */}
           {activeTab === "edit" && (
-            <div className="text-center text-gray-400 py-12">
-              <Edit className="w-16 h-16 mx-auto mb-4 opacity-50" />
-              <p className="text-lg mb-2">Charakter Bearbeitung</p>
-              <p className="text-sm">
-                Wird in Phase 2 implementiert
-              </p>
+            <div className="space-y-4">
+              <div className="bg-gray-800 rounded-lg p-4">
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Charaktername *
+                </label>
+                <input
+                  type="text"
+                  value={editForm.name}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, name: e.target.value })
+                  }
+                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="z.B. Riku Hoshido"
+                  required
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-gray-800 rounded-lg p-4">
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Klasse
+                  </label>
+                  <input
+                    type="text"
+                    value={editForm.class}
+                    onChange={(e) =>
+                      setEditForm({ ...editForm, class: e.target.value })
+                    }
+                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="z.B. Dieb"
+                  />
+                </div>
+
+                <div className="bg-gray-800 rounded-lg p-4">
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Rasse
+                  </label>
+                  <input
+                    type="text"
+                    value={editForm.race}
+                    onChange={(e) =>
+                      setEditForm({ ...editForm, race: e.target.value })
+                    }
+                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="z.B. Mensch"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-3 gap-4">
+                <div className="bg-gray-800 rounded-lg p-4">
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Level
+                  </label>
+                  <input
+                    type="number"
+                    value={editForm.level}
+                    onChange={(e) =>
+                      setEditForm({ ...editForm, level: e.target.value })
+                    }
+                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="1"
+                    min="1"
+                    max="20"
+                  />
+                </div>
+
+                <div className="bg-gray-800 rounded-lg p-4">
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    HP
+                  </label>
+                  <input
+                    type="number"
+                    value={editForm.hp}
+                    onChange={(e) =>
+                      setEditForm({ ...editForm, hp: e.target.value })
+                    }
+                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="10"
+                    min="0"
+                  />
+                </div>
+
+                <div className="bg-gray-800 rounded-lg p-4">
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Max HP
+                  </label>
+                  <input
+                    type="number"
+                    value={editForm.maxHp}
+                    onChange={(e) =>
+                      setEditForm({ ...editForm, maxHp: e.target.value })
+                    }
+                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="10"
+                    min="1"
+                  />
+                </div>
+              </div>
+
+              <div className="bg-gray-800 rounded-lg p-4">
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Alignment
+                </label>
+                <select
+                  value={editForm.alignment}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, alignment: e.target.value })
+                  }
+                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="">Wähle ein Alignment...</option>
+                  <option value="Lawful Good">Lawful Good</option>
+                  <option value="Neutral Good">Neutral Good</option>
+                  <option value="Chaotic Good">Chaotic Good</option>
+                  <option value="Lawful Neutral">Lawful Neutral</option>
+                  <option value="True Neutral">True Neutral</option>
+                  <option value="Chaotic Neutral">Chaotic Neutral</option>
+                  <option value="Lawful Evil">Lawful Evil</option>
+                  <option value="Neutral Evil">Neutral Evil</option>
+                  <option value="Chaotic Evil">Chaotic Evil</option>
+                </select>
+              </div>
+
+              <div className="bg-gray-800 rounded-lg p-4">
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Hintergrundgeschichte
+                </label>
+                <textarea
+                  value={editForm.background}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, background: e.target.value })
+                  }
+                  rows="8"
+                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                  placeholder="Erzähle die Geschichte deines Charakters..."
+                />
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex gap-4 pt-4">
+                <button
+                  onClick={handleSaveChanges}
+                  disabled={!editForm.name.trim() || isSaving}
+                  className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white rounded-lg transition-colors"
+                >
+                  <Save className="w-5 h-5" />
+                  {isSaving ? "Speichere..." : "Speichern"}
+                </button>
+                <button
+                  onClick={handleCancelEdit}
+                  disabled={isSaving}
+                  className="flex-1 px-4 py-3 bg-gray-700 hover:bg-gray-600 disabled:bg-gray-800 disabled:cursor-not-allowed text-white rounded-lg transition-colors"
+                >
+                  Abbrechen
+                </button>
+              </div>
             </div>
           )}
 
@@ -162,9 +394,7 @@ const PlayerSideMenu = ({ isOpen, onClose, character, characterData }) => {
             <div className="text-center text-gray-400 py-12">
               <BookOpen className="w-16 h-16 mx-auto mb-4 opacity-50" />
               <p className="text-lg mb-2">Meine Notizen</p>
-              <p className="text-sm">
-                Wird in Phase 2 implementiert
-              </p>
+              <p className="text-sm">Wird in Phase 2 implementiert</p>
             </div>
           )}
 
@@ -173,9 +403,7 @@ const PlayerSideMenu = ({ isOpen, onClose, character, characterData }) => {
             <div className="text-center text-gray-400 py-12">
               <Package className="w-16 h-16 mx-auto mb-4 opacity-50" />
               <p className="text-lg mb-2">Mein Inventar</p>
-              <p className="text-sm">
-                Wird in Phase 4 implementiert
-              </p>
+              <p className="text-sm">Wird in Phase 4 implementiert</p>
             </div>
           )}
         </div>

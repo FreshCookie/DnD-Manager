@@ -499,6 +499,98 @@ app.post("/api/auth/verify-session", (req, res) => {
   }
 });
 
+// PUT /api/characters/:characterId - Update character data
+app.put("/api/characters/:characterId", (req, res) => {
+  try {
+    const { characterId } = req.params;
+    const { name, class: charClass, race, background, level, hp, maxHp, alignment } = req.body;
+    const sessionId = req.cookies.sessionId;
+
+    // Verify session
+    if (!sessionId) {
+      return res.status(401).json({ error: "Nicht angemeldet" });
+    }
+
+    const sessions = loadSessions();
+    const session = sessions.find((s) => s.sessionId === sessionId);
+
+    if (!session) {
+      return res.status(401).json({ error: "Ungültige Session" });
+    }
+
+    // Authorization: Players can only edit their own character
+    if (session.role === "player" && session.character !== characterId) {
+      return res.status(403).json({ error: "Keine Berechtigung" });
+    }
+
+    // Validate required fields
+    if (!name || !name.trim()) {
+      return res.status(400).json({ error: "Charaktername ist erforderlich" });
+    }
+
+    // Load session data
+    const sessionData = loadData();
+
+    if (!sessionData.players || !Array.isArray(sessionData.players)) {
+      return res.status(500).json({ error: "Spielerdaten nicht gefunden" });
+    }
+
+    // Find player by characterId (ID field)
+    const playerIndex = sessionData.players.findIndex(
+      (p) => p.id === characterId
+    );
+
+    if (playerIndex === -1) {
+      return res.status(404).json({ error: "Charakter nicht gefunden" });
+    }
+
+    // Update player data
+    const player = sessionData.players[playerIndex];
+    
+    // Update basic fields
+    player.name = name.trim();
+    
+    // Update optional fields
+    if (charClass !== undefined) player.class = charClass;
+    if (race !== undefined) player.race = race;
+    if (background !== undefined) player.background = background;
+    if (level !== undefined) player.level = level;
+    if (hp !== undefined) player.hp = hp;
+    if (maxHp !== undefined) player.maxHp = maxHp;
+    if (alignment !== undefined) player.alignment = alignment;
+
+    // Update description field (legacy format: "Race / Class\nBackground...")
+    if (race || charClass || background) {
+      let descParts = [];
+      if (race && charClass) {
+        descParts.push(`${race} / ${charClass}`);
+      } else if (race) {
+        descParts.push(race);
+      } else if (charClass) {
+        descParts.push(charClass);
+      }
+      if (background) {
+        descParts.push(background);
+      }
+      player.description = descParts.join("\n");
+    }
+
+    // Save updated data
+    saveData(sessionData);
+
+    console.log(`✅ Character ${characterId} updated by ${session.username}`);
+
+    res.json({
+      success: true,
+      message: "Charakter erfolgreich aktualisiert",
+      player,
+    });
+  } catch (error) {
+    console.error("Fehler beim Aktualisieren des Charakters:", error);
+    res.status(500).json({ error: "Interner Server-Fehler" });
+  }
+});
+
 // ============================================================================
 // END AUTH ENDPOINTS
 // ============================================================================
