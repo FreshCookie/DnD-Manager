@@ -1,0 +1,4073 @@
+{
+  "cities": [
+    {
+      "id": "1762975693689-97lnjx5tu",
+      "name": "Nexarion",
+      "createdAt": 1762975693689,
+      "image": "/images/Nexarion/Nexarion.jpg"
+    },
+    {
+      "id": "1763041424429-4npzmnmqo",
+      "name": "Aurelius",
+      "createdAt": 1763041424429,
+      "description": "Die Stadt für wenn Sascha mal nicht da ist oder keine Zeit hat oder keine Lust hat",
+      "image": "/images/Aurelius/city/aurelius.jpeg"
+    }
+  ],
+  "stories": [
+    {
+      "title": "Die Zentauren",
+      "description": "Die Zentauren werden von Untoten und Skeletten heimgesucht. Alles hat angefangen, als einer ihrer Männer wegen Mordes zu Tode verurteilt wurde.",
+      "status": "completed",
+      "completionTime": 0,
+      "creator": "Sascha",
+      "image": "",
+      "id": "1763037636232-4p3us0yqx",
+      "cityId": "1762975693689-97lnjx5tu",
+      "createdAt": 1763037636232
+    },
+    {
+      "title": "Die Zyklopen",
+      "description": "Komische Dinge gehen vor sich seit dem der Juwelier so tolle Edelsteine verkauft. Seit dem leuchtet sein Haus jede Nacht rot und es erscheinen Imps in der Nacht. Könnte er was damit zu tun haben?",
+      "status": "completed",
+      "completionTime": 0,
+      "creator": "Kevin",
+      "image": "",
+      "id": "1763037759421-x87p0hk8e",
+      "cityId": "1762975693689-97lnjx5tu",
+      "createdAt": 1763037759421
+    },
+    {
+      "title": "Die Drachengeborenen",
+      "description": "Keine Ahnung was da passiert Sascha kommt nicht aus dem Knick um es mir zu schicken.",
+      "status": "wip",
+      "completionTime": 0,
+      "creator": "Sascha",
+      "image": "",
+      "id": "1763037798305-hvv6waeso",
+      "cityId": "1762975693689-97lnjx5tu",
+      "createdAt": 1763037798305
+    },
+    {
+      "title": "Die Feen",
+      "description": "Seit 2 Wochen meldet sich die Bürgermeisterin der Feen nicht mehr. Gollomini macht sich sorgen und schickt die Truppe dort hin um nachzusehen.",
+      "status": "completed",
+      "completionTime": 0,
+      "creator": "Kevin",
+      "image": "",
+      "id": "1763037870185-sjvpy9yg5",
+      "cityId": "1762975693689-97lnjx5tu",
+      "createdAt": 1763037870185
+    },
+    {
+      "title": "Die Tabaxi",
+      "description": "Die Spieler werden auf ein alljährliches Fest der Sonne eingeladen. Ein wichtiges Event der Tabaxi um alle 4 Elemente im Gleichgewicht zu behalten. Doch dieses Jahr kam es anders als erwartet. Zudem lernt Theresa (Georgi) ihre Eltern kennen und erfährt mehr über sich (Backstory).",
+      "status": "ready",
+      "completionTime": 0,
+      "creator": "Kevin",
+      "image": "",
+      "id": "1763038020231-hfgfxm2x9",
+      "cityId": "1762975693689-97lnjx5tu",
+      "createdAt": 1763038020231
+    },
+    {
+      "title": "Die Tieflinge",
+      "description": "Keine Ahnung hab mir noch keine Gedanken dazu gemacht. Auf jedenfall kommt dort der Tiefling Händler aus der Feen Story vor.",
+      "status": "wip",
+      "completionTime": 0,
+      "creator": "Kevin",
+      "image": "",
+      "id": "1763038078711-9b7z6xn77",
+      "cityId": "1762975693689-97lnjx5tu",
+      "createdAt": 1763038078711
+    },
+    {
+      "title": "Die Hexengilde",
+      "description": "Die Hexen führen wieder ihr alljährliches Schutzritual durch doch ihnen fehlen noch ein paar Dinge dafür. Die Spieler werden gebeten dieses zu holen. Doch dieses Jahr funktionierte das Schutzritual nicht wie erhofft.",
+      "status": "ready",
+      "completionTime": 0,
+      "creator": "Kevin",
+      "image": "/images/Aurelius/locations/hexengilde.jpeg",
+      "id": "1763041578827-nscg8bc33",
+      "cityId": "1763041424429-4npzmnmqo",
+      "createdAt": 1763041578827
+    }
+  ],
+  "npcs": [
+    {
+      "name": "hh",
+      "profession": "hh",
+      "images": [
+        "/images/npcs/Händler.jpeg"
+      ],
+      "locationId": "1762978422701-tkun29de8",
+      "id": "1762978368495-f34jlnk96",
+      "storyId": "1762975726705-20ecwctqc",
+      "descriptions": [
+        {
+          "id": "1772360060436-z3g3hll5o",
+          "title": "",
+          "text": "hh",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "gg",
+      "profession": "gg",
+      "images": [
+        "/images/npcs/Händler.jpeg"
+      ],
+      "id": "1763010716530-9kqgx2vw7",
+      "storyId": "1763010680206-326y1hz4h",
+      "locationId": "1763010690064-d7cxlw09b",
+      "descriptions": [
+        {
+          "id": "1772360060436-ruvn84url",
+          "title": "",
+          "text": "gg",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Gollomini",
+      "profession": "Präsidentin der Stadt Nexarion",
+      "images": [],
+      "sound": "",
+      "id": "1763038579936-lacdvw1r7",
+      "storyId": "1763037636232-4p3us0yqx",
+      "locationId": "1763038532127-l4c2zxk25",
+      "createdAt": 1763038579936,
+      "descriptions": []
+    },
+    {
+      "name": "Der Magier",
+      "profession": "Magier",
+      "images": [],
+      "sound": "",
+      "id": "1763038590875-wcclqpzjg",
+      "storyId": "1763037636232-4p3us0yqx",
+      "locationId": "1763038532127-l4c2zxk25",
+      "createdAt": 1763038590875,
+      "descriptions": []
+    },
+    {
+      "name": "Roric",
+      "profession": "Wirt",
+      "images": [
+        "/images/Aurelius/npcs/rurik.jpeg"
+      ],
+      "sound": "",
+      "id": "1763043212456-tgvo7mxpd",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763042161024-lag38dse8",
+      "descriptions": [
+        {
+          "id": "1772360060436-9tou6vkqj",
+          "title": "",
+          "text": "Klatsch und Tratsch",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Jace",
+      "profession": "Trickspieler",
+      "images": [
+        "/images/Aurelius/npcs/jace.jpeg"
+      ],
+      "sound": "",
+      "id": "1763043257556-oc8fumi9y",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763042161024-lag38dse8",
+      "descriptions": [
+        {
+          "id": "1772360060436-90d1vsbqf",
+          "title": "",
+          "text": "Hier können die Spieler Geld Gewinnen oder auch verlieren",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Kai",
+      "profession": "Antiquitäten Händler",
+      "images": [
+        "/images/Aurelius/npcs/kai.jpeg"
+      ],
+      "sound": "",
+      "id": "1763043492204-tn63g4ht8",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763042169436-9kz66ihuc",
+      "descriptions": [
+        {
+          "id": "1772360060436-iz8t7y5kl",
+          "title": "",
+          "text": "Er verkauft Antiquitäten",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Bella",
+      "profession": "Händlerin",
+      "images": [
+        "/images/Aurelius/npcs/bella.jpeg"
+      ],
+      "sound": "",
+      "id": "1763043520714-0ygs2osol",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763042393398-u5z305llp",
+      "descriptions": []
+    },
+    {
+      "name": "Hildegard",
+      "profession": "Verkäuferin",
+      "images": [
+        "/images/Aurelius/npcs/hildegard.jpeg"
+      ],
+      "sound": "",
+      "id": "1763043560147-2y7t0e5af",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763042478096-9aea5rmw8",
+      "descriptions": [
+        {
+          "id": "1772360060436-13nw4mhel",
+          "title": "",
+          "text": "Sie verkauft Lebensmittel und ja sie ist im zweiten Monat Schwanger",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Meisterin Lira",
+      "profession": "Hexen Anführerin",
+      "images": [
+        "/images/Aurelius/npcs/lira.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1763043629741-8dneyoq98",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763042582263-tqc778dhw",
+      "descriptions": [
+        {
+          "id": "1772360060436-p0g51rqqe",
+          "title": "",
+          "text": "Sie hat die Spieler beauftragt die Gegenstände zu besorgen. Sie gibt den Spielern zudem noch ein Glass mit um die Erde sicher zu verstauen. \"Das Ritual es muss vollbracht werden. Wir haben nur noch 3 Monde lang Zeit. Bitte beeilt euch.\"\nWir würden es ja gerne selber erledigen aber wir müssen das Ritual vorbereiten wir sind dieses Jahr etwas spät dran.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Jorin",
+      "profession": "Wache der Hexengilde",
+      "images": [
+        "/images/Aurelius/npcs/jorin.jpeg"
+      ],
+      "sound": "",
+      "id": "1763043671902-7a97ywn8g",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763042582263-tqc778dhw",
+      "descriptions": [
+        {
+          "id": "1772360060436-7xy5hntc6",
+          "title": "",
+          "text": "Lässt die Spieler anfangs nicht rein",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Talia",
+      "profession": "Alchemistin",
+      "images": [
+        "/images/Aurelius/npcs/talia.jpeg"
+      ],
+      "sound": "",
+      "id": "1763043723654-mk1cwrfzd",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763042582263-tqc778dhw",
+      "descriptions": [
+        {
+          "id": "1772360060436-qhfchq7ru",
+          "title": "",
+          "text": "Fokus auf Zutaten und Rituale",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Seb",
+      "profession": "Händler",
+      "images": [
+        "/images/Aurelius/npcs/seb.jpeg"
+      ],
+      "sound": "",
+      "id": "1763043767877-9fku4v0xz",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763042739039-zqmqzrez7",
+      "descriptions": [
+        {
+          "id": "1772360060436-m0kxraq2m",
+          "title": "",
+          "text": "Ein ja das hab ich hier Laden",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Theodor",
+      "profession": "Bürger",
+      "images": [
+        "/images/Aurelius/npcs/theodor.jpeg"
+      ],
+      "sound": "",
+      "id": "1763043805663-oxvyj5r3l",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763042899296-cd7q2txuj",
+      "descriptions": [
+        {
+          "id": "1772360060436-hzlkadi1n",
+          "title": "",
+          "text": "Das ist der nächstbeste mal schauen was die erfahren",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Vanessa",
+      "profession": "Bürgerin",
+      "images": [
+        "/images/Aurelius/npcs/vanessa.jpeg"
+      ],
+      "sound": "",
+      "id": "1763043846352-jlrujkwtj",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763042899296-cd7q2txuj",
+      "descriptions": [
+        {
+          "id": "1772360060436-9rb5g631s",
+          "title": "",
+          "text": "Das ist die nächst beste mal schauen was die erfahren",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Banditen",
+      "profession": "Gegner",
+      "images": [
+        "/images/Aurelius/npcs/banditen.jpeg"
+      ],
+      "sound": "/music/combat/Kampf.mp3",
+      "isEnemy": true,
+      "id": "1763044656922-9a0jp9qth",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763044450148-8szpmvwew",
+      "descriptions": [
+        {
+          "id": "1772360060436-fkti14xqk",
+          "title": "",
+          "text": "Gegner. DC 4 für Hit. 2d12 DC13 für Gegenangriff",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Banditen Anführer",
+      "profession": "Gegner",
+      "images": [
+        "/images/Aurelius/npcs/banditen-boss.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": true,
+      "id": "1763044707131-6wfoluc87",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763044450148-8szpmvwew",
+      "descriptions": [
+        {
+          "id": "1772360060436-qaomib0fu",
+          "title": "",
+          "text": "DC 8 für Hit. 2d12 DC10 für Gegenangriff",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Herbert",
+      "profession": "Stadtwache",
+      "images": [
+        "/images/Aurelius/npcs/herbert.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": true,
+      "id": "1763044899417-f1tj6feyb",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763044823420-f3p6fq2nl",
+      "descriptions": [
+        {
+          "id": "1772360060436-n44sfuo72",
+          "title": "",
+          "text": "Könnte bei Entdeckung Gegner werden. DC 13 für Hit",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Mahatma",
+      "profession": "Stadtwache",
+      "images": [
+        "/images/Aurelius/npcs/mahatma.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": true,
+      "id": "1763045007791-4v0y2gdnw",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763044823420-f3p6fq2nl",
+      "descriptions": [
+        {
+          "id": "1772360060436-iqu4jssnr",
+          "title": "",
+          "text": "Mahatma Glück, mal pech, mal Ghandi. DC 13 für Hit",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Stadtwachen",
+      "profession": "Patroulieren",
+      "images": [
+        "/images/Aurelius/npcs/guards-turm.jpeg"
+      ],
+      "sound": "",
+      "id": "1763045055976-yonlceamg",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763044823420-f3p6fq2nl",
+      "descriptions": [
+        {
+          "id": "1772360060436-arerrvgkk",
+          "title": "",
+          "text": "Sind einfach beide damit die Spieler sie sehen",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Fredderick & Voltimer",
+      "profession": "Leibwachen",
+      "images": [
+        "/images/Aurelius/npcs/leibwachen.jpeg"
+      ],
+      "sound": "",
+      "id": "1763045284342-b7lhqmtdl",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763045201310-aj5cjb1pb",
+      "descriptions": [
+        {
+          "id": "1772360060436-gw9pgpddt",
+          "title": "",
+          "text": "Bleiben ruhig außer man greift Varos an",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Herr Varos",
+      "profession": "Bänker",
+      "images": [
+        "/images/Aurelius/npcs/varos.jpeg"
+      ],
+      "sound": "",
+      "id": "1763045360203-vgfs36g9v",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763045201310-aj5cjb1pb",
+      "descriptions": [
+        {
+          "id": "1772360060436-b4ivydlid",
+          "title": "",
+          "text": "Lyra ist im Safe. Aber den kriegt ihr nicht. Misstrauisch. Überzeugung braucht DC18. Wenn man mit ihm ein bisschen trinkt braucht man DC10 für Überzeugung. Hat einen kleinen Flachmann in der Hand für \"wenn man mal Durst bekommt\"",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Goblins",
+      "profession": "Gegner",
+      "images": [
+        "/images/Aurelius/npcs/goblins.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": true,
+      "id": "1763045503013-qogi25wjr",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763045423961-rrslhsywq",
+      "descriptions": [
+        {
+          "id": "1772360060436-ti7c8f8md",
+          "title": "",
+          "text": "Werden von den Totems geheilt. DC 16 für sofort Tod. DC 12 für Hit ohne Totem. Wenn unter DC 16 und Totem nicht zerstört dann sofort Heilung grüner Schimmer um Goblin und zack geheilt.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Totem",
+      "profession": "Heilungsartefakt",
+      "images": [
+        "/images/Aurelius/locations/specific/heilungstotem.jpeg"
+      ],
+      "sound": "",
+      "id": "1763045572908-oeyoklw7z",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763045423961-rrslhsywq",
+      "descriptions": [
+        {
+          "id": "1772360060436-fn4bx1p7x",
+          "title": "",
+          "text": "DC 6 zum zerstören. 4 Stück insgesamt",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Rabe",
+      "profession": "Vogel",
+      "images": [
+        "/images/Aurelius/npcs/rabe.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": true,
+      "id": "1763109114031-538d40oar",
+      "storyId": "1763041578827-nscg8bc33",
+      "locationId": "1763044823420-f3p6fq2nl",
+      "descriptions": [
+        {
+          "id": "1772360060436-vfsjg6y74",
+          "title": "",
+          "text": "Wenn nicht entdeckt alles gut. Wenn entdeckt dann Kampf oder runterschmeißen. DC13 für Hit",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Brenne",
+      "profession": "Feuertänzerin",
+      "images": [],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772180239114-006u4i731",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772180179639-54evc3bv5",
+      "descriptions": [
+        {
+          "id": "1772360060436-cj7bx3ud7",
+          "title": "",
+          "text": "Selbstbewusste junge Tabaxi-Performerin. Stolz auf ihr Handwerk. Nach dem Vorfall an Tag 1 tief erschüttert – hat sie einen Fehler gemacht? Wird zum Begleiter für den Rest des Fests für den Spieler der ihr am meisten geholfen hat.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Tessik",
+      "profession": "Händler",
+      "images": [],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772191427461-sw2rjzy7n",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772191163910-ekbur1ttg",
+      "createdAt": 1772191427461,
+      "descriptions": [
+        {
+          "id": "1772360060436-f9q7jao71",
+          "title": "",
+          "text": "Verkauft heute \"Feuersoße\" Achtung Extrem Scharf",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Shaya",
+      "profession": "Kräuterkundige & Gärtnerin",
+      "images": [],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772191504454-yaojfzqnc",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772191163910-ekbur1ttg",
+      "createdAt": 1772191504454,
+      "descriptions": [
+        {
+          "id": "1772360060436-9zu6oboy0",
+          "title": "",
+          "text": "Verkauft alles rund um Kräuter und Tränke aus Kräutern. Hat einen Spezialtrunk aus 69 verschiedenen Kräutern.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Brenne",
+      "profession": "Feuertänzerin",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Brenne.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772191606071-9bioxog86",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772191193951-6h9koy1kx",
+      "descriptions": [
+        {
+          "id": "1772360060436-tucpt8wfo",
+          "title": "",
+          "text": "Und plötzlich wird das Feuer größer und größer es muss gebändigt werden. Löschen funktioniert nicht!\n======================\nKreativität wird Belohnt. Brenne schaut Spieler hilfesuchend an. \"Ist ihr noch nie Passiert\"",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Gregor",
+      "profession": "Schmied",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Gregor.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772192202340-8dbbjpzba",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772191259526-3udjj6wnz",
+      "descriptions": [
+        {
+          "id": "1772360060436-32dd1dd7x",
+          "title": "",
+          "text": "Spieler können sich hier beim schmieden versuchen. Ihre Geschmiedeten Items dürfen sie behalten. Würfeln für Qualität.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "York",
+      "profession": "Rätsler",
+      "descriptions": [
+        {
+          "id": "1772360060436-2pxf3xhiy",
+          "title": "Rätsel 1",
+          "text": "\"Ich habe keine Augen und doch erhelle ich alles. Ich habe keinen Hunger und doch fresse ich alles. Ich habe keinen Atem und doch sterbe ich ohne Luft. Was bin ich?\"",
+          "showToPlayers": true,
+          "createdAt": 1772360060436
+        },
+        {
+          "id": "1772362145602-bg521xybo",
+          "title": "Rätsel 2",
+          "text": "\"Ein Vater hat mich gezeugt und doch bin ich älter als er. Ich fresse was mich geboren hat und doch lebe ich solange er lebt. Töte den Vater und ich sterbe mit ihm. Was bin ich? Und was ist der Vater?\"",
+          "showToPlayers": true,
+          "createdAt": 1772362145602
+        },
+        {
+          "id": "1772362176775-mtdkus63l",
+          "title": "Rätsel 3",
+          "text": "\"Drei Brüder, ein Blut. Der erste schläft tief im Berg und wartet seit Ewigkeiten – er ist so alt wie die Welt selbst, bewegt sich langsam aber nichts kann ihn aufhalten. Der zweite stirbt und lebt zugleich – er glüht ohne Flamme, atmet ohne Rauch, und wer ihn vergisst lässt ihn kalt werden. Der dritte wohnt in dir – du besitzt ihn solange du lebst, aber ohne ihn bist du tot.\"",
+          "showToPlayers": true,
+          "createdAt": 1772362176775
+        },
+        {
+          "id": "1772362266002-vl5v1e47h",
+          "title": "Antworten",
+          "text": "Rätsel 1:\nFeuer\nRätsel 2:\nFlamme und Holz\nRätsel 3:\nLava/Magma, Glut, Körperwärme",
+          "showToPlayers": false,
+          "createdAt": 1772362266002
+        }
+      ],
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/York.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772193118807-nc3sz7yqv",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772191283548-etdbppoh6"
+    },
+    {
+      "name": "Mira",
+      "profession": "Kerzenzieherin",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Mira.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772193336553-1n6hf78w8",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772191308611-l5b27ayeb",
+      "descriptions": [
+        {
+          "id": "1772360060436-cvdi78xiv",
+          "title": "",
+          "text": "Hier können Spieler Kerzen erstellen und sie dann auch mitnehmen.\nWürfeln für Qualität.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Dazzo",
+      "profession": "Schausteller",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Dazzo.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772193553226-q3eqzancr",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772191335708-dp8cp0njc",
+      "descriptions": [
+        {
+          "id": "1772360060436-rqqt7cmmq",
+          "title": "",
+          "text": "Hier können Spieler mit angemalten Steinen (glühende Kohle Design) auf Dosen werfen.\n\nTrostpreis ist ein Fisch. Hauptpreis ist ein Leuchtender Glühender Stein an dem man sich Komischerweise nicht verbrennt. Nützlich als Taschenwärmer",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Lagerfeuer",
+      "profession": "Gemütlich",
+      "images": [
+        "/images/Nexarion/Tabaxi/events/Lagerfeuer.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772193666829-72rkhyebk",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772191193951-6h9koy1kx",
+      "descriptions": [
+        {
+          "id": "1772360060436-bs80npin6",
+          "title": "",
+          "text": "Ein Ruhiger Abend am Lagerfeuer an dem man den Tag ausklingen lassen kann",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Tessik",
+      "profession": "Händler",
+      "images": [],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772193937419-4lpyqj9bh",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772193908566-iydngofuj",
+      "descriptions": [
+        {
+          "id": "1772360060436-u0tnq2cob",
+          "title": "",
+          "text": "Verkauft heute Fische, Meeresfrüchte, Blaue Süßigkeiten und Wasserkristalle die angeblich gut fürs Karma sind",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Shaya",
+      "profession": "Kräuterkundige & Gärtnerin",
+      "images": [],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772193967035-0ifpjkzo8",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772193908566-iydngofuj",
+      "createdAt": 1772193967035,
+      "descriptions": [
+        {
+          "id": "1772360060436-gmpncctwa",
+          "title": "",
+          "text": "Verkauft alles rund um Kräuter und Tränke aus Kräutern. Hat einen Spezialtrunk aus 69 verschiedenen Kräutern.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Oru",
+      "profession": "Alter Wassermechaniker",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Oru.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772194927170-o3lmwxzpg",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772194853731-knhbmw96b",
+      "descriptions": [
+        {
+          "id": "1772360060436-27k88dkpn",
+          "title": "",
+          "text": "Kümmert sich um alle Wasserleitungen im Bezirk.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Finn",
+      "profession": "Angehender Wassermechaniker",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Finn.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772194972673-z9lrm71cr",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772194853731-knhbmw96b",
+      "descriptions": [
+        {
+          "id": "1772360060436-2tpjcv44e",
+          "title": "",
+          "text": "Finn ist 8 Jahre alt, stellt dauernd Fragen und läuft den Spielern an Tag 2 fast direkt in die Arme. Der Enkel bringt Humor.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Oru",
+      "profession": "Alter Wassermechaniker",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Oru.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772194997596-3oqsam1rl",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772194860997-ok11jr25q",
+      "descriptions": [
+        {
+          "id": "1772360060436-y8dw719pv",
+          "title": "",
+          "text": "Kümmert sich um alle Wasserleitungen im Bezirk.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Finn",
+      "profession": "Angehender Wassermechaniker",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Finn.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772195014448-0cs424nj1",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772194860997-ok11jr25q",
+      "descriptions": [
+        {
+          "id": "1772360060436-s07ydc6bh",
+          "title": "",
+          "text": "Finn ist 8 Jahre alt, stellt dauernd Fragen und läuft den Spielern an Tag 2 fast direkt in die Arme. Der Enkel bringt Humor.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Ripple",
+      "profession": "Bootsführer",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Ripple.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772195436843-zmcmttnqx",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772194055408-a7gy85oox",
+      "descriptions": []
+    },
+    {
+      "name": "Sera",
+      "profession": "Glaserin",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Sera.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772195466329-3agjjci1m",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772194413835-0qt51udl4",
+      "descriptions": []
+    },
+    {
+      "name": "Niru",
+      "profession": "Bademeisterin",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Niru.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772195577628-njrnv8f95",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772194540059-1muemosyp",
+      "descriptions": []
+    },
+    {
+      "name": "Tessik",
+      "profession": "Händler",
+      "images": [],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772195874719-29uv4tziu",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772195646133-cs7b9x4m9",
+      "descriptions": [
+        {
+          "id": "1772360060436-51ajmaq0m",
+          "title": "",
+          "text": "Verkauft heute:\nWurzeln, Pilze, Kräuter, deftige Eintöpfe und glücksverheißende Steine die er direkt vom Elementarberg hat (lüge)",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Shaya",
+      "profession": "Kräuterkundige & Gärtnerin",
+      "images": [],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772195886894-v30fzqh0j",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772195646133-cs7b9x4m9",
+      "descriptions": [
+        {
+          "id": "1772360060436-kaojckm6i",
+          "title": "",
+          "text": "Führung durch Shayas Garten mit allen Kräutern und am Ende verkostung ihres Spezial Trunks aus 69 Kräutern.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Korro",
+      "profession": "Steinmetz",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Korro.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772196152899-f8ww36xhp",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772195724434-g7g8h8zp8",
+      "descriptions": [
+        {
+          "id": "1772360060436-vwiuajd3b",
+          "title": "",
+          "text": "Spieler können kleine Statuen erstellen. Würfelwurf für Qualität. Spieler dürfen es dann mitnehmen.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Yela",
+      "profession": "Töpferin",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Yela.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772196173792-0cbryil07",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772195686836-z7ph8tbbl",
+      "descriptions": [
+        {
+          "id": "1772360060436-583dt6tpx",
+          "title": "",
+          "text": "Spieler können sich beim Töpfern austoben und erschaffen was sie möchten. Würfelwurf auf Qualität. Spieler können es dann mitnehmen.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Omra",
+      "profession": "Mönch",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Omra.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772196211376-8f2i9tau1",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772195790461-u2xo12d42",
+      "descriptions": [
+        {
+          "id": "1772360060436-futqxpbwf",
+          "title": "",
+          "text": "Spieler müssen sich mit Ohr auf den Boden legen und der Erde horchen. Hört ihr wie es Atmet? Hört ihr wie es bebt? Hört ihr wie es Lebt?",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Drek",
+      "profession": "Schausteller",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Drek.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772196374316-h0uy321gd",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772195824528-8609vqrvh",
+      "descriptions": [
+        {
+          "id": "1772360060436-d6pdw9paz",
+          "title": "",
+          "text": "Spieler müssen aus weiter Distanz einen kleinen Stein in einen Eimer Treffen. Würfelwurf auf Erfolg.\nBelohnung: 20 Starke Heilkräuter die sogar tote wiederauferstehen lassen (kürzlich verstorbene nicht lang verstorbene)",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Tessik",
+      "profession": "Händler",
+      "images": [],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772201200552-a4uopdxys",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772200460337-7k7cs57r4",
+      "createdAt": 1772201200552,
+      "descriptions": [
+        {
+          "id": "1772360060436-zrut26d9u",
+          "title": "",
+          "text": "Hat heute nichts Spezielles ausser Teile für das Windspiel und seine regulären sachen.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Shaya",
+      "profession": "Kräuterkundige & Gärtnerin",
+      "images": [],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772201228939-xf455trfh",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772200460337-7k7cs57r4",
+      "createdAt": 1772201228939,
+      "descriptions": [
+        {
+          "id": "1772360060436-ipx8itthl",
+          "title": "",
+          "text": "Verkauft alles rund um Kräuter und Tränke aus Kräutern. Hat einen Spezialtrunk aus 69 verschiedenen Kräutern.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Kael",
+      "profession": "Drachenbauer",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Kael.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772201275355-fct4evir3",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772200528567-puvuopmj6",
+      "descriptions": []
+    },
+    {
+      "name": "Nala",
+      "profession": "Tochter",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Nala.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772201317690-6zxtt0fns",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772200528567-puvuopmj6",
+      "descriptions": [
+        {
+          "id": "1772360060436-pz8bt223y",
+          "title": "",
+          "text": "Ist erst 5 Jahre alt hat aber den buntesten und größten Drachen von allen.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Filo",
+      "profession": "Windspiel Experte",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Filo.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772201475817-fcingxkdc",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772200617783-6yy7047cb",
+      "descriptions": []
+    },
+    {
+      "name": "Varo",
+      "profession": "Ehemaliger Apnoe Taucher",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Varo.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772201544273-ptundgo1m",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772200701181-q6xkyiieh",
+      "descriptions": []
+    },
+    {
+      "name": "Tessik",
+      "profession": "Händler",
+      "images": [],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772202021180-rmhdr9pel",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772201636851-xz6cdyrez",
+      "createdAt": 1772202021180,
+      "descriptions": [
+        {
+          "id": "1772360060436-dgq0nkef6",
+          "title": "",
+          "text": "Verkauft seine üblichen Sachen und dazu noch Gleichgewichts-Amulette (sind billig aber Charmant)",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Parade Wagen",
+      "profession": "Feuer",
+      "images": [
+        "/images/Nexarion/Tabaxi/Parade/Feuer.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772202088044-90q3g6jsq",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772201616961-epax8j1h3",
+      "descriptions": []
+    },
+    {
+      "name": "Parade Wagen",
+      "profession": "Wasser",
+      "images": [
+        "/images/Nexarion/Tabaxi/Parade/Wasser.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772202104576-nu0eaw6xx",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772201616961-epax8j1h3",
+      "descriptions": []
+    },
+    {
+      "name": "Parade Wagen",
+      "profession": "Erde",
+      "images": [
+        "/images/Nexarion/Tabaxi/Parade/Erde.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772202116269-u4quupyvf",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772201616961-epax8j1h3",
+      "descriptions": []
+    },
+    {
+      "name": "Parade Wagen",
+      "profession": "Luft",
+      "images": [
+        "/images/Nexarion/Tabaxi/Parade/Luft.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772202128212-bgal3j5af",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772201616961-epax8j1h3",
+      "descriptions": []
+    },
+    {
+      "name": "Mirak",
+      "profession": "Zeremoniemeister",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Mirak.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772202470078-3zety87qw",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772202058450-grrnh73ag",
+      "descriptions": [
+        {
+          "id": "1772360060436-ineuo740u",
+          "title": "",
+          "text": "\"Dieses Fest war wie jedes Jahr ein Zeichen unserer Verbundenheit – mit den Elementen und miteinander. Es war auch dieses Jahr kein einfaches Fest. Dinge passierten die uns erinnerten: Das Gleichgewicht hält sich nicht von allein. Es braucht Menschen die einspringen wenn es wankt. Es braucht Hände die helfen auch wenn sie nicht wissen warum. Wir danken denen am Elementar-Berg – und wir danken denen die hier, mitten unter uns, dafür gesorgt haben dass das Fest weitergehen konnte. Mögen auch nächstes Jahr alle 4 Elemente im Einklang sein.\"\n\nNun zündet alle eure Kerzen an auf das die Elemente ein weiteres Jahr im Einklang bleiben.\n======================\nSpricht die Spieler nach der Zeremonie noch mal an und teilt ihnen mit das die Ältesten noch mit ihnen reden wollten Sie werden morgen (Tag 6) vom Elementar Berg wieder zurück kehren.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Lyara",
+      "profession": "Anführerin der Tabaxi",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Lyara.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772203202594-98nwllill",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": "1772203017347-xtjlv8lku",
+      "subLocationId": null,
+      "descriptions": [
+        {
+          "id": "1772360060436-jkk7qn7j6",
+          "title": "",
+          "text": "Beherscht die Elemente Wasser und Erde",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Sorath",
+      "profession": "Anführer der Tabaxi",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Sorath.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772203276103-mr6qn4l7a",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": "1772203017347-xtjlv8lku",
+      "subLocationId": null,
+      "descriptions": [
+        {
+          "id": "1772360060436-mtquwlera",
+          "title": "",
+          "text": "Beherscht die Elemente Feuer und Luft",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Tessik",
+      "profession": "Händler",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Tessik.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772216204752-biy68ikg4",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772215917915-zsdrspbsg",
+      "descriptions": [
+        {
+          "id": "1772360060436-ofe3xowpr",
+          "title": "",
+          "text": "Verkauft heute \"Feuersoße\" Achtung Extrem Scharf",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Shaya",
+      "profession": "Kräuterkundige & Gärtnerin",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Shaya.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772216235629-grmm50w5h",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772215928076-udtitxbyc",
+      "descriptions": [
+        {
+          "id": "1772360060436-qxcyvnoe9",
+          "title": "",
+          "text": "Verkauft alles rund um Kräuter und Tränke aus Kräutern. Hat einen Spezialtrunk aus 69 verschiedenen Kräutern.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Shaya",
+      "profession": "Kräuterkundige & Gärtnerin",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Shaya.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772216862304-2ybkdq3v8",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772216713208-fy3yj93s9",
+      "createdAt": 1772216862304,
+      "descriptions": [
+        {
+          "id": "1772360060436-w9iy122at",
+          "title": "",
+          "text": "Verkauft alles rund um Kräuter und Tränke aus Kräutern. Hat einen Spezialtrunk aus 69 verschiedenen Kräutern.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Tessik",
+      "profession": "Händler",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Tessik.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772216907285-ze8jba8jw",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772216678381-pb0hdci4w",
+      "createdAt": 1772216907285,
+      "descriptions": [
+        {
+          "id": "1772360060436-8540iznr8",
+          "title": "",
+          "text": "Verkauft heute Fische, Meeresfrüchte, Blaue Süßigkeiten und Wasserkristalle die angeblich gut fürs Karma sind",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Tessik",
+      "profession": "Händler",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Tessik.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772268996724-30kclnklk",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772268923426-nm4f130mp",
+      "descriptions": [
+        {
+          "id": "1772360060436-h4apzlvv5",
+          "title": "",
+          "text": "Verkauft heute: Wurzeln, Pilze, Kräuter, deftige Eintöpfe und glücksverheißende Steine die er direkt vom Elementarberg hat (lüge)",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Shaya",
+      "profession": "Kräuterkundige & Gärtnerin",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Shaya.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772269027616-f91ydqb1i",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772268931498-hlqhn9o4j",
+      "descriptions": [
+        {
+          "id": "1772360060436-tl31z8t9t",
+          "title": "",
+          "text": "Führung durch Shayas Garten mit allen Kräutern und am Ende verkostung ihres Spezial Trunks aus 69 Kräutern.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Tessik",
+      "profession": "Händler",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Tessik.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772269056462-rjhx8vkmj",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772268946489-xgd2alo8p",
+      "descriptions": [
+        {
+          "id": "1772360060436-6u398ldky",
+          "title": "",
+          "text": "Hat heute nichts Spezielles ausser Teile für das Windspiel und seine regulären sachen.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Shaya",
+      "profession": "Kräuterkundige & Gärtnerin",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Shaya.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772269080394-dqa9gz3rl",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772268953501-yn8cztfqp",
+      "descriptions": [
+        {
+          "id": "1772360060436-0pwg8pmy6",
+          "title": "",
+          "text": "Verkauft alles rund um Kräuter und Tränke aus Kräutern. Hat einen Spezialtrunk aus 69 verschiedenen Kräutern.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Tessik",
+      "profession": "Händler",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Tessik.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772269112559-eyj8chu09",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772268963546-evrbmg22k",
+      "descriptions": [
+        {
+          "id": "1772360060436-crcgq5cij",
+          "title": "",
+          "text": "Verkauft seine üblichen Sachen und dazu noch Gleichgewichts-Amulette (sind billig aber Charmant)",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Barro",
+      "profession": "Wirt",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Barro.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772271104471-plza22p5s",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772271061130-08cv0vc88",
+      "descriptions": []
+    },
+    {
+      "name": "Brennende Zunge",
+      "profession": "Alkoholisches Getränk",
+      "images": [
+        "/images/Nexarion/Tabaxi/trunk/Feuer.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772271689442-5df2n0k5k",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772271061130-08cv0vc88",
+      "createdAt": 1772271689442,
+      "descriptions": [
+        {
+          "id": "1772360060436-51k738uoq",
+          "title": "",
+          "text": "ein tieforangener Cocktail mit Chili-Likör und Feuerschnaps, serviert mit einer kleinen Flamme obendrauf die erst erlischt wenn man trinkt.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Barro",
+      "profession": "Wirt",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Barro.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772271965928-apxl8xnin",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772271753969-gkiwc4xtp",
+      "createdAt": 1772271965928,
+      "descriptions": []
+    },
+    {
+      "name": "Barro",
+      "profession": "Wirt",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Barro.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772271975893-zl1ielzjr",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772271783760-cfxx6fzag",
+      "createdAt": 1772271975893,
+      "descriptions": []
+    },
+    {
+      "name": "Barro",
+      "profession": "Wirt",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Barro.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772271991654-g5v32uwto",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772271868508-8uyp1wp2h",
+      "createdAt": 1772271991654,
+      "descriptions": []
+    },
+    {
+      "name": "Barro",
+      "profession": "Wirt",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Barro.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772272000898-aipdx1xg0",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772271924482-x21qu57qp",
+      "createdAt": 1772272000898,
+      "descriptions": []
+    },
+    {
+      "name": "Stille Flut",
+      "profession": "Alkoholisches Getränk",
+      "images": [
+        "/images/Nexarion/Tabaxi/trunk/Wasser.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772272083191-173mn102a",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772271753969-gkiwc4xtp",
+      "createdAt": 1772272083191,
+      "descriptions": [
+        {
+          "id": "1772360060436-028cygwfx",
+          "title": "",
+          "text": "ein klarer blau schimmernder Drink mit Minze und Meeressalz, eiskalt serviert, schmeckt erst süß dann salzig.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Wurzeltrank",
+      "profession": "Alkoholisches Getränk",
+      "images": [
+        "/images/Nexarion/Tabaxi/trunk/Erde.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772272150132-0vl2800e9",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772271783760-cfxx6fzag",
+      "createdAt": 1772272150132,
+      "descriptions": [
+        {
+          "id": "1772360060436-2wqbmmfkm",
+          "title": "",
+          "text": "ein dunkles erdiges Bier mit Kräutern und Pilzen gebraut, riecht nach Wald, wärmt von innen.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Flüsternder Wind",
+      "profession": "Alkoholisches Getränk",
+      "images": [
+        "/images/Nexarion/Tabaxi/trunk/Luft.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772272205989-5hrfi8vcn",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772271868508-8uyp1wp2h",
+      "createdAt": 1772272205989,
+      "descriptions": [
+        {
+          "id": "1772360060436-8fddwdxei",
+          "title": "",
+          "text": "ein perlender heller Drink mit Zitrus und Lavendel, so leicht dass man das Glas kaum spürt, hinterlässt ein Kribbeln auf der Zunge.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Elementar Herz",
+      "profession": "Alkoholisches Getränk",
+      "images": [
+        "/images/Nexarion/Tabaxi/trunk/Alle.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772272280505-sr1yr5c9o",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772271924482-x21qu57qp",
+      "descriptions": [
+        {
+          "id": "1772360060436-en0ttiyed",
+          "title": "",
+          "text": "Barros Spezialrezept, alle vier vorherigen Drinks in einer Schicht übereinander, jeder schmeckt einzeln aber zusammen ergeben sie etwas völlig Neues. Wird nur einmal im Jahr gemacht.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Tael",
+      "profession": "Organisator",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Tael.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772272880289-cgdny6wj1",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": "1772179931335-n4q407jxh",
+      "subLocationId": null,
+      "createdAt": 1772272880289,
+      "descriptions": []
+    },
+    {
+      "name": "Pix",
+      "profession": "Kellner",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Pix.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772272977015-fajdxjn92",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772271061130-08cv0vc88",
+      "createdAt": 1772272977015,
+      "descriptions": []
+    },
+    {
+      "name": "Pix",
+      "profession": "Kellner",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Pix.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772272995096-1ijndow3o",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772271753969-gkiwc4xtp",
+      "createdAt": 1772272995096,
+      "descriptions": []
+    },
+    {
+      "name": "Pix",
+      "profession": "Kellner",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Pix.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772273008682-zazicyg4n",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772271783760-cfxx6fzag",
+      "createdAt": 1772273008682,
+      "descriptions": []
+    },
+    {
+      "name": "Pix",
+      "profession": "Kellner",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Pix.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772273025947-yorg5nw75",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772271868508-8uyp1wp2h",
+      "createdAt": 1772273025947,
+      "descriptions": []
+    },
+    {
+      "name": "Pix",
+      "profession": "Kellner",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Pix.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772273039701-cgxyarz0v",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772271924482-x21qu57qp",
+      "createdAt": 1772273039701,
+      "descriptions": []
+    },
+    {
+      "name": "Tael",
+      "profession": "Organisator",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Tael.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772273072281-rczroekju",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": "1772180076595-upkda65ll",
+      "subLocationId": null,
+      "createdAt": 1772273072281,
+      "descriptions": []
+    },
+    {
+      "name": "Tael",
+      "profession": "Organisator",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Tael.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772273099013-bp2wnuz2e",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": "1772180093574-b1nsu2xx3",
+      "subLocationId": null,
+      "createdAt": 1772273099013,
+      "descriptions": []
+    },
+    {
+      "name": "Tael",
+      "profession": "Organisator",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Tael.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772273117586-0txd26m0j",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": "1772180108727-vs777ahwc",
+      "subLocationId": null,
+      "createdAt": 1772273117586,
+      "descriptions": []
+    },
+    {
+      "name": "Tael",
+      "profession": "Organisator",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Tael.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772273132989-vltrqi32f",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": "1772180133196-3h6zjgjo1",
+      "subLocationId": null,
+      "createdAt": 1772273132989,
+      "descriptions": []
+    },
+    {
+      "name": "Test NPC der Location",
+      "profession": "Händler",
+      "descriptions": [
+        {
+          "id": "1772361087967-6wi97mq6n",
+          "title": "Test 1",
+          "text": "Test 1",
+          "showToPlayers": true,
+          "createdAt": 1772361087967
+        }
+      ],
+      "images": [
+        "/images/Nexarion/npcs/Händler.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772314267352-btuxea6re",
+      "storyId": "1772314089281-quq1rick9",
+      "locationId": "1772314213955-2c5ezarzi",
+      "subLocationId": null
+    },
+    {
+      "name": "Test NPC der SubLocation",
+      "profession": "Test",
+      "images": [
+        "/images/Nexarion/npcs/Bürgermeisterin.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772314365387-rmg149y20",
+      "storyId": "1772314089281-quq1rick9",
+      "locationId": null,
+      "subLocationId": "1772314328905-42cxt1lhw",
+      "createdAt": 1772314365387,
+      "descriptions": []
+    },
+    {
+      "name": "Abendlaternen auf dem Kanal",
+      "profession": "Tradition",
+      "images": [
+        "/images/Nexarion/Tabaxi/locations/Abendlaternen.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772194612441-jvy32xgnd",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772194575020-a58g4nl05",
+      "descriptions": []
+    },
+    {
+      "name": "Syla",
+      "profession": "Wassertänzerin",
+      "descriptions": [],
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Syla.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772734950096-6i96eqih8",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772194575020-a58g4nl05",
+      "createdAt": 1772734950096
+    },
+    {
+      "name": "Abendmahl",
+      "profession": "Leckeres Essen",
+      "images": [
+        "/images/Nexarion/Tabaxi/locations/Abendmahl.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772285390733-nj57o7bya",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772285347753-zvlx2orrh",
+      "createdAt": 1772285390733,
+      "descriptions": []
+    },
+    {
+      "name": "Roka",
+      "profession": "Erd-Schamane",
+      "descriptions": [],
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Roka.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772735127540-8ify0zpmc",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772285347753-zvlx2orrh",
+      "createdAt": 1772735127540
+    },
+    {
+      "name": "Gleiter Akrobatik",
+      "profession": "Show",
+      "images": [
+        "/images/Nexarion/Tabaxi/events/gleiter_show.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772275218917-tibo2jos6",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772200467693-fotlfzl12",
+      "createdAt": 1772275218917,
+      "descriptions": []
+    },
+    {
+      "name": "Abend Windspiel",
+      "profession": "Tradition",
+      "descriptions": [],
+      "images": [
+        "/images/Nexarion/Tabaxi/locations/Abend_Windspiel.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772735291170-t7ipqrmw3",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772200467693-fotlfzl12",
+      "createdAt": 1772735291170
+    },
+    {
+      "name": "Zael",
+      "profession": "Zauber Meister",
+      "descriptions": [],
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Zael.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772735975981-34zi1btb4",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772735706794-il6ockqjg",
+      "createdAt": 1772735975981
+    },
+    {
+      "name": "Pex",
+      "profession": "Elixier Meister",
+      "descriptions": [],
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Pex.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772736224582-kw5ayly54",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772735728117-u2rt7gg1a",
+      "createdAt": 1772736224582
+    },
+    {
+      "name": "York",
+      "profession": "Rätsler",
+      "descriptions": [
+        {
+          "id": "1772736785347-bakpfb30r",
+          "title": "Antworten",
+          "text": "Rätsel 1:\nWasser\n\nRätsel 2:\nEis\n\nRätsel 3:\nStrömung, Welle, Tsunami",
+          "showToPlayers": false,
+          "createdAt": 1772736785347
+        },
+        {
+          "id": "1772736801250-876worpxo",
+          "title": "Rätsel 1",
+          "text": "\"Ich habe keine Kehle und doch singe ich. Ich habe keine Beine und doch reise ich weiter als jeder Wanderer. Ich forme Täler ohne Hände und trage Schiffe ohne Arme. Was bin ich?\"",
+          "showToPlayers": true,
+          "createdAt": 1772736801250
+        },
+        {
+          "id": "1772736815326-sufy1vip8",
+          "title": "Rätsel 2",
+          "text": "\"Ich bin Wasser – und doch fließe ich nicht. Ich bin kälter als die Nacht und härter als Stein. Berühre mich zu lange und ich nehme dich mit in meine Stille. Was bin ich?\"",
+          "showToPlayers": true,
+          "createdAt": 1772736815326
+        },
+        {
+          "id": "1772736829410-jvnw78yhq",
+          "title": "Rätsel 3",
+          "text": "\"Drei Schwestern schlafen tief im Meer. Wenn die jüngste aufwacht bleibt sie unsichtbar. Wenn die mittlere aufwacht bewegt sie Schiffe und formt Strände. Wenn die älteste aufwacht – läuft alles weg. Was sind die drei Schwestern?\"",
+          "showToPlayers": true,
+          "createdAt": 1772736829410
+        }
+      ],
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/York.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772735015148-j28fkfuk7",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772734985159-t7sjk1st3"
+    },
+    {
+      "name": "York",
+      "profession": "Rätsler",
+      "descriptions": [
+        {
+          "id": "1772736891187-yit3l8e5k",
+          "title": "Antworten",
+          "text": "Rätsel 1:\nSamen\n\nRätsel 2:\nNatur\n\nRätsel 3:\nErde, Stein, Felsen",
+          "showToPlayers": false,
+          "createdAt": 1772736891187
+        },
+        {
+          "id": "1772736903339-6echrs5jv",
+          "title": "Rätsel 1",
+          "text": "\"Ich bin kleiner als deine Faust und doch trage ich in mir einen Wald. Ich schlafe solange bis jemand an mich glaubt. Dann sprenge ich alles was mich hält. Was bin ich?\"",
+          "showToPlayers": true,
+          "createdAt": 1772736903339
+        },
+        {
+          "id": "1772736920071-vs1v4y9ao",
+          "title": "Rätsel 2",
+          "text": "\"Ich habe keinen Namen und doch nennen mich alle. Ich habe keinen Körper und doch bin ich in allem was lebt. Ich sterbe nie weil ich selbst der Tod und die Geburt bin. Was bin ich?\"",
+          "showToPlayers": true,
+          "createdAt": 1772736920071
+        },
+        {
+          "id": "1772736932644-x7h5oqubg",
+          "title": "Rätsel 3",
+          "text": "\"Drei Brüder schlafen übereinander. Der erste ist weich und gibt jedem Samen ein Zuhause. Der zweite ist hart und trägt Burgen auf seinen Schultern seit Jahrhunderten. Der dritte ist so alt wie die Welt selbst – er hat noch nie nachgegeben, noch nie gezittert, noch nie gebeten. Kein Werkzeug der Welt hinterlässt mehr als einen Kratzer an ihm. Alle drei sind dasselbe – was sind die drei Brüder?\"",
+          "showToPlayers": true,
+          "createdAt": 1772736932644
+        }
+      ],
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/York.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772735175707-3egm3mr5o",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772735152520-darh78sxc"
+    },
+    {
+      "name": "York",
+      "profession": "Rätsler",
+      "descriptions": [
+        {
+          "id": "1772737008683-k6pukdsl0",
+          "title": "Antworten",
+          "text": "Rätsel 1:\nOrkan\n\nRätsel 2:\nHurrikan\n\nRätsel 3:\nLeichte Brise / Wind",
+          "showToPlayers": false,
+          "createdAt": 1772737008683
+        },
+        {
+          "id": "1772737022145-alx03980f",
+          "title": "Rätsel 1",
+          "text": "\"Ich bin der älteste Bruder. Wenn ich atme versinken Küsten im Meer. Wenn ich tanze verschwinden Wälder. Kein Stein bleibt wo er war wenn ich vorbeikomme. Selbst die anderen Elemente weichen mir aus. Was bin ich?\"",
+          "showToPlayers": true,
+          "createdAt": 1772737022145
+        },
+        {
+          "id": "1772737033883-903gfzqj0",
+          "title": "Rätsel 2",
+          "text": "\"Mein Bruder ist stärker als ich – und doch bin ich berühmter. Ich trage einen Namen, er nicht. Ich drehe mich im Kreis und fresse alles in meiner Mitte. Das Meer fürchtet mich mehr als das Land. Was bin ich?\"",
+          "showToPlayers": true,
+          "createdAt": 1772737033883
+        },
+        {
+          "id": "1772737046849-waezq20vm",
+          "title": "Rätsel 3",
+          "text": "\"Ich bin der jüngste Bruder und der sanfteste. Ich trage Samen über Meere und trockne Tränen auf Wangen. Niemand fürchtet mich – aber ohne mich wäre die Welt still und heiß. Was bin ich?\"",
+          "showToPlayers": true,
+          "createdAt": 1772737046849
+        }
+      ],
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/York.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772735428845-7w6jljv5l",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772735397996-mzox1wb1h"
+    },
+    {
+      "name": "York",
+      "profession": "Rätsler",
+      "descriptions": [
+        {
+          "id": "1772737174357-a4m0jr2su",
+          "title": "Antworten",
+          "text": "Rätsel 1:\nWasser und Erde\n\nRätsel 2:\nFeuer und Eis\n\nRätsel 3:\nLuft und Erde\n\nRätsel 4:\nFeuer und Erde\n\nRätsel 5:\nLuft und Wasser\n\nRätsel 6:\nBlut(bändigen) und Blitz",
+          "showToPlayers": false,
+          "createdAt": 1772737174357
+        },
+        {
+          "id": "1772737209762-lvrucpgnr",
+          "title": "Rätsel 1",
+          "text": "\"Ich brauche ihn um zu wurzeln und sie um nicht zu verdursten. Ohne ihn bin ich Sand, ohne sie bin ich Staub. Zusammen lassen sie mich wachsen bis ich den Himmel berühre. Was bin ich – und wer sind er und sie?\"",
+          "showToPlayers": true,
+          "createdAt": 1772737209762
+        },
+        {
+          "id": "1772737222973-87l61vm75",
+          "title": "Rätsel 2",
+          "text": "\"Er zerstört mich mit einem Hauch und ich lösche ihn wenn ich schmelze. Wir sind Feinde – und doch sind wir beide nur zwei Gesichter derselben Temperatur. Was sind wir?\"",
+          "showToPlayers": true,
+          "createdAt": 1772737222973
+        },
+        {
+          "id": "1772737233171-hfa7w066c",
+          "title": "Rätsel 3",
+          "text": "\"Ich trage ihre Samen durch die Welt und sie gibt mir einen Grund zu wehen. Ohne sie wehe ich ins Leere, ohne mich bleibt sie stumm und still. Zusammen lassen wir Wüsten entstehen – oder Wiesen. Was sind wir?\"",
+          "showToPlayers": true,
+          "createdAt": 1772737233171
+        },
+        {
+          "id": "1772737249124-wy57r7kqd",
+          "title": "Rätsel 4",
+          "text": "\"Er macht mich flüssig und ich halte ihn am Leben. Er gebiert mich aus seinem Innern und ich forme ihn zu neuen Welten. Ohne ihn bin ich kalt und grau – ohne mich würde er niemals fließen. Was sind wir?\"",
+          "showToPlayers": true,
+          "createdAt": 1772737249124
+        },
+        {
+          "id": "1772737265354-r0oqo223u",
+          "title": "Rätsel 5",
+          "text": "\"Ich brauche sie um zu entstehen und sie braucht mich um sich zu bewegen. Ohne mich ist sie ein stiller Spiegel – ohne sie bin ich nichts als ein leeres Seufzen. Zusammen können wir Schiffe bewegen oder Stürme gebären. Was sind wir?\"",
+          "showToPlayers": true,
+          "createdAt": 1772737265354
+        },
+        {
+          "id": "1772737286724-jd0u6pxbt",
+          "title": "Rätsel 6",
+          "text": "\"Das erste ist Wasser – aber es fließt nicht bergab. Es gehorcht nicht dem Regen, nicht dem Meer, nicht der Schwerkraft. Es gehorcht nur einem einzigen Willen – und dieser Wille ist selten gut.\nDas zweite ist Feuer – aber es leuchtet nicht warm. Es zuckt, es spaltet, es trifft ohne Vorwarnung.\nBeide sind mächtig. Beide sind selten. Beide haben einen Preis den niemand gerne zahlt. Was sind diese zwei?\"",
+          "showToPlayers": true,
+          "createdAt": 1772737286724
+        },
+        {
+          "id": "1772737315239-bfa6ei6fu",
+          "title": "Vorwort",
+          "text": "\"Die ersten fünf Rätsel heute sind Rätsel des Gleichgewichts. Zwei Elemente die zusammen etwas ergeben das keines allein könnte. Denkt nach – nicht an ein Element, sondern an das was entsteht wenn zwei sich berühren.\"\n\"Das sechste Rätsel... ist anders. Es gibt Kräfte die sich an den Elementen bedienen ohne zu ihnen zu gehören. Sie tragen die Form der Elemente aber nicht ihr Herz. Ich nenne sie damit ihr sie erkennt. Nicht damit ihr sie sucht.\"",
+          "showToPlayers": false,
+          "createdAt": 1772737315239
+        }
+      ],
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/York.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772735922004-espn2aka7",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772735661788-avodb5l92"
+    },
+    {
+      "name": "Spiegel",
+      "profession": "Magisch",
+      "descriptions": [],
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Spiegel.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772736273286-6ngvcg6me",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772735832500-3brmc1uq2",
+      "createdAt": 1772736273286
+    },
+    {
+      "name": "Mio",
+      "profession": "Mönch",
+      "descriptions": [],
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Mio.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772871506217-5201csrm4",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772735832500-3brmc1uq2",
+      "createdAt": 1772871506217
+    },
+    {
+      "name": "Drak",
+      "profession": "General",
+      "descriptions": [],
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Drak.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772871600487-y5ck25svs",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772735817789-kxcrjxlzg",
+      "createdAt": 1772871600487
+    },
+    {
+      "name": "Brenne",
+      "profession": "Feuertänzerin",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Brenne.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772201688495-p21tx9jpw",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772201642790-ul90s2jcc",
+      "descriptions": [
+        {
+          "id": "1772360060436-2sxarecfy",
+          "title": "",
+          "text": "Macht wieder ihre Feuertänze",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Oru",
+      "profession": "Alter Wassermechaniker",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Oru.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772201731363-loihly49l",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772201642790-ul90s2jcc",
+      "descriptions": [
+        {
+          "id": "1772360060436-2k9vmhyfv",
+          "title": "",
+          "text": "Erklärt stolz allen das Wassersystem (keiner versteht ihn so wirklich)",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Shaya",
+      "profession": "Kräuterkundige & Gärtnerin",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Shaya.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772201757021-ntt2kzafk",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772201642790-ul90s2jcc",
+      "descriptions": [
+        {
+          "id": "1772360060436-4i7ojdpwi",
+          "title": "",
+          "text": "Verteilt ihre Kräutermischung in kleinen Flaschen an alle die Kosten wollen.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Mira",
+      "profession": "Kerzenzieherin",
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Mira.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772201928304-3s9d7hjju",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772201642790-ul90s2jcc",
+      "descriptions": [
+        {
+          "id": "1772360060436-w2iwyx3yh",
+          "title": "",
+          "text": "Heute letzte Chance eine Kerze zu machen für die kommende Zeremonie.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Gleiter Akrobatik",
+      "profession": "Show",
+      "images": [
+        "/images/Nexarion/Tabaxi/events/gleiter_show.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "id": "1772204663601-yrxblcy4l",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772201642790-ul90s2jcc",
+      "descriptions": []
+    },
+    {
+      "name": "Syla",
+      "profession": "Wassertänzerin",
+      "descriptions": [],
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Syla.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772735513082-b6fx0ysm9",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772201642790-ul90s2jcc",
+      "createdAt": 1772735513082
+    },
+    {
+      "name": "Roka",
+      "profession": "Erd-Schamane",
+      "descriptions": [],
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Roka.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772735535642-xhhotjn0v",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772201642790-ul90s2jcc",
+      "createdAt": 1772735535642
+    },
+    {
+      "name": "Der Blitz",
+      "profession": "Einklang der Elemente",
+      "descriptions": [],
+      "images": [
+        "/images/Nexarion/Tabaxi/moment/Blitz_Moment.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772736568319-cpdf7gh1v",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772201642790-ul90s2jcc",
+      "createdAt": 1772736568319
+    },
+    {
+      "name": "Der neue Stern",
+      "profession": "Stern",
+      "descriptions": [],
+      "images": [
+        "/images/Nexarion/Tabaxi/moment/Neuer_Stern.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772736631749-l8oabquyg",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772201642790-ul90s2jcc",
+      "createdAt": 1772736631749
+    },
+    {
+      "name": "Gale",
+      "profession": "Element Akrobat",
+      "descriptions": [
+        {
+          "id": "1772871734791-6omij06o8",
+          "title": "Wahrheit über Gale",
+          "text": "Er kann nicht wirklich alle Elemente kontrollieren. Es sieht aber so aus da die anderen ihre Elemente einfach weiter kontrollieren und er einfach nur so tut als ob er es machen würde.",
+          "showToPlayers": false,
+          "createdAt": 1772871734791
+        }
+      ],
+      "images": [
+        "/images/Nexarion/Tabaxi/npcs/Gale.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772871748700-w30rrt664",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772201642790-ul90s2jcc",
+      "createdAt": 1772871748700
+    },
+    {
+      "name": "Pfad des Feuers",
+      "profession": "Parcour",
+      "descriptions": [
+        {
+          "id": "1772873159064-n3dnc5lhv",
+          "title": "Hindernis 1",
+          "text": "Die Flammenwand\nEine breite Wand aus Flammen blockiert den Weg komplett. Die Flammen haben ein Muster – sie pulsen rhythmisch, alle drei Sekunden gibt es eine kurze Lücke in der Mitte.\n\nWer einfach durchrennt ohne zu schauen: Wurf mit Nachteil, bei Misserfolg leichte Verbrennungen und nochmal von vorne\n\nWer das Muster beobachtet und wartet: normaler Wurf\n\nWer Wasser oder feuchtes Tuch dabei hat und sich schützt: Wurf mit Vorteil\n\nWer den Umweg über die Seite sucht: findet eine niedrigere Stelle – kein Wurf, aber kostet Zeit",
+          "showToPlayers": false,
+          "createdAt": 1772873159064
+        },
+        {
+          "id": "1772873220078-byj2qfkad",
+          "title": "Hindernis 2",
+          "text": "Die Glut\nDer Boden der nächsten zehn Meter ist glühende Kohle. Vereinzelt liegen flache Steine drauf – nicht genug um einfach drüberzuhüpfen, aber genug um clever zu navigieren.\n\nWer einfach drüberläuft: Wurf, bei Misserfolg heißer Boden unter den Füßen – Nachteil für nächsten Wurf\n\nWer die Steine als Trittsteine nutzt und den Weg vorher plant: kein Wurf nötig\n\nWer etwas als Unterlage benutzt – Umhang, Holzbrett vom Stand nebenan: kein Wurf, kreativer Bonus",
+          "showToPlayers": false,
+          "createdAt": 1772873220078
+        },
+        {
+          "id": "1772873248373-2hbrchevw",
+          "title": "Belohnung",
+          "text": "Kleines Fläschchen Feuerbalsam – schützt für eine Stunde gegen Kälte.",
+          "showToPlayers": true,
+          "createdAt": 1772873248373
+        }
+      ],
+      "images": [
+        "/images/Nexarion/Tabaxi/locations/Pfad Feuer.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772736024631-ty67xh1n5",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772735672279-4q2935eg7"
+    },
+    {
+      "name": "Pfad des Wassers",
+      "profession": "Parcour",
+      "descriptions": [
+        {
+          "id": "1772873302935-yzpub93kl",
+          "title": "Hindernis 1",
+          "text": "Der reißende Kanal\nDer Parcours führt direkt durch den Kanal – das Wasser geht bis zur Hüfte, die Strömung ist stark und zieht nach rechts wo Wasserstrudel warten.\n\nWer einfach durchläuft: Wurf, bei Misserfolg wird man abgetrieben und muss zurück\n\nWer gegen die Strömung ankämpft und einen Mitspieler als Anker nimmt: Wurf mit Vorteil\n\nWer das Seil benutzt das quer über den Kanal gespannt ist und sich daran entlanghangelt: kein Wurf nötig – aber man muss es erst entdecken",
+          "showToPlayers": false,
+          "createdAt": 1772873302935
+        },
+        {
+          "id": "1772873405545-51uhrozbo",
+          "title": "Hindernis 2",
+          "text": "Die nassen Steine\nHinter dem Kanal: ein steiler glitschiger Felsabhang nach oben. Kein Seil, keine Griffe – nur nasser Stein.\n\nWer einfach klettert: Wurf, bei Misserfolg rutscht man ab und landet wieder im Wasser\n\nWer Sand oder Dreck vom Boden nimmt und die Hände damit einreibt für mehr Grip: Wurf mit Vorteil\n\nWer einen anderen Weg sucht: findet auf der linken Seite eine grobe Holztreppe die ein früherer Teilnehmer gebaut hat – kein Wurf, aber sie wackelt stark",
+          "showToPlayers": false,
+          "createdAt": 1772873405545
+        },
+        {
+          "id": "1772873428595-efk175dva",
+          "title": "Belohnung",
+          "text": "Kleines Fläschchen Stilles Wasser – regeneriert leichte Erschöpfung sofort.",
+          "showToPlayers": true,
+          "createdAt": 1772873428595
+        }
+      ],
+      "images": [
+        "/images/Nexarion/Tabaxi/locations/Pfad Wasser.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772736053826-543toz40m",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772735672279-4q2935eg7"
+    },
+    {
+      "name": "Pfad der Erde",
+      "profession": "Parcour",
+      "descriptions": [
+        {
+          "id": "1772873479747-xoq1t0j6a",
+          "title": "Hindernis 1",
+          "text": "Das Wurzelgeflecht\nEin dichtes Netz aus dicken Wurzeln überspannt den Weg von Boden bis Decke. Manche Wurzeln sind fest, manche geben nach und federn zurück.\n\nWer einfach durchbricht: die Wurzeln wachsen sofort nach – kein Fortkommen\n\nWer sich die Zeit nimmt die Wurzeln zu beobachten: sieht dass manche leicht zittern – das sind die labilen. Wer die stabilen als Griffe nutzt und sich durchhangelt: normaler Wurf\n\nWer ganz unten am Boden bleibt und sich durchschlängelt: kein Wurf, dauert aber länger",
+          "showToPlayers": false,
+          "createdAt": 1772873479747
+        },
+        {
+          "id": "1772873525658-2d8sivdko",
+          "title": "Hindernis 2",
+          "text": "Der Schlammpfad\nEin langer Pfad aus tiefem Schlamm – bei jedem Schritt sinkt man tiefer ein. Wer stehenbleibt sinkt schneller.\n\nWer einfach durchläuft und dabei stehen bleibt: Wurf, bei Misserfolg steckt man fest\n\nWer in Bewegung bleibt und große schnelle Schritte macht: normaler Wurf\n\nWer breite flache Gegenstände als Schneeschuhe unter die Füße bindet – Holzbrettchen, große Blätter: Wurf mit Vorteil\n\nWer den Rand des Pfades nutzt wo Grasbüschel wachsen: kein Wurf, schmalerer Weg aber fester Boden",
+          "showToPlayers": false,
+          "createdAt": 1772873525658
+        },
+        {
+          "id": "1772873541894-clg0xzezl",
+          "title": "Belohnung",
+          "text": "Kleiner Erdstein – warm beim Anfassen, zeigt ob Boden darunter hohl ist.",
+          "showToPlayers": true,
+          "createdAt": 1772873541894
+        }
+      ],
+      "images": [
+        "/images/Nexarion/Tabaxi/locations/Pfad Erde.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772736081168-10jcsuswx",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772735672279-4q2935eg7"
+    },
+    {
+      "name": "Pfad der Luft",
+      "profession": "Parcour",
+      "descriptions": [
+        {
+          "id": "1772873612626-l4t22fppb",
+          "title": "Hindernis 1",
+          "text": "Der Windtunnel\nEin enger Durchgang zwischen zwei hohen Mauern. Ein konstanter starker Gegenwind bläst direkt entgegen – stark genug um einen zurückzudrängen.\n\nWer einfach dagegen ankämpft: Wurf, bei Misserfolg wird man zurückgeworfen\n\nWer sich klein macht, duckt und dicht an der Wand entlanggeht wo der Wind schwächer ist: Wurf mit Vorteil\n\nWer schwere Gegenstände aus dem Inventar nimmt um sich zu beschweren: kein Wurf, langsam aber sicher\n\nWer einen Mitspieler als Windschutz vor sich gehen lässt: beide kommen leichter durch, beide würfeln mit Vorteil",
+          "showToPlayers": false,
+          "createdAt": 1772873612626
+        },
+        {
+          "id": "1772873680428-audlxfqxq",
+          "title": "Hindernis 2",
+          "text": "Die Hängebrücke\nEine schmale Hängebrücke über eine Schlucht – starke Windböen kommen von der Seite und bringen die Brücke zum Schwingen. Die Böen kommen unregelmäßig.\n\nWer einfach schnell drüberrennt: Wurf, bei Misserfolg muss man sich festhalten und verliert Zeit\n\nWer das Muster der Böen beobachtet bevor er losläuft: erkennt dass sie alle paar Sekunden nachlassen – normaler Wurf im richtigen Moment\n\nWer sich am Seil der Brücke festhält und langsam geht: kein Wurf, dauert aber länger und die nächste Böe kommt sicher noch",
+          "showToPlayers": false,
+          "createdAt": 1772873680428
+        },
+        {
+          "id": "1772873703254-8j7fmta9v",
+          "title": "Belohnung",
+          "text": "Kleine Windpfeife – erzeugt einmal täglich eine starke Böe.",
+          "showToPlayers": true,
+          "createdAt": 1772873703254
+        }
+      ],
+      "images": [
+        "/images/Nexarion/Tabaxi/locations/Pfad Luft.jpeg"
+      ],
+      "sound": "",
+      "isEnemy": false,
+      "priority": 0,
+      "id": "1772736107738-72c9sgxnv",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "locationId": null,
+      "subLocationId": "1772735672279-4q2935eg7"
+    }
+  ],
+  "locations": [
+    {
+      "name": "gg",
+      "images": [
+        "/images/locations/Händler.jpeg"
+      ],
+      "id": "1762978422701-tkun29de8",
+      "storyId": "1762975726705-20ecwctqc",
+      "createdAt": 1762978422701,
+      "descriptions": [
+        {
+          "id": "1772360060436-1gx2800rh",
+          "title": "",
+          "text": "gg",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "gg",
+      "images": [
+        "/images/locations/Händler.jpeg",
+        "/images/locations/Händler Rave.jpeg"
+      ],
+      "sound": "/music/market/Markt.mp3",
+      "id": "1763010690064-d7cxlw09b",
+      "storyId": "1763010680206-326y1hz4h",
+      "descriptions": [
+        {
+          "id": "1772360060436-v81r78puz",
+          "title": "",
+          "text": "gg",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Taverne",
+      "images": [
+        "/images/locations/Taverne.jpeg",
+        "/images/locations/Taverne.jpeg"
+      ],
+      "sound": "",
+      "id": "1763023590683-hcu7tj08g",
+      "storyId": "1763010680206-326y1hz4h",
+      "createdAt": 1763023590684,
+      "descriptions": [
+        {
+          "id": "1772360060436-1jx4iiyr2",
+          "title": "",
+          "text": "Test",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Haupt Marktplatz",
+      "images": [],
+      "sound": "",
+      "id": "1763038466685-hzg1tokq3",
+      "storyId": "1763037636232-4p3us0yqx",
+      "createdAt": 1763038466685,
+      "descriptions": [
+        {
+          "id": "1772360060436-djzgud9nv",
+          "title": "",
+          "text": "Hier können sich die Spieler frei bewegen. Es gibt Händler, Tavernen, jede Art von stand. Es gibt hier alles. Es ist mitunter der Hauptspot aller Rassen wo sie sich alle treffen können.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Gollominis Palast",
+      "images": [],
+      "sound": "",
+      "id": "1763038532127-l4c2zxk25",
+      "storyId": "1763037636232-4p3us0yqx",
+      "createdAt": 1763038532127,
+      "descriptions": []
+    },
+    {
+      "name": "Taverne",
+      "images": [
+        "/images/Aurelius/locations/taverne.jpeg"
+      ],
+      "sound": "",
+      "isCityWide": true,
+      "id": "1763042161024-lag38dse8",
+      "storyId": null,
+      "cityId": "1763041424429-4npzmnmqo",
+      "descriptions": [
+        {
+          "id": "1772360060436-7uxsg9fbx",
+          "title": "",
+          "text": "Die Taverne zum besaufen und Geld verzocken",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Second Hand Laden",
+      "images": [
+        "/images/Aurelius/locations/second-hand.jpeg"
+      ],
+      "sound": "",
+      "isCityWide": true,
+      "id": "1763042169436-9kz66ihuc",
+      "storyId": null,
+      "cityId": "1763041424429-4npzmnmqo",
+      "descriptions": [
+        {
+          "id": "1772360060436-d1zn7fykv",
+          "title": "",
+          "text": "Hier gibt es viele Crazy dinge die andere Leute hergebracht haben. Daher auch Second Hand. Die Spieler werden auch mit einem Händeschütteln begrüßt es ist aber eine zusätzliche Hand die der Spieler dann in der Hand hält. Und der Typ scherzt von wegen Second Hand und so.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Gemischtwaren Laden",
+      "images": [
+        "/images/Aurelius/locations/gemischt-laden.jpeg"
+      ],
+      "sound": "",
+      "isCityWide": true,
+      "id": "1763042393398-u5z305llp",
+      "storyId": null,
+      "cityId": "1763041424429-4npzmnmqo",
+      "descriptions": [
+        {
+          "id": "1772360060436-y2hxq6fp1",
+          "title": "",
+          "text": "Hier gibt es fast alles was die Spieler haben wollen. Außer Tränke und Kräuter.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Lebensmittel Laden",
+      "images": [
+        "/images/Aurelius/locations/lebensmittel-laden.jpeg"
+      ],
+      "sound": "",
+      "isCityWide": true,
+      "id": "1763042478096-9aea5rmw8",
+      "storyId": null,
+      "cityId": "1763041424429-4npzmnmqo",
+      "descriptions": [
+        {
+          "id": "1772360060436-pn8xr9u4h",
+          "title": "",
+          "text": "Ja hier werden Lebensmittel verkauft",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Unterkunft der Hexengilde",
+      "images": [
+        "/images/Aurelius/locations/hexengilde.jpeg"
+      ],
+      "sound": "",
+      "isCityWide": false,
+      "id": "1763042582263-tqc778dhw",
+      "storyId": "1763041578827-nscg8bc33",
+      "cityId": null,
+      "descriptions": [
+        {
+          "id": "1772360060436-6ei7mau20",
+          "title": "",
+          "text": "Hier sind die Hexen zuhause.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Mobiler Marktstand",
+      "images": [
+        "/images/Aurelius/locations/fahrender-händler.jpeg"
+      ],
+      "sound": "",
+      "isCityWide": true,
+      "id": "1763042739039-zqmqzrez7",
+      "storyId": null,
+      "cityId": "1763041424429-4npzmnmqo",
+      "descriptions": [
+        {
+          "id": "1772360060436-nnxkc0x5x",
+          "title": "",
+          "text": "Das hier dient als Backup für ein \"Ja den Laden gibt es hier\" der ist direkt dahinten um die Ecke.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Der nächstbeste",
+      "images": [],
+      "sound": "",
+      "id": "1763042899296-cd7q2txuj",
+      "storyId": "1763041578827-nscg8bc33",
+      "createdAt": 1763042899296,
+      "descriptions": [
+        {
+          "id": "1772360060436-u6dcfzgmh",
+          "title": "",
+          "text": "Wenn der Spieler mal sagt \"Ich frage mal den nächstbesten auf der Straße\" jap da ist er der nächstbeste 😂",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Der alte Steinbruch",
+      "images": [
+        "/images/Aurelius/locations/steinbruch.jpeg"
+      ],
+      "sound": "",
+      "id": "1763044450148-8szpmvwew",
+      "storyId": "1763041578827-nscg8bc33",
+      "descriptions": [
+        {
+          "id": "1772360060436-tsnl9kt1v",
+          "title": "",
+          "text": "Kampf und Gelände: Die Gruppe muss den Kristall aus dem Oger brechen, aber der Ort wird von gierigen Grabräubern bewacht, die glauben, der Kristall sei ein Schatz.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Der Hohe Glockenturm",
+      "images": [
+        "/images/Aurelius/locations/glockenturm.jpeg"
+      ],
+      "sound": "",
+      "id": "1763044823420-f3p6fq2nl",
+      "storyId": "1763041578827-nscg8bc33",
+      "descriptions": [
+        {
+          "id": "1772360060436-1cb2mf0xh",
+          "title": "",
+          "text": "Infiltration und Geschicklichkeit: Die Feder liegt im Nest auf der Spitze des Turms. Der Turm ist ein wichtiger Beobachtungspunkt der Stadtwache.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Das Herrenhaus von Herr Varos",
+      "images": [
+        "/images/Aurelius/locations/herrenhaus.jpeg"
+      ],
+      "sound": "",
+      "id": "1763045201310-aj5cjb1pb",
+      "storyId": "1763041578827-nscg8bc33",
+      "descriptions": [
+        {
+          "id": "1772360060436-qndi0yusi",
+          "title": "",
+          "text": "Soziale Interaktion und Rätsel: Der Sammler Varos ist paranoid und wird die Lyra nicht freiwillig hergeben. Die Lyra ist in einem Safe. DC 15 Überzeugen, DC18 Safe knacken. Sonst Code im Tagebuch.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Die Moor-Niederungen",
+      "images": [
+        "/images/Aurelius/locations/swamp.jpeg"
+      ],
+      "sound": "",
+      "id": "1763045423961-rrslhsywq",
+      "storyId": "1763041578827-nscg8bc33",
+      "descriptions": [
+        {
+          "id": "1772360060436-yn2lqdt88",
+          "title": "",
+          "text": "Wildnis und Taktik: Die Erde wird von Goblins als heilig verehrt und aktiv verteidigt.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Test Location",
+      "descriptions": [
+        {
+          "id": "1772361004781-3ao5dc5ve",
+          "title": "Test 1",
+          "text": "Test 1",
+          "showToPlayers": false,
+          "createdAt": 1772361004781
+        },
+        {
+          "id": "1772361012772-wrwfr3w40",
+          "title": "Test 2",
+          "text": "Test 2",
+          "showToPlayers": true,
+          "createdAt": 1772361012772
+        }
+      ],
+      "images": [
+        "/images/Nexarion/locations/Palast.jpeg"
+      ],
+      "sound": "",
+      "isCityWide": false,
+      "id": "1772314213955-2c5ezarzi",
+      "storyId": "1772314089281-quq1rick9",
+      "cityId": null
+    },
+    {
+      "name": "Tabaxi Bezirk Tag 1 Feuer",
+      "images": [],
+      "sound": "",
+      "isCityWide": false,
+      "id": "1772179931335-n4q407jxh",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "cityId": null,
+      "descriptions": [
+        {
+          "id": "1772360060436-7lcenjttr",
+          "title": "",
+          "text": "Und plötzlich wird das Feuer größer und größer es muss gebändigt werden. Löschen funktioniert nicht! ====================== Kreativität wird Belohnt. Brenne schaut Spieler hilfesuchend an. \"Ist ihr noch nie Passiert\"",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Tabaxi Bezirk Tag 2 Wasser",
+      "images": [],
+      "sound": "",
+      "isCityWide": false,
+      "id": "1772180076595-upkda65ll",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "cityId": null,
+      "descriptions": [
+        {
+          "id": "1772360060436-zu5spo3n0",
+          "title": "",
+          "text": "Der Brunnen beginnt auf einmal Rückwärts zu fließen. Das Wasser steigt nach oben statt hinunter zu fließen. Mit der Zeit kommt immer mehr Wasser aus dem Boden in der Gesamten Stadt. Alle Leitungen tun nicht mehr das was sie sollen. Der 8-jährige Finn rennt begeistert drauf zu und steckt seine Hand ins rückwärts fließende Wasser – fasziniert, nicht in Gefahr, aber mitten im Chaos. Kreativität wird belohnt ansonsten mit Orus reden (Finn weist drauf hin) und 3 Hauptventile schließen an 3 verschiedenen Orten (Random überlegen).",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Tabaxi Bezirk Tag 3 Erde",
+      "images": [],
+      "sound": "",
+      "isCityWide": false,
+      "id": "1772180093574-b1nsu2xx3",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "cityId": null,
+      "descriptions": [
+        {
+          "id": "1772360060436-k2u58vjk2",
+          "title": "",
+          "text": "Aufeinmal wächst alles super schnell Stände werden vom Efeu verschlungen überall wachsen Blumen und Bäume. Bodenplatten werden von Wurzeln aufgebrochen. Shaya eilt sofort los und erkennt unterwegs Symbole unter den aufgebrochenen Steinen. Sie muss sich konzentrieren um zu verstehen was dort steht. Spieler sollen ihr helfen an der Stelle den Wachstum in den Griff zu bekommen. Nach einer gewissen Zeit sagt sie \"Ich habs\" fässt eine Wurzel an und schwafelt komplett komisches Zeug. Alles beginnt zunehmend zu Leuchten bis aufeinmal alles wieder Normal wird.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Tabaxi Bezirk Tag 4 Luft",
+      "images": [],
+      "sound": "",
+      "isCityWide": false,
+      "id": "1772180108727-vs777ahwc",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "cityId": null,
+      "descriptions": [
+        {
+          "id": "1772360060436-kxlqjjixa",
+          "title": "",
+          "text": "Die Windböen werden zunehmend stärker und stärker. Bis irgendwann Stände umfliegen. Eine super starke Windböe fegt über der Stadt. Nala (Tochter von Kael) hält an ihrem Drachen fest und lässt nicht los wodurch sie 6 Meter über dem Boden mit ihrem Drachen in der Hand schwebt. Sie ruft um Hilfe die Spieler hören es. Kael macht sich mächtig sorgen. Kreativität wird belohnt.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Tabaxi Bezirk Tag 5 Elementareinklang",
+      "images": [],
+      "sound": "",
+      "isCityWide": false,
+      "id": "1772180133196-3h6zjgjo1",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "cityId": null,
+      "createdAt": 1772180133196,
+      "descriptions": []
+    },
+    {
+      "name": "Haus der Ältesten",
+      "images": [
+        "/images/Nexarion/Tabaxi/locations/Ältesten_Haus.jpeg"
+      ],
+      "sound": "",
+      "isCityWide": false,
+      "id": "1772203017347-xtjlv8lku",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "cityId": null,
+      "descriptions": [
+        {
+          "id": "1772360060436-92xncz40o",
+          "title": "",
+          "text": "Hier bedanken sich die Ältesten für die Hilfe und erläutern das es dieses Jahr ein ziemliches durcheinander war. Die Elemente waren diesmal nicht so einfach zu bändigen daher auch die seltsamen dinge die in der Stadt passiert sind. Durch das lösen der Probleme haben die Spieler unterbewusst den Ältesten geholfen.\n=================================================================================================================\nDie Ältesten sind die Eltern von Georgi. Sie haben Sie immer beobachtet und waren immer an ihrer Seite. Ihre Mutter Lyara beherscht die Elemente Erde und Wasser ihr Vater Sorath hingegen die Elemente Feuer und Luft. Georgi aber ist die geborene Hüterin der 4 Elemente daher fühlt Sie sich auch so angezogen und fasziniert von den Elementen. Aber es gibt sogar 5 Elemente es gibt noch Blitz. Aber das bleibt erstmal noch verborgen.\n=================================================================================================================\nRede an die Spieler:\n\"Ihr seid also die Gefährten unserer Tochter. Wir haben von euch gehört – von Nexarion, von dem was ihr getan habt. Wir haben euch auch diese Woche beobachtet – von oben. Jedes Mal wenn ihr eingegriffen habt, haben wir einen Moment Luft geholt. Ohne euch wäre unser Teil am Berg deutlich schwerer geworden. Ihr habt die Elemente gerettet – ohne es zu wissen. Dafür haben wir keine Worte. Aber wir haben das hier.\"\n=================================================================================================================\nBelohnung ...",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Map Tabaxi Bezirk",
+      "descriptions": [
+        {
+          "id": "1772360060436-x27o7u9pv",
+          "title": "",
+          "text": "Damit die Spieler ungefähr sehen wie es aufgebaut ist.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ],
+      "images": [
+        "/images/Nexarion/Tabaxi/map.jpeg"
+      ],
+      "sound": "",
+      "isCityWide": false,
+      "priority": 1,
+      "id": "1772276769814-moyqak98r",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "cityId": null
+    }
+  ],
+  "items": [
+    {
+      "name": "Der tropfen des Glimmer-Ogers",
+      "description": "Ein versteinerter Tränenkristall aus dem Auge eines versteinerten Ogers.",
+      "positiveStats": "",
+      "negativeStats": "",
+      "image": "/images/Aurelius/items/träne-oger.jpeg",
+      "category": "quest",
+      "id": "1763044155593-1d7vs9exs",
+      "storyId": "1763041578827-nscg8bc33"
+    },
+    {
+      "name": "Die Feder des Mitternachtsraben",
+      "description": "Eine einzelne, große, schwarze Feder von einem seltenen, magischen Raben.",
+      "positiveStats": "",
+      "negativeStats": "",
+      "image": "/images/Aurelius/items/feder.jpeg",
+      "category": "quest",
+      "id": "1763044289753-3tgh8v1z2",
+      "storyId": "1763041578827-nscg8bc33"
+    },
+    {
+      "name": "Der Gesang der stummen Sirene",
+      "description": "Ein versiegeltes Musikinstrument  mit einem magischen Fluch.",
+      "positiveStats": "",
+      "negativeStats": "",
+      "image": "/images/Aurelius/items/lyra.jpeg",
+      "category": "quest",
+      "id": "1763044316879-f5s82z9qy",
+      "storyId": "1763041578827-nscg8bc33"
+    },
+    {
+      "name": "Die Erde des gefallenen Sterns",
+      "description": "Magisch aufgeladener Lehm von einem alten Meteoriten-Einschlag.",
+      "positiveStats": "",
+      "negativeStats": "",
+      "image": "/images/Aurelius/items/jar-of-dirt.jpeg",
+      "category": "quest",
+      "id": "1763044344978-6tykdl17h",
+      "storyId": "1763041578827-nscg8bc33"
+    }
+  ],
+  "intros": [
+    {
+      "title": "Eure heutige Mission lautet...",
+      "text": "...dieser Auftrag ist von höchster Priorität. Wir wissen leider nichts über diesen Auftrag. Aber was wir wissen ist, dass ihr euch bei Gollomini melden sollt. Sie wird euch dann alles weitere Erklären.",
+      "image": "",
+      "id": "1763038309044-2in8j3ev0",
+      "storyId": "1763037636232-4p3us0yqx",
+      "createdAt": 1763038309044
+    },
+    {
+      "title": "Die bitte der Hexen",
+      "text": "Fahrende Falken heute erwartet euch was ganz neues. Ein neuer Ort und neue Leute. Es geht heute nach Aurelius. Dort haben uns die Hexen gebeten ein wenig zu helfen um ihr Schutzritual auszuführen. Sie erwarten euch bereits also lasst euch nicht zu viel Zeit. Sie meinten irgendwas mit \"Es muss erledigt werden vor dem Blutmond\" also scheint es wohl zu eilen.",
+      "image": "/images/D-Rektor/d-rektor.jpeg",
+      "id": "1763041933947-9kxrkcbi2",
+      "storyId": "1763041578827-nscg8bc33"
+    },
+    {
+      "title": "Das Elementarfest der Tabaxi",
+      "text": "Fahrende Falken ihr habt eine Einladung erhalten ich lese sie euch mal vor.\n\n\"Geehrte Gefährten von Nexarion, in Anerkennung eurer Taten und eures unerschütterlichen Einsatzes für unsere Stadt ladet der Ältestenrat des Tabaxi-Bezirks euch herzlich zum diesjährigen Fest der Elemente ein. Fünf Tage Feuer, Wasser, Erde, Luft und das Gleichgewicht das uns alle verbindet. Ihr seid unsere Gäste – keine Pflichten, keine Aufgaben. Nur das Fest. Wir freuen uns auf euch.\"\n\nKlingt also endlich mal nach einem normalen Tag in Nexarion also viel Spaß bei der Feier ihr habt es euch verdient.",
+      "image": "/images/D-Rektor/d-rektor.jpeg",
+      "id": "1772177121082-f187hpm19",
+      "storyId": "1763038020231-hfgfxm2x9"
+    }
+  ],
+  "sessionTimes": {
+    "1763105466547-gsfy1usfx": 5,
+    "1763041578827-nscg8bc33": {
+      "totalTime": 90,
+      "notes": ""
+    },
+    "1763223522870-mtaadu48k": {
+      "notes": ""
+    },
+    "1763038020231-hfgfxm2x9": {
+      "totalTime": 29171,
+      "notes": "Notiz Tag 1 Feuer\nAlle drei haben Handwärmer und einen ewigen Feuerstein mitgenommen. An der Schmiede hat Nira sich einen Doppelgriff gebastelt, Rimuru zwei Speere (einer gut, einer brüchig) und Theresa zwei Morgensterne (einer gut, einer brüchig). Bei den Kerzen hat Nira eine schlechte Lavendelkerze in Pink gemacht, Rimuru eine mittelmäßige Bierkerze die auch wie Bier aussieht, und Theresa eine perfekte Rosenkerze in Kleeblatt-Form. Theresa hat sich außerdem noch eine ewige Rose gekauft die sie beruhigen kann.\n\nNotiz Tag 2 Wasser\nBootsrennen: Rimuru Platz 3, Nira Platz 1, Theresa Platz1\nGlasmalerei: Rimuru Oval in Türkis, Nira Kreis mit Mond drauf, Theresa Wassertropfen in Regenbogen Farben in einem größeren Wassertropfen.\nYork: Alle spieler nehmen Amulett um im Wasser zu Atmen\nTheresa Vase mit verzierungen und blümchen und so Bunte Blümchen und der Rest weiß.\nRimuru Kochtopf Töpfern in Gold Braun ganz schlicht nur für funktion.\nRimuru kriegt Kristall der Pflanzen wiederbelebt, Theresa bekommt eine ewige Erdbeere immer Erdbeeren dabei haben lecker, Nira bekommt einen Samen der eine Eiche in wenigen Sekunden wachsen lässt 10m.\n\n\nNotiz Tag 3 Erde\nWird noch hinzugefügt muss mir mal die Notizen anschauen von den Spielern.\n\nNotiz Tag 4 Luft\nAlle haben eine Wolke in der Flasche erhalten.\nRimuru Wasser Element von Spiegel.\nNira Luft Element von Spiegel.\nTheresa alle Elemente vom Spiegel.\nNira hat ihre Wolke in einen Golden Retriever Wolke verzaubern lassen. Ach wie knuffig.\nTheresa hat ihr Windspiel verzaubert das es die Caravane vor allem schützt nur auf Caravane anwendbar nicht auf personen.\nRimuru hat einen Verzauberten Kochtopf in dem alles Essen in 2 Minuten fertig ist und in einer hervoragender qualität ist.\n\n\nNotiz Tag 5 Alle Elemente\n"
+    },
+    "1763037636232-4p3us0yqx": {
+      "notes": ""
+    },
+    "1772314089281-quq1rick9": {
+      "notes": ""
+    },
+    "1763038078711-9b7z6xn77": {
+      "notes": ""
+    },
+    "1763037798305-hvv6waeso": {
+      "notes": ""
+    },
+    "1763037870185-sjvpy9yg5": {
+      "notes": ""
+    }
+  },
+  "players": [
+    {
+      "name": "Riku Hoshido (Andreas)",
+      "description": "Mensch / Dieb\nVermutlich unter 30 das genaue Alter ist nicht bekannt. Kommt aus einer ländlichen Region, ist als Jugendlicher bei einer Adelsfamilie aufgewachsen. Hat ein Fable für Backsteine entwickelt.",
+      "image": "/CardCreator/images/chars/riku.jpeg",
+      "companionId": "",
+      "id": "1763475489508-hz9cqmehj"
+    },
+    {
+      "name": "Eleonore (Maya)",
+      "description": "Aasimar",
+      "image": "/CardCreator/images/chars/eleonore.jpeg",
+      "companionId": "",
+      "id": "1763475536348-7g98s1ae4",
+      "createdAt": 1763475536348
+    },
+    {
+      "name": "Jagger the Dagger (Lars)",
+      "description": "Gnom",
+      "image": "/CardCreator/images/chars/jagger.jpg",
+      "companionId": "",
+      "id": "1763475580459-acotz1i7m"
+    },
+    {
+      "name": "Nira (Lars)",
+      "description": "Werwolfsmensch / Mönch",
+      "image": "/CardCreator/images/chars/nira.jpeg",
+      "companionId": "",
+      "id": "1763475657265-frmmbudua",
+      "createdAt": 1763475657265
+    },
+    {
+      "name": "Rotbart (Sascha)",
+      "description": "Zwerg / Säufer",
+      "image": "/CardCreator/images/chars/rotbart.jpeg",
+      "companionId": "",
+      "id": "1763475850406-vesaokdtw"
+    },
+    {
+      "name": "Sir Echselot (Dennis)",
+      "description": "Echsenmensch / Paladin",
+      "image": "/CardCreator/images/chars/sir-echselot.jpeg",
+      "companionId": "",
+      "id": "1763475892135-qccgu977g",
+      "createdAt": 1763475892135
+    },
+    {
+      "name": "Theresa (Georgi)",
+      "description": "Katzenmensch / Avatar",
+      "image": "/CardCreator/images/chars/theresa.jpeg",
+      "companionId": "",
+      "id": "1763475921843-kazuian50",
+      "createdAt": 1763475921843
+    },
+    {
+      "name": "Rimuru (Timo)",
+      "description": "Aasimar / Paladin",
+      "image": "/CardCreator/images/chars/timo.jpg",
+      "companionId": "",
+      "id": "1763476044999-dls1drx2t"
+    },
+    {
+      "name": "??? (Carlos)",
+      "description": "Changeling",
+      "image": "/CardCreator/images/chars/carlos.jpeg",
+      "companionId": "",
+      "id": "1763476910974-pzm0fwtbn"
+    }
+  ],
+  "companions": [
+    {
+      "name": "Papagei",
+      "description": "Dieser farbenfrohe Papagei ist ein Meister der Imitation und liebt es, im Mittelpunkt zu stehen.",
+      "ability": "Der Papagei kann Phrasen, Stimmen und sogar Geräusche wie knarrende Türen perfekt imitieren. Er lenkt Leute durch sein endloses Geplapper ab und überbringt mündliche Nachrichten zu Personen in Sichtweite. Bei Gefahren warnt er lautstark durch Kreischen.",
+      "image": "/CardCreator/images/companions/papagei.jpeg",
+      "id": "1764261544823-vrff5ixb8"
+    },
+    {
+      "name": "Kapuziner Affe",
+      "description": "Klein, wendig und unglaublich geschickt - dieser Affe ist der perfekte Helfer für knifflige Situationen.",
+      "ability": "Der Affe klettert mühelos überall hin und kann Seile oder improvisierte Leitern vorbereiten. Mit seinen flinken Fingern stibitzt er kleine glänzende Gegenstände unbemerkt und bringt im Notfall Heiltränke oder wichtige Items zu Verbündeten. Außerdem bedient er einfache Mechanismen wie Hebel oder Knöpfe.",
+      "image": "/CardCreator/images/companions/affe.jpeg",
+      "id": "1764261610379-31i6h5qil"
+    },
+    {
+      "name": "Hund",
+      "description": "Loyal bis in den Tod ist dieser Hund mehr als ein Haustier - er ist ein verlässlicher Gefährte.",
+      "ability": "Der Hund folgt Spuren über weite Strecken und findet vermisste Personen oder versteckte Gegenstände am Geruch. Er schlägt zuverlässig Alarm wenn sich Fremde nähern und holt geworfene oder versteckte Gegenstände zurück. Seine vielleicht wichtigste Fähigkeit ist es, gestresste Gruppenmitglieder zu trösten und durch seine Anwesenheit zu beruhigen.",
+      "image": "/CardCreator/images/companions/hund.jpeg",
+      "id": "1764262968018-p3e3rnjzj"
+    },
+    {
+      "name": "Fledermaus",
+      "description": "Diese kleine Fledermaus ist ein Meister der Nacht und navigiert mühelos in absoluter Dunkelheit.",
+      "ability": "Durch ihre Echoortung fliegt die Fledermaus selbst in kompletter Dunkelheit problemlos und kann versteckte Wesen oder sogar unsichtbare Gegner aufspüren. Sie passt durch kleinste Spalten und Öffnungen und ist dabei so leise, dass niemand sie bemerkt - perfekt für heimliche Erkundungen.",
+      "image": "/CardCreator/images/companions/fledermaus.jpeg",
+      "id": "1764262987428-m1cmpk022"
+    },
+    {
+      "name": "Spinne",
+      "description": "Unscheinbar aber wertvoll - diese Spinne ist praktisch unsichtbar und überall zugleich.",
+      "ability": "Die Spinne webt feine Netze, die als Frühwarnsystem dienen - ihr Besitzer spürt sofort wenn jemand hindurchgeht. Sie krabbelt überall hin: Wände hoch, über Decken, durch winzige Ritzen und unter Türen. Durch ihre Größe bleibt sie praktisch unsichtbar, und in Notfällen kann ihr Biss einen Gegner kurzzeitig benommen machen.",
+      "image": "/CardCreator/images/companions/spinne.jpeg",
+      "id": "1764263003723-hibitk1z6"
+    },
+    {
+      "name": "Taschendrache",
+      "description": "Dieser winzige Drache ist verspielt, neugierig und voller Magie - noch zu jung für echtes Feuer.",
+      "ability": "Der Taschendrache kann sich nach Belieben unsichtbar machen, allerdings nur für begrenzte Zeit. Sein Nebelatem erschafft eine praktische Nebelwolke zum Verstecken oder Ablenken. Die telepathische Verbindung zu seinem Besitzer ermöglicht stille Kommunikation über Distanz. Obwohl er fliegen kann, braucht er regelmäßige Pausen um seine kleinen Flügel auszuruhen.",
+      "image": "/CardCreator/images/companions/drache.jpeg",
+      "id": "1764263018532-5zvoil14t"
+    },
+    {
+      "name": "Waschbär",
+      "description": "Clever, neugierig und mit geschickten Pfoten ausgestattet - dieser Waschbär findet immer etwas Nützliches.",
+      "ability": "Der Waschbär kann einfache Schlösser und Verschlüsse mit seinen sensiblen Pfoten öffnen. Seine Sammelleidenschaft macht ihn zum perfekten Finder - ständig taucht er mit nützlichem Kleinkram wie Schnur, Nägeln oder Münzen auf. Besonders bemerkenswert ist sein Instinkt: Er weigert sich hartnäckig vergiftete oder verfluchte Gegenstände anzufassen und warnt so indirekt vor Gefahren. Dank seiner Nachtsicht sieht er in der Dunkelheit perfekt.",
+      "image": "/CardCreator/images/companions/waschbär.jpeg",
+      "id": "1764263040683-rf9ffb5uj"
+    },
+    {
+      "name": "Geist",
+      "description": "",
+      "ability": "",
+      "image": "/CardCreator/images/companions/geist.jpeg",
+      "id": "1764264404203-bmr01m9nb",
+      "createdAt": 1764264404203
+    }
+  ],
+  "activePlayers": [
+    "1763475657265-frmmbudua",
+    "1763475921843-kazuian50",
+    "1763476044999-dls1drx2t"
+  ],
+  "subLocations": [
+    {
+      "name": "Test SubLocation",
+      "image": "/images/Nexarion/locations/Taverne.jpeg",
+      "id": "1772314328905-42cxt1lhw",
+      "locationId": "1772314213955-2c5ezarzi",
+      "storyId": "1772314089281-quq1rick9",
+      "createdAt": 1772314328905,
+      "descriptions": []
+    },
+    {
+      "name": "Festplatz",
+      "descriptions": [
+        {
+          "id": "1772360060436-9w0gzagdm",
+          "title": "",
+          "text": "Der zentrale Platz mit Feuertanz und abendlichem Lagerfeuer.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ],
+      "image": "/images/Nexarion/Tabaxi/variants/festplatz/Feuer.jpeg",
+      "priority": 1,
+      "id": "1772191193951-6h9koy1kx",
+      "locationId": "1772179931335-n4q407jxh",
+      "storyId": "1763038020231-hfgfxm2x9"
+    },
+    {
+      "name": "Schmiede",
+      "image": "/images/Nexarion/Tabaxi/locations/Schmiede.jpeg",
+      "id": "1772191259526-3udjj6wnz",
+      "locationId": "1772179931335-n4q407jxh",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "descriptions": [
+        {
+          "id": "1772360060436-iq132wgc4",
+          "title": "",
+          "text": "Gregor's Schmiede - Hier können Spieler sich beim Schmieden versuchen.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Rätselstand",
+      "image": "/images/Nexarion/Tabaxi/locations/Rätsel.jpeg",
+      "id": "1772191283548-etdbppoh6",
+      "locationId": "1772179931335-n4q407jxh",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "descriptions": [
+        {
+          "id": "1772360060436-knwi8x4rk",
+          "title": "",
+          "text": "York's Rätselstand - Teste dein Wissen über die Elemente.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Kerzenwerkstatt",
+      "image": "/images/Nexarion/Tabaxi/locations/Kerzen_Stand.jpeg",
+      "id": "1772191308611-l5b27ayeb",
+      "locationId": "1772179931335-n4q407jxh",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "descriptions": [
+        {
+          "id": "1772360060436-1i8opiul7",
+          "title": "",
+          "text": "Mira's Kerzenwerkstatt - Stelle deine eigenen Kerzen her.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Funkenwurf Stand",
+      "image": "/images/Nexarion/Tabaxi/locations/Funkenwurf.jpeg",
+      "id": "1772191335708-dp8cp0njc",
+      "locationId": "1772179931335-n4q407jxh",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "descriptions": [
+        {
+          "id": "1772360060436-voovob13s",
+          "title": "",
+          "text": "Dazzo's Wurfspiel - Wirf glühende Steine auf Dosen.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Taverne",
+      "descriptions": [
+        {
+          "id": "1772360060436-dkqdyjuur",
+          "title": "",
+          "text": "Barro's Taverne - Feuer-Themenraum mit 'Brennende Zunge'.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ],
+      "image": "/images/Nexarion/Tabaxi/locations/Taverne.jpeg",
+      "priority": 2,
+      "id": "1772271061130-08cv0vc88",
+      "locationId": "1772179931335-n4q407jxh",
+      "storyId": "1763038020231-hfgfxm2x9"
+    },
+    {
+      "name": "Händler Stand",
+      "descriptions": [
+        {
+          "id": "1772360060436-72q2pw5uk",
+          "title": "",
+          "text": "Tessik verkauft hier seine scharfe Feuersoße.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ],
+      "image": "/images/Nexarion/Tabaxi/variants/handler/Feuer.jpeg",
+      "priority": 3,
+      "id": "1772215917915-zsdrspbsg",
+      "locationId": "1772179931335-n4q407jxh",
+      "storyId": "1763038020231-hfgfxm2x9"
+    },
+    {
+      "name": "Kräuterstube",
+      "descriptions": [
+        {
+          "id": "1772360060436-zhaes9ni8",
+          "title": "",
+          "text": "Shaya's Kräuter und Tränke.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ],
+      "image": "/images/Nexarion/Tabaxi/variants/krauter/Feuer.jpeg",
+      "priority": 4,
+      "id": "1772215928076-udtitxbyc",
+      "locationId": "1772179931335-n4q407jxh",
+      "storyId": "1763038020231-hfgfxm2x9"
+    },
+    {
+      "name": "Steinmetz-Werkstatt",
+      "image": "/images/Nexarion/Tabaxi/locations/Steinbild.jpeg",
+      "id": "1772195724434-g7g8h8zp8",
+      "locationId": "1772180093574-b1nsu2xx3",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "descriptions": [
+        {
+          "id": "1772360060436-aylkxmfnc",
+          "title": "",
+          "text": "Korro's Steinmetz - Erschaffe deine eigene Statue.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Töpferei",
+      "image": "/images/Nexarion/Tabaxi/locations/Töpferstand.jpeg",
+      "id": "1772195686836-z7ph8tbbl",
+      "locationId": "1772180093574-b1nsu2xx3",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "descriptions": [
+        {
+          "id": "1772360060436-tq9x8vohv",
+          "title": "",
+          "text": "Yela's Töpferei - Töpfere was dein Herz begehrt.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Meditationsplatz",
+      "image": "/images/Nexarion/Tabaxi/locations/Meditation.jpeg",
+      "id": "1772195790461-u2xo12d42",
+      "locationId": "1772180093574-b1nsu2xx3",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "descriptions": [
+        {
+          "id": "1772360060436-wxuzwbn5r",
+          "title": "",
+          "text": "Omra's Meditationsplatz - Höre der Erde zu.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Steinwurf-Stand",
+      "image": "/images/Nexarion/Tabaxi/locations/Steinwurf.jpeg",
+      "id": "1772195824528-8609vqrvh",
+      "locationId": "1772180093574-b1nsu2xx3",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "descriptions": [
+        {
+          "id": "1772360060436-krp79n7s8",
+          "title": "",
+          "text": "Drek's Steinwurf-Stand - Teste deine Treffsicherheit.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Taverne",
+      "descriptions": [
+        {
+          "id": "1772360060436-bnjzdpntn",
+          "title": "",
+          "text": "Barro's Taverne - Erd-Themenraum mit 'Wurzeltrank'.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ],
+      "image": "/images/Nexarion/Tabaxi/locations/Taverne.jpeg",
+      "priority": 2,
+      "id": "1772271783760-cfxx6fzag",
+      "locationId": "1772180093574-b1nsu2xx3",
+      "storyId": "1763038020231-hfgfxm2x9"
+    },
+    {
+      "name": "Händler Stand",
+      "descriptions": [
+        {
+          "id": "1772360060436-gtlfyhcb3",
+          "title": "",
+          "text": "Tessik verkauft Wurzeln, Pilze und Kräuter.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ],
+      "image": "/images/Nexarion/Tabaxi/variants/handler/Erde.jpeg",
+      "priority": 3,
+      "id": "1772268923426-nm4f130mp",
+      "locationId": "1772180093574-b1nsu2xx3",
+      "storyId": "1763038020231-hfgfxm2x9"
+    },
+    {
+      "name": "Kräuterstube",
+      "descriptions": [
+        {
+          "id": "1772360060436-w374ghor3",
+          "title": "",
+          "text": "Führung durch Shaya's Kräutergarten.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ],
+      "image": "/images/Nexarion/Tabaxi/variants/krauter/Erde.jpeg",
+      "priority": 4,
+      "id": "1772268931498-hlqhn9o4j",
+      "locationId": "1772180093574-b1nsu2xx3",
+      "storyId": "1763038020231-hfgfxm2x9"
+    },
+    {
+      "name": "Festplatz",
+      "descriptions": [],
+      "image": "/images/Nexarion/Tabaxi/variants/festplatz/Erde.jpeg",
+      "priority": 1,
+      "id": "1772285347753-zvlx2orrh",
+      "locationId": "1772180093574-b1nsu2xx3",
+      "storyId": "1763038020231-hfgfxm2x9"
+    },
+    {
+      "name": "Rätselstand",
+      "descriptions": [],
+      "image": "/images/Nexarion/Tabaxi/locations/Rätsel_Erde.jpeg",
+      "priority": 0,
+      "id": "1772735152520-darh78sxc",
+      "locationId": "1772180093574-b1nsu2xx3",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "createdAt": 1772735152520
+    },
+    {
+      "name": "Festplatz",
+      "descriptions": [
+        {
+          "id": "1772360060436-8czgiri0b",
+          "title": "",
+          "text": "Abendlaternen treiben auf dem Kanal - eine friedliche Tradition.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ],
+      "image": "/images/Nexarion/Tabaxi/variants/festplatz/Wasser.jpeg",
+      "priority": 1,
+      "id": "1772194575020-a58g4nl05",
+      "locationId": "1772180076595-upkda65ll",
+      "storyId": "1763038020231-hfgfxm2x9"
+    },
+    {
+      "name": "Wasserwerke",
+      "image": "/images/Nexarion/Tabaxi/locations/Wasserwerk.jpeg",
+      "id": "1772194853731-knhbmw96b",
+      "locationId": "1772180076595-upkda65ll",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "descriptions": [
+        {
+          "id": "1772360060436-j7vklml0j",
+          "title": "",
+          "text": "Oru und Finn kümmern sich um die Wasserleitungen.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Bootsstation am Kanal",
+      "image": "/images/Nexarion/Tabaxi/locations/Wasserkanal_Boot.jpeg",
+      "id": "1772194055408-a7gy85oox",
+      "locationId": "1772180076595-upkda65ll",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "descriptions": [
+        {
+          "id": "1772360060436-kaxh8yqne",
+          "title": "",
+          "text": "Ripple bietet Bootsfahrten auf den Kanälen an.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Glaswerkstatt",
+      "image": "/images/Nexarion/Tabaxi/locations/Glasmalerei.jpeg",
+      "id": "1772194413835-0qt51udl4",
+      "locationId": "1772180076595-upkda65ll",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "descriptions": [
+        {
+          "id": "1772360060436-ir1cuez8z",
+          "title": "",
+          "text": "Sera's Glaswerkstatt - Bewundere die Kunst der Glasbläserei.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Badeanstalt",
+      "image": "/images/Nexarion/Tabaxi/locations/Schwimmbad.jpeg",
+      "id": "1772194540059-1muemosyp",
+      "locationId": "1772180076595-upkda65ll",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "descriptions": [
+        {
+          "id": "1772360060436-ee8rmdeks",
+          "title": "",
+          "text": "Niru's Badeanstalt - Entspanne in den heißen Quellen.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Taverne",
+      "descriptions": [
+        {
+          "id": "1772360060436-pez4eew1s",
+          "title": "",
+          "text": "Barro's Taverne - Wasser-Themenraum mit 'Stille Flut'.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ],
+      "image": "/images/Nexarion/Tabaxi/locations/Taverne.jpeg",
+      "priority": 2,
+      "id": "1772271753969-gkiwc4xtp",
+      "locationId": "1772180076595-upkda65ll",
+      "storyId": "1763038020231-hfgfxm2x9"
+    },
+    {
+      "name": "Kräuterstube",
+      "descriptions": [
+        {
+          "id": "1772360060436-1y9dgdb2b",
+          "title": "",
+          "text": "Shaya's Kräuter und Tränke.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ],
+      "image": "/images/Nexarion/Tabaxi/variants/krauter/Wasser.jpeg",
+      "priority": 4,
+      "id": "1772216713208-fy3yj93s9",
+      "locationId": "1772180076595-upkda65ll",
+      "storyId": "1763038020231-hfgfxm2x9"
+    },
+    {
+      "name": "Händler Stand",
+      "descriptions": [
+        {
+          "id": "1772360060436-t61sxqhg7",
+          "title": "",
+          "text": "Tessik's Fische und Meeresfrüchte.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ],
+      "image": "/images/Nexarion/Tabaxi/variants/handler/Wasser.jpeg",
+      "priority": 3,
+      "id": "1772216678381-pb0hdci4w",
+      "locationId": "1772180076595-upkda65ll",
+      "storyId": "1763038020231-hfgfxm2x9"
+    },
+    {
+      "name": "Rätselstand",
+      "descriptions": [],
+      "image": "/images/Nexarion/Tabaxi/locations/Rätsel_Wasser.jpeg",
+      "priority": 0,
+      "id": "1772734985159-t7sjk1st3",
+      "locationId": "1772180076595-upkda65ll",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "createdAt": 1772734985159
+    },
+    {
+      "name": "Brunnen der Wünsche",
+      "descriptions": [],
+      "image": "/images/Nexarion/Tabaxi/locations/Brunnen.jpeg",
+      "priority": 0,
+      "id": "1772735332763-lniiweb1h",
+      "locationId": "1772180076595-upkda65ll",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "createdAt": 1772735332763
+    },
+    {
+      "name": "Drachenbau-Station",
+      "image": "/images/Nexarion/Tabaxi/locations/Drachen_Feld.jpeg",
+      "id": "1772200528567-puvuopmj6",
+      "locationId": "1772180108727-vs777ahwc",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "descriptions": [
+        {
+          "id": "1772360060436-68skurorr",
+          "title": "",
+          "text": "Kael und Nala bauen wunderschöne Drachen für das Fest.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Windspiel-Werkstatt",
+      "image": "/images/Nexarion/Tabaxi/locations/Windspiel.jpeg",
+      "id": "1772200617783-6yy7047cb",
+      "locationId": "1772180108727-vs777ahwc",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "descriptions": [
+        {
+          "id": "1772360060436-a1tyw81na",
+          "title": "",
+          "text": "Filo's Windspiel-Werkstatt - Baue dein eigenes Windspiel.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Atem Wettbewerb",
+      "image": "/images/Nexarion/Tabaxi/locations/Atem_Wettbewerb.jpeg",
+      "id": "1772200701181-q6xkyiieh",
+      "locationId": "1772180108727-vs777ahwc",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "descriptions": [
+        {
+          "id": "1772360060436-7pp4zqlf0",
+          "title": "",
+          "text": "Luft anhalten mit Anschließendem Pokal für top 3",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Festplatz",
+      "descriptions": [
+        {
+          "id": "1772360060436-b3hgsdlly",
+          "title": "",
+          "text": "Hier findet die beeindruckende Gleiter Akrobatik Show statt.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ],
+      "image": "/images/Nexarion/Tabaxi/variants/festplatz/Luft.jpeg",
+      "priority": 1,
+      "id": "1772200467693-fotlfzl12",
+      "locationId": "1772180108727-vs777ahwc",
+      "storyId": "1763038020231-hfgfxm2x9"
+    },
+    {
+      "name": "Taverne",
+      "descriptions": [
+        {
+          "id": "1772360060436-q1vyet3ko",
+          "title": "",
+          "text": "Barro's Taverne - Luft-Themenraum mit 'Flüsternder Wind'.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ],
+      "image": "/images/Nexarion/Tabaxi/locations/Taverne.jpeg",
+      "priority": 2,
+      "id": "1772271868508-8uyp1wp2h",
+      "locationId": "1772180108727-vs777ahwc",
+      "storyId": "1763038020231-hfgfxm2x9"
+    },
+    {
+      "name": "Händler Stand",
+      "descriptions": [
+        {
+          "id": "1772360060436-59nikbb0y",
+          "title": "",
+          "text": "Tessik verkauft Windspiel-Teile.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ],
+      "image": "/images/Nexarion/Tabaxi/variants/handler/Luft.jpeg",
+      "priority": 3,
+      "id": "1772268946489-xgd2alo8p",
+      "locationId": "1772180108727-vs777ahwc",
+      "storyId": "1763038020231-hfgfxm2x9"
+    },
+    {
+      "name": "Kräuterstube",
+      "descriptions": [
+        {
+          "id": "1772360060436-u2lzar0sm",
+          "title": "",
+          "text": "Shaya's Kräuter und Tränke.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ],
+      "image": "/images/Nexarion/Tabaxi/variants/krauter/Luft.jpeg",
+      "priority": 4,
+      "id": "1772268953501-yn8cztfqp",
+      "locationId": "1772180108727-vs777ahwc",
+      "storyId": "1763038020231-hfgfxm2x9"
+    },
+    {
+      "name": "Sturmbeobachter Turm",
+      "image": "/images/Nexarion/Tabaxi/locations/Turm.jpeg",
+      "id": "1772285713422-6o6qs4zr9",
+      "locationId": "1772180108727-vs777ahwc",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "createdAt": 1772285713422,
+      "descriptions": [
+        {
+          "id": "1772360060436-2r1h5lngd",
+          "title": "",
+          "text": "Was eine aussicht",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Rätselstand",
+      "descriptions": [],
+      "image": "/images/Nexarion/Tabaxi/locations/Rätsel_Luft.jpeg",
+      "priority": 0,
+      "id": "1772735397996-mzox1wb1h",
+      "locationId": "1772180108727-vs777ahwc",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "createdAt": 1772735397996
+    },
+    {
+      "name": "Kristall der Elementare",
+      "descriptions": [],
+      "image": "/images/Nexarion/Tabaxi/items/Kristall_Alle.jpeg",
+      "priority": 0,
+      "id": "1772736355306-o9n9ngtbq",
+      "locationId": "1772203017347-xtjlv8lku",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "createdAt": 1772736355306
+    },
+    {
+      "name": "Kristall des Feuers",
+      "descriptions": [],
+      "image": "/images/Nexarion/Tabaxi/items/Kristall_Feuer.jpeg",
+      "priority": 0,
+      "id": "1772736381964-wy0zxl1lq",
+      "locationId": "1772203017347-xtjlv8lku",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "createdAt": 1772736381964
+    },
+    {
+      "name": "Kristall des Wassers",
+      "descriptions": [],
+      "image": "/images/Nexarion/Tabaxi/items/Kristall_Wasser.jpeg",
+      "priority": 0,
+      "id": "1772736399386-1c6khp6yu",
+      "locationId": "1772203017347-xtjlv8lku",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "createdAt": 1772736399386
+    },
+    {
+      "name": "Kristall der Erde",
+      "descriptions": [],
+      "image": "/images/Nexarion/Tabaxi/items/Kristall_Erde.jpeg",
+      "priority": 0,
+      "id": "1772736419166-mqsrpp97z",
+      "locationId": "1772203017347-xtjlv8lku",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "createdAt": 1772736419166
+    },
+    {
+      "name": "Kristall der Luft",
+      "descriptions": [],
+      "image": "/images/Nexarion/Tabaxi/items/Kristall_Luft.jpeg",
+      "priority": 0,
+      "id": "1772736439609-6rfdjk0bi",
+      "locationId": "1772203017347-xtjlv8lku",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "createdAt": 1772736439609
+    },
+    {
+      "name": "Storyline",
+      "descriptions": [],
+      "image": "",
+      "priority": 1,
+      "id": "1772736473812-5psmczvrx",
+      "locationId": "1772203017347-xtjlv8lku",
+      "storyId": "1763038020231-hfgfxm2x9"
+    },
+    {
+      "name": "Zentraler Festplatz",
+      "descriptions": [
+        {
+          "id": "1772360060436-8x9o9h8cx",
+          "title": "",
+          "text": "Der Hauptplatz an Tag 5 - Alle Elemente kommen zusammen.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ],
+      "image": "/images/Nexarion/Tabaxi/variants/festplatz/Alle.jpeg",
+      "priority": 1,
+      "id": "1772201642790-ul90s2jcc",
+      "locationId": "1772180133196-3h6zjgjo1",
+      "storyId": "1763038020231-hfgfxm2x9"
+    },
+    {
+      "id": "1772201616961-epax8j1h3",
+      "name": "Parade-Route",
+      "locationId": "1772180133196-3h6zjgjo1",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "descriptions": [
+        {
+          "id": "1772360060436-mukr5d2vy",
+          "title": "",
+          "text": "Die prächtige Parade der vier Elemente zieht durch die Straßen.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "id": "1772202058450-grrnh73ag",
+      "name": "Zeremonieplatz",
+      "locationId": "1772180133196-3h6zjgjo1",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "descriptions": [
+        {
+          "id": "1772360060436-2iz9wbrtb",
+          "title": "",
+          "text": "Hier findet die abschließende Zeremonie statt.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ]
+    },
+    {
+      "name": "Taverne",
+      "descriptions": [
+        {
+          "id": "1772360060436-dz1ltktr5",
+          "title": "",
+          "text": "Barro's Taverne - Zentralraum mit 'Elementar Herz' - alle 4 Elemente vereint.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ],
+      "image": "/images/Nexarion/Tabaxi/locations/Taverne.jpeg",
+      "priority": 2,
+      "id": "1772271924482-x21qu57qp",
+      "locationId": "1772180133196-3h6zjgjo1",
+      "storyId": "1763038020231-hfgfxm2x9"
+    },
+    {
+      "name": "Händler Stand",
+      "descriptions": [
+        {
+          "id": "1772360060436-5z1m3w3tn",
+          "title": "",
+          "text": "Tessik verkauft Gleichgewichts-Amulette.",
+          "showToPlayers": false,
+          "createdAt": 1772360060436
+        }
+      ],
+      "image": "/images/Nexarion/Tabaxi/variants/handler/Alle.jpeg",
+      "priority": 3,
+      "id": "1772268963546-evrbmg22k",
+      "locationId": "1772180133196-3h6zjgjo1",
+      "storyId": "1763038020231-hfgfxm2x9"
+    },
+    {
+      "name": "Rätselstand",
+      "descriptions": [],
+      "image": "/images/Nexarion/Tabaxi/locations/Rätsel_Alles.jpeg",
+      "priority": 0,
+      "id": "1772735661788-avodb5l92",
+      "locationId": "1772180133196-3h6zjgjo1",
+      "storyId": "1763038020231-hfgfxm2x9"
+    },
+    {
+      "name": "Elementar Pfad",
+      "descriptions": [],
+      "image": "",
+      "priority": 0,
+      "id": "1772735672279-4q2935eg7",
+      "locationId": "1772180133196-3h6zjgjo1",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "createdAt": 1772735672279
+    },
+    {
+      "name": "Meister der Bindungen",
+      "descriptions": [],
+      "image": "/images/Nexarion/Tabaxi/locations/Meister_Bindung.jpeg",
+      "priority": 0,
+      "id": "1772735706794-il6ockqjg",
+      "locationId": "1772180133196-3h6zjgjo1",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "createdAt": 1772735706794
+    },
+    {
+      "name": "Elixier Brauerei",
+      "descriptions": [],
+      "image": "/images/Nexarion/Tabaxi/locations/Elixier.jpeg",
+      "priority": 0,
+      "id": "1772735728117-u2rt7gg1a",
+      "locationId": "1772180133196-3h6zjgjo1",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "createdAt": 1772735728117
+    },
+    {
+      "name": "Elementar Bogen",
+      "descriptions": [],
+      "image": "/images/Nexarion/Tabaxi/locations/Elementar_Bogen.jpeg",
+      "priority": 0,
+      "id": "1772735817789-kxcrjxlzg",
+      "locationId": "1772180133196-3h6zjgjo1",
+      "storyId": "1763038020231-hfgfxm2x9",
+      "createdAt": 1772735817789
+    },
+    {
+      "name": "Spiegel der Elemente",
+      "descriptions": [],
+      "image": "/images/Nexarion/Tabaxi/locations/Hütte_Spiegel.jpeg",
+      "priority": 0,
+      "id": "1772735832500-3brmc1uq2",
+      "locationId": "1772180133196-3h6zjgjo1",
+      "storyId": "1763038020231-hfgfxm2x9"
+    }
+  ],
+  "theme": "ice"
+}

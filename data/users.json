@@ -3,7 +3,7 @@
     {
       "id": "gm_mastercookie",
       "username": "MasterCookie",
-      "passwordHash": "$2a$10$7rKZHvp8L1qX9YZqJXQz3OQvKGzP8N7tX.fYxQgW6vN8kZ5QJxZ0G",
+      "passwordHash": "$2b$10$G7LipBenekCwRDMQQM1O.k5HBbhukZ2Z3RpxgzYOMqbL1RHhxQVu",
       "role": "gm",
       "createdAt": 1712793600000
     }

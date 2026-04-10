@@ -1,9 +1,23 @@
 import React from "react";
-import { BookOpen, Hexagon, Heart } from "lucide-react";
+import { BookOpen, Hexagon, Heart, LogOut } from "lucide-react";
 
-const StartScreen = ({ onModeSelect }) => {
+const StartScreen = ({ onModeSelect, onLogout, user }) => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 flex items-center justify-center p-4 sm:p-6 lg:p-8">
+      {/* Logout Button (Top Right) */}
+      {onLogout && (
+        <button
+          onClick={onLogout}
+          className="absolute top-4 right-4 flex items-center gap-2 bg-red-500/20 hover:bg-red-500/30 border border-red-500/50 hover:border-red-500 text-red-300 hover:text-red-100 px-4 py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-red-500/50"
+          title="Logout"
+        >
+          <LogOut className="w-5 h-5" />
+          <span className="hidden sm:inline">
+            {user?.username || "Logout"}
+          </span>
+        </button>
+      )}
+
       <div className="max-w-6xl w-full">
         {/* Title */}
         <div className="text-center mb-8 sm:mb-12">

@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { io } from "socket.io-client";
 
 const DataContext18Plus = createContext();
 
@@ -229,33 +230,49 @@ export const DataProvider18Plus = ({ children }) => {
     isLoaded,
   ]);
 
-  // BroadcastChannel für Player View
-  const broadcast = new BroadcastChannel("dnd-session");
+  // Socket.io Connection für PlayerView Sync
+  const [socket, setSocket] = useState(null);
 
-  // Empfange Error-Messages von PlayerView
   useEffect(() => {
-    const handlePlayerViewError = (event) => {
-      if (
-        event.data?.type === "error" &&
-        event.data?.error === "image_load_failed"
-      ) {
+    const socketUrl = API_BASE_URL || window.location.origin;
+    console.log("🔌 DataContext18Plus: Connecting to Socket.io at", socketUrl);
+    
+    const newSocket = io(socketUrl, {
+      transports: ["websocket", "polling"],
+    });
+
+    newSocket.on("connect", () => {
+      console.log("🔌 DataContext18Plus: Socket.io connected!", newSocket.id);
+    });
+
+    // Empfange Error-Messages von PlayerView
+    newSocket.on("player:image-error", (data) => {
+      if (data?.type === "error" && data?.error === "image_load_failed") {
         alert(
-          `Leider ist beim Anzeigen auf der Player View schief gelaufen.\n\nBild: ${event.data.item}\nPfad: ${event.data.image}`,
+          `Leider ist beim Anzeigen auf der Player View schief gelaufen.\n\nBild: ${data.item}\nPfad: ${data.image}`,
         );
       }
-    };
+    });
 
-    broadcast.onmessage = handlePlayerViewError;
+    newSocket.on("disconnect", () => {
+      console.log("🔌 DataContext18Plus: Socket.io disconnected");
+    });
+
+    setSocket(newSocket);
 
     return () => {
-      broadcast.onmessage = null;
+      newSocket.close();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const sendToPlayerView = (data) => {
-    console.log("🚀 GM sending to PlayerView (18+):", data);
-    broadcast.postMessage(data);
+    console.log("🚀 GM sending to PlayerView (18+) via Socket.io:", data);
+    if (socket && socket.connected) {
+      socket.emit("gm:update-playerview", data);
+    } else {
+      console.warn("⚠️ Socket not connected, cannot send PlayerView update");
+    }
 
     if (data.type === "location") {
       setCurrentLocation(data.data);

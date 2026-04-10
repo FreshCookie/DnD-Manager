@@ -4,6 +4,8 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import bcrypt from "bcryptjs";
+import { createServer } from "http";
+import { Server } from "socket.io";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -532,7 +534,33 @@ if (IS_PRODUCTION) {
   console.log("🔧 Development mode - Frontend wird von Vite bereitgestellt");
 }
 
-app.listen(PORT, "0.0.0.0", () => {
+// HTTP Server für Socket.io
+const httpServer = createServer(app);
+
+// Socket.io Setup
+const io = new Server(httpServer, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
+});
+
+// Socket.io PlayerView Sync
+io.on("connection", (socket) => {
+  console.log(`🔌 Client connected: ${socket.id}`);
+
+  // GM sendet PlayerView Update
+  socket.on("gm:update-playerview", (data) => {
+    console.log("🚀 GM broadcasting PlayerView update:", data);
+    io.emit("player:playerview-update", data);
+  });
+
+  socket.on("disconnect", () => {
+    console.log(`🔌 Client disconnected: ${socket.id}`);
+  });
+});
+
+httpServer.listen(PORT, "0.0.0.0", () => {
   console.log(`🚀 Backend Server läuft auf Port ${PORT}`);
   console.log(`📁 Daten werden gespeichert in: ${DATA_FILE}`);
   console.log(`🌐 Lokal erreichbar: http://localhost:${PORT}`);

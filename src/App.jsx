@@ -21,6 +21,7 @@ function AuthenticatedApp() {
     login,
     register,
     joinSession,
+    logout,
   } = useAuth();
   const [selectedMode, setSelectedMode] = useState(null);
   const [availableCharacters, setAvailableCharacters] = useState([]);
@@ -91,14 +92,26 @@ function AuthenticatedApp() {
     }
 
     // Charakter gewählt → PlayerView
-    return <PlayerView character={character} players={availableCharacters} />;
+    return (
+      <PlayerView
+        character={character}
+        players={availableCharacters}
+        onLogout={logout}
+      />
+    );
   }
 
   // GM eingeloggt → StartScreen → Modi
   if (user.role === "gm") {
     // Kein Modus gewählt → StartScreen
     if (!selectedMode) {
-      return <StartScreen onModeSelect={setSelectedMode} />;
+      return (
+        <StartScreen
+          onModeSelect={setSelectedMode}
+          onLogout={logout}
+          user={user}
+        />
+      );
     }
 
     // Pen & Paper Modus (normal)

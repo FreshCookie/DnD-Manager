@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { io } from "socket.io-client";
+import { LogOut } from "lucide-react";
 
-const PlayerView = ({ character = null, players = [] }) => {
+const PlayerView = ({ character = null, players = [], onLogout = null }) => {
   const [displayData, setDisplayData] = useState(null);
   const [tooltips, setTooltips] = useState([]);
   const [currentTooltip, setCurrentTooltip] = useState("");
   const [fadeIn, setFadeIn] = useState(true);
+  const [socket, setSocket] = useState(null);
   const [theme] = useState({
     bg: "bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900",
     text: "text-gray-100",
@@ -16,25 +19,50 @@ const PlayerView = ({ character = null, players = [] }) => {
     ? players.find((p) => p.id === character)
     : null;
 
-  // BroadcastChannel für Kommunikation mit GM
-  const [broadcast] = useState(() => {
-    console.log("🎯 PlayerView: Creating BroadcastChannel 'dnd-session'");
-    return new BroadcastChannel("dnd-session");
-  });
-
-  // Empfange Daten vom GM
+  // Debug Logging
   useEffect(() => {
-    console.log("🎯 PlayerView: Setting up BroadcastChannel listener");
-    broadcast.onmessage = (event) => {
-      console.log("🎯 PlayerView received:", event.data);
-      setDisplayData(event.data);
-    };
+    console.log("🎭 PlayerView Character Debug:", {
+      character,
+      playersCount: players.length,
+      characterData,
+      players: players.map((p) => ({ id: p.id, name: p.name })),
+    });
+  }, [character, players, characterData]);
+
+  // Socket.io Connection
+  useEffect(() => {
+    const API_BASE_URL = import.meta.env.VITE_API_URL || "";
+    const socketUrl = API_BASE_URL || window.location.origin;
+    
+    console.log("🎯 PlayerView: Connecting to Socket.io at", socketUrl);
+    const newSocket = io(socketUrl, {
+      transports: ["websocket", "polling"],
+    });
+
+    newSocket.on("connect", () => {
+      console.log("🎯 PlayerView: Socket.io connected!", newSocket.id);
+    });
+
+    newSocket.on("player:playerview-update", (data) => {
+      console.log("🎯 PlayerView received via Socket.io:", data);
+      setDisplayData(data);
+    });
+
+    newSocket.on("disconnect", () => {
+      console.log("🎯 PlayerView: Socket.io disconnected");
+    });
+
+    newSocket.on("connect_error", (error) => {
+      console.error("🎯 PlayerView: Socket.io connection error:", error);
+    });
+
+    setSocket(newSocket);
 
     return () => {
-      console.log("🎯 PlayerView: Closing BroadcastChannel");
-      broadcast.close();
+      console.log("🎯 PlayerView: Closing Socket.io connection");
+      newSocket.close();
     };
-  }, [broadcast]);
+  }, []);
 
   // Lade Tooltips beim Start
   useEffect(() => {
@@ -82,15 +110,17 @@ const PlayerView = ({ character = null, players = [] }) => {
     return () => clearInterval(interval);
   }, [tooltips]);
 
-  // Sende Fehler zurück an GM
+  // Sende Fehler zurück an GM via Socket.io
   const handleImageError = (imageSrc, itemName) => {
     console.error("Bild konnte nicht geladen werden:", imageSrc);
-    broadcast.postMessage({
-      type: "error",
-      error: "image_load_failed",
-      image: imageSrc,
-      item: itemName,
-    });
+    if (socket && socket.connected) {
+      socket.emit("player:image-error", {
+        type: "error",
+        error: "image_load_failed",
+        image: imageSrc,
+        item: itemName,
+      });
+    }
   };
 
   // Hierarchische Breadcrumb-Anzeige
@@ -171,8 +201,20 @@ const PlayerView = ({ character = null, players = [] }) => {
   if (!displayData || displayData.type === "clear") {
     return (
       <div
-        className={`min-h-screen ${theme.bg} flex items-center justify-center p-8`}
+        className={`min-h-screen ${theme.bg} flex items-center justify-center p-8 relative`}
       >
+        {/* Logout Button auch im Warte-Screen */}
+        {onLogout && (
+          <button
+            onClick={onLogout}
+            className="absolute top-4 left-4 z-50 flex items-center gap-2 bg-red-500/20 hover:bg-red-500/30 border border-red-500/50 hover:border-red-500 text-red-300 hover:text-red-100 px-3 py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-red-500/50"
+            title="Logout"
+          >
+            <LogOut className="w-5 h-5" />
+            <span className="hidden sm:inline text-sm">Logout</span>
+          </button>
+        )}
+
         <div className="text-center max-w-4xl">
           <h1
             className={`${theme.text} text-4xl font-bold mb-4`}
@@ -213,6 +255,18 @@ const PlayerView = ({ character = null, players = [] }) => {
     <div
       className={`min-h-screen ${theme.bg} flex items-center justify-center p-8 relative`}
     >
+      {/* Logout Button (nur wenn onLogout prop vorhanden) */}
+      {onLogout && (
+        <button
+          onClick={onLogout}
+          className="absolute top-4 left-4 z-50 flex items-center gap-2 bg-red-500/20 hover:bg-red-500/30 border border-red-500/50 hover:border-red-500 text-red-300 hover:text-red-100 px-3 py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-red-500/50"
+          title="Logout"
+        >
+          <LogOut className="w-5 h-5" />
+          <span className="hidden sm:inline text-sm">Logout</span>
+        </button>
+      )}
+
       {/* Character Info (nur für eingeloggte Spieler) */}
       {characterData && (
         <div className="absolute top-4 right-4 z-50 bg-gray-800/90 backdrop-blur-sm border-2 border-purple-500/50 rounded-xl p-3 flex items-center gap-3 shadow-xl">
