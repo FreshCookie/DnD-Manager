@@ -33,7 +33,7 @@ const PlayerView = ({ character = null, players = [], onLogout = null }) => {
   useEffect(() => {
     const API_BASE_URL = import.meta.env.VITE_API_URL || "";
     const socketUrl = API_BASE_URL || window.location.origin;
-    
+
     console.log("🎯 PlayerView: Connecting to Socket.io at", socketUrl);
     const newSocket = io(socketUrl, {
       transports: ["websocket", "polling"],
@@ -44,7 +44,11 @@ const PlayerView = ({ character = null, players = [], onLogout = null }) => {
     });
 
     newSocket.on("player:playerview-update", (data) => {
-      console.log("🎯 PlayerView received via Socket.io:", data);
+      console.log("🎯 PlayerView received via Socket.io:", {
+        type: data.type,
+        dataKeys: Object.keys(data),
+        fullData: data,
+      });
       setDisplayData(data);
     });
 
@@ -422,6 +426,38 @@ const PlayerView = ({ character = null, players = [], onLogout = null }) => {
                 </div>
               )}
             </div>
+          </div>
+        )}
+
+        {/* Intro/D-Rektor Ansicht */}
+        {type === "intro" && (
+          <div className="text-center">
+            <h1
+              className={`${theme.text} text-5xl font-bold mb-8`}
+              style={{ fontFamily: "Georgia, serif" }}
+            >
+              {data.title || data.name}
+            </h1>
+            {data.image && (
+              <img
+                src={data.image}
+                alt={data.title || data.name}
+                loading="lazy"
+                className="max-w-4xl mx-auto rounded-xl shadow-2xl mb-6"
+                style={{ maxHeight: "70vh", objectFit: "contain" }}
+                onError={(e) => {
+                  e.target.style.display = "none";
+                  handleImageError(data.image, data.title || data.name);
+                }}
+              />
+            )}
+            {data.description && (
+              <p
+                className={`${theme.text} text-xl max-w-3xl mx-auto leading-relaxed`}
+              >
+                {data.description}
+              </p>
+            )}
           </div>
         )}
 
