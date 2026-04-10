@@ -3,6 +3,7 @@ import cors from "cors";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import bcrypt from "bcryptjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -16,6 +17,8 @@ const DATA_FILE_18PLUS = path.join(
   "session-data-18plus.json",
 );
 const REFERENCE_DATA_FILE = path.join(__dirname, "data", "reference-data.json");
+const USERS_FILE = path.join(__dirname, "data", "users.json");
+const SESSIONS_FILE = path.join(__dirname, "data", "active-sessions.json");
 const IS_PRODUCTION = process.env.NODE_ENV === "production";
 
 // Middleware
@@ -164,6 +167,339 @@ app.get("/api/reference-data", (req, res) => {
     res.status(500).json({ error: "Fehler beim Laden der Reference-Daten" });
   }
 });
+
+// ============================================================================
+// AUTH ENDPOINTS
+// ============================================================================
+
+// Helper: Lade Users
+const loadUsers = () => {
+  try {
+    if (!fs.existsSync(USERS_FILE)) {
+      const initialHash = bcrypt.hashSync("020266140297", 10);
+      const initialData = {
+        users: [
+          {
+            id: "gm_mastercookie",
+            username: "MasterCookie",
+            passwordHash: initialHash,
+            role: "gm",
+            createdAt: Date.now(),
+          },
+        ],
+      };
+      fs.writeFileSync(USERS_FILE, JSON.stringify(initialData, null, 2));
+      return initialData.users;
+    }
+    const data = fs.readFileSync(USERS_FILE, "utf8");
+    return JSON.parse(data).users;
+  } catch (error) {
+    console.error("Fehler beim Laden der Users:", error);
+    return [];
+  }
+};
+
+// Helper: Speichere Users
+const saveUsers = (users) => {
+  try {
+    fs.writeFileSync(USERS_FILE, JSON.stringify({ users }, null, 2));
+    return true;
+  } catch (error) {
+    console.error("Fehler beim Speichern der Users:", error);
+    return false;
+  }
+};
+
+// Helper: Lade Sessions
+const loadSessions = () => {
+  try {
+    if (!fs.existsSync(SESSIONS_FILE)) {
+      fs.writeFileSync(
+        SESSIONS_FILE,
+        JSON.stringify({ sessions: [] }, null, 2),
+      );
+      return [];
+    }
+    const data = fs.readFileSync(SESSIONS_FILE, "utf8");
+    return JSON.parse(data).sessions;
+  } catch (error) {
+    console.error("Fehler beim Laden der Sessions:", error);
+    return [];
+  }
+};
+
+// Helper: Speichere Sessions
+const saveSessions = (sessions) => {
+  try {
+    fs.writeFileSync(SESSIONS_FILE, JSON.stringify({ sessions }, null, 2));
+    return true;
+  } catch (error) {
+    console.error("Fehler beim Speichern der Sessions:", error);
+    return false;
+  }
+};
+
+// POST /api/auth/login - Login für GM und Spieler
+app.post("/api/auth/login", (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    if (!username || !password) {
+      return res
+        .status(400)
+        .json({ error: "Username und Passwort erforderlich" });
+    }
+
+    const users = loadUsers();
+    const user = users.find((u) => u.username === username);
+
+    if (!user) {
+      return res.status(401).json({ error: "Ungültige Anmeldedaten" });
+    }
+
+    const isValidPassword = bcrypt.compareSync(password, user.passwordHash);
+
+    if (!isValidPassword) {
+      return res.status(401).json({ error: "Ungültige Anmeldedaten" });
+    }
+
+    // Erstelle Session
+    const sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const sessions = loadSessions();
+
+    const newSession = {
+      sessionId,
+      userId: user.id,
+      username: user.username,
+      role: user.role,
+      loginTime: Date.now(),
+      lastActivity: Date.now(),
+      character: null, // Wird später gesetzt bei Spielern
+    };
+
+    sessions.push(newSession);
+    saveSessions(sessions);
+
+    res.json({
+      success: true,
+      sessionId,
+      user: {
+        id: user.id,
+        username: user.username,
+        role: user.role,
+        characters: user.characters || [],
+      },
+    });
+  } catch (error) {
+    console.error("Fehler beim Login:", error);
+    res.status(500).json({ error: "Interner Server-Fehler" });
+  }
+});
+
+// POST /api/auth/register - Registrierung für Spieler
+app.post("/api/auth/register", (req, res) => {
+  try {
+    const { username, password, selectedCharacters } = req.body;
+
+    if (!username || !password) {
+      return res
+        .status(400)
+        .json({ error: "Username und Passwort erforderlich" });
+    }
+
+    if (!selectedCharacters || selectedCharacters.length === 0) {
+      return res
+        .status(400)
+        .json({ error: "Mindestens ein Charakter muss ausgewählt werden" });
+    }
+
+    const users = loadUsers();
+
+    // Prüfe ob Username bereits existiert
+    if (users.find((u) => u.username === username)) {
+      return res.status(409).json({ error: "Username bereits vergeben" });
+    }
+
+    // Hash Passwort
+    const passwordHash = bcrypt.hashSync(password, 10);
+
+    const newUser = {
+      id: `player_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      username,
+      passwordHash,
+      role: "player",
+      characters: selectedCharacters,
+      createdAt: Date.now(),
+    };
+
+    users.push(newUser);
+    saveUsers(users);
+
+    res.json({
+      success: true,
+      message: "Registrierung erfolgreich",
+      user: {
+        id: newUser.id,
+        username: newUser.username,
+        role: newUser.role,
+        characters: newUser.characters,
+      },
+    });
+  } catch (error) {
+    console.error("Fehler bei Registrierung:", error);
+    res.status(500).json({ error: "Interner Server-Fehler" });
+  }
+});
+
+// POST /api/auth/join-session - Spieler wählt Charakter und tritt Session bei
+app.post("/api/auth/join-session", (req, res) => {
+  try {
+    const { sessionId, characterId } = req.body;
+
+    if (!sessionId || !characterId) {
+      return res
+        .status(400)
+        .json({ error: "SessionId und CharacterId erforderlich" });
+    }
+
+    const sessions = loadSessions();
+    const session = sessions.find((s) => s.sessionId === sessionId);
+
+    if (!session) {
+      return res.status(404).json({ error: "Session nicht gefunden" });
+    }
+
+    // Update Session mit Charakter
+    session.character = characterId;
+    session.lastActivity = Date.now();
+
+    saveSessions(sessions);
+
+    res.json({
+      success: true,
+      message: "Session beigetreten",
+      session,
+    });
+  } catch (error) {
+    console.error("Fehler beim Session-Beitritt:", error);
+    res.status(500).json({ error: "Interner Server-Fehler" });
+  }
+});
+
+// POST /api/auth/logout - Einzelner Logout
+app.post("/api/auth/logout", (req, res) => {
+  try {
+    const { sessionId } = req.body;
+
+    if (!sessionId) {
+      return res.status(400).json({ error: "SessionId erforderlich" });
+    }
+
+    let sessions = loadSessions();
+    sessions = sessions.filter((s) => s.sessionId !== sessionId);
+    saveSessions(sessions);
+
+    res.json({ success: true, message: "Erfolgreich ausgeloggt" });
+  } catch (error) {
+    console.error("Fehler beim Logout:", error);
+    res.status(500).json({ error: "Interner Server-Fehler" });
+  }
+});
+
+// POST /api/auth/logout-all - GM loggt alle Spieler aus
+app.post("/api/auth/logout-all", (req, res) => {
+  try {
+    const { sessionId } = req.body;
+
+    if (!sessionId) {
+      return res.status(401).json({ error: "Nicht autorisiert" });
+    }
+
+    const sessions = loadSessions();
+    const gmSession = sessions.find((s) => s.sessionId === sessionId);
+
+    if (!gmSession || gmSession.role !== "gm") {
+      return res
+        .status(403)
+        .json({ error: "Nur GM kann alle Spieler ausloggen" });
+    }
+
+    // Entferne alle Player-Sessions, behalte GM-Session
+    const newSessions = sessions.filter((s) => s.role === "gm");
+    saveSessions(newSessions);
+
+    res.json({ success: true, message: "Alle Spieler ausgeloggt" });
+  } catch (error) {
+    console.error("Fehler beim Massen-Logout:", error);
+    res.status(500).json({ error: "Interner Server-Fehler" });
+  }
+});
+
+// GET /api/auth/online-players - GM sieht online Spieler
+app.get("/api/auth/online-players", (req, res) => {
+  try {
+    const sessionId = req.headers["x-session-id"];
+
+    if (!sessionId) {
+      return res.status(401).json({ error: "Nicht autorisiert" });
+    }
+
+    const sessions = loadSessions();
+    const gmSession = sessions.find((s) => s.sessionId === sessionId);
+
+    if (!gmSession || gmSession.role !== "gm") {
+      return res.status(403).json({ error: "Nur GM hat Zugriff" });
+    }
+
+    // Filtere nur Player-Sessions
+    const playerSessions = sessions.filter((s) => s.role === "player");
+
+    res.json({
+      success: true,
+      onlinePlayers: playerSessions,
+      count: playerSessions.length,
+    });
+  } catch (error) {
+    console.error("Fehler beim Abrufen der Online-Spieler:", error);
+    res.status(500).json({ error: "Interner Server-Fehler" });
+  }
+});
+
+// POST /api/auth/verify-session - Prüfe ob Session noch gültig
+app.post("/api/auth/verify-session", (req, res) => {
+  try {
+    const { sessionId } = req.body;
+
+    if (!sessionId) {
+      return res
+        .status(400)
+        .json({ error: "SessionId erforderlich", valid: false });
+    }
+
+    const sessions = loadSessions();
+    const session = sessions.find((s) => s.sessionId === sessionId);
+
+    if (!session) {
+      return res.json({ valid: false, error: "Session nicht gefunden" });
+    }
+
+    // Update lastActivity
+    session.lastActivity = Date.now();
+    saveSessions(sessions);
+
+    res.json({
+      valid: true,
+      session,
+    });
+  } catch (error) {
+    console.error("Fehler bei Session-Verifikation:", error);
+    res.status(500).json({ error: "Interner Server-Fehler", valid: false });
+  }
+});
+
+// ============================================================================
+// END AUTH ENDPOINTS
+// ============================================================================
 
 // In Production: Serve static files from dist folder
 if (IS_PRODUCTION) {

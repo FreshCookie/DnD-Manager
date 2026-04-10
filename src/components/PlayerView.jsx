@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const PlayerView = () => {
+const PlayerView = ({ character = null, players = [] }) => {
   const [displayData, setDisplayData] = useState(null);
   const [tooltips, setTooltips] = useState([]);
   const [currentTooltip, setCurrentTooltip] = useState("");
@@ -10,6 +10,11 @@ const PlayerView = () => {
     text: "text-gray-100",
     accent: "text-purple-400",
   });
+
+  // Finde Character-Daten wenn character-ID übergeben wurde
+  const characterData = character
+    ? players.find((p) => p.id === character)
+    : null;
 
   // BroadcastChannel für Kommunikation mit GM
   const [broadcast] = useState(() => new BroadcastChannel("dnd-session"));
@@ -203,6 +208,32 @@ const PlayerView = () => {
     <div
       className={`min-h-screen ${theme.bg} flex items-center justify-center p-8 relative`}
     >
+      {/* Character Info (nur für eingeloggte Spieler) */}
+      {characterData && (
+        <div className="absolute top-4 right-4 z-50 bg-gray-800/90 backdrop-blur-sm border-2 border-purple-500/50 rounded-xl p-3 flex items-center gap-3 shadow-xl">
+          {characterData.image && (
+            <img
+              src={characterData.image}
+              alt={characterData.name}
+              className="w-12 h-12 rounded-full object-cover border-2 border-purple-400"
+              onError={(e) => {
+                e.target.style.display = "none";
+              }}
+            />
+          )}
+          <div>
+            <div className="text-white font-bold text-sm">
+              {characterData.name}
+            </div>
+            {characterData.class && (
+              <div className="text-purple-300 text-xs">
+                {characterData.class}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
       {renderLocationBreadcrumb()}
 
       <div className="max-w-6xl w-full">

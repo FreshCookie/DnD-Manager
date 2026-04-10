@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useData } from "../contexts/DataContext";
+import { useAuth } from "../contexts/AuthContext";
 import { themes } from "../styles/themes";
 import CitySelector from "./CitySelector";
 import StoryList from "./StoryList";
@@ -16,6 +17,7 @@ import SoundControl from "./SoundControl";
 import PlayersManager from "./PlayersManager";
 import CompanionsLibrary from "./CompanionsLibrary";
 import SessionNotes from "./SessionNotes";
+import OnlinePlayersManager from "./OnlinePlayersManager";
 import {
   BookOpen,
   MapPin,
@@ -26,10 +28,12 @@ import {
   Users,
   Heart,
   FileText,
+  UserCheck,
 } from "lucide-react";
 
 const GMView = () => {
   const { theme: themeKey, selectedStory } = useData();
+  const { sessionId } = useAuth();
   const theme = themes[themeKey];
   const [activeTab, setActiveTab] = useState("overview");
 
@@ -148,6 +152,16 @@ const GMView = () => {
           >
             <Heart className="w-5 h-5" /> Companions
           </button>
+          <button
+            onClick={() => setActiveTab("online")}
+            className={`px-4 py-2 md:px-6 md:py-3 rounded-lg font-semibold transition-all hover:scale-105 flex items-center gap-2 whitespace-nowrap text-sm md:text-base ${
+              activeTab === "online"
+                ? theme.button
+                : `${theme.cardBg} ${theme.border} border ${theme.text} opacity-70`
+            }`}
+          >
+            <UserCheck className="w-5 h-5" /> Online Spieler
+          </button>
         </div>
 
         {/* Main Content Area */}
@@ -166,6 +180,9 @@ const GMView = () => {
             {activeTab === "items" && <ItemManager theme={theme} />}
             {activeTab === "players" && <PlayersManager theme={theme} />}
             {activeTab === "companions" && <CompanionsLibrary theme={theme} />}
+            {activeTab === "online" && (
+              <OnlinePlayersManager theme={theme} sessionId={sessionId} />
+            )}
           </div>
 
           {/* Right Column - Tools */}

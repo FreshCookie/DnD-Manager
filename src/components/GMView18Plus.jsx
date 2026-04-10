@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useData18Plus } from "../contexts/DataContext18Plus";
+import { useAuth } from "../contexts/AuthContext";
 import { themes } from "../styles/themes";
 import CitySelector from "./CitySelector";
 import StoryList from "./StoryList";
@@ -17,6 +18,7 @@ import PlayersManager from "./PlayersManager";
 import CompanionsLibrary from "./CompanionsLibrary";
 import KinksReferenceLibrary from "./KinksReferenceLibrary";
 import SessionNotes from "./SessionNotes";
+import OnlinePlayersManager from "./OnlinePlayersManager";
 import {
   BookOpen,
   MapPin,
@@ -28,10 +30,12 @@ import {
   Heart,
   FileText,
   Book,
+  UserCheck,
 } from "lucide-react";
 
 const GMView18Plus = () => {
   const { theme: themeKey, selectedStory, sendToPlayerView } = useData18Plus();
+  const { sessionId } = useAuth();
   const theme = themes[themeKey];
   const [activeTab, setActiveTab] = useState("overview");
 
@@ -160,6 +164,16 @@ const GMView18Plus = () => {
           >
             <Book className="w-5 h-5" /> K&C Referenz
           </button>
+          <button
+            onClick={() => setActiveTab("online")}
+            className={`px-4 py-2 md:px-6 md:py-3 rounded-lg font-semibold transition-all hover:scale-105 flex items-center gap-2 whitespace-nowrap text-sm md:text-base ${
+              activeTab === "online"
+                ? theme.button
+                : `${theme.cardBg} ${theme.border} border ${theme.text} opacity-70`
+            }`}
+          >
+            <UserCheck className="w-5 h-5" /> Online Spieler
+          </button>
         </div>
 
         {/* Main Content Area */}
@@ -183,6 +197,9 @@ const GMView18Plus = () => {
                 theme={theme}
                 sendToPlayerView={sendToPlayerView}
               />
+            )}
+            {activeTab === "online" && (
+              <OnlinePlayersManager theme={theme} sessionId={sessionId} />
             )}
           </div>
 

@@ -1,0 +1,11 @@
+{
+  "users": [
+    {
+      "id": "gm_mastercookie",
+      "username": "MasterCookie",
+      "passwordHash": "$2a$10$7rKZHvp8L1qX9YZqJXQz3OQvKGzP8N7tX.fYxQgW6vN8kZ5QJxZ0G",
+      "role": "gm",
+      "createdAt": 1712793600000
+    }
+  ]
+}

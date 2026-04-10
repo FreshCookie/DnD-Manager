@@ -94,7 +94,7 @@ export const DataProvider18Plus = ({ children }) => {
 
     return items.map((item) => {
       if (item.descriptions && Array.isArray(item.descriptions)) {
-        const { description, ...rest } = item;
+        const { description: _description, ...rest } = item;
         return rest;
       }
 
@@ -103,14 +103,14 @@ export const DataProvider18Plus = ({ children }) => {
         typeof item.description === "string" &&
         item.description.trim()
       ) {
-        const { description, ...rest } = item;
+        const { description: _description, ...rest } = item;
         return {
           ...rest,
           descriptions: [
             {
               id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
               title: "",
-              text: description,
+              text: _description,
               showToPlayers: false,
               createdAt: Date.now(),
             },
@@ -118,7 +118,7 @@ export const DataProvider18Plus = ({ children }) => {
         };
       }
 
-      const { description, ...rest } = item;
+      const { description: _description2, ...rest } = item;
       return { ...rest, descriptions: [] };
     });
   };
@@ -200,6 +200,7 @@ export const DataProvider18Plus = ({ children }) => {
   // Lade Daten beim Start
   useEffect(() => {
     loadData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Auto-Save bei Änderungen (mit Debounce)
@@ -211,6 +212,7 @@ export const DataProvider18Plus = ({ children }) => {
     }, 1000);
 
     return () => clearTimeout(timeoutId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     cities,
     stories,
@@ -248,6 +250,7 @@ export const DataProvider18Plus = ({ children }) => {
     return () => {
       broadcast.onmessage = null;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const sendToPlayerView = (data) => {
