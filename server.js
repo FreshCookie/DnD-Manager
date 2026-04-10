@@ -503,7 +503,16 @@ app.post("/api/auth/verify-session", (req, res) => {
 app.put("/api/characters/:characterId", (req, res) => {
   try {
     const { characterId } = req.params;
-    const { name, class: charClass, race, background, level, hp, maxHp, alignment } = req.body;
+    const {
+      name,
+      class: charClass,
+      race,
+      background,
+      level,
+      hp,
+      maxHp,
+      alignment,
+    } = req.body;
     const sessionId = req.cookies.sessionId;
 
     // Verify session
@@ -537,7 +546,7 @@ app.put("/api/characters/:characterId", (req, res) => {
 
     // Find player by characterId (ID field)
     const playerIndex = sessionData.players.findIndex(
-      (p) => p.id === characterId
+      (p) => p.id === characterId,
     );
 
     if (playerIndex === -1) {
@@ -546,10 +555,10 @@ app.put("/api/characters/:characterId", (req, res) => {
 
     // Update player data
     const player = sessionData.players[playerIndex];
-    
+
     // Update basic fields
     player.name = name.trim();
-    
+
     // Update optional fields
     if (charClass !== undefined) player.class = charClass;
     if (race !== undefined) player.race = race;
@@ -587,6 +596,293 @@ app.put("/api/characters/:characterId", (req, res) => {
     });
   } catch (error) {
     console.error("Fehler beim Aktualisieren des Charakters:", error);
+    res.status(500).json({ error: "Interner Server-Fehler" });
+  }
+});
+
+// GET /api/characters/:characterId/notes - Get all notes for a character
+app.get("/api/characters/:characterId/notes", (req, res) => {
+  try {
+    const { characterId } = req.params;
+    const sessionId = req.cookies.sessionId;
+
+    // Verify session
+    if (!sessionId) {
+      return res.status(401).json({ error: "Nicht angemeldet" });
+    }
+
+    const sessions = loadSessions();
+    const session = sessions.find((s) => s.sessionId === sessionId);
+
+    if (!session) {
+      return res.status(401).json({ error: "Ungültige Session" });
+    }
+
+    // Authorization: Players can only view their own notes, GMs can view all
+    if (session.role === "player" && session.character !== characterId) {
+      return res.status(403).json({ error: "Keine Berechtigung" });
+    }
+
+    // Load session data
+    const sessionData = loadData();
+
+    if (!sessionData.players || !Array.isArray(sessionData.players)) {
+      return res.status(500).json({ error: "Spielerdaten nicht gefunden" });
+    }
+
+    // Find player by characterId
+    const player = sessionData.players.find((p) => p.id === characterId);
+
+    if (!player) {
+      return res.status(404).json({ error: "Charakter nicht gefunden" });
+    }
+
+    // Initialize notes array if it doesn't exist
+    if (!player.notes) {
+      player.notes = [];
+    }
+
+    res.json({
+      success: true,
+      notes: player.notes,
+    });
+  } catch (error) {
+    console.error("Fehler beim Abrufen der Notizen:", error);
+    res.status(500).json({ error: "Interner Server-Fehler" });
+  }
+});
+
+// POST /api/characters/:characterId/notes - Create a new note
+app.post("/api/characters/:characterId/notes", (req, res) => {
+  try {
+    const { characterId } = req.params;
+    const { title, content, category } = req.body;
+    const sessionId = req.cookies.sessionId;
+
+    // Verify session
+    if (!sessionId) {
+      return res.status(401).json({ error: "Nicht angemeldet" });
+    }
+
+    const sessions = loadSessions();
+    const session = sessions.find((s) => s.sessionId === sessionId);
+
+    if (!session) {
+      return res.status(401).json({ error: "Ungültige Session" });
+    }
+
+    // Authorization: Players can only create notes for their own character
+    if (session.role === "player" && session.character !== characterId) {
+      return res.status(403).json({ error: "Keine Berechtigung" });
+    }
+
+    // Validate required fields
+    if (!title || !title.trim()) {
+      return res.status(400).json({ error: "Titel ist erforderlich" });
+    }
+
+    // Load session data
+    const sessionData = loadData();
+
+    if (!sessionData.players || !Array.isArray(sessionData.players)) {
+      return res.status(500).json({ error: "Spielerdaten nicht gefunden" });
+    }
+
+    // Find player by characterId
+    const playerIndex = sessionData.players.findIndex(
+      (p) => p.id === characterId
+    );
+
+    if (playerIndex === -1) {
+      return res.status(404).json({ error: "Charakter nicht gefunden" });
+    }
+
+    const player = sessionData.players[playerIndex];
+
+    // Initialize notes array if it doesn't exist
+    if (!player.notes) {
+      player.notes = [];
+    }
+
+    // Create new note
+    const newNote = {
+      id: generateId(),
+      title: title.trim(),
+      content: content || "",
+      category: category || "Allgemein",
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    };
+
+    player.notes.push(newNote);
+
+    // Save updated data
+    saveData(sessionData);
+
+    console.log(`✅ Note created for character ${characterId} by ${session.username}`);
+
+    res.json({
+      success: true,
+      message: "Notiz erfolgreich erstellt",
+      note: newNote,
+    });
+  } catch (error) {
+    console.error("Fehler beim Erstellen der Notiz:", error);
+    res.status(500).json({ error: "Interner Server-Fehler" });
+  }
+});
+
+// PUT /api/characters/:characterId/notes/:noteId - Update a note
+app.put("/api/characters/:characterId/notes/:noteId", (req, res) => {
+  try {
+    const { characterId, noteId } = req.params;
+    const { title, content, category } = req.body;
+    const sessionId = req.cookies.sessionId;
+
+    // Verify session
+    if (!sessionId) {
+      return res.status(401).json({ error: "Nicht angemeldet" });
+    }
+
+    const sessions = loadSessions();
+    const session = sessions.find((s) => s.sessionId === sessionId);
+
+    if (!session) {
+      return res.status(401).json({ error: "Ungültige Session" });
+    }
+
+    // Authorization: Players can only update their own notes
+    if (session.role === "player" && session.character !== characterId) {
+      return res.status(403).json({ error: "Keine Berechtigung" });
+    }
+
+    // Validate required fields
+    if (!title || !title.trim()) {
+      return res.status(400).json({ error: "Titel ist erforderlich" });
+    }
+
+    // Load session data
+    const sessionData = loadData();
+
+    if (!sessionData.players || !Array.isArray(sessionData.players)) {
+      return res.status(500).json({ error: "Spielerdaten nicht gefunden" });
+    }
+
+    // Find player by characterId
+    const playerIndex = sessionData.players.findIndex(
+      (p) => p.id === characterId
+    );
+
+    if (playerIndex === -1) {
+      return res.status(404).json({ error: "Charakter nicht gefunden" });
+    }
+
+    const player = sessionData.players[playerIndex];
+
+    // Initialize notes array if it doesn't exist
+    if (!player.notes) {
+      player.notes = [];
+    }
+
+    // Find note by noteId
+    const noteIndex = player.notes.findIndex((n) => n.id === noteId);
+
+    if (noteIndex === -1) {
+      return res.status(404).json({ error: "Notiz nicht gefunden" });
+    }
+
+    // Update note
+    player.notes[noteIndex] = {
+      ...player.notes[noteIndex],
+      title: title.trim(),
+      content: content || "",
+      category: category || "Allgemein",
+      updatedAt: Date.now(),
+    };
+
+    // Save updated data
+    saveData(sessionData);
+
+    console.log(`✅ Note ${noteId} updated for character ${characterId} by ${session.username}`);
+
+    res.json({
+      success: true,
+      message: "Notiz erfolgreich aktualisiert",
+      note: player.notes[noteIndex],
+    });
+  } catch (error) {
+    console.error("Fehler beim Aktualisieren der Notiz:", error);
+    res.status(500).json({ error: "Interner Server-Fehler" });
+  }
+});
+
+// DELETE /api/characters/:characterId/notes/:noteId - Delete a note
+app.delete("/api/characters/:characterId/notes/:noteId", (req, res) => {
+  try {
+    const { characterId, noteId } = req.params;
+    const sessionId = req.cookies.sessionId;
+
+    // Verify session
+    if (!sessionId) {
+      return res.status(401).json({ error: "Nicht angemeldet" });
+    }
+
+    const sessions = loadSessions();
+    const session = sessions.find((s) => s.sessionId === sessionId);
+
+    if (!session) {
+      return res.status(401).json({ error: "Ungültige Session" });
+    }
+
+    // Authorization: Players can only delete their own notes
+    if (session.role === "player" && session.character !== characterId) {
+      return res.status(403).json({ error: "Keine Berechtigung" });
+    }
+
+    // Load session data
+    const sessionData = loadData();
+
+    if (!sessionData.players || !Array.isArray(sessionData.players)) {
+      return res.status(500).json({ error: "Spielerdaten nicht gefunden" });
+    }
+
+    // Find player by characterId
+    const playerIndex = sessionData.players.findIndex(
+      (p) => p.id === characterId
+    );
+
+    if (playerIndex === -1) {
+      return res.status(404).json({ error: "Charakter nicht gefunden" });
+    }
+
+    const player = sessionData.players[playerIndex];
+
+    // Initialize notes array if it doesn't exist
+    if (!player.notes) {
+      player.notes = [];
+    }
+
+    // Find note by noteId
+    const noteIndex = player.notes.findIndex((n) => n.id === noteId);
+
+    if (noteIndex === -1) {
+      return res.status(404).json({ error: "Notiz nicht gefunden" });
+    }
+
+    // Delete note
+    player.notes.splice(noteIndex, 1);
+
+    // Save updated data
+    saveData(sessionData);
+
+    console.log(`✅ Note ${noteId} deleted for character ${characterId} by ${session.username}`);
+
+    res.json({
+      success: true,
+      message: "Notiz erfolgreich gelöscht",
+    });
+  } catch (error) {
+    console.error("Fehler beim Löschen der Notiz:", error);
     res.status(500).json({ error: "Interner Server-Fehler" });
   }
 });

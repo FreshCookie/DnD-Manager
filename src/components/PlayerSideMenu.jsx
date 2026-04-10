@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { X, User, Edit, BookOpen, Package, Save } from "lucide-react";
+import { X, User, Edit, BookOpen, Package, Save, Plus, Trash2, Calendar } from "lucide-react";
 
 const PlayerSideMenu = ({ isOpen, onClose, character, characterData }) => {
   const [activeTab, setActiveTab] = useState("character");
@@ -14,6 +14,15 @@ const PlayerSideMenu = ({ isOpen, onClose, character, characterData }) => {
     alignment: "",
   });
   const [isSaving, setIsSaving] = useState(false);
+  const [notes, setNotes] = useState([]);
+  const [isLoadingNotes, setIsLoadingNotes] = useState(false);
+  const [isAddingNote, setIsAddingNote] = useState(false);
+  const [editingNote, setEditingNote] = useState(null);
+  const [noteForm, setNoteForm] = useState({
+    title: "",
+    content: "",
+    category: "Allgemein",
+  });
 
   // Initialize form when characterData changes
   useEffect(() => {
@@ -30,6 +39,121 @@ const PlayerSideMenu = ({ isOpen, onClose, character, characterData }) => {
       });
     }
   }, [characterData]);
+
+  // Load notes when tab changes to notes
+  useEffect(() => {
+    if (activeTab === "notes" && character) {
+      fetchNotes();
+    }
+  }, [activeTab, character]);
+
+  const fetchNotes = async () => {
+    if (!character) return;
+    
+    setIsLoadingNotes(true);
+    try {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
+      const response = await fetch(
+        `${API_BASE_URL}/api/characters/${character}/notes`,
+        {
+          credentials: "include",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Fehler beim Laden der Notizen");
+      }
+
+      const data = await response.json();
+      setNotes(data.notes || []);
+    } catch (error) {
+      console.error("Fehler beim Laden der Notizen:", error);
+      alert("Fehler beim Laden der Notizen");
+    } finally {
+      setIsLoadingNotes(false);
+    }
+  };
+
+  const handleSaveNote = async () => {
+    if (!noteForm.title.trim()) {
+      alert("Titel ist erforderlich!");
+      return;
+    }
+
+    try {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
+      const url = editingNote
+        ? `${API_BASE_URL}/api/characters/${character}/notes/${editingNote.id}`
+        : `${API_BASE_URL}/api/characters/${character}/notes`;
+      
+      const method = editingNote ? "PUT" : "POST";
+
+      const response = await fetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(noteForm),
+      });
+
+      if (!response.ok) {
+        throw new Error("Fehler beim Speichern der Notiz");
+      }
+
+      alert(editingNote ? "Notiz aktualisiert!" : "Notiz erstellt!");
+      setNoteForm({ title: "", content: "", category: "Allgemein" });
+      setIsAddingNote(false);
+      setEditingNote(null);
+      fetchNotes(); // Reload notes
+    } catch (error) {
+      console.error("Fehler beim Speichern der Notiz:", error);
+      alert("Fehler beim Speichern der Notiz. Bitte versuche es erneut.");
+    }
+  };
+
+  const handleEditNote = (note) => {
+    setEditingNote(note);
+    setNoteForm({
+      title: note.title,
+      content: note.content,
+      category: note.category || "Allgemein",
+    });
+    setIsAddingNote(true);
+  };
+
+  const handleDeleteNote = async (noteId) => {
+    if (!confirm("Möchtest du diese Notiz wirklich löschen?")) {
+      return;
+    }
+
+    try {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
+      const response = await fetch(
+        `${API_BASE_URL}/api/characters/${character}/notes/${noteId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Fehler beim Löschen der Notiz");
+      }
+
+      alert("Notiz gelöscht!");
+      fetchNotes(); // Reload notes
+    } catch (error) {
+      console.error("Fehler beim Löschen der Notiz:", error);
+      alert("Fehler beim Löschen der Notiz. Bitte versuche es erneut.");
+    }
+  };
+
+  const handleCancelNote = () => {
+    setNoteForm({ title: "", content: "", category: "Allgemein" });
+    setIsAddingNote(false);
+    setEditingNote(null);
+  };
 
   const handleSaveChanges = async () => {
     if (!editForm.name.trim()) {
@@ -49,7 +173,7 @@ const PlayerSideMenu = ({ isOpen, onClose, character, characterData }) => {
           },
           credentials: "include",
           body: JSON.stringify(editForm),
-        }
+        },
       );
 
       if (!response.ok) {
@@ -391,10 +515,158 @@ const PlayerSideMenu = ({ isOpen, onClose, character, characterData }) => {
 
           {/* Notizen Tab */}
           {activeTab === "notes" && (
-            <div className="text-center text-gray-400 py-12">
-              <BookOpen className="w-16 h-16 mx-auto mb-4 opacity-50" />
-              <p className="text-lg mb-2">Meine Notizen</p>
-              <p className="text-sm">Wird in Phase 2 implementiert</p>
+            <div className="space-y-4">
+              {/* Add Note Button */}
+              <div className="flex justify-between items-center">
+                <h3 className="text-xl font-bold text-white">Meine Notizen</h3>
+                <button
+                  onClick={() => setIsAddingNote(true)}
+                  className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors"
+                >
+                  <Plus className="w-5 h-5" />
+                  Neue Notiz
+                </button>
+              </div>
+
+              {/* Add/Edit Note Form */}
+              {isAddingNote && (
+                <div className="bg-gray-800 rounded-lg p-4 border border-purple-500/30">
+                  <h4 className="text-lg font-bold text-white mb-4">
+                    {editingNote ? "Notiz bearbeiten" : "Neue Notiz"}
+                  </h4>
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                        Titel *
+                      </label>
+                      <input
+                        type="text"
+                        value={noteForm.title}
+                        onChange={(e) =>
+                          setNoteForm({ ...noteForm, title: e.target.value })
+                        }
+                        className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="z.B. Wichtiger Quest-Hinweis"
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                        Kategorie
+                      </label>
+                      <select
+                        value={noteForm.category}
+                        onChange={(e) =>
+                          setNoteForm({ ...noteForm, category: e.target.value })
+                        }
+                        className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      >
+                        <option value="Allgemein">Allgemein</option>
+                        <option value="Quest">Quest</option>
+                        <option value="NPC">NPC</option>
+                        <option value="Story">Story</option>
+                        <option value="Kampf">Kampf</option>
+                        <option value="Items">Items</option>
+                        <option value="Sonstiges">Sonstiges</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                        Inhalt
+                      </label>
+                      <textarea
+                        value={noteForm.content}
+                        onChange={(e) =>
+                          setNoteForm({ ...noteForm, content: e.target.value })
+                        }
+                        rows="6"
+                        className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                        placeholder="Schreibe deine Notiz hier..."
+                      />
+                    </div>
+
+                    <div className="flex gap-3">
+                      <button
+                        onClick={handleSaveNote}
+                        className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors"
+                      >
+                        <Save className="w-5 h-5" />
+                        Speichern
+                      </button>
+                      <button
+                        onClick={handleCancelNote}
+                        className="flex-1 px-4 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors"
+                      >
+                        Abbrechen
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Notes List */}
+              {isLoadingNotes ? (
+                <div className="text-center py-12 text-gray-400">
+                  Lade Notizen...
+                </div>
+              ) : notes.length === 0 ? (
+                <div className="text-center py-12">
+                  <BookOpen className="w-16 h-16 mx-auto mb-4 text-gray-400 opacity-50" />
+                  <p className="text-gray-400 text-lg mb-2">Noch keine Notizen</p>
+                  <p className="text-gray-500 text-sm">
+                    Erstelle deine erste Notiz!
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {notes.map((note) => (
+                    <div
+                      key={note.id}
+                      className="bg-gray-800 rounded-lg p-4 border border-gray-700 hover:border-purple-500/50 transition-colors"
+                    >
+                      <div className="flex justify-between items-start mb-2">
+                        <div className="flex-1">
+                          <h4 className="text-lg font-bold text-white mb-1">
+                            {note.title}
+                          </h4>
+                          <div className="flex items-center gap-3 text-xs text-gray-400">
+                            <span className="px-2 py-1 bg-purple-900/50 border border-purple-500/30 rounded">
+                              {note.category || "Allgemein"}
+                            </span>
+                            <span className="flex items-center gap-1">
+                              <Calendar className="w-3 h-3" />
+                              {new Date(note.createdAt).toLocaleDateString("de-DE")}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => handleEditNote(note)}
+                            className="p-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
+                            title="Bearbeiten"
+                          >
+                            <Edit className="w-4 h-4 text-white" />
+                          </button>
+                          <button
+                            onClick={() => handleDeleteNote(note.id)}
+                            className="p-2 bg-red-600 hover:bg-red-700 rounded-lg transition-colors"
+                            title="Löschen"
+                          >
+                            <Trash2 className="w-4 h-4 text-white" />
+                          </button>
+                        </div>
+                      </div>
+                      {note.content && (
+                        <p className="text-sm text-gray-300 leading-relaxed whitespace-pre-wrap mt-2">
+                          {note.content}
+                        </p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 

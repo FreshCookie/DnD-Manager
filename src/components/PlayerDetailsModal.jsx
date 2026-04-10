@@ -8,6 +8,7 @@ import {
   Shield,
   Sword,
   TrendingUp,
+  Calendar,
 } from "lucide-react";
 
 const PlayerDetailsModal = ({ isOpen, onClose, player, companion, theme }) => {
@@ -188,7 +189,7 @@ const PlayerDetailsModal = ({ isOpen, onClose, player, companion, theme }) => {
                   </p>
                 </div>
 
-                {/* Notes Section (Placeholder) */}
+                {/* Notes Section */}
                 <div
                   className={`${theme.cardBg} ${theme.border} border rounded-lg p-4`}
                 >
@@ -198,14 +199,43 @@ const PlayerDetailsModal = ({ isOpen, onClose, player, companion, theme }) => {
                       Notizen
                     </h4>
                   </div>
-                  <div className="text-center py-8">
-                    <BookOpen
-                      className={`${theme.text} w-12 h-12 mx-auto mb-3 opacity-30`}
-                    />
-                    <p className={`${theme.text} text-sm opacity-50`}>
-                      Notizen-System wird in Phase 4 implementiert
-                    </p>
-                  </div>
+                  {player.notes && player.notes.length > 0 ? (
+                    <div className="space-y-3 max-h-96 overflow-y-auto">
+                      {player.notes.map((note) => (
+                        <div
+                          key={note.id}
+                          className="bg-gray-800/50 rounded-lg p-3 border border-gray-700"
+                        >
+                          <div className="flex justify-between items-start mb-2">
+                            <h5 className={`${theme.text} font-semibold`}>
+                              {note.title}
+                            </h5>
+                            <span className="text-xs px-2 py-1 bg-purple-900/50 border border-purple-500/30 rounded">
+                              {note.category || "Allgemein"}
+                            </span>
+                          </div>
+                          {note.content && (
+                            <p className={`${theme.text} text-sm opacity-80 mb-2 whitespace-pre-wrap`}>
+                              {note.content}
+                            </p>
+                          )}
+                          <div className="flex items-center gap-1 text-xs opacity-60">
+                            <Calendar className="w-3 h-3" />
+                            <span>{new Date(note.createdAt).toLocaleDateString("de-DE")}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-8">
+                      <BookOpen
+                        className={`${theme.text} w-12 h-12 mx-auto mb-3 opacity-30`}
+                      />
+                      <p className={`${theme.text} text-sm opacity-50`}>
+                        Keine Notizen vorhanden
+                      </p>
+                    </div>
+                  )}
                 </div>
 
                 {/* Inventory Section (Placeholder) */}
