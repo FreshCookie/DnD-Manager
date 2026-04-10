@@ -1,5 +1,5 @@
 import React from "react";
-import { BookOpen, Hexagon } from "lucide-react";
+import { BookOpen, Hexagon, Heart } from "lucide-react";
 
 const StartScreen = ({ onModeSelect }) => {
   return (
@@ -19,7 +19,7 @@ const StartScreen = ({ onModeSelect }) => {
         </div>
 
         {/* Mode Selection Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
           {/* Pen & Paper Mode */}
           <button
             onClick={() => onModeSelect("penandpaper")}
@@ -78,6 +78,38 @@ const StartScreen = ({ onModeSelect }) => {
                 <li>✓ Story Verzweigungen</li>
                 <li>✓ Weltenkarten-Ansicht</li>
                 <li>✓ Event Management</li>
+              </ul>
+            </div>
+          </button>
+
+          {/* Pen & Paper 18+ Mode */}
+          <button
+            onClick={() => onModeSelect("penandpaper18")}
+            className="group relative bg-gradient-to-br from-gray-800 to-gray-900 border-2 border-red-500/50 rounded-2xl p-6 sm:p-8 shadow-2xl hover:shadow-red-500/50 transition-all duration-300 hover:scale-105 hover:border-red-400"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity" />
+
+            <div className="relative z-10">
+              <div className="flex justify-center mb-4 sm:mb-6">
+                <div className="bg-red-500/20 p-4 sm:p-6 rounded-full group-hover:bg-red-500/30 transition-colors">
+                  <Heart className="w-12 h-12 sm:w-16 sm:h-16 text-red-400" />
+                </div>
+              </div>
+
+              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3 sm:mb-4 text-center">
+                Pen & Paper 18+
+              </h2>
+
+              <p className="text-gray-300 text-sm sm:text-base text-center mb-4 sm:mb-6">
+                Erweiterter Session Manager mit Kinks & Cantrips
+                Referenz-Bibliothek
+              </p>
+
+              <ul className="text-gray-400 text-xs sm:text-sm space-y-2">
+                <li>✓ Alle Standard Features</li>
+                <li>✓ K&C Referenz-Bibliothek</li>
+                <li>✓ Kinks, Klassen & Rassen</li>
+                <li>✓ Kreaturen & Mechaniken</li>
               </ul>
             </div>
           </button>

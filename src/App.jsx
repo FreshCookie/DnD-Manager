@@ -7,6 +7,7 @@ import StartScreen from "./components/StartScreen";
 import HexagonGMView from "./components/HexagonGMView";
 import PreloadScreen from "./components/PreloadScreen";
 import PenAndPaperMode from "./components/PenAndPaperMode";
+import PenAndPaperMode18Plus from "./components/PenAndPaperMode18Plus";
 
 function App() {
   const [selectedMode, setSelectedMode] = useState(null);
@@ -33,6 +34,15 @@ function App() {
     return (
       <DataProvider>
         <PenAndPaperMode />
+      </DataProvider>
+    );
+  }
+
+  // Pen & Paper 18+ Modus
+  if (selectedMode === "penandpaper18") {
+    return (
+      <DataProvider>
+        <PenAndPaperMode18Plus />
       </DataProvider>
     );
   }
