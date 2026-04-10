@@ -1,5 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { X, User, Edit, BookOpen, Package, Save, Plus, Trash2, Calendar } from "lucide-react";
+import {
+  X,
+  User,
+  Edit,
+  BookOpen,
+  Package,
+  Save,
+  Plus,
+  Trash2,
+  Calendar,
+  Coins,
+} from "lucide-react";
 
 const PlayerSideMenu = ({ isOpen, onClose, character, characterData }) => {
   const [activeTab, setActiveTab] = useState("character");
@@ -23,6 +34,11 @@ const PlayerSideMenu = ({ isOpen, onClose, character, characterData }) => {
     content: "",
     category: "Allgemein",
   });
+  const [inventory, setInventory] = useState({
+    items: [],
+    currency: { platinum: 0, gold: 0, silver: 0, copper: 0 },
+  });
+  const [isLoadingInventory, setIsLoadingInventory] = useState(false);
 
   // Initialize form when characterData changes
   useEffect(() => {
@@ -49,7 +65,7 @@ const PlayerSideMenu = ({ isOpen, onClose, character, characterData }) => {
 
   const fetchNotes = async () => {
     if (!character) return;
-    
+
     setIsLoadingNotes(true);
     try {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
@@ -57,7 +73,7 @@ const PlayerSideMenu = ({ isOpen, onClose, character, characterData }) => {
         `${API_BASE_URL}/api/characters/${character}/notes`,
         {
           credentials: "include",
-        }
+        },
       );
 
       if (!response.ok) {
@@ -74,6 +90,45 @@ const PlayerSideMenu = ({ isOpen, onClose, character, characterData }) => {
     }
   };
 
+  // Load inventory when tab changes to inventory
+  useEffect(() => {
+    if (activeTab === "inventory" && character) {
+      fetchInventory();
+    }
+  }, [activeTab, character]);
+
+  const fetchInventory = async () => {
+    if (!character) return;
+
+    setIsLoadingInventory(true);
+    try {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
+      const response = await fetch(
+        `${API_BASE_URL}/api/characters/${character}/inventory`,
+        {
+          credentials: "include",
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error("Fehler beim Laden des Inventars");
+      }
+
+      const data = await response.json();
+      setInventory(
+        data.inventory || {
+          items: [],
+          currency: { platinum: 0, gold: 0, silver: 0, copper: 0 },
+        },
+      );
+    } catch (error) {
+      console.error("Fehler beim Laden des Inventars:", error);
+      alert("Fehler beim Laden des Inventars");
+    } finally {
+      setIsLoadingInventory(false);
+    }
+  };
+
   const handleSaveNote = async () => {
     if (!noteForm.title.trim()) {
       alert("Titel ist erforderlich!");
@@ -85,7 +140,7 @@ const PlayerSideMenu = ({ isOpen, onClose, character, characterData }) => {
       const url = editingNote
         ? `${API_BASE_URL}/api/characters/${character}/notes/${editingNote.id}`
         : `${API_BASE_URL}/api/characters/${character}/notes`;
-      
+
       const method = editingNote ? "PUT" : "POST";
 
       const response = await fetch(url, {
@@ -134,7 +189,7 @@ const PlayerSideMenu = ({ isOpen, onClose, character, characterData }) => {
         {
           method: "DELETE",
           credentials: "include",
-        }
+        },
       );
 
       if (!response.ok) {
@@ -614,7 +669,9 @@ const PlayerSideMenu = ({ isOpen, onClose, character, characterData }) => {
               ) : notes.length === 0 ? (
                 <div className="text-center py-12">
                   <BookOpen className="w-16 h-16 mx-auto mb-4 text-gray-400 opacity-50" />
-                  <p className="text-gray-400 text-lg mb-2">Noch keine Notizen</p>
+                  <p className="text-gray-400 text-lg mb-2">
+                    Noch keine Notizen
+                  </p>
                   <p className="text-gray-500 text-sm">
                     Erstelle deine erste Notiz!
                   </p>
@@ -637,7 +694,9 @@ const PlayerSideMenu = ({ isOpen, onClose, character, characterData }) => {
                             </span>
                             <span className="flex items-center gap-1">
                               <Calendar className="w-3 h-3" />
-                              {new Date(note.createdAt).toLocaleDateString("de-DE")}
+                              {new Date(note.createdAt).toLocaleDateString(
+                                "de-DE",
+                              )}
                             </span>
                           </div>
                         </div>
@@ -672,10 +731,139 @@ const PlayerSideMenu = ({ isOpen, onClose, character, characterData }) => {
 
           {/* Inventar Tab */}
           {activeTab === "inventory" && (
-            <div className="text-center text-gray-400 py-12">
-              <Package className="w-16 h-16 mx-auto mb-4 opacity-50" />
-              <p className="text-lg mb-2">Mein Inventar</p>
-              <p className="text-sm">Wird in Phase 4 implementiert</p>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <h3 className="text-xl font-bold text-white">Mein Inventar</h3>
+                <div className="text-xs text-gray-400 bg-gray-800 px-3 py-1 rounded-lg border border-gray-700">
+                  Nur vom GM bearbeitbar
+                </div>
+              </div>
+
+              {isLoadingInventory ? (
+                <div className="text-center py-12 text-gray-400">
+                  Lade Inventar...
+                </div>
+              ) : (
+                <>
+                  {/* Currency Section */}
+                  <div className="bg-gradient-to-br from-yellow-900/30 to-orange-900/30 rounded-lg p-4 border border-yellow-700/30">
+                    <div className="flex items-center gap-2 mb-4">
+                      <Coins className="w-6 h-6 text-yellow-400" />
+                      <h4 className="text-lg font-bold text-white">Währung</h4>
+                    </div>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="bg-gray-800/50 rounded-lg p-3 border border-gray-700">
+                        <div className="text-xs text-gray-400 mb-1">Platin</div>
+                        <div className="text-2xl font-bold text-purple-300">
+                          {inventory.currency.platinum || 0}
+                        </div>
+                      </div>
+                      <div className="bg-gray-800/50 rounded-lg p-3 border border-gray-700">
+                        <div className="text-xs text-gray-400 mb-1">Gold</div>
+                        <div className="text-2xl font-bold text-yellow-400">
+                          {inventory.currency.gold || 0}
+                        </div>
+                      </div>
+                      <div className="bg-gray-800/50 rounded-lg p-3 border border-gray-700">
+                        <div className="text-xs text-gray-400 mb-1">Silber</div>
+                        <div className="text-2xl font-bold text-gray-300">
+                          {inventory.currency.silver || 0}
+                        </div>
+                      </div>
+                      <div className="bg-gray-800/50 rounded-lg p-3 border border-gray-700">
+                        <div className="text-xs text-gray-400 mb-1">Kupfer</div>
+                        <div className="text-2xl font-bold text-orange-400">
+                          {inventory.currency.copper || 0}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Currency Converter */}
+                    <div className="mt-4 pt-4 border-t border-yellow-700/30">
+                      <div className="text-xs text-gray-400 mb-2">
+                        Gesamtwert in Gold:
+                      </div>
+                      <div className="text-xl font-bold text-yellow-400">
+                        {(
+                          (inventory.currency.platinum || 0) * 10 +
+                          (inventory.currency.gold || 0) +
+                          (inventory.currency.silver || 0) / 10 +
+                          (inventory.currency.copper || 0) / 100
+                        ).toFixed(2)}{" "}
+                        GP
+                      </div>
+                      <div className="text-xs text-gray-500 mt-1">
+                        1 Platin = 10 Gold | 1 Gold = 10 Silber | 1 Silber = 10
+                        Kupfer
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Items Section */}
+                  <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                    <div className="flex items-center gap-2 mb-4">
+                      <Package className="w-6 h-6 text-purple-400" />
+                      <h4 className="text-lg font-bold text-white">
+                        Gegenstände
+                      </h4>
+                    </div>
+
+                    {inventory.items && inventory.items.length > 0 ? (
+                      <div className="grid grid-cols-1 gap-3">
+                        {inventory.items.map((item) => (
+                          <div
+                            key={item.id}
+                            className="bg-gray-900/50 rounded-lg p-3 border border-gray-700 hover:border-purple-500/50 transition-colors"
+                          >
+                            <div className="flex gap-3">
+                              {item.image && (
+                                <img
+                                  src={item.image}
+                                  alt={item.name}
+                                  className="w-16 h-16 object-contain bg-black/20 rounded border border-gray-700"
+                                  onError={(e) => {
+                                    e.target.src =
+                                      "https://via.placeholder.com/64x64?text=Item";
+                                  }}
+                                />
+                              )}
+                              <div className="flex-1">
+                                <div className="flex justify-between items-start mb-1">
+                                  <h5 className="font-bold text-white">
+                                    {item.name}
+                                  </h5>
+                                  {item.quantity > 1 && (
+                                    <span className="text-xs px-2 py-1 bg-purple-900/50 border border-purple-500/30 rounded">
+                                      x{item.quantity}
+                                    </span>
+                                  )}
+                                </div>
+                                {item.description && (
+                                  <p className="text-sm text-gray-400">
+                                    {item.description}
+                                  </p>
+                                )}
+                                {item.category && (
+                                  <span className="text-xs text-gray-500 mt-1 inline-block">
+                                    {item.category}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="text-center py-8">
+                        <Package className="w-16 h-16 mx-auto mb-4 text-gray-400 opacity-30" />
+                        <p className="text-gray-400 text-sm">
+                          Keine Gegenstände im Inventar
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
             </div>
           )}
         </div>

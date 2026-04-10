@@ -9,6 +9,7 @@ import {
   Sword,
   TrendingUp,
   Calendar,
+  Coins,
 } from "lucide-react";
 
 const PlayerDetailsModal = ({ isOpen, onClose, player, companion, theme }) => {
@@ -215,13 +216,19 @@ const PlayerDetailsModal = ({ isOpen, onClose, player, companion, theme }) => {
                             </span>
                           </div>
                           {note.content && (
-                            <p className={`${theme.text} text-sm opacity-80 mb-2 whitespace-pre-wrap`}>
+                            <p
+                              className={`${theme.text} text-sm opacity-80 mb-2 whitespace-pre-wrap`}
+                            >
                               {note.content}
                             </p>
                           )}
                           <div className="flex items-center gap-1 text-xs opacity-60">
                             <Calendar className="w-3 h-3" />
-                            <span>{new Date(note.createdAt).toLocaleDateString("de-DE")}</span>
+                            <span>
+                              {new Date(note.createdAt).toLocaleDateString(
+                                "de-DE",
+                              )}
+                            </span>
                           </div>
                         </div>
                       ))}
@@ -238,7 +245,7 @@ const PlayerDetailsModal = ({ isOpen, onClose, player, companion, theme }) => {
                   )}
                 </div>
 
-                {/* Inventory Section (Placeholder) */}
+                {/* Inventory Section */}
                 <div
                   className={`${theme.cardBg} ${theme.border} border rounded-lg p-4`}
                 >
@@ -248,14 +255,121 @@ const PlayerDetailsModal = ({ isOpen, onClose, player, companion, theme }) => {
                       Inventar
                     </h4>
                   </div>
-                  <div className="text-center py-8">
-                    <Package
-                      className={`${theme.text} w-12 h-12 mx-auto mb-3 opacity-30`}
-                    />
-                    <p className={`${theme.text} text-sm opacity-50`}>
-                      Inventar-System wird in Phase 5 implementiert
-                    </p>
-                  </div>
+                  {player.inventory ? (
+                    <div className="space-y-4">
+                      {/* Currency */}
+                      <div className="bg-gradient-to-br from-yellow-900/20 to-orange-900/20 rounded-lg p-3 border border-yellow-700/20">
+                        <div className="flex items-center gap-2 mb-3">
+                          <Coins className="w-4 h-4 text-yellow-400" />
+                          <h5 className={`${theme.text} font-semibold text-sm`}>
+                            Währung
+                          </h5>
+                        </div>
+                        <div className="grid grid-cols-4 gap-2 text-center">
+                          <div>
+                            <div className="text-xs opacity-60">Platin</div>
+                            <div className="font-bold text-purple-300">
+                              {player.inventory.currency?.platinum || 0}
+                            </div>
+                          </div>
+                          <div>
+                            <div className="text-xs opacity-60">Gold</div>
+                            <div className="font-bold text-yellow-400">
+                              {player.inventory.currency?.gold || 0}
+                            </div>
+                          </div>
+                          <div>
+                            <div className="text-xs opacity-60">Silber</div>
+                            <div className="font-bold text-gray-300">
+                              {player.inventory.currency?.silver || 0}
+                            </div>
+                          </div>
+                          <div>
+                            <div className="text-xs opacity-60">Kupfer</div>
+                            <div className="font-bold text-orange-400">
+                              {player.inventory.currency?.copper || 0}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="mt-2 pt-2 border-t border-yellow-700/20 text-center">
+                          <div className="text-xs opacity-60">Gesamtwert</div>
+                          <div className="font-bold text-yellow-400">
+                            {(
+                              (player.inventory.currency?.platinum || 0) * 10 +
+                              (player.inventory.currency?.gold || 0) +
+                              (player.inventory.currency?.silver || 0) / 10 +
+                              (player.inventory.currency?.copper || 0) / 100
+                            ).toFixed(2)}{" "}
+                            GP
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Items */}
+                      {player.inventory.items &&
+                      player.inventory.items.length > 0 ? (
+                        <div className="space-y-2 max-h-64 overflow-y-auto">
+                          {player.inventory.items.map((item) => (
+                            <div
+                              key={item.id}
+                              className="bg-gray-800/50 rounded-lg p-2 border border-gray-700 flex gap-2"
+                            >
+                              {item.image && (
+                                <img
+                                  src={item.image}
+                                  alt={item.name}
+                                  className="w-12 h-12 object-contain bg-black/20 rounded border border-gray-700"
+                                  onError={(e) => {
+                                    e.target.src =
+                                      "https://via.placeholder.com/48x48?text=Item";
+                                  }}
+                                />
+                              )}
+                              <div className="flex-1">
+                                <div className="flex justify-between">
+                                  <span
+                                    className={`${theme.text} font-semibold text-sm`}
+                                  >
+                                    {item.name}
+                                  </span>
+                                  {item.quantity > 1 && (
+                                    <span className="text-xs px-2 py-0.5 bg-purple-900/50 border border-purple-500/30 rounded">
+                                      x{item.quantity}
+                                    </span>
+                                  )}
+                                </div>
+                                {item.description && (
+                                  <p
+                                    className={`${theme.text} text-xs opacity-70`}
+                                  >
+                                    {item.description}
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="text-center py-4">
+                          <Package
+                            className={`${theme.text} w-8 h-8 mx-auto mb-2 opacity-30`}
+                          />
+                          <p className={`${theme.text} text-xs opacity-50`}>
+                            Keine Gegenstände
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="text-center py-8">
+                      <Package
+                        className={`${theme.text} w-12 h-12 mx-auto mb-3 opacity-30`}
+                      />
+                      <p className={`${theme.text} text-sm opacity-50`}>
+                        Kein Inventar vorhanden
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

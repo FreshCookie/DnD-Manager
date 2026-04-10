@@ -690,7 +690,7 @@ app.post("/api/characters/:characterId/notes", (req, res) => {
 
     // Find player by characterId
     const playerIndex = sessionData.players.findIndex(
-      (p) => p.id === characterId
+      (p) => p.id === characterId,
     );
 
     if (playerIndex === -1) {
@@ -719,7 +719,9 @@ app.post("/api/characters/:characterId/notes", (req, res) => {
     // Save updated data
     saveData(sessionData);
 
-    console.log(`✅ Note created for character ${characterId} by ${session.username}`);
+    console.log(
+      `✅ Note created for character ${characterId} by ${session.username}`,
+    );
 
     res.json({
       success: true,
@@ -770,7 +772,7 @@ app.put("/api/characters/:characterId/notes/:noteId", (req, res) => {
 
     // Find player by characterId
     const playerIndex = sessionData.players.findIndex(
-      (p) => p.id === characterId
+      (p) => p.id === characterId,
     );
 
     if (playerIndex === -1) {
@@ -803,7 +805,9 @@ app.put("/api/characters/:characterId/notes/:noteId", (req, res) => {
     // Save updated data
     saveData(sessionData);
 
-    console.log(`✅ Note ${noteId} updated for character ${characterId} by ${session.username}`);
+    console.log(
+      `✅ Note ${noteId} updated for character ${characterId} by ${session.username}`,
+    );
 
     res.json({
       success: true,
@@ -848,7 +852,7 @@ app.delete("/api/characters/:characterId/notes/:noteId", (req, res) => {
 
     // Find player by characterId
     const playerIndex = sessionData.players.findIndex(
-      (p) => p.id === characterId
+      (p) => p.id === characterId,
     );
 
     if (playerIndex === -1) {
@@ -875,7 +879,9 @@ app.delete("/api/characters/:characterId/notes/:noteId", (req, res) => {
     // Save updated data
     saveData(sessionData);
 
-    console.log(`✅ Note ${noteId} deleted for character ${characterId} by ${session.username}`);
+    console.log(
+      `✅ Note ${noteId} deleted for character ${characterId} by ${session.username}`,
+    );
 
     res.json({
       success: true,
@@ -883,6 +889,155 @@ app.delete("/api/characters/:characterId/notes/:noteId", (req, res) => {
     });
   } catch (error) {
     console.error("Fehler beim Löschen der Notiz:", error);
+    res.status(500).json({ error: "Interner Server-Fehler" });
+  }
+});
+
+// GET /api/characters/:characterId/inventory - Get character inventory
+app.get("/api/characters/:characterId/inventory", (req, res) => {
+  try {
+    const { characterId } = req.params;
+    const sessionId = req.cookies.sessionId;
+
+    // Verify session
+    if (!sessionId) {
+      return res.status(401).json({ error: "Nicht angemeldet" });
+    }
+
+    const sessions = loadSessions();
+    const session = sessions.find((s) => s.sessionId === sessionId);
+
+    if (!session) {
+      return res.status(401).json({ error: "Ungültige Session" });
+    }
+
+    // Authorization: Players can only view their own inventory, GMs can view all
+    if (session.role === "player" && session.character !== characterId) {
+      return res.status(403).json({ error: "Keine Berechtigung" });
+    }
+
+    // Load session data
+    const sessionData = loadData();
+
+    if (!sessionData.players || !Array.isArray(sessionData.players)) {
+      return res.status(500).json({ error: "Spielerdaten nicht gefunden" });
+    }
+
+    // Find player by characterId
+    const player = sessionData.players.find((p) => p.id === characterId);
+
+    if (!player) {
+      return res.status(404).json({ error: "Charakter nicht gefunden" });
+    }
+
+    // Initialize inventory if it doesn't exist
+    if (!player.inventory) {
+      player.inventory = {
+        items: [],
+        currency: {
+          platinum: 0,
+          gold: 0,
+          silver: 0,
+          copper: 0,
+        },
+      };
+    }
+
+    res.json({
+      success: true,
+      inventory: player.inventory,
+    });
+  } catch (error) {
+    console.error("Fehler beim Abrufen des Inventars:", error);
+    res.status(500).json({ error: "Interner Server-Fehler" });
+  }
+});
+
+// PUT /api/characters/:characterId/inventory - Update character inventory (GM only)
+app.put("/api/characters/:characterId/inventory", (req, res) => {
+  try {
+    const { characterId } = req.params;
+    const { items, currency } = req.body;
+    const sessionId = req.cookies.sessionId;
+
+    // Verify session
+    if (!sessionId) {
+      return res.status(401).json({ error: "Nicht angemeldet" });
+    }
+
+    const sessions = loadSessions();
+    const session = sessions.find((s) => s.sessionId === sessionId);
+
+    if (!session) {
+      return res.status(401).json({ error: "Ungültige Session" });
+    }
+
+    // Authorization: Only GMs can update inventory
+    if (session.role !== "gm") {
+      return res
+        .status(403)
+        .json({ error: "Nur GMs können das Inventar bearbeiten" });
+    }
+
+    // Load session data
+    const sessionData = loadData();
+
+    if (!sessionData.players || !Array.isArray(sessionData.players)) {
+      return res.status(500).json({ error: "Spielerdaten nicht gefunden" });
+    }
+
+    // Find player by characterId
+    const playerIndex = sessionData.players.findIndex(
+      (p) => p.id === characterId,
+    );
+
+    if (playerIndex === -1) {
+      return res.status(404).json({ error: "Charakter nicht gefunden" });
+    }
+
+    const player = sessionData.players[playerIndex];
+
+    // Initialize inventory if it doesn't exist
+    if (!player.inventory) {
+      player.inventory = {
+        items: [],
+        currency: {
+          platinum: 0,
+          gold: 0,
+          silver: 0,
+          copper: 0,
+        },
+      };
+    }
+
+    // Update inventory
+    if (items !== undefined) {
+      player.inventory.items = items;
+    }
+
+    if (currency !== undefined) {
+      player.inventory.currency = {
+        platinum: currency.platinum || 0,
+        gold: currency.gold || 0,
+        silver: currency.silver || 0,
+        copper: currency.copper || 0,
+      };
+    }
+
+    // Save updated data
+    saveData(sessionData);
+
+    console.log(
+      `✅ Inventory updated for character ${characterId} by ${session.username}`,
+    );
+
+    res.json({
+      success: true,
+      message: "Inventar erfolgreich aktualisiert",
+      inventory: player.inventory,
+    });
+  } catch (error) {
+    console.error("Fehler beim Aktualisieren des Inventars:", error);
     res.status(500).json({ error: "Interner Server-Fehler" });
   }
 });
