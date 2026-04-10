@@ -17,16 +17,21 @@ const PlayerView = ({ character = null, players = [] }) => {
     : null;
 
   // BroadcastChannel für Kommunikation mit GM
-  const [broadcast] = useState(() => new BroadcastChannel("dnd-session"));
+  const [broadcast] = useState(() => {
+    console.log("🎯 PlayerView: Creating BroadcastChannel 'dnd-session'");
+    return new BroadcastChannel("dnd-session");
+  });
 
   // Empfange Daten vom GM
   useEffect(() => {
+    console.log("🎯 PlayerView: Setting up BroadcastChannel listener");
     broadcast.onmessage = (event) => {
-      console.log("PlayerView received:", event.data);
+      console.log("🎯 PlayerView received:", event.data);
       setDisplayData(event.data);
     };
 
     return () => {
+      console.log("🎯 PlayerView: Closing BroadcastChannel");
       broadcast.close();
     };
   }, [broadcast]);

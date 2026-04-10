@@ -264,6 +264,7 @@ export const DataProvider = ({ children }) => {
   }, []);
 
   const sendToPlayerView = (data) => {
+    console.log("🚀 GM sending to PlayerView:", data);
     broadcast.postMessage(data);
 
     if (data.type === "location") {

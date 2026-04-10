@@ -254,6 +254,7 @@ export const DataProvider18Plus = ({ children }) => {
   }, []);
 
   const sendToPlayerView = (data) => {
+    console.log("🚀 GM sending to PlayerView (18+):", data);
     broadcast.postMessage(data);
 
     if (data.type === "location") {
