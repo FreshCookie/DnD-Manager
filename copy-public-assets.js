@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import bcrypt from "bcryptjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -46,5 +47,41 @@ try {
   console.log("✅ Public assets copied successfully!");
 } catch (error) {
   console.error("❌ Error copying public assets:", error);
+  process.exit(1);
+}
+
+// Update users.json with correct password hash for MasterCookie
+console.log("\n🔐 Updating MasterCookie password hash...");
+
+const MASTER_PASSWORD = "020266140297";
+const usersJsonPath = path.join(__dirname, "data", "users.json");
+
+try {
+  // Read users.json
+  const usersData = JSON.parse(fs.readFileSync(usersJsonPath, "utf8"));
+
+  // Find MasterCookie user
+  const masterCookieIndex = usersData.users.findIndex(
+    (user) => user.username === "MasterCookie"
+  );
+
+  if (masterCookieIndex === -1) {
+    console.log("⚠️  MasterCookie user not found in users.json");
+  } else {
+    // Generate new hash for the password
+    const newHash = bcrypt.hashSync(MASTER_PASSWORD, 10);
+
+    // Update the password hash
+    usersData.users[masterCookieIndex].passwordHash = newHash;
+
+    // Write back to file
+    fs.writeFileSync(usersJsonPath, JSON.stringify(usersData, null, 2), "utf8");
+
+    console.log("✅ MasterCookie password hash updated successfully!");
+    console.log(`   Username: MasterCookie`);
+    console.log(`   Password: ${MASTER_PASSWORD}`);
+  }
+} catch (error) {
+  console.error("❌ Error updating password hash:", error);
   process.exit(1);
 }
