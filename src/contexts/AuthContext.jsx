@@ -45,7 +45,7 @@ export const AuthProvider = ({ children }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ sessionId: sid }),
+        credentials: "include",
       });
 
       const data = await response.json();
@@ -74,6 +74,7 @@ export const AuthProvider = ({ children }) => {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify({ username, password }),
       });
 
@@ -104,6 +105,7 @@ export const AuthProvider = ({ children }) => {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify({ username, password, selectedCharacters }),
       });
 
@@ -131,7 +133,8 @@ export const AuthProvider = ({ children }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ sessionId, characterId }),
+        credentials: "include",
+        body: JSON.stringify({ characterId }),
       });
 
       const data = await response.json();
@@ -154,15 +157,13 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      if (sessionId) {
-        await fetch(`${API_BASE_URL}/api/auth/logout`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ sessionId }),
-        });
-      }
+      await fetch(`${API_BASE_URL}/api/auth/logout`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
     } catch (error) {
       console.error("Logout-Fehler:", error);
     } finally {
@@ -183,7 +184,7 @@ export const AuthProvider = ({ children }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ sessionId }),
+        credentials: "include",
       });
 
       const data = await response.json();
@@ -202,9 +203,7 @@ export const AuthProvider = ({ children }) => {
   const getOnlinePlayers = async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/api/auth/online-players`, {
-        headers: {
-          "x-session-id": sessionId,
-        },
+        credentials: "include",
       });
 
       const data = await response.json();

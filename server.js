@@ -25,7 +25,12 @@ const SESSIONS_FILE = path.join(__dirname, "data", "active-sessions.json");
 const IS_PRODUCTION = process.env.NODE_ENV === "production";
 
 // Middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  }),
+);
 
 // Optional: GZIP Kompression (benötigt: npm install compression)
 try {
@@ -284,6 +289,13 @@ app.post("/api/auth/login", (req, res) => {
     sessions.push(newSession);
     saveSessions(sessions);
 
+    // Set cookie
+    res.cookie("sessionId", sessionId, {
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000, // 24 hours
+      sameSite: "lax",
+    });
+
     res.json({
       success: true,
       sessionId,
@@ -339,9 +351,33 @@ app.post("/api/auth/register", (req, res) => {
     users.push(newUser);
     saveUsers(users);
 
+    // Create session and set cookie
+    const sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const sessions = loadSessions();
+
+    const newSession = {
+      sessionId,
+      userId: newUser.id,
+      username: newUser.username,
+      role: newUser.role,
+      loginTime: Date.now(),
+      lastActivity: Date.now(),
+      character: null,
+    };
+
+    sessions.push(newSession);
+    saveSessions(sessions);
+
+    res.cookie("sessionId", sessionId, {
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000, // 24 hours
+      sameSite: "lax",
+    });
+
     res.json({
       success: true,
       message: "Registrierung erfolgreich",
+      sessionId,
       user: {
         id: newUser.id,
         username: newUser.username,
@@ -358,7 +394,8 @@ app.post("/api/auth/register", (req, res) => {
 // POST /api/auth/join-session - Spieler wählt Charakter und tritt Session bei
 app.post("/api/auth/join-session", (req, res) => {
   try {
-    const { sessionId, characterId } = req.body;
+    const { characterId } = req.body;
+    const sessionId = req.cookies.sessionId;
 
     if (!sessionId || !characterId) {
       return res
@@ -393,7 +430,7 @@ app.post("/api/auth/join-session", (req, res) => {
 // POST /api/auth/logout - Einzelner Logout
 app.post("/api/auth/logout", (req, res) => {
   try {
-    const { sessionId } = req.body;
+    const sessionId = req.cookies.sessionId;
 
     if (!sessionId) {
       return res.status(400).json({ error: "SessionId erforderlich" });
@@ -402,6 +439,9 @@ app.post("/api/auth/logout", (req, res) => {
     let sessions = loadSessions();
     sessions = sessions.filter((s) => s.sessionId !== sessionId);
     saveSessions(sessions);
+
+    // Clear cookie
+    res.clearCookie("sessionId");
 
     res.json({ success: true, message: "Erfolgreich ausgeloggt" });
   } catch (error) {
@@ -413,7 +453,7 @@ app.post("/api/auth/logout", (req, res) => {
 // POST /api/auth/logout-all - GM loggt alle Spieler aus
 app.post("/api/auth/logout-all", (req, res) => {
   try {
-    const { sessionId } = req.body;
+    const sessionId = req.cookies.sessionId;
 
     if (!sessionId) {
       return res.status(401).json({ error: "Nicht autorisiert" });
@@ -442,7 +482,7 @@ app.post("/api/auth/logout-all", (req, res) => {
 // GET /api/auth/online-players - GM sieht online Spieler
 app.get("/api/auth/online-players", (req, res) => {
   try {
-    const sessionId = req.headers["x-session-id"];
+    const sessionId = req.cookies.sessionId;
 
     if (!sessionId) {
       return res.status(401).json({ error: "Nicht autorisiert" });
@@ -472,7 +512,7 @@ app.get("/api/auth/online-players", (req, res) => {
 // POST /api/auth/verify-session - Prüfe ob Session noch gültig
 app.post("/api/auth/verify-session", (req, res) => {
   try {
-    const { sessionId } = req.body;
+    const sessionId = req.cookies.sessionId;
 
     if (!sessionId) {
       return res
