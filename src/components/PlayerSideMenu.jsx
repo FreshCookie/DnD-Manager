@@ -69,7 +69,7 @@ const PlayerSideMenu = ({ isOpen, onClose, character, characterData }) => {
 
     setIsLoadingNotes(true);
     try {
-      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
+      const API_BASE_URL = import.meta.env.VITE_API_URL || "";
       const response = await fetch(
         `${API_BASE_URL}/api/characters/${character}/notes`,
         {
@@ -104,7 +104,7 @@ const PlayerSideMenu = ({ isOpen, onClose, character, characterData }) => {
 
     setIsLoadingInventory(true);
     try {
-      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
+      const API_BASE_URL = import.meta.env.VITE_API_URL || "";
       const response = await fetch(
         `${API_BASE_URL}/api/characters/${character}/inventory`,
         {
@@ -138,7 +138,7 @@ const PlayerSideMenu = ({ isOpen, onClose, character, characterData }) => {
     }
 
     try {
-      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
+      const API_BASE_URL = import.meta.env.VITE_API_URL || "";
       const url = editingNote
         ? `${API_BASE_URL}/api/characters/${character}/notes/${editingNote.id}`
         : `${API_BASE_URL}/api/characters/${character}/notes`;
@@ -185,7 +185,7 @@ const PlayerSideMenu = ({ isOpen, onClose, character, characterData }) => {
     }
 
     try {
-      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
+      const API_BASE_URL = import.meta.env.VITE_API_URL || "";
       const response = await fetch(
         `${API_BASE_URL}/api/characters/${character}/notes/${noteId}`,
         {
@@ -220,7 +220,7 @@ const PlayerSideMenu = ({ isOpen, onClose, character, characterData }) => {
 
     setIsSaving(true);
     try {
-      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
+      const API_BASE_URL = import.meta.env.VITE_API_URL || "";
       const response = await fetch(
         `${API_BASE_URL}/api/characters/${character}`,
         {
