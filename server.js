@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -36,6 +37,7 @@ try {
 }
 
 app.use(express.json({ limit: "50mb" }));
+app.use(cookieParser());
 
 // Stelle sicher dass der data Ordner existiert
 if (!fs.existsSync(path.join(__dirname, "data"))) {
