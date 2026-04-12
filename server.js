@@ -590,16 +590,7 @@ app.post("/api/auth/verify-session", (req, res) => {
 app.put("/api/characters/:characterId", (req, res) => {
   try {
     const { characterId } = req.params;
-    const {
-      name,
-      class: charClass,
-      race,
-      background,
-      level,
-      hp,
-      maxHp,
-      alignment,
-    } = req.body;
+    const { name, class: charClass, race, background, level } = req.body;
     const sessionId = req.cookies.sessionId;
 
     // Verify session
@@ -651,9 +642,6 @@ app.put("/api/characters/:characterId", (req, res) => {
     if (race !== undefined) player.race = race;
     if (background !== undefined) player.background = background;
     if (level !== undefined) player.level = level;
-    if (hp !== undefined) player.hp = hp;
-    if (maxHp !== undefined) player.maxHp = maxHp;
-    if (alignment !== undefined) player.alignment = alignment;
 
     // Update description field (legacy format: "Race / Class\nBackground...")
     if (race || charClass || background) {
@@ -980,6 +968,296 @@ app.delete("/api/characters/:characterId/notes/:noteId", (req, res) => {
   }
 });
 
+// ============================================================================
+// ABILITIES ENDPOINTS
+// ============================================================================
+
+// GET /api/characters/:characterId/abilities - Get all abilities for a character
+app.get("/api/characters/:characterId/abilities", (req, res) => {
+  try {
+    const { characterId } = req.params;
+    const sessionId = req.cookies.sessionId;
+
+    // Verify session
+    if (!sessionId) {
+      return res.status(401).json({ error: "Nicht angemeldet" });
+    }
+
+    const sessions = loadSessions();
+    const session = sessions.find((s) => s.sessionId === sessionId);
+
+    if (!session) {
+      return res.status(401).json({ error: "Ungültige Session" });
+    }
+
+    // Authorization: Players can view their own abilities, GMs can view all
+    if (session.role === "player" && session.character !== characterId) {
+      return res.status(403).json({ error: "Keine Berechtigung" });
+    }
+
+    // Load session data
+    const sessionData = loadData();
+
+    if (!sessionData.players || !Array.isArray(sessionData.players)) {
+      return res.status(500).json({ error: "Spielerdaten nicht gefunden" });
+    }
+
+    // Find player by characterId
+    const player = sessionData.players.find((p) => p.id === characterId);
+
+    if (!player) {
+      return res.status(404).json({ error: "Charakter nicht gefunden" });
+    }
+
+    // Initialize abilities array if it doesn't exist
+    if (!player.abilities) {
+      player.abilities = [];
+    }
+
+    res.json({
+      success: true,
+      abilities: player.abilities,
+    });
+  } catch (error) {
+    console.error("Fehler beim Abrufen der Abilities:", error);
+    res.status(500).json({ error: "Interner Server-Fehler" });
+  }
+});
+
+// POST /api/characters/:characterId/abilities - Create a new ability
+app.post("/api/characters/:characterId/abilities", (req, res) => {
+  try {
+    const { characterId } = req.params;
+    const { name, description, image } = req.body;
+    const sessionId = req.cookies.sessionId;
+
+    // Verify session
+    if (!sessionId) {
+      return res.status(401).json({ error: "Nicht angemeldet" });
+    }
+
+    const sessions = loadSessions();
+    const session = sessions.find((s) => s.sessionId === sessionId);
+
+    if (!session) {
+      return res.status(401).json({ error: "Ungültige Session" });
+    }
+
+    // Authorization: Players can create for their own character, GMs for all
+    if (session.role === "player" && session.character !== characterId) {
+      return res.status(403).json({ error: "Keine Berechtigung" });
+    }
+
+    // Validate required fields
+    if (!name || !name.trim()) {
+      return res.status(400).json({ error: "Name ist erforderlich" });
+    }
+
+    // Load session data
+    const sessionData = loadData();
+
+    if (!sessionData.players || !Array.isArray(sessionData.players)) {
+      return res.status(500).json({ error: "Spielerdaten nicht gefunden" });
+    }
+
+    // Find player by characterId
+    const playerIndex = sessionData.players.findIndex(
+      (p) => p.id === characterId,
+    );
+
+    if (playerIndex === -1) {
+      return res.status(404).json({ error: "Charakter nicht gefunden" });
+    }
+
+    const player = sessionData.players[playerIndex];
+
+    // Initialize abilities array if it doesn't exist
+    if (!player.abilities) {
+      player.abilities = [];
+    }
+
+    // Create new ability
+    const newAbility = {
+      id: generateId(),
+      name: name.trim(),
+      description: description || "",
+      image: image || null,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    };
+
+    player.abilities.push(newAbility);
+
+    // Save updated data
+    saveData(sessionData);
+
+    console.log(
+      `✅ Ability created for character ${characterId} by ${session.username}`,
+    );
+
+    res.json({
+      success: true,
+      message: "Fähigkeit erfolgreich erstellt",
+      ability: newAbility,
+    });
+  } catch (error) {
+    console.error("Fehler beim Erstellen der Ability:", error);
+    res.status(500).json({ error: "Interner Server-Fehler" });
+  }
+});
+
+// PUT /api/characters/:characterId/abilities/:abilityId - Update an ability
+app.put("/api/characters/:characterId/abilities/:abilityId", (req, res) => {
+  try {
+    const { characterId, abilityId } = req.params;
+    const { name, description, image } = req.body;
+    const sessionId = req.cookies.sessionId;
+
+    // Verify session
+    if (!sessionId) {
+      return res.status(401).json({ error: "Nicht angemeldet" });
+    }
+
+    const sessions = loadSessions();
+    const session = sessions.find((s) => s.sessionId === sessionId);
+
+    if (!session) {
+      return res.status(401).json({ error: "Ungültige Session" });
+    }
+
+    // Authorization: Players can edit their own abilities, GMs can edit all
+    if (session.role === "player" && session.character !== characterId) {
+      return res.status(403).json({ error: "Keine Berechtigung" });
+    }
+
+    // Load session data
+    const sessionData = loadData();
+
+    if (!sessionData.players || !Array.isArray(sessionData.players)) {
+      return res.status(500).json({ error: "Spielerdaten nicht gefunden" });
+    }
+
+    // Find player by characterId
+    const playerIndex = sessionData.players.findIndex(
+      (p) => p.id === characterId,
+    );
+
+    if (playerIndex === -1) {
+      return res.status(404).json({ error: "Charakter nicht gefunden" });
+    }
+
+    const player = sessionData.players[playerIndex];
+
+    // Initialize abilities array if it doesn't exist
+    if (!player.abilities) {
+      player.abilities = [];
+    }
+
+    // Find ability by abilityId
+    const abilityIndex = player.abilities.findIndex((a) => a.id === abilityId);
+
+    if (abilityIndex === -1) {
+      return res.status(404).json({ error: "Fähigkeit nicht gefunden" });
+    }
+
+    // Update ability
+    if (name !== undefined) player.abilities[abilityIndex].name = name.trim();
+    if (description !== undefined)
+      player.abilities[abilityIndex].description = description;
+    if (image !== undefined) player.abilities[abilityIndex].image = image;
+    player.abilities[abilityIndex].updatedAt = Date.now();
+
+    // Save updated data
+    saveData(sessionData);
+
+    console.log(
+      `✅ Ability ${abilityId} updated for character ${characterId} by ${session.username}`,
+    );
+
+    res.json({
+      success: true,
+      message: "Fähigkeit erfolgreich aktualisiert",
+      ability: player.abilities[abilityIndex],
+    });
+  } catch (error) {
+    console.error("Fehler beim Aktualisieren der Ability:", error);
+    res.status(500).json({ error: "Interner Server-Fehler" });
+  }
+});
+
+// DELETE /api/characters/:characterId/abilities/:abilityId - Delete an ability
+app.delete("/api/characters/:characterId/abilities/:abilityId", (req, res) => {
+  try {
+    const { characterId, abilityId } = req.params;
+    const sessionId = req.cookies.sessionId;
+
+    // Verify session
+    if (!sessionId) {
+      return res.status(401).json({ error: "Nicht angemeldet" });
+    }
+
+    const sessions = loadSessions();
+    const session = sessions.find((s) => s.sessionId === sessionId);
+
+    if (!session) {
+      return res.status(401).json({ error: "Ungültige Session" });
+    }
+
+    // Authorization: Players can delete their own abilities, GMs can delete all
+    if (session.role === "player" && session.character !== characterId) {
+      return res.status(403).json({ error: "Keine Berechtigung" });
+    }
+
+    // Load session data
+    const sessionData = loadData();
+
+    if (!sessionData.players || !Array.isArray(sessionData.players)) {
+      return res.status(500).json({ error: "Spielerdaten nicht gefunden" });
+    }
+
+    // Find player by characterId
+    const playerIndex = sessionData.players.findIndex(
+      (p) => p.id === characterId,
+    );
+
+    if (playerIndex === -1) {
+      return res.status(404).json({ error: "Charakter nicht gefunden" });
+    }
+
+    const player = sessionData.players[playerIndex];
+
+    // Initialize abilities array if it doesn't exist
+    if (!player.abilities) {
+      player.abilities = [];
+    }
+
+    // Find ability by abilityId
+    const abilityIndex = player.abilities.findIndex((a) => a.id === abilityId);
+
+    if (abilityIndex === -1) {
+      return res.status(404).json({ error: "Fähigkeit nicht gefunden" });
+    }
+
+    // Delete ability
+    player.abilities.splice(abilityIndex, 1);
+
+    // Save updated data
+    saveData(sessionData);
+
+    console.log(
+      `✅ Ability ${abilityId} deleted for character ${characterId} by ${session.username}`,
+    );
+
+    res.json({
+      success: true,
+      message: "Fähigkeit erfolgreich gelöscht",
+    });
+  } catch (error) {
+    console.error("Fehler beim Löschen der Ability:", error);
+    res.status(500).json({ error: "Interner Server-Fehler" });
+  }
+});
+
 // GET /api/characters/:characterId/inventory - Get character inventory
 app.get("/api/characters/:characterId/inventory", (req, res) => {
   try {
@@ -1125,6 +1403,275 @@ app.put("/api/characters/:characterId/inventory", (req, res) => {
     });
   } catch (error) {
     console.error("Fehler beim Aktualisieren des Inventars:", error);
+    res.status(500).json({ error: "Interner Server-Fehler" });
+  }
+});
+
+// POST /api/characters/:characterId/inventory-changes - Submit inventory change request (Player)
+app.post("/api/characters/:characterId/inventory-changes", (req, res) => {
+  try {
+    const { characterId } = req.params;
+    const { items, currency } = req.body;
+    const sessionId = req.cookies.sessionId;
+
+    // Verify session
+    if (!sessionId) {
+      return res.status(401).json({ error: "Nicht angemeldet" });
+    }
+
+    const sessions = loadSessions();
+    const session = sessions.find((s) => s.sessionId === sessionId);
+
+    if (!session) {
+      return res.status(401).json({ error: "Ungültige Session" });
+    }
+
+    // Authorization: Players can only submit changes for their own character
+    if (session.role === "player" && session.character !== characterId) {
+      return res.status(403).json({ error: "Keine Berechtigung" });
+    }
+
+    // Load session data
+    const sessionData = loadData();
+
+    if (!sessionData.players || !Array.isArray(sessionData.players)) {
+      return res.status(500).json({ error: "Spielerdaten nicht gefunden" });
+    }
+
+    // Find player
+    const player = sessionData.players.find((p) => p.id === characterId);
+
+    if (!player) {
+      return res.status(404).json({ error: "Charakter nicht gefunden" });
+    }
+
+    // Initialize inventoryChanges array if it doesn't exist
+    if (!sessionData.inventoryChanges) {
+      sessionData.inventoryChanges = [];
+    }
+
+    // Create change request
+    const changeRequest = {
+      id: generateId(),
+      playerId: characterId,
+      playerName: player.name,
+      type: "update",
+      proposedInventory: {
+        items: items || [],
+        currency: currency || { platinum: 0, gold: 0, silver: 0, copper: 0 },
+      },
+      status: "pending",
+      timestamp: Date.now(),
+      submittedBy: session.username,
+    };
+
+    sessionData.inventoryChanges.push(changeRequest);
+
+    // Save data
+    saveData(sessionData);
+
+    console.log(
+      `📋 Inventory change request submitted for ${player.name} by ${session.username}`,
+    );
+
+    res.json({
+      success: true,
+      message: "Änderungsantrag eingereicht",
+      changeRequest,
+    });
+  } catch (error) {
+    console.error("Fehler beim Einreichen der Inventar-Änderung:", error);
+    res.status(500).json({ error: "Interner Server-Fehler" });
+  }
+});
+
+// GET /api/inventory-changes/pending - Get all pending inventory changes (GM only)
+app.get("/api/inventory-changes/pending", (req, res) => {
+  try {
+    const sessionId = req.cookies.sessionId;
+
+    // Verify session
+    if (!sessionId) {
+      return res.status(401).json({ error: "Nicht angemeldet" });
+    }
+
+    const sessions = loadSessions();
+    const session = sessions.find((s) => s.sessionId === sessionId);
+
+    if (!session) {
+      return res.status(401).json({ error: "Ungültige Session" });
+    }
+
+    // Authorization: Only GMs can view pending changes
+    if (session.role !== "gm") {
+      return res.status(403).json({ error: "Nur GMs können dies sehen" });
+    }
+
+    // Load session data
+    const sessionData = loadData();
+
+    // Get pending changes
+    const pendingChanges =
+      sessionData.inventoryChanges?.filter((c) => c.status === "pending") || [];
+
+    res.json({
+      success: true,
+      changes: pendingChanges,
+    });
+  } catch (error) {
+    console.error("Fehler beim Abrufen der Änderungsanträge:", error);
+    res.status(500).json({ error: "Interner Server-Fehler" });
+  }
+});
+
+// PUT /api/inventory-changes/:changeId/approve - Approve inventory change (GM only)
+app.put("/api/inventory-changes/:changeId/approve", (req, res) => {
+  try {
+    const { changeId } = req.params;
+    const sessionId = req.cookies.sessionId;
+
+    // Verify session
+    if (!sessionId) {
+      return res.status(401).json({ error: "Nicht angemeldet" });
+    }
+
+    const sessions = loadSessions();
+    const session = sessions.find((s) => s.sessionId === sessionId);
+
+    if (!session) {
+      return res.status(401).json({ error: "Ungültige Session" });
+    }
+
+    // Authorization: Only GMs can approve changes
+    if (session.role !== "gm") {
+      return res.status(403).json({ error: "Nur GMs können dies tun" });
+    }
+
+    // Load session data
+    const sessionData = loadData();
+
+    if (!sessionData.inventoryChanges) {
+      return res.status(404).json({ error: "Keine Änderungsanträge gefunden" });
+    }
+
+    // Find the change request
+    const changeIndex = sessionData.inventoryChanges.findIndex(
+      (c) => c.id === changeId,
+    );
+
+    if (changeIndex === -1) {
+      return res.status(404).json({ error: "Änderungsantrag nicht gefunden" });
+    }
+
+    const change = sessionData.inventoryChanges[changeIndex];
+
+    if (change.status !== "pending") {
+      return res
+        .status(400)
+        .json({ error: "Dieser Antrag wurde bereits bearbeitet" });
+    }
+
+    // Find the player
+    const playerIndex = sessionData.players.findIndex(
+      (p) => p.id === change.playerId,
+    );
+
+    if (playerIndex === -1) {
+      return res.status(404).json({ error: "Spieler nicht gefunden" });
+    }
+
+    // Apply the change to player inventory
+    sessionData.players[playerIndex].inventory = change.proposedInventory;
+
+    // Mark change as approved
+    change.status = "approved";
+    change.approvedBy = session.username;
+    change.approvedAt = Date.now();
+
+    // Save data
+    saveData(sessionData);
+
+    console.log(
+      `✅ Inventory change approved for ${change.playerName} by ${session.username}`,
+    );
+
+    res.json({
+      success: true,
+      message: "Änderung genehmigt",
+      change,
+    });
+  } catch (error) {
+    console.error("Fehler beim Genehmigen der Änderung:", error);
+    res.status(500).json({ error: "Interner Server-Fehler" });
+  }
+});
+
+// PUT /api/inventory-changes/:changeId/reject - Reject inventory change (GM only)
+app.put("/api/inventory-changes/:changeId/reject", (req, res) => {
+  try {
+    const { changeId } = req.params;
+    const sessionId = req.cookies.sessionId;
+
+    // Verify session
+    if (!sessionId) {
+      return res.status(401).json({ error: "Nicht angemeldet" });
+    }
+
+    const sessions = loadSessions();
+    const session = sessions.find((s) => s.sessionId === sessionId);
+
+    if (!session) {
+      return res.status(401).json({ error: "Ungültige Session" });
+    }
+
+    // Authorization: Only GMs can reject changes
+    if (session.role !== "gm") {
+      return res.status(403).json({ error: "Nur GMs können dies tun" });
+    }
+
+    // Load session data
+    const sessionData = loadData();
+
+    if (!sessionData.inventoryChanges) {
+      return res.status(404).json({ error: "Keine Änderungsanträge gefunden" });
+    }
+
+    // Find the change request
+    const changeIndex = sessionData.inventoryChanges.findIndex(
+      (c) => c.id === changeId,
+    );
+
+    if (changeIndex === -1) {
+      return res.status(404).json({ error: "Änderungsantrag nicht gefunden" });
+    }
+
+    const change = sessionData.inventoryChanges[changeIndex];
+
+    if (change.status !== "pending") {
+      return res
+        .status(400)
+        .json({ error: "Dieser Antrag wurde bereits bearbeitet" });
+    }
+
+    // Mark change as rejected
+    change.status = "rejected";
+    change.rejectedBy = session.username;
+    change.rejectedAt = Date.now();
+
+    // Save data
+    saveData(sessionData);
+
+    console.log(
+      `❌ Inventory change rejected for ${change.playerName} by ${session.username}`,
+    );
+
+    res.json({
+      success: true,
+      message: "Änderung abgelehnt",
+      change,
+    });
+  } catch (error) {
+    console.error("Fehler beim Ablehnen der Änderung:", error);
     res.status(500).json({ error: "Interner Server-Fehler" });
   }
 });

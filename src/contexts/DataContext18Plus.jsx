@@ -236,7 +236,7 @@ export const DataProvider18Plus = ({ children }) => {
   useEffect(() => {
     const socketUrl = API_BASE_URL || window.location.origin;
     console.log("🔌 DataContext18Plus: Connecting to Socket.io at", socketUrl);
-    
+
     const newSocket = io(socketUrl, {
       transports: ["websocket", "polling"],
     });

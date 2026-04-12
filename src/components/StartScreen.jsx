@@ -12,9 +12,7 @@ const StartScreen = ({ onModeSelect, onLogout, user }) => {
           title="Logout"
         >
           <LogOut className="w-5 h-5" />
-          <span className="hidden sm:inline">
-            {user?.username || "Logout"}
-          </span>
+          <span className="hidden sm:inline">{user?.username || "Logout"}</span>
         </button>
       )}
 

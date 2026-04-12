@@ -62,7 +62,7 @@ try {
 
   // Find MasterCookie user
   const masterCookieIndex = usersData.users.findIndex(
-    (user) => user.username === "MasterCookie"
+    (user) => user.username === "MasterCookie",
   );
 
   if (masterCookieIndex === -1) {

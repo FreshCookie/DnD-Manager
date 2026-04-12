@@ -18,6 +18,7 @@ import PlayersManager from "./PlayersManager";
 import CompanionsLibrary from "./CompanionsLibrary";
 import SessionNotes from "./SessionNotes";
 import OnlinePlayersManager from "./OnlinePlayersManager";
+import PendingInventoryChanges from "./PendingInventoryChanges";
 import {
   BookOpen,
   MapPin,
@@ -29,6 +30,7 @@ import {
   Heart,
   FileText,
   UserCheck,
+  Clock,
 } from "lucide-react";
 
 const GMView = () => {
@@ -162,6 +164,16 @@ const GMView = () => {
           >
             <UserCheck className="w-5 h-5" /> Online Spieler
           </button>
+          <button
+            onClick={() => setActiveTab("inventory-requests")}
+            className={`px-4 py-2 md:px-6 md:py-3 rounded-lg font-semibold transition-all hover:scale-105 flex items-center gap-2 whitespace-nowrap text-sm md:text-base ${
+              activeTab === "inventory-requests"
+                ? theme.button
+                : `${theme.cardBg} ${theme.border} border ${theme.text} opacity-70`
+            }`}
+          >
+            <Clock className="w-5 h-5" /> Inventar-Anfragen
+          </button>
         </div>
 
         {/* Main Content Area */}
@@ -186,6 +198,9 @@ const GMView = () => {
                 sessionId={sessionId}
                 onLogoutAll={logoutAllPlayers}
               />
+            )}
+            {activeTab === "inventory-requests" && (
+              <PendingInventoryChanges theme={theme} />
             )}
           </div>
 

@@ -314,26 +314,7 @@ const PlayersManager = ({ theme }) => {
                       Level {player.level || "1"}
                     </span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Heart className={`${theme.accent} w-4 h-4`} />
-                    <span className={`${theme.text} text-sm`}>
-                      {player.hp || player.maxHp || "10"} /{" "}
-                      {player.maxHp || "10"} HP
-                    </span>
-                  </div>
                 </div>
-
-                {/* Alignment Badge */}
-                {player.alignment && (
-                  <div className="mb-3 flex items-center gap-2">
-                    <Shield className={`${theme.accent} w-4 h-4`} />
-                    <span
-                      className={`${theme.text} text-xs px-2 py-1 bg-purple-900/30 border border-purple-500/30 rounded`}
-                    >
-                      {player.alignment}
-                    </span>
-                  </div>
-                )}
 
                 {/* Description Preview */}
                 {(player.description || player.background) && (
