@@ -61,6 +61,7 @@ const PlayerSideMenu = ({ isOpen, onClose, character, characterData }) => {
     if (activeTab === "notes" && character) {
       fetchNotes();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab, character]);
 
   const fetchNotes = async () => {
@@ -95,6 +96,7 @@ const PlayerSideMenu = ({ isOpen, onClose, character, characterData }) => {
     if (activeTab === "inventory" && character) {
       fetchInventory();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab, character]);
 
   const fetchInventory = async () => {
