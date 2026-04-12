@@ -248,6 +248,46 @@ const saveSessions = (sessions) => {
   }
 };
 
+// Helper: Lade Session Data (character data)
+const loadData = () => {
+  try {
+    if (!fs.existsSync(DATA_FILE)) {
+      const initialData = {
+        cities: [],
+        stories: [],
+        npcs: [],
+        locations: [],
+        items: [],
+        intros: [],
+        theme: "dark",
+        sessionTimes: {},
+        players: [],
+        companions: [],
+        activePlayers: [],
+        subLocations: [],
+      };
+      fs.writeFileSync(DATA_FILE, JSON.stringify(initialData, null, 2));
+      return initialData;
+    }
+    const data = fs.readFileSync(DATA_FILE, "utf8");
+    return JSON.parse(data);
+  } catch (error) {
+    console.error("Fehler beim Laden der Session-Daten:", error);
+    throw error;
+  }
+};
+
+// Helper: Speichere Session Data
+const saveData = (sessionData) => {
+  try {
+    fs.writeFileSync(DATA_FILE, JSON.stringify(sessionData, null, 2));
+    return true;
+  } catch (error) {
+    console.error("Fehler beim Speichern der Session-Daten:", error);
+    return false;
+  }
+};
+
 // POST /api/auth/login - Login für GM und Spieler
 app.post("/api/auth/login", (req, res) => {
   try {
