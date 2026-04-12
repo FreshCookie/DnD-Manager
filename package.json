@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host",
-    "build": "vite build",
+    "build": "vite build && node copy-public-assets.js",
     "server": "node server.js",
     "start": "concurrently \"npm run server\" \"npm run dev\"",
     "start:production": "node start-production.js",
