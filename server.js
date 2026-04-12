@@ -288,6 +288,11 @@ const saveData = (sessionData) => {
   }
 };
 
+// Helper: Generate unique ID
+const generateId = () => {
+  return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+};
+
 // POST /api/auth/login - Login für GM und Spieler
 app.post("/api/auth/login", (req, res) => {
   try {
