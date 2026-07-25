@@ -495,12 +495,6 @@ app.post("/api/auth/register", (req, res) => {
         .json({ error: "Username und Passwort erforderlich" });
     }
 
-    if (!selectedCharacters || selectedCharacters.length === 0) {
-      return res
-        .status(400)
-        .json({ error: "Mindestens ein Charakter muss ausgewählt werden" });
-    }
-
     const users = loadUsers();
 
     // Prüfe ob Username bereits existiert
@@ -1806,6 +1800,109 @@ app.put("/api/inventory-changes/:changeId/reject", (req, res) => {
 // ============================================================================
 // END AUTH ENDPOINTS
 // ============================================================================
+
+// ============================================================
+// CHAR MANIFEST ROUTES
+// ============================================================
+
+const CHARS_BASE_DIR = path.join(__dirname, "data", "chars");
+if (!fs.existsSync(CHARS_BASE_DIR)) fs.mkdirSync(CHARS_BASE_DIR, { recursive: true });
+
+function getSessionUser(req) {
+  const sessionId = req.cookies.sessionId;
+  if (!sessionId) return null;
+  const sessions = loadSessions();
+  return sessions.find((s) => s.sessionId === sessionId) || null;
+}
+
+function getUserCharsDir(userId) {
+  const dir = path.join(CHARS_BASE_DIR, userId);
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+  return dir;
+}
+
+function sanitizeCharId(raw) {
+  const clean = String(raw || "").replace(/[^a-z0-9]/gi, "");
+  return clean.length ? clean : null;
+}
+
+function charFilePath(userId, id) {
+  const base = path.resolve(getUserCharsDir(userId));
+  const resolved = path.resolve(path.join(base, id + ".json"));
+  return resolved.startsWith(base + path.sep) ? resolved : null;
+}
+
+function readCharList(userId) {
+  const listFile = path.join(getUserCharsDir(userId), "_list.json");
+  try { return JSON.parse(fs.readFileSync(listFile, "utf8")); } catch { return []; }
+}
+
+function writeCharList(userId, list) {
+  const listFile = path.join(getUserCharsDir(userId), "_list.json");
+  fs.writeFileSync(listFile, JSON.stringify(list));
+}
+
+// Serve Char Manifest HTML (auth required)
+app.get("/chars", (req, res) => {
+  const session = getSessionUser(req);
+  if (!session) return res.redirect("/");
+  res.sendFile(path.join(__dirname, "char_manifest", "character_manifest.html"));
+});
+
+// GET /api/chars
+app.get("/api/chars", (req, res) => {
+  const session = getSessionUser(req);
+  if (!session) return res.status(401).json({ error: "Nicht angemeldet" });
+  res.json(readCharList(session.userId));
+});
+
+// PUT /api/chars
+app.put("/api/chars", (req, res) => {
+  const session = getSessionUser(req);
+  if (!session) return res.status(401).json({ error: "Nicht angemeldet" });
+  if (!Array.isArray(req.body)) return res.status(400).json({ error: "expected array" });
+  writeCharList(session.userId, req.body.filter((id) => typeof id === "string"));
+  res.json({ ok: true });
+});
+
+// GET /api/chars/:id
+app.get("/api/chars/:id", (req, res) => {
+  const session = getSessionUser(req);
+  if (!session) return res.status(401).json(null);
+  const id = sanitizeCharId(req.params.id);
+  if (!id) return res.status(400).json(null);
+  const file = charFilePath(session.userId, id);
+  if (!file || !fs.existsSync(file)) return res.status(404).json(null);
+  res.sendFile(file);
+});
+
+// POST /api/chars/:id
+app.post("/api/chars/:id", (req, res) => {
+  const session = getSessionUser(req);
+  if (!session) return res.status(401).json({ error: "Nicht angemeldet" });
+  const id = sanitizeCharId(req.params.id);
+  if (!id) return res.status(400).json({ error: "invalid id" });
+  const file = charFilePath(session.userId, id);
+  if (!file) return res.status(400).json({ error: "invalid id" });
+  fs.writeFileSync(file, JSON.stringify(req.body));
+  const list = readCharList(session.userId);
+  if (!list.includes(id)) { list.push(id); writeCharList(session.userId, list); }
+  res.json({ ok: true });
+});
+
+// DELETE /api/chars/:id
+app.delete("/api/chars/:id", (req, res) => {
+  const session = getSessionUser(req);
+  if (!session) return res.status(401).json({ error: "Nicht angemeldet" });
+  const id = sanitizeCharId(req.params.id);
+  if (!id) return res.status(400).json({ error: "invalid id" });
+  const file = charFilePath(session.userId, id);
+  if (file && fs.existsSync(file)) fs.unlinkSync(file);
+  writeCharList(session.userId, readCharList(session.userId).filter((x) => x !== id));
+  res.json({ ok: true });
+});
+
+// ============================================================
 
 // In Production: Serve static files from dist folder
 if (IS_PRODUCTION) {

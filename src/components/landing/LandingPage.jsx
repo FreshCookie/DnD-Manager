@@ -4,15 +4,19 @@ import {
   BookOpen,
   Users,
   Image as ImageIcon,
-  LogIn,
+  LogOut,
   Sword,
   Beer,
+  ScrollText,
 } from "lucide-react";
 import Banner from "./Banner";
 import TabNavigation from "./TabNavigation";
 import CampaignCard from "./CampaignCard";
 import CampaignDetailView from "./CampaignDetailView";
 import AdminPanel from "./AdminPanel";
+import LandingLogin from "./LandingLogin";
+
+const API_BASE_URL = import.meta.env.VITE_API_URL || "";
 
 export default function LandingPage() {
   const [landingData, setLandingData] = useState(null);
@@ -20,42 +24,64 @@ export default function LandingPage() {
   const [activeTab, setActiveTab] = useState("home");
   const [selectedCampaign, setSelectedCampaign] = useState(null);
   const [showAdmin, setShowAdmin] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
 
-  // Lade Landing Page Daten
+  // Prüfe Session beim Laden
   useEffect(() => {
-    loadData();
+    checkSession();
   }, []);
 
-  const loadData = async () => {
+  const checkSession = async () => {
     try {
-      const API_BASE_URL = import.meta.env.VITE_API_URL || "";
-      const response = await fetch(`${API_BASE_URL}/api/landing-data`);
-      const data = await response.json();
-      setLandingData(data);
-    } catch (error) {
-      console.error("Fehler beim Laden:", error);
+      const res = await fetch(`${API_BASE_URL}/api/auth/verify-session`, {
+        method: "POST",
+        credentials: "include",
+      });
+      const data = await res.json();
+      if (data.valid) {
+        setCurrentUser({ username: data.session.username, role: data.session.role });
+        loadData();
+      }
+    } catch {
+      // nicht eingeloggt
     } finally {
       setLoading(false);
     }
   };
 
-  const handleLogin = () => {
-    const password = prompt("Admin-Passwort:");
-    if (password === "020266140297") {
-      setIsAuthenticated(true);
-      setShowAdmin(true);
-    } else {
-      alert("Falsches Passwort!");
+  const handleLoginSuccess = (user) => {
+    setCurrentUser(user);
+    loadData();
+  };
+
+  const handleLogout = async () => {
+    await fetch(`${API_BASE_URL}/api/auth/logout`, {
+      method: "POST",
+      credentials: "include",
+    });
+    setCurrentUser(null);
+    setLandingData(null);
+  };
+
+
+  const loadData = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/landing-data`, {
+        credentials: "include",
+      });
+      const data = await response.json();
+      setLandingData(data);
+    } catch (error) {
+      console.error("Fehler beim Laden:", error);
     }
   };
 
   const handleSaveData = async (updatedData) => {
     try {
-      const API_BASE_URL = import.meta.env.VITE_API_URL || "";
       const response = await fetch(`${API_BASE_URL}/api/landing-data`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify(updatedData),
       });
 
@@ -71,10 +97,18 @@ export default function LandingPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 flex items-center justify-center">
-        <div className="text-white text-2xl">Lade...</div>
+      <div
+        className="min-h-screen bg-cover bg-center flex items-center justify-center"
+        style={{ backgroundImage: "url(/images/wietzendorf_landnerds_background_portrait.png)" }}
+      >
+        <div className="absolute inset-0 bg-black bg-opacity-65" />
+        <div className="relative z-10 text-white text-2xl font-serif">Lade...</div>
       </div>
     );
+  }
+
+  if (!currentUser) {
+    return <LandingLogin onLoginSuccess={handleLoginSuccess} />;
   }
 
   if (!landingData) {
@@ -85,7 +119,7 @@ export default function LandingPage() {
     );
   }
 
-  if (showAdmin && isAuthenticated) {
+  if (showAdmin && currentUser?.role === "gm") {
     return (
       <AdminPanel
         data={landingData}
@@ -107,27 +141,42 @@ export default function LandingPage() {
   // Tab-Definitionen
   const tabs = [
     { id: "home", label: "Home", icon: <Home className="w-5 h-5" /> },
-    {
-      id: "campaigns",
-      label: "Kampagnen",
-      icon: <BookOpen className="w-5 h-5" />,
-    },
+    { id: "campaigns", label: "Kampagnen", icon: <BookOpen className="w-5 h-5" /> },
+    { id: "chars", label: "Chars", icon: <ScrollText className="w-5 h-5" /> },
     { id: "events", label: "Events", icon: <Beer className="w-5 h-5" /> },
     { id: "about", label: "Über uns", icon: <Users className="w-5 h-5" /> },
-    {
-      id: "gallery",
-      label: "Gallery",
-      icon: <ImageIcon className="w-5 h-5" />,
-    },
+    { id: "gallery", label: "Gallery", icon: <ImageIcon className="w-5 h-5" /> },
   ];
 
   return (
     <div
       className="min-h-screen bg-gray-900 bg-cover bg-center bg-fixed"
-      style={{ backgroundImage: "url(/images/background.jpg)" }}
+      style={{ backgroundImage: "url(/images/wietzendorf_landnerds_background_portrait.png)" }}
     >
       {/* Dark Overlay for better readability */}
       <div className="min-h-screen bg-black bg-opacity-60">
+        {/* User Bar */}
+        <div className="flex justify-end items-center gap-3 px-4 py-2 bg-black/40">
+          <span className="text-gray-300 text-sm">
+            Eingeloggt als <span className="text-amber-400 font-semibold">{currentUser.username}</span>
+          </span>
+          {currentUser.role === "gm" && (
+            <button
+              onClick={() => setShowAdmin(true)}
+              className="text-xs bg-purple-700 hover:bg-purple-600 text-white px-3 py-1 rounded-lg transition-colors"
+            >
+              Admin
+            </button>
+          )}
+          <button
+            onClick={handleLogout}
+            className="text-xs bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded-lg flex items-center gap-1 transition-colors"
+          >
+            <LogOut className="w-3 h-3" />
+            Logout
+          </button>
+        </div>
+
         {/* Banner */}
         <Banner siteInfo={siteInfo} />
 
@@ -357,6 +406,18 @@ export default function LandingPage() {
             </div>
           )}
 
+          {/* Chars Tab */}
+          {activeTab === "chars" && (
+            <div className="w-full">
+              <iframe
+                src="/chars"
+                className="w-full rounded-lg border border-purple-500/20"
+                style={{ height: "80vh", minHeight: "600px" }}
+                title="Char Manifest"
+              />
+            </div>
+          )}
+
           {/* Gallery Tab */}
           {activeTab === "gallery" && (
             <div className="text-center py-20">
@@ -376,13 +437,6 @@ export default function LandingPage() {
           <div className="container mx-auto px-4 py-8">
             <div className="text-center text-gray-400">
               <p>&copy; 2026 {siteInfo.title} - Eine D&D-Gruppe</p>
-              <button
-                onClick={handleLogin}
-                className="mt-4 text-gray-500 hover:text-gray-300 text-sm flex items-center gap-1 mx-auto transition-colors"
-              >
-                <LogIn className="w-4 h-4" />
-                Admin-Login
-              </button>
             </div>
           </div>
         </footer>

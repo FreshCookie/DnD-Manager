@@ -21,7 +21,11 @@ export default function Banner({ siteInfo }) {
       {/* Content */}
       <div className="relative h-full flex flex-col items-center justify-center text-center px-4">
         <div className="flex items-center justify-center mb-6">
-          <Shield className="w-20 h-20 text-amber-500" />
+          <img
+            src="/images/wietzendorf_landnerds_icon.png"
+            alt="Wietzendorf Landnerds"
+            className="w-24 h-24 object-contain drop-shadow-2xl"
+          />
         </div>
         <h1 className="text-7xl font-bold text-white mb-4 font-serif tracking-wide drop-shadow-2xl">
           {siteInfo.title}
