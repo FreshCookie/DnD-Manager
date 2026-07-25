@@ -1834,12 +1834,15 @@ function charFilePath(userId, id) {
 
 function readCharList(userId) {
   const listFile = path.join(getUserCharsDir(userId), "_list.json");
-  try { return JSON.parse(fs.readFileSync(listFile, "utf8")); } catch { return []; }
+  try {
+    const list = JSON.parse(fs.readFileSync(listFile, "utf8"));
+    return [...new Set(list)]; // immer deduplizieren
+  } catch { return []; }
 }
 
 function writeCharList(userId, list) {
   const listFile = path.join(getUserCharsDir(userId), "_list.json");
-  fs.writeFileSync(listFile, JSON.stringify(list));
+  fs.writeFileSync(listFile, JSON.stringify([...new Set(list)])); // immer deduplizieren
 }
 
 // Serve Char Manifest HTML (auth required)
