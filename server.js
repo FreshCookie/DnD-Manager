@@ -1917,6 +1917,88 @@ app.delete("/api/chars/:id", (req, res) => {
   res.json({ ok: true });
 });
 
+// ---- Admin-only char routes (GM role required) ----
+
+// GET /api/admin/chars-overview — alle User mit ihren Chars
+app.get("/api/admin/chars-overview", (req, res) => {
+  const session = getSessionUser(req);
+  if (!session || session.role !== "gm") return res.status(403).json({ error: "Forbidden" });
+  try {
+    const usersData = JSON.parse(fs.readFileSync(USERS_FILE, "utf8"));
+    const result = [];
+    for (const user of usersData.users) {
+      const list = readCharList(user.id);
+      const chars = [];
+      for (const charId of list) {
+        const file = charFilePath(user.id, charId);
+        if (file && fs.existsSync(file)) {
+          try {
+            const c = JSON.parse(fs.readFileSync(file, "utf8"));
+            chars.push({ id: c.id, name: c.name || "Unbenannt", ancestry: c.ancestry || "", cls: c.cls || "", level: c.level || 1, hp: c.hp });
+          } catch {}
+        }
+      }
+      result.push({ userId: user.id, username: user.username, chars });
+    }
+    res.json(result);
+  } catch (e) {
+    res.status(500).json({ error: "Fehler beim Laden" });
+  }
+});
+
+// GET /api/admin/chars/:userId/:charId
+app.get("/api/admin/chars/:userId/:charId", (req, res) => {
+  const session = getSessionUser(req);
+  if (!session || session.role !== "gm") return res.status(403).json(null);
+  try {
+    const usersData = JSON.parse(fs.readFileSync(USERS_FILE, "utf8"));
+    if (!usersData.users.find((u) => u.id === req.params.userId)) return res.status(404).json(null);
+    const id = sanitizeCharId(req.params.charId);
+    if (!id) return res.status(400).json(null);
+    const file = charFilePath(req.params.userId, id);
+    if (!file || !fs.existsSync(file)) return res.status(404).json(null);
+    res.sendFile(file);
+  } catch (e) {
+    res.status(500).json(null);
+  }
+});
+
+// POST /api/admin/chars/:userId/:charId
+app.post("/api/admin/chars/:userId/:charId", (req, res) => {
+  const session = getSessionUser(req);
+  if (!session || session.role !== "gm") return res.status(403).json({ error: "Forbidden" });
+  try {
+    const usersData = JSON.parse(fs.readFileSync(USERS_FILE, "utf8"));
+    if (!usersData.users.find((u) => u.id === req.params.userId)) return res.status(404).json({ error: "User not found" });
+    const id = sanitizeCharId(req.params.charId);
+    if (!id) return res.status(400).json({ error: "invalid id" });
+    const file = charFilePath(req.params.userId, id);
+    if (!file) return res.status(400).json({ error: "invalid id" });
+    fs.writeFileSync(file, JSON.stringify(req.body));
+    res.json({ ok: true });
+  } catch (e) {
+    res.status(500).json({ error: "Fehler beim Speichern" });
+  }
+});
+
+// DELETE /api/admin/chars/:userId/:charId
+app.delete("/api/admin/chars/:userId/:charId", (req, res) => {
+  const session = getSessionUser(req);
+  if (!session || session.role !== "gm") return res.status(403).json({ error: "Forbidden" });
+  try {
+    const usersData = JSON.parse(fs.readFileSync(USERS_FILE, "utf8"));
+    if (!usersData.users.find((u) => u.id === req.params.userId)) return res.status(404).json({ error: "User not found" });
+    const id = sanitizeCharId(req.params.charId);
+    if (!id) return res.status(400).json({ error: "invalid id" });
+    const file = charFilePath(req.params.userId, id);
+    if (file && fs.existsSync(file)) fs.unlinkSync(file);
+    writeCharList(req.params.userId, readCharList(req.params.userId).filter((x) => x !== id));
+    res.json({ ok: true });
+  } catch (e) {
+    res.status(500).json({ error: "Fehler beim Löschen" });
+  }
+});
+
 // ============================================================
 
 // In Production: Serve static files from dist folder

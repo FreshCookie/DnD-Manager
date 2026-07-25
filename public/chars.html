@@ -349,6 +349,10 @@ function flashSaved(){
 
 function uid(){ return 'c' + Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
 
+let currentUserRole = null; // 'gm' | 'player' | null
+let adminMode = false;
+let _sheetCtx = null; // set by renderSheet for admin-aware saveChar
+
 const defaultSkills = [
   {name:'Arcana', stat:'INT', val:2},
   {name:'Examination', stat:'INT', val:2},
@@ -404,7 +408,10 @@ async function getChar(id){
 }
 async function saveChar(c){
   try{
-    const r = await fetch('/api/chars/'+c.id, {
+    const url = _sheetCtx
+      ? '/api/admin/chars/'+_sheetCtx.userId+'/'+c.id
+      : '/api/chars/'+c.id;
+    const r = await fetch(url, {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify(c)
@@ -416,15 +423,111 @@ async function deleteCharStorage(id){
   try{ await fetch('/api/chars/'+id, {method:'DELETE'}); }catch(e){}
 }
 
-// ---- render: roster ----
+// ---- admin-aware API helpers ----
+async function adminGetChar(userId, id){
+  try{
+    const r = await fetch('/api/admin/chars/'+userId+'/'+id);
+    return r.ok ? await r.json() : null;
+  }catch(e){ return null; }
+}
+async function adminSaveChar(userId, c){
+  try{
+    const r = await fetch('/api/admin/chars/'+userId+'/'+c.id, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(c)
+    });
+    if(r.ok) flashSaved();
+  }catch(e){ console.error('admin save failed', e); }
+}
+async function adminDeleteChar(userId, id){
+  try{ await fetch('/api/admin/chars/'+userId+'/'+id, {method:'DELETE'}); }catch(e){}
+}
+
+// ---- startup: detect role ----
+async function init(){
+  try{
+    const r = await fetch('/api/auth/verify-session', {method:'POST'});
+    const data = await r.json();
+    if(data.valid && data.session) currentUserRole = data.session.role;
+  }catch(e){}
+  renderRoster();
+}
+
+// ---- admin overview: all users' chars ----
+async function renderAdminRoster(){
+  app.innerHTML = '<div class="loading">Lade alle Charaktere…</div>';
+  let users;
+  try{
+    const r = await fetch('/api/admin/chars-overview');
+    users = await r.json();
+  }catch(e){ app.innerHTML='<div class="loading">Fehler beim Laden</div>'; return; }
+
+  const hasAny = users.some(u=>u.chars.length>0);
+  let html = `
+    <div class="topbar">
+      <div><h1>Alle Charaktere</h1><div class="sub">GM-Übersicht · ${users.length} Spieler</div></div>
+      <button id="switchModeBtn" style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.05em;background:var(--teal);color:#fff;border:none;border-radius:3px;padding:6px 12px;cursor:pointer;">Meine Chars</button>
+    </div>
+  `;
+  if(!hasAny){
+    html += '<div style="text-align:center;padding:60px 20px;color:var(--brass);"><div style="font-size:48px;margin-bottom:16px">📜</div><div style="font-family:Cinzel,serif;font-size:18px">Noch keine Charaktere angelegt</div></div>';
+  } else {
+    for(const user of users){
+      if(!user.chars.length) continue;
+      html += `<div style="margin-bottom:20px;">
+        <div class="eyebrow" style="margin-bottom:8px;padding:8px 0 6px;border-bottom:1px solid rgba(224,169,79,0.2);">&#9812; ${escapeHtml(user.username)}</div>
+        <div class="roster" id="roster-${escapeHtml(user.userId)}"></div>
+      </div>`;
+    }
+  }
+  app.innerHTML = html;
+
+  document.getElementById('switchModeBtn').addEventListener('click',()=>{ adminMode=false; renderRoster(); });
+
+  for(const user of users){
+    const rEl = document.getElementById('roster-'+user.userId);
+    if(!rEl) continue;
+    user.chars.forEach(c=>{
+      const div = document.createElement('div');
+      div.className = 'roster-card';
+      div.innerHTML = `
+        <div>
+          <div class="name">${escapeHtml(c.name||'Unbenannt')}</div>
+          <div class="meta">${escapeHtml(c.ancestry||'')} · ${escapeHtml(c.cls||'')} · Lvl ${c.level||1} · HP ${(c.hp||{}).cur||'?'}/${(c.hp||{}).max||'?'}</div>
+        </div>
+        <button class="del" data-id="${c.id}" data-uid="${user.userId}">🗑 Löschen</button>
+      `;
+      div.addEventListener('click',(e)=>{
+        if(e.target.closest('.del')) return;
+        renderSheet(c.id, {userId:user.userId, username:user.username});
+      });
+      div.querySelector('.del').addEventListener('click', async(e)=>{
+        e.stopPropagation();
+        if(confirm(`"${c.name}" von ${user.username} wirklich löschen?`)){
+          await adminDeleteChar(user.userId, c.id);
+          renderAdminRoster();
+        }
+      });
+      rEl.appendChild(div);
+    });
+  }
+}
+
 async function renderRoster(){
+  _sheetCtx = null;
   app.innerHTML = '<div class="loading">Lade Manifest…</div>';
   let list = await getCharList();
+
+  const gmBtn = currentUserRole === 'gm'
+    ? `<button id="switchModeBtn" style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.05em;background:var(--rust);color:#fff;border:none;border-radius:3px;padding:6px 12px;cursor:pointer;">GM: Alle Chars</button>`
+    : '';
 
   if(list.length === 0){
     app.innerHTML = `
       <div class="topbar">
         <div><h1>Reisemanifest</h1><div class="sub">Charakterverwaltung · Nimble</div></div>
+        ${gmBtn}
       </div>
       <div style="text-align:center;padding:60px 20px;color:var(--brass);">
         <div style="font-size:48px;margin-bottom:16px;">📜</div>
@@ -453,6 +556,7 @@ async function renderRoster(){
       await saveCharList(l);
       renderSheet(c.id);
     });
+    if(currentUserRole==='gm') document.getElementById('switchModeBtn')?.addEventListener('click',()=>{ adminMode=true; renderAdminRoster(); });
     return;
   }
 
@@ -465,6 +569,7 @@ async function renderRoster(){
   app.innerHTML = `
     <div class="topbar">
       <div><h1>Reisemanifest</h1><div class="sub">Charakterverwaltung · Nimble</div></div>
+      ${gmBtn}
     </div>
     <div class="roster" id="roster"></div>
     <button class="new-btn" id="newBtn">+ Neuen Charakter anlegen</button>
@@ -519,6 +624,7 @@ async function renderRoster(){
     await saveCharList(l);
     renderSheet(c.id);
   });
+  if(currentUserRole==='gm') document.getElementById('switchModeBtn')?.addEventListener('click',()=>{ adminMode=true; renderAdminRoster(); });
 }
 
 function escapeHtml(s){
@@ -526,13 +632,16 @@ function escapeHtml(s){
 }
 
 // ---- render: sheet ----
-async function renderSheet(id){
+async function renderSheet(id, adminCtx = null){
+  _sheetCtx = adminCtx; // used by saveChar
   app.innerHTML = '<div class="loading">Lade Charakter…</div>';
-  const c = await getChar(id);
-  if(!c){ renderRoster(); return; }
+  const c = adminCtx ? await adminGetChar(adminCtx.userId, id) : await getChar(id);
+  if(!c){ adminCtx ? renderAdminRoster() : renderRoster(); return; }
+
+  const ownerLabel = adminCtx ? ` <span style="font-size:11px;color:var(--rust);font-family:'IBM Plex Mono',monospace;">[${escapeHtml(adminCtx.username)}]</span>` : '';
 
   app.innerHTML = `
-    <button class="back-btn" id="backBtn">← Zurück zum Manifest</button>
+    <button class="back-btn" id="backBtn">← ${adminCtx ? 'Zurück zur Übersicht' : 'Zurück zum Manifest'}</button>${ownerLabel}
     <div class="pass">
       <div class="pass-head">
         <div style="flex:1">
@@ -624,7 +733,7 @@ async function renderSheet(id){
     </div>
   `;
 
-  document.getElementById('backBtn').addEventListener('click', renderRoster);
+  document.getElementById('backBtn').addEventListener('click', ()=>{ adminCtx ? renderAdminRoster() : renderRoster(); });
 
   // photo upload
   function compressImage(file){
@@ -952,7 +1061,7 @@ async function renderSheet(id){
   });
 }
 
-renderRoster();
+init();
 </script>
 </body>
 </html>
