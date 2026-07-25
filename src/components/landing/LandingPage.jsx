@@ -8,6 +8,9 @@ import {
   Sword,
   Beer,
   ScrollText,
+  ExternalLink,
+  Monitor,
+  Map,
 } from "lucide-react";
 import Banner from "./Banner";
 import TabNavigation from "./TabNavigation";
@@ -213,7 +216,46 @@ export default function LandingPage() {
                 </div>
               </div>
 
-              {/* Latest Updates / Featured Campaigns */}
+              {/* Session Manager Schnellzugriff */}
+              <div className="bg-gray-800 bg-opacity-50 backdrop-blur-sm rounded-lg p-6 border border-amber-500/20">
+                <h3 className="text-xl font-bold text-amber-400 mb-4 font-serif flex items-center gap-2">
+                  <Sword className="w-5 h-5" />
+                  Nexarion – Session Tools
+                </h3>
+                <div className="flex flex-wrap gap-3">
+                  {currentUser?.role === "gm" && (
+                    <a
+                      href="/session"
+                      className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-700 to-amber-600 hover:from-amber-600 hover:to-amber-500 text-white px-5 py-2.5 rounded-lg font-semibold transition-all shadow-md text-sm"
+                    >
+                      <Monitor className="w-4 h-4" />
+                      GM Session Manager
+                    </a>
+                  )}
+                  <a
+                    href="/player.html"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-gradient-to-r from-teal-700 to-teal-600 hover:from-teal-600 hover:to-teal-500 text-white px-5 py-2.5 rounded-lg font-semibold transition-all shadow-md text-sm"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                    Player View
+                  </a>
+                  {currentUser?.role === "gm" && (
+                    <a
+                      href="/hexagon-player.html"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-700 to-purple-600 hover:from-purple-600 hover:to-purple-500 text-white px-5 py-2.5 rounded-lg font-semibold transition-all shadow-md text-sm"
+                    >
+                      <Map className="w-4 h-4" />
+                      Hexagon Map
+                    </a>
+                  )}
+                </div>
+              </div>
+
+              {/* Aktuelle Kampagnen */}
               <div>
                 <h3 className="text-3xl font-bold text-white mb-6 font-serif">
                   Aktuelle Kampagnen

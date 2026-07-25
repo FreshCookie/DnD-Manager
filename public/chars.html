@@ -243,8 +243,17 @@ h1,h2,h3{font-family:'Cinzel',serif;margin:0;}
   font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--sky);
   background:var(--brass-bright);padding:5px 12px;border-radius:20px;
   opacity:0;transition:opacity 0.3s;pointer-events:none;
+  z-index:200;
 }
 .saved-tag.show{opacity:0.95;}
+
+.manual-save-btn{
+  display:block;width:calc(100% - 32px);margin:12px 16px 0;
+  font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;
+  background:var(--teal);color:#fff;border:none;border-radius:3px;padding:12px;
+  cursor:pointer;transition:background 0.2s;
+}
+.manual-save-btn:active{background:var(--teal-bright);}
 
 .loading{text-align:center;padding:60px 0;font-family:'IBM Plex Mono',monospace;color:#8891a8;font-size:12px;}
 
@@ -384,14 +393,39 @@ function karlFischer(){
   };
 }
 
+// ---- localStorage cache (5-min TTL, skipped in admin mode) ----
+const LS_TTL = 5 * 60 * 1000;
+function lsGet(key){
+  try{
+    if(_sheetCtx) return null; // never use cache in admin mode
+    const raw = localStorage.getItem('chars_' + key);
+    if(!raw) return null;
+    const {ts, data} = JSON.parse(raw);
+    if(Date.now() - ts > LS_TTL){ localStorage.removeItem('chars_' + key); return null; }
+    return data;
+  }catch{ return null; }
+}
+function lsSet(key, data){
+  try{
+    if(_sheetCtx) return;
+    localStorage.setItem('chars_' + key, JSON.stringify({ts:Date.now(), data}));
+  }catch{}
+}
+function lsDel(key){ try{ localStorage.removeItem('chars_' + key); }catch{} }
+
 // ---- storage helpers (REST-API) ----
 async function getCharList(){
+  const cached = lsGet('list');
+  if(cached) return cached;
   try{
     const r = await fetch('/api/chars');
-    return r.ok ? await r.json() : [];
+    const data = r.ok ? await r.json() : [];
+    lsSet('list', data);
+    return data;
   }catch(e){ return []; }
 }
 async function saveCharList(list){
+  lsSet('list', list);
   try{
     await fetch('/api/chars', {
       method: 'PUT',
@@ -401,12 +435,17 @@ async function saveCharList(list){
   }catch(e){}
 }
 async function getChar(id){
+  const cached = lsGet('char_' + id);
+  if(cached) return cached;
   try{
     const r = await fetch('/api/chars/'+id);
-    return r.ok ? await r.json() : null;
+    const data = r.ok ? await r.json() : null;
+    if(data) lsSet('char_' + id, data);
+    return data;
   }catch(e){ return null; }
 }
 async function saveChar(c){
+  lsSet('char_' + c.id, c);
   try{
     const url = _sheetCtx
       ? '/api/admin/chars/'+_sheetCtx.userId+'/'+c.id
@@ -418,6 +457,11 @@ async function saveChar(c){
     });
     if(r.ok) flashSaved();
   }catch(e){ console.error('save failed', e); }
+}
+async function deleteCharStorage(id){
+  lsDel('char_' + id);
+  lsDel('list');
+  try{ await fetch('/api/chars/'+id, {method:'DELETE'}); }catch(e){}
 }
 async function deleteCharStorage(id){
   try{ await fetch('/api/chars/'+id, {method:'DELETE'}); }catch(e){}
@@ -729,11 +773,18 @@ async function renderSheet(id, adminCtx = null){
         <textarea id="f-notes" placeholder="Hintergrundgeschichte, Ziele, wichtige NPCs…">${escapeHtml(c.notes||'')}</textarea>
       </div>
 
+      <button class="manual-save-btn" id="saveBtn">💾 Speichern (Strg+S)</button>
       <div class="barcode"></div>
     </div>
   `;
 
-  document.getElementById('backBtn').addEventListener('click', ()=>{ adminCtx ? renderAdminRoster() : renderRoster(); });
+  const keyAC = new AbortController();
+  document.addEventListener('keydown', (e)=>{
+    if((e.ctrlKey||e.metaKey) && e.key==='s'){ e.preventDefault(); saveChar(c); }
+  }, {signal: keyAC.signal});
+
+  document.getElementById('saveBtn').addEventListener('click', ()=> saveChar(c));
+  document.getElementById('backBtn').addEventListener('click', ()=>{ keyAC.abort(); adminCtx ? renderAdminRoster() : renderRoster(); });
 
   // photo upload
   function compressImage(file){
@@ -742,14 +793,14 @@ async function renderSheet(id, adminCtx = null){
       reader.onload = (e)=>{
         const img = new Image();
         img.onload = ()=>{
-          const maxDim = 9999;
+          const maxDim = 900;
           let w = img.width, h = img.height;
           if(w > h && w > maxDim){ h = h*(maxDim/w); w = maxDim; }
           else if(h > maxDim){ w = w*(maxDim/h); h = maxDim; }
           const canvas = document.createElement('canvas');
           canvas.width = w; canvas.height = h;
           canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-          resolve(canvas.toDataURL('image/jpeg', 0.95));
+          resolve(canvas.toDataURL('image/jpeg', 0.75));
         };
         img.onerror = reject;
         img.src = e.target.result;

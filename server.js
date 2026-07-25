@@ -2010,6 +2010,16 @@ if (IS_PRODUCTION) {
     console.log("📦 Serving static files from dist folder");
 
     // Serve static assets (CSS, JS, images, etc.) - index:false so "/" is handled by our route below
+    // Vite-Assets (hashed filenames) – 7 Tage Cache, immutable
+    app.use('/assets', express.static(path.join(distPath, 'assets'), {
+      maxAge: '7d',
+      immutable: true,
+    }));
+    // Bilder & Musik aus public/ – 1 Tag Cache mit ETag
+    app.use('/images', express.static(path.join(distPath, 'images'), { maxAge: '1d', etag: true }));
+    app.use('/music',  express.static(path.join(distPath, 'music'),  { maxAge: '7d', etag: true }));
+
+    // Restliche statische Dateien (HTML etc.) – kein langer Cache
     app.use(express.static(distPath, { index: false }));
 
     // Serve all HTML routes
