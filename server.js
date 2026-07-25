@@ -1846,7 +1846,10 @@ function writeCharList(userId, list) {
 app.get("/chars", (req, res) => {
   const session = getSessionUser(req);
   if (!session) return res.redirect("/");
-  res.sendFile(path.join(__dirname, "char_manifest", "character_manifest.html"));
+  const charsFile = IS_PRODUCTION
+    ? path.join(__dirname, "dist", "chars.html")
+    : path.join(__dirname, "public", "chars.html");
+  res.sendFile(charsFile);
 });
 
 // GET /api/chars

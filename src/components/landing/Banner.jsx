@@ -1,22 +1,17 @@
 import React from "react";
-import { Shield } from "lucide-react";
 
 export default function Banner({ siteInfo }) {
+  const bannerSrc = siteInfo.bannerImage || "/images/wietzendorf_landnerds_banner.png";
+
   return (
     <div className="relative h-96 overflow-hidden">
       {/* Background Image */}
-      {siteInfo.bannerImage ? (
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${siteInfo.bannerImage})` }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-gray-900"></div>
-        </div>
-      ) : (
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900">
-          <div className="absolute inset-0 bg-[url('/images/fantasy-pattern.png')] opacity-10"></div>
-        </div>
-      )}
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${bannerSrc})` }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-gray-900"></div>
+      </div>
 
       {/* Content */}
       <div className="relative h-full flex flex-col items-center justify-center text-center px-4">
@@ -24,7 +19,8 @@ export default function Banner({ siteInfo }) {
           <img
             src="/images/wietzendorf_landnerds_icon.png"
             alt="Wietzendorf Landnerds"
-            className="w-24 h-24 object-contain drop-shadow-2xl"
+            className="w-24 h-24"
+            style={{ background: "transparent", mixBlendMode: "multiply", filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.8))" }}
           />
         </div>
         <h1 className="text-7xl font-bold text-white mb-4 font-serif tracking-wide drop-shadow-2xl">

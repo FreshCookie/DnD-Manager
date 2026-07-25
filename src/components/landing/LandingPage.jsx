@@ -154,7 +154,7 @@ export default function LandingPage() {
       style={{ backgroundImage: "url(/images/wietzendorf_landnerds_background_portrait.png)" }}
     >
       {/* Dark Overlay for better readability */}
-      <div className="min-h-screen bg-black bg-opacity-60">
+      <div className="min-h-screen bg-black bg-opacity-60 flex flex-col">
         {/* User Bar */}
         <div className="flex justify-end items-center gap-3 px-4 py-2 bg-black/40">
           <span className="text-gray-300 text-sm">
@@ -188,7 +188,7 @@ export default function LandingPage() {
         />
 
         {/* Main Content */}
-        <main className="container mx-auto px-4 py-12">
+        <main className="flex-1 container mx-auto px-4 py-12">
           {/* Home Tab */}
           {activeTab === "home" && (
             <div className="space-y-8">

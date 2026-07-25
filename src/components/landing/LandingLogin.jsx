@@ -66,7 +66,8 @@ export default function LandingLogin({ onLoginSuccess }) {
           <img
             src="/images/wietzendorf_landnerds_icon.png"
             alt="Wietzendorf Landnerds"
-            className="w-24 h-24 object-contain mx-auto mb-4 drop-shadow-2xl"
+            className="w-24 h-24 mx-auto mb-4"
+            style={{ background: "transparent", mixBlendMode: "multiply", filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.9))" }}
           />
           <h1 className="text-4xl font-bold text-amber-400 font-serif drop-shadow-lg">
             Wietzendorf Landnerds
