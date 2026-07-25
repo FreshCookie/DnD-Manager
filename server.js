@@ -1811,8 +1811,8 @@ if (IS_PRODUCTION) {
   if (fs.existsSync(distPath)) {
     console.log("📦 Serving static files from dist folder");
 
-    // Serve static assets (CSS, JS, images, etc.)
-    app.use(express.static(distPath));
+    // Serve static assets (CSS, JS, images, etc.) - index:false so "/" is handled by our route below
+    app.use(express.static(distPath, { index: false }));
 
     // Serve all HTML routes
     app.get("*", (req, res) => {
