@@ -4,7 +4,7 @@ export default function Banner({ siteInfo }) {
   const bannerSrc = siteInfo.bannerImage || "/images/wietzendorf_landnerds_banner.png";
 
   return (
-    <div className="relative overflow-hidden" style={{ minHeight: '320px' }}>
+    <div className="relative overflow-hidden" style={{ minHeight: '180px' }}>
       {/* Background Image */}
       <div
         className="absolute inset-0 bg-contain bg-center bg-no-repeat"
@@ -14,20 +14,20 @@ export default function Banner({ siteInfo }) {
       </div>
 
       {/* Content */}
-      <div className="relative flex flex-col items-center justify-center text-center px-4 py-12">
-        <div className="flex items-center justify-center mb-6">
+      <div className="relative flex flex-col items-center justify-center text-center px-4 py-6 md:py-12">
+        <div className="flex items-center justify-center mb-3 md:mb-6">
           <img
             src="/images/wietzendorf_landnerds_icon.png"
             alt="Wietzendorf Landnerds"
-            className="w-24 h-24"
+            className="w-12 h-12 md:w-20 md:h-20"
             style={{ background: "transparent", mixBlendMode: "multiply", filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.8))" }}
           />
         </div>
-        <h1 className="text-7xl font-bold text-white mb-4 font-serif tracking-wide drop-shadow-2xl">
+        <h1 className="text-2xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-2 md:mb-4 font-serif tracking-wide drop-shadow-2xl">
           {siteInfo.title}
         </h1>
         {siteInfo.description && (
-          <p className="text-2xl text-amber-300 font-semibold drop-shadow-lg">
+          <p className="text-xs sm:text-base md:text-2xl text-amber-300 font-semibold drop-shadow-lg">
             {siteInfo.description}
           </p>
         )}
