@@ -6,6 +6,7 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
+        landing: "./landing.html",
         main: "./index.html",
         player: "./public/player.html",
         hexagonPlayer: "./public/hexagon-player.html",

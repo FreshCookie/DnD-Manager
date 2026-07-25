@@ -22,6 +22,7 @@ const DATA_FILE_18PLUS = path.join(
 const REFERENCE_DATA_FILE = path.join(__dirname, "data", "reference-data.json");
 const USERS_FILE = path.join(__dirname, "data", "users.json");
 const SESSIONS_FILE = path.join(__dirname, "data", "active-sessions.json");
+const LANDING_DATA_FILE = path.join(__dirname, "data", "landing-data.json");
 const IS_PRODUCTION = process.env.NODE_ENV === "production";
 
 // Middleware
@@ -174,6 +175,128 @@ app.get("/api/reference-data", (req, res) => {
   } catch (error) {
     console.error("Fehler beim Laden der Reference-Daten:", error);
     res.status(500).json({ error: "Fehler beim Laden der Reference-Daten" });
+  }
+});
+
+// ============================================================================
+// LANDING PAGE ENDPOINTS
+// ============================================================================
+
+// GET - Lade Landing Page Daten
+app.get("/api/landing-data", (req, res) => {
+  try {
+    // Erstelle Datei falls nicht vorhanden
+    if (!fs.existsSync(LANDING_DATA_FILE)) {
+      const initialData = {
+        siteInfo: {
+          title: "Wietzendorf Landnerds",
+          subtitle: "Unsere epische D&D Kampagne",
+          description: "Willkommen bei den Wietzendorf Landnerds!",
+          campaignName: "",
+          dm: "MasterCookie",
+        },
+        members: [],
+        sessions: [],
+        about: {
+          story: "",
+          playStyle: "",
+          schedule: "",
+        },
+      };
+      fs.writeFileSync(LANDING_DATA_FILE, JSON.stringify(initialData, null, 2));
+    }
+
+    const data = fs.readFileSync(LANDING_DATA_FILE, "utf8");
+    const parsedData = JSON.parse(data);
+
+    res.setHeader("Cache-Control", "public, max-age=60");
+    res.json(parsedData);
+  } catch (error) {
+    console.error("Fehler beim Laden der Landing-Daten:", error);
+    res.status(500).json({ error: "Fehler beim Laden der Landing-Daten" });
+  }
+});
+
+// POST - Speichere Landing Page Daten (nur für GM)
+app.post("/api/landing-data", (req, res) => {
+  try {
+    fs.writeFileSync(LANDING_DATA_FILE, JSON.stringify(req.body, null, 2));
+    res.json({
+      success: true,
+      message: "Landing-Daten erfolgreich gespeichert",
+    });
+  } catch (error) {
+    console.error("Fehler beim Speichern der Landing-Daten:", error);
+    res.status(500).json({ error: "Fehler beim Speichern der Landing-Daten" });
+  }
+});
+
+// POST - Neue Session hinzufügen
+app.post("/api/landing/sessions", (req, res) => {
+  try {
+    const data = fs.readFileSync(LANDING_DATA_FILE, "utf8");
+    const landingData = JSON.parse(data);
+
+    const newSession = {
+      id: Date.now(),
+      ...req.body,
+      createdAt: Date.now(),
+    };
+
+    landingData.sessions.unshift(newSession); // Neueste zuerst
+
+    fs.writeFileSync(LANDING_DATA_FILE, JSON.stringify(landingData, null, 2));
+    res.json({ success: true, session: newSession });
+  } catch (error) {
+    console.error("Fehler beim Hinzufügen der Session:", error);
+    res.status(500).json({ error: "Fehler beim Hinzufügen der Session" });
+  }
+});
+
+// PUT - Session aktualisieren
+app.put("/api/landing/sessions/:id", (req, res) => {
+  try {
+    const sessionId = parseInt(req.params.id);
+    const data = fs.readFileSync(LANDING_DATA_FILE, "utf8");
+    const landingData = JSON.parse(data);
+
+    const sessionIndex = landingData.sessions.findIndex(
+      (s) => s.id === sessionId,
+    );
+    if (sessionIndex === -1) {
+      return res.status(404).json({ error: "Session nicht gefunden" });
+    }
+
+    landingData.sessions[sessionIndex] = {
+      ...landingData.sessions[sessionIndex],
+      ...req.body,
+      id: sessionId,
+    };
+
+    fs.writeFileSync(LANDING_DATA_FILE, JSON.stringify(landingData, null, 2));
+    res.json({ success: true, session: landingData.sessions[sessionIndex] });
+  } catch (error) {
+    console.error("Fehler beim Aktualisieren der Session:", error);
+    res.status(500).json({ error: "Fehler beim Aktualisieren der Session" });
+  }
+});
+
+// DELETE - Session löschen
+app.delete("/api/landing/sessions/:id", (req, res) => {
+  try {
+    const sessionId = parseInt(req.params.id);
+    const data = fs.readFileSync(LANDING_DATA_FILE, "utf8");
+    const landingData = JSON.parse(data);
+
+    landingData.sessions = landingData.sessions.filter(
+      (s) => s.id !== sessionId,
+    );
+
+    fs.writeFileSync(LANDING_DATA_FILE, JSON.stringify(landingData, null, 2));
+    res.json({ success: true });
+  } catch (error) {
+    console.error("Fehler beim Löschen der Session:", error);
+    res.status(500).json({ error: "Fehler beim Löschen der Session" });
   }
 });
 
@@ -1694,13 +1817,19 @@ if (IS_PRODUCTION) {
     // Serve all HTML routes
     app.get("*", (req, res) => {
       // Bestimme welche HTML Datei geladen werden soll
-      if (req.path.includes("/player.html")) {
+      if (req.path === "/" || req.path === "/index.html") {
+        // Hauptseite -> Landing Page
+        res.sendFile(path.join(distPath, "landing.html"));
+      } else if (req.path.includes("/session") || req.path.includes("/gm")) {
+        // Session Manager (GM View)
+        res.sendFile(path.join(distPath, "index.html"));
+      } else if (req.path.includes("/player.html")) {
         res.sendFile(path.join(distPath, "player.html"));
       } else if (req.path.includes("/hexagon-player.html")) {
         res.sendFile(path.join(distPath, "hexagon-player.html"));
       } else if (!req.path.startsWith("/api")) {
-        // Alle anderen Routen -> index.html (GM View)
-        res.sendFile(path.join(distPath, "index.html"));
+        // Fallback -> Landing Page
+        res.sendFile(path.join(distPath, "landing.html"));
       }
     });
   } else {
