@@ -1845,6 +1845,16 @@ function writeCharList(userId, list) {
   fs.writeFileSync(listFile, JSON.stringify([...new Set(list)])); // immer deduplizieren
 }
 
+// Serve legal pages (no auth required)
+["impressum", "datenschutz", "agb"].forEach((page) => {
+  app.get(`/${page}.html`, (req, res) => {
+    const file = IS_PRODUCTION
+      ? path.join(__dirname, "dist", `${page}.html`)
+      : path.join(__dirname, "public", `${page}.html`);
+    res.sendFile(file);
+  });
+});
+
 // Serve Char Manifest HTML (auth required)
 app.get("/chars", (req, res) => {
   const session = getSessionUser(req);

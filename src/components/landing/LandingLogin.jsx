@@ -157,6 +157,14 @@ export default function LandingLogin({ onLoginSuccess }) {
               {isLoading ? "..." : isLogin ? "Einloggen" : "Registrieren"}
             </button>
           </form>
+
+          <div className="mt-6 pt-4 border-t border-gray-700 text-center text-xs text-gray-500 space-x-3">
+            <a href="/impressum.html" className="hover:text-amber-400 transition-colors">Impressum</a>
+            <span>·</span>
+            <a href="/datenschutz.html" className="hover:text-amber-400 transition-colors">Datenschutz</a>
+            <span>·</span>
+            <a href="/agb.html" className="hover:text-amber-400 transition-colors">AGB</a>
+          </div>
         </div>
       </div>
     </div>

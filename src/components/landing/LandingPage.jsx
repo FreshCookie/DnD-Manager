@@ -433,10 +433,15 @@ export default function LandingPage() {
         </main>
 
         {/* Footer */}
-        <footer className="bg-black bg-opacity-50 backdrop-blur-sm border-t border-purple-500/20 mt-20">
-          <div className="container mx-auto px-4 py-8">
-            <div className="text-center text-gray-400">
-              <p>&copy; 2026 {siteInfo.title} - Eine D&D-Gruppe</p>
+        <footer className="bg-black bg-opacity-50 backdrop-blur-sm border-t border-purple-500/20 mt-auto">
+          <div className="container mx-auto px-4 py-6">
+            <div className="text-center text-gray-500 text-xs space-y-2">
+              <p>&copy; 2026 {siteInfo.title} – Eine D&D-Gruppe</p>
+              <div className="flex justify-center gap-4">
+                <a href="/impressum.html" className="hover:text-amber-400 transition-colors">Impressum</a>
+                <a href="/datenschutz.html" className="hover:text-amber-400 transition-colors">Datenschutz</a>
+                <a href="/agb.html" className="hover:text-amber-400 transition-colors">AGB</a>
+              </div>
             </div>
           </div>
         </footer>
