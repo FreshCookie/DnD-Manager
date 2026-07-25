@@ -95,8 +95,14 @@ export default function LandingPage() {
     );
   }
 
-  const { siteInfo, campaigns, about, gameMasters, members, events } =
-    landingData;
+  const {
+    siteInfo = {},
+    campaigns = [],
+    about = {},
+    gameMasters = [],
+    members = [],
+    events = [],
+  } = landingData;
 
   // Tab-Definitionen
   const tabs = [
