@@ -1888,8 +1888,7 @@ app.post("/api/chars/:id", (req, res) => {
   const file = charFilePath(session.userId, id);
   if (!file) return res.status(400).json({ error: "invalid id" });
   fs.writeFileSync(file, JSON.stringify(req.body));
-  const list = readCharList(session.userId);
-  if (!list.includes(id)) { list.push(id); writeCharList(session.userId, list); }
+  // List management is handled by PUT /api/chars
   res.json({ ok: true });
 });
 

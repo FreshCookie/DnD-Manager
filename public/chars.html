@@ -422,10 +422,38 @@ async function renderRoster(){
   let list = await getCharList();
 
   if(list.length === 0){
-    const karl = karlFischer();
-    await saveChar(karl);
-    list = [karl.id];
-    await saveCharList(list);
+    app.innerHTML = `
+      <div class="topbar">
+        <div><h1>Reisemanifest</h1><div class="sub">Charakterverwaltung · Nimble</div></div>
+      </div>
+      <div style="text-align:center;padding:60px 20px;color:var(--brass);">
+        <div style="font-size:48px;margin-bottom:16px;">📜</div>
+        <div style="font-family:'Cinzel',serif;font-size:20px;margin-bottom:8px;">Noch keine Charaktere</div>
+        <div style="font-size:14px;opacity:0.7;">Lege deinen ersten Charakter an!</div>
+      </div>
+      <button class="new-btn" id="newBtn">+ Neuen Charakter anlegen</button>
+    `;
+    document.getElementById('newBtn').addEventListener('click', async ()=>{
+      const name = prompt('Name des neuen Charakters:');
+      if(!name) return;
+      const c = {
+        id: uid(), name, ancestry:'', cls:'', level:1, hitDice:'1d?',
+        str:0, dex:0, int:0, wil:0,
+        hp:{cur:10, max:10}, tempHp:0,
+        armor:10, initiative:0,
+        wounds:{cur:0, max:5},
+        skills: JSON.parse(JSON.stringify(defaultSkills)).map(s=>({...s,val:0})),
+        inventory:[], abilities:[], notes:'',
+        photos:[],
+        currency:{bronze:0,silver:0,gold:0,platinum:0}
+      };
+      await saveChar(c);
+      const l = await getCharList();
+      l.push(c.id);
+      await saveCharList(l);
+      renderSheet(c.id);
+    });
+    return;
   }
 
   const chars = [];
