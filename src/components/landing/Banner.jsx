@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function Banner({ siteInfo }) {
-  const bannerSrc = siteInfo.bannerImage || "/images/wietzendorf_landnerds_banner.png";
+  const bannerSrc = siteInfo.bannerImage || "/images/wietzendorf_landnerds_banner_panorama.png";
 
   return (
     <div className="relative overflow-hidden" style={{ minHeight: '180px' }}>
