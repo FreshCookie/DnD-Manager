@@ -119,16 +119,6 @@ export default function LandingPage() {
     );
   }
 
-  if (showAdmin && currentUser?.role === "gm") {
-    return (
-      <AdminPanel
-        data={landingData}
-        onSave={handleSaveData}
-        onClose={() => setShowAdmin(false)}
-      />
-    );
-  }
-
   const {
     siteInfo = {},
     campaigns = [],
@@ -137,6 +127,16 @@ export default function LandingPage() {
     members = [],
     events = [],
   } = landingData;
+
+  if (showAdmin && currentUser?.role === "gm") {
+    return (
+      <AdminPanel
+        data={{ siteInfo, campaigns, about, gameMasters, members, events }}
+        onSave={handleSaveData}
+        onClose={() => setShowAdmin(false)}
+      />
+    );
+  }
 
   // Tab-Definitionen
   const tabs = [

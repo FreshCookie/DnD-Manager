@@ -5,7 +5,18 @@ import { compressImage } from "../../utils/imageCompression";
 const API_BASE_URL = import.meta.env.VITE_API_URL || "";
 
 export default function AdminPanel({ data, onSave, onClose }) {
-  const [editData, setEditData] = useState(JSON.parse(JSON.stringify(data)));
+  const [editData, setEditData] = useState(() => {
+    const cloned = JSON.parse(JSON.stringify(data));
+    return {
+      siteInfo: {},
+      campaigns: [],
+      about: {},
+      gameMasters: [],
+      members: [],
+      events: [],
+      ...cloned,
+    };
+  });
   const [activeTab, setActiveTab] = useState("siteInfo");
   const [selectedCampaignId, setSelectedCampaignId] = useState(null);
   const [editingItem, setEditingItem] = useState(null);
