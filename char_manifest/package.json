@@ -1,0 +1,12 @@
+{
+  "name": "dnd-char-manifest",
+  "version": "1.0.0",
+  "description": "D&D Character Manifest – Raspberry Pi Server",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

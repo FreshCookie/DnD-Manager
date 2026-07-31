@@ -68,3 +68,39 @@ echo "   - Status:         sudo systemctl status dnd-session-manager"
 echo "   - Logs:           sudo journalctl -u dnd-session-manager -f"
 echo "   - Neu starten:    sudo systemctl restart dnd-session-manager"
 echo "   - Stoppen:        sudo systemctl stop dnd-session-manager"
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "🌍 Remote-Zugriff einrichten?"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+echo "Möchtest du Cloudflare Tunnel einrichten, damit deine Spieler"
+echo "von überall aus zugreifen können? (Empfohlen!)"
+echo ""
+echo "Vorteile:"
+echo "  ✅ Kein Port Forwarding nötig"
+echo "  ✅ Automatisches HTTPS/SSL"
+echo "  ✅ Kostenlos"
+echo "  ✅ Von überall erreichbar"
+echo ""
+read -p "Cloudflare Tunnel jetzt einrichten? (j/N): " SETUP_TUNNEL
+
+if [[ "$SETUP_TUNNEL" =~ ^[jJ]$ ]]; then
+    echo ""
+    echo "🚀 Starte Cloudflare Tunnel Setup..."
+    if [ -f "./setup-cloudflare-tunnel.sh" ]; then
+        chmod +x ./setup-cloudflare-tunnel.sh
+        ./setup-cloudflare-tunnel.sh
+    else
+        echo "❌ setup-cloudflare-tunnel.sh nicht gefunden!"
+        echo "Stelle sicher dass alle Dateien hochgeladen wurden."
+        echo ""
+        echo "Du kannst das Setup später manuell ausführen:"
+        echo "  ./setup-cloudflare-tunnel.sh"
+    fi
+else
+    echo ""
+    echo "ℹ️  Übersprungen. Du kannst Cloudflare Tunnel später einrichten:"
+    echo "   ./setup-cloudflare-tunnel.sh"
+    echo ""
+    echo "📖 Siehe CLOUDFLARE_TUNNEL_SETUP.md für Details"
+fi

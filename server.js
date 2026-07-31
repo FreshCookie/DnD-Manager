@@ -14,12 +14,6 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3001;
 const DATA_FILE = path.join(__dirname, "data", "session-data.json");
-const DATA_FILE_18PLUS = path.join(
-  __dirname,
-  "data",
-  "session-data-18plus.json",
-);
-const REFERENCE_DATA_FILE = path.join(__dirname, "data", "reference-data.json");
 const USERS_FILE = path.join(__dirname, "data", "users.json");
 const SESSIONS_FILE = path.join(__dirname, "data", "active-sessions.json");
 const LANDING_DATA_FILE = path.join(__dirname, "data", "landing-data.json");
@@ -103,81 +97,6 @@ app.post("/api/data", (req, res) => {
   }
 });
 
-// GET - Lade 18+ Session-Daten
-app.get("/api/data-18plus", (req, res) => {
-  try {
-    // Erstelle Datei falls nicht vorhanden
-    if (!fs.existsSync(DATA_FILE_18PLUS)) {
-      const initialData = {
-        cities: [],
-        stories: [],
-        npcs: [],
-        locations: [],
-        subLocations: [],
-        items: [],
-        intros: [],
-        theme: "dark",
-        sessionTimes: {},
-        players: [],
-        companions: [],
-        activePlayers: [],
-      };
-      fs.writeFileSync(DATA_FILE_18PLUS, JSON.stringify(initialData, null, 2));
-    }
-
-    const data = fs.readFileSync(DATA_FILE_18PLUS, "utf8");
-    const parsedData = JSON.parse(data);
-
-    res.setHeader("Cache-Control", "public, max-age=5, must-revalidate");
-    res.setHeader("ETag", `"${Date.now()}"`);
-
-    res.json(parsedData);
-  } catch (error) {
-    console.error("Fehler beim Laden der 18+ Daten:", error);
-    res.status(500).json({ error: "Fehler beim Laden der 18+ Daten" });
-  }
-});
-
-// POST - Speichere 18+ Session-Daten
-app.post("/api/data-18plus", (req, res) => {
-  try {
-    fs.writeFileSync(DATA_FILE_18PLUS, JSON.stringify(req.body, null, 2));
-    res.json({ success: true, message: "18+ Daten erfolgreich gespeichert" });
-  } catch (error) {
-    console.error("Fehler beim Speichern der 18+ Daten:", error);
-    res.status(500).json({ error: "Fehler beim Speichern der 18+ Daten" });
-  }
-});
-
-// GET - Lade K&C Reference-Daten
-app.get("/api/reference-data", (req, res) => {
-  try {
-    // Erstelle Datei falls nicht vorhanden
-    if (!fs.existsSync(REFERENCE_DATA_FILE)) {
-      const initialData = {
-        kinks: [],
-        classes: [],
-        races: [],
-        creatures: [],
-        mechanics: [],
-      };
-      fs.writeFileSync(
-        REFERENCE_DATA_FILE,
-        JSON.stringify(initialData, null, 2),
-      );
-    }
-
-    const data = fs.readFileSync(REFERENCE_DATA_FILE, "utf8");
-    const parsedData = JSON.parse(data);
-
-    res.setHeader("Cache-Control", "public, max-age=3600"); // Cache für 1 Stunde
-    res.json(parsedData);
-  } catch (error) {
-    console.error("Fehler beim Laden der Reference-Daten:", error);
-    res.status(500).json({ error: "Fehler beim Laden der Reference-Daten" });
-  }
-});
-
 // ============================================================================
 // LANDING PAGE ENDPOINTS
 // ============================================================================
@@ -232,6 +151,31 @@ app.post("/api/landing-data", (req, res) => {
   } catch (error) {
     console.error("Fehler beim Speichern der Landing-Daten:", error);
     res.status(500).json({ error: "Fehler beim Speichern der Landing-Daten" });
+  }
+});
+
+// POST - Bild hochladen (nur GM), erwartet { dataUrl: "data:image/jpeg;base64,..." }
+const UPLOADS_DIR = path.join(__dirname, "public", "images", "uploads");
+app.post("/api/admin/upload-image", (req, res) => {
+  const session = getSessionUser(req);
+  if (!session || session.role !== "gm") {
+    return res.status(403).json({ error: "Nur GMs können Bilder hochladen" });
+  }
+  try {
+    const match = /^data:image\/(png|jpe?g|webp);base64,(.+)$/.exec(
+      req.body.dataUrl || "",
+    );
+    if (!match) {
+      return res.status(400).json({ error: "Ungültiges Bildformat" });
+    }
+    const ext = match[1] === "jpg" ? "jpeg" : match[1];
+    if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+    const filename = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+    fs.writeFileSync(path.join(UPLOADS_DIR, filename), Buffer.from(match[2], "base64"));
+    res.json({ success: true, url: `/images/uploads/${filename}` });
+  } catch (error) {
+    console.error("Fehler beim Bild-Upload:", error);
+    res.status(500).json({ error: "Fehler beim Bild-Upload" });
   }
 });
 
@@ -1853,16 +1797,6 @@ function writeCharList(userId, list) {
       : path.join(__dirname, "public", `${page}.html`);
     res.sendFile(file);
   });
-});
-
-// Serve Char Manifest HTML (auth required)
-app.get("/chars", (req, res) => {
-  const session = getSessionUser(req);
-  if (!session) return res.redirect("/");
-  const charsFile = IS_PRODUCTION
-    ? path.join(__dirname, "dist", "chars.html")
-    : path.join(__dirname, "public", "chars.html");
-  res.sendFile(charsFile);
 });
 
 // GET /api/chars

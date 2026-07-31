@@ -61,7 +61,8 @@
       <p>Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Sicherheit des Betriebs).</p>
 
       <h3>3.2 Nutzerkonten</h3>
-      <p>Für die Registrierung werden Benutzername und Passwort erhoben. Das Passwort wird ausschließlich als Hashwert (bcrypt) gespeichert – im Klartext ist es nie auf dem Server hinterlegt. Die Daten werden auf einem privaten Raspberry Pi in Deutschland gespeichert.</p>
+      <p>Für die Registrierung werden Benutzername und Passwort erhoben. Das Passwort wird ausschließlich als Hashwert (bcrypt) gespeichert – im Klartext ist es nie auf dem Server hinterlegt. Die Daten werden auf einem angemieteten Server (VServer) eines deutschen Hosting-Anbieters gespeichert (siehe Punkt 4).</p>
+      <p>Die Registrierung ist öffentlich zugänglich; ein Account allein berechtigt noch nicht zur Teilnahme an Spielsessions oder zur Zuordnung eines Charakters – das entscheidet der Spielleiter.</p>
 
       <h3>3.3 Sitzungs-Cookies</h3>
       <p>Nach dem Login wird ein Session-Cookie gesetzt (<code>sessionId</code>). Dieser Cookie:</p>
@@ -73,15 +74,26 @@
       </ul>
       <p>Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung / berechtigtes Interesse).</p>
 
-      <h3>3.4 Charakterdaten</h3>
-      <p>Im Charakter-Manifest gespeicherte Daten (Spielcharaktere, Werte etc.) sind freiwillige Angaben der Nutzer und dienen ausschließlich dem Spielbetrieb der Gruppe.</p>
+      <h3>3.4 Lokale Speicherung im Browser (localStorage)</h3>
+      <p>Zusätzlich zum Session-Cookie speichert die Website einige Angaben im <code>localStorage</code> deines Browsers (nicht als Cookie, aber technisch vergleichbar – Rechtsgrundlage §25 TTDSG i.V.m. Art. 6 Abs. 1 lit. b DSGVO):</p>
+      <ul>
+        <li>Benutzername und Rolle, damit du nach einem Neuladen der Seite eingeloggt bleibst</li>
+        <li>der ausgewählte Spielcharakter</li>
+        <li>bei der Spielleitung zusätzlich eine lokale Sicherungskopie der aktuellen Session-Daten als Ausfallsicherung, falls der Server kurzzeitig nicht erreichbar ist</li>
+      </ul>
+      <p>Diese Daten verlassen deinen Browser nicht gesondert, werden an niemand Dritten übermittelt und beim Logout bzw. manuell über die Browser-Einstellungen gelöscht.</p>
+
+      <h3>3.5 Charakterdaten</h3>
+      <p>Im Charakter-Manifest gespeicherte Daten (Name, Werte, Inventar, Notizen, Hintergrundgeschichte) sind freiwillige Angaben der Nutzer und dienen ausschließlich dem Spielbetrieb der Gruppe. Optional können Nutzer eigene Fotos zu ihrem Charakter hochladen; diese werden direkt (als Bilddatei) beim jeweiligen Charakter gespeichert und ausschließlich Spielleitung sowie dem jeweiligen Account angezeigt.</p>
     </div>
 
     <div class="section">
-      <h2>4. Cloudflare</h2>
-      <p>Der Zugriff auf diese Website erfolgt über Cloudflare Tunnel (Cloudflare Inc., 101 Townsend St., San Francisco, CA 94107, USA). 
-      Cloudflare verarbeitet dabei technisch alle eingehenden Anfragen als Relay-Dienst. Cloudflare ist nach dem EU-US Data Privacy Framework zertifiziert. 
+      <h2>4. Eingesetzte Dienstleister (Auftragsverarbeiter)</h2>
+      <p><strong>Hosting:</strong> Die Website läuft auf einem angemieteten Server (VServer) von bero-host.de, Serverstandort Deutschland.</p>
+      <p style="margin-top:10px;"><strong>Cloudflare:</strong> Der Zugriff auf diese Website erfolgt über Cloudflare Tunnel (Cloudflare Inc., 101 Townsend St., San Francisco, CA 94107, USA).
+      Cloudflare verarbeitet dabei technisch alle eingehenden Anfragen als Relay-Dienst. Cloudflare ist nach dem EU-US Data Privacy Framework zertifiziert.
       Datenschutzerklärung von Cloudflare: <a href="https://www.cloudflare.com/privacypolicy/" target="_blank">cloudflare.com/privacypolicy</a></p>
+      <p style="margin-top:10px;">Schriftarten und Skripte werden – bis auf ein internes Karten-Druck-Werkzeug (Tailwind Labs, cdn.tailwindcss.com, nur für die Spielleitung nutzbar) – lokal von unserem eigenen Server ausgeliefert. Es findet dadurch keine Verbindung zu Google-Fonts-Servern statt.</p>
     </div>
 
     <div class="section">

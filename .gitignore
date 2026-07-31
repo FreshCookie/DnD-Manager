@@ -39,3 +39,24 @@ public/*.rar
 
 # 18+ Content (only needed locally, not on Raspberry Pi)
 Info_DnD_18+/
+
+# Environment & Secrets
+.env
+.env.local
+.env.production
+
+# Cloudflare Tunnel Credentials (NEVER commit these!)
+.cloudflared/
+*.json
+!data/.gitkeep
+!package.json
+!package-lock.json
+!tsconfig.json
+
+# Backups
+backup*/
+*.backup
+data/*-BACKUP-*.json
+
+# Lokale Bild-Kopien (wie public/images: nicht ins Repo)
+homepage_bilder/

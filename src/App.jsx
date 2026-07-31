@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import { DataProvider } from "./contexts/DataContext";
-import { DataProvider18Plus } from "./contexts/DataContext18Plus";
-import { HexagonProvider } from "./contexts/HexagonContext";
 import LoginScreen from "./components/LoginScreen";
 import CharacterSelector from "./components/CharacterSelector";
 import PlayerView from "./components/PlayerView";
 import StartScreen from "./components/StartScreen";
 import PenAndPaperMode from "./components/PenAndPaperMode";
-import PenAndPaperMode18Plus from "./components/PenAndPaperMode18Plus";
-import HexagonGMView from "./components/HexagonGMView";
 
 // Hauptlogik nach Auth-Check
 function AuthenticatedApp() {
@@ -114,30 +110,12 @@ function AuthenticatedApp() {
       );
     }
 
-    // Pen & Paper Modus (normal)
+    // Pen & Paper Modus
     if (selectedMode === "penandpaper") {
       return (
         <DataProvider>
           <PenAndPaperMode />
         </DataProvider>
-      );
-    }
-
-    // Pen & Paper 18+ Modus
-    if (selectedMode === "penandpaper18") {
-      return (
-        <DataProvider18Plus>
-          <PenAndPaperMode18Plus />
-        </DataProvider18Plus>
-      );
-    }
-
-    // Hexagon Story Modus
-    if (selectedMode === "hexagon") {
-      return (
-        <HexagonProvider>
-          <HexagonGMView />
-        </HexagonProvider>
       );
     }
   }

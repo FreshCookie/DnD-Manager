@@ -1,11 +1,44 @@
 import React, { useState } from "react";
-import { X, Save, Plus, Trash2, Edit2 } from "lucide-react";
+import { X, Save, Plus, Trash2, Edit2, Upload } from "lucide-react";
+import { compressImage } from "../../utils/imageCompression";
+
+const API_BASE_URL = import.meta.env.VITE_API_URL || "";
 
 export default function AdminPanel({ data, onSave, onClose }) {
   const [editData, setEditData] = useState(JSON.parse(JSON.stringify(data)));
   const [activeTab, setActiveTab] = useState("siteInfo");
   const [selectedCampaignId, setSelectedCampaignId] = useState(null);
   const [editingItem, setEditingItem] = useState(null);
+  const [isUploadingBanner, setIsUploadingBanner] = useState(false);
+
+  const handleBannerUpload = async (e) => {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    setIsUploadingBanner(true);
+    try {
+      const dataUrl = await compressImage(file, 1600, 0.82);
+      const res = await fetch(`${API_BASE_URL}/api/admin/upload-image`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ dataUrl }),
+      });
+      const result = await res.json();
+      if (result.url) {
+        setEditData((prev) => ({
+          ...prev,
+          siteInfo: { ...prev.siteInfo, bannerImage: result.url },
+        }));
+      } else {
+        alert(result.error || "Upload fehlgeschlagen");
+      }
+    } catch {
+      alert("Bild konnte nicht hochgeladen werden");
+    } finally {
+      setIsUploadingBanner(false);
+    }
+  };
 
   const handleSave = () => {
     onSave(editData);
@@ -294,23 +327,36 @@ export default function AdminPanel({ data, onSave, onClose }) {
                 </div>
                 <div>
                   <label className="block text-gray-300 mb-2">
-                    Banner-Bild URL
+                    Banner-Bild
                   </label>
-                  <input
-                    type="text"
-                    value={editData.siteInfo.bannerImage || ""}
-                    onChange={(e) =>
-                      setEditData({
-                        ...editData,
-                        siteInfo: {
-                          ...editData.siteInfo,
-                          bannerImage: e.target.value,
-                        },
-                      })
-                    }
-                    className="w-full bg-gray-700 text-white px-4 py-2 rounded-lg"
-                    placeholder="/images/banner.jpg"
-                  />
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={editData.siteInfo.bannerImage || ""}
+                      onChange={(e) =>
+                        setEditData({
+                          ...editData,
+                          siteInfo: {
+                            ...editData.siteInfo,
+                            bannerImage: e.target.value,
+                          },
+                        })
+                      }
+                      className="flex-1 bg-gray-700 text-white px-4 py-2 rounded-lg"
+                      placeholder="/images/banner.jpg"
+                    />
+                    <label className="shrink-0 flex items-center gap-2 bg-amber-700 hover:bg-amber-600 text-white px-4 py-2 rounded-lg cursor-pointer transition-colors">
+                      <Upload className="w-4 h-4" />
+                      {isUploadingBanner ? "…" : "Hochladen"}
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        disabled={isUploadingBanner}
+                        onChange={handleBannerUpload}
+                      />
+                    </label>
+                  </div>
                 </div>
                 <div>
                   <label className="block text-gray-300 mb-2">

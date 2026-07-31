@@ -1,0 +1,19 @@
+tunnel: YOUR_TUNNEL_ID_HERE
+credentials-file: /home/pi/.cloudflared/YOUR_TUNNEL_ID_HERE.json
+
+ingress:
+  # DnD Session Manager - Haupt-Service
+  - hostname: dnd.deine-domain.de
+    service: http://localhost:3001
+    originRequest:
+      # WebSocket Support aktivieren
+      noTLSVerify: false
+      connectTimeout: 30s
+      # HTTP/2 für bessere Performance
+      http2Origin: true
+
+  # Fallback - alle anderen Anfragen ablehnen
+  - service: http_status:404
+
+# Logging Konfiguration
+# loglevel: info  # debug, info, warn, error

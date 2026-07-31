@@ -4,17 +4,17 @@ export default function Banner({ siteInfo }) {
   const bannerSrc = siteInfo.bannerImage || "/images/wietzendorf_landnerds_banner_panorama.png";
 
   return (
-    <div className="relative overflow-hidden" style={{ minHeight: '180px' }}>
+    <div className="relative overflow-hidden h-[26vh] min-h-[220px] max-h-[420px]">
       {/* Background Image */}
       <div
-        className="absolute inset-0 bg-contain bg-center bg-no-repeat"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: `url(${bannerSrc})`, backgroundColor: '#111827' }}
       >
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-gray-900"></div>
       </div>
 
       {/* Content */}
-      <div className="relative flex flex-col items-center justify-center text-center px-4 py-6 md:py-12">
+      <div className="relative h-full flex flex-col items-center justify-center text-center px-4">
         <div className="flex items-center justify-center mb-3 md:mb-6">
           <img
             src="/images/wietzendorf_landnerds_icon.png"

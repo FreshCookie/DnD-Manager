@@ -5,151 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>D&D Reisemanifest</title>
 <style>
-*{box-sizing:border-box;}
-body,#app{margin:0;padding:0;}
-
-:root{
-  --bg:#0f1117;
-  --surface:#1a1f2e;
-  --surface2:#222838;
-  --border:rgba(124,58,237,0.18);
-  --border-a:rgba(251,191,36,0.22);
-  --text:#e5e7eb;
-  --muted:#6b7280;
-  --amber:#fbbf24;
-  --amber2:#d97706;
-  --purple:#7c3aed;
-  --teal:#14b8a6;
-  --teal2:#0d9488;
-  --red:#ef4444;
-  --red2:#b91c1c;
-}
-
-#app{
-  font-family: system-ui,-apple-system,sans-serif;
-  background: var(--bg);
-  min-height: 100vh;
-  color: var(--text);
-  padding: 16px 14px 80px;
-  max-width: 640px;
-  margin: 0 auto;
-}
-
-.topbar{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:20px;padding-bottom:14px;
-  border-bottom:1px solid var(--border-a);
-  gap:10px;flex-wrap:wrap;
-}
-.topbar-left h1{font-size:1.25rem;font-weight:700;color:var(--amber);font-family:Georgia,serif;margin:0;}
-.topbar-left .sub{font-size:11px;color:var(--muted);margin-top:2px;}
-.topbar-btn{font-size:11px;letter-spacing:0.05em;border:none;border-radius:6px;padding:6px 12px;cursor:pointer;color:#fff;white-space:nowrap;font-weight:600;}
-.topbar-btn.red{background:var(--red2);}
-.topbar-btn.teal{background:var(--teal2);}
-
-.roster{display:flex;flex-direction:column;gap:10px;}
-.char-card{
-  background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--amber);
-  border-radius:8px;padding:14px 16px;
-  display:flex;justify-content:space-between;align-items:center;
-  cursor:pointer;gap:12px;transition:background 0.15s;
-}
-.char-card:hover{background:var(--surface2);}
-.char-card .cc-left{display:flex;align-items:center;gap:12px;min-width:0;}
-.char-card .cc-photo{width:44px;height:44px;border-radius:6px;object-fit:cover;border:2px solid var(--border-a);flex:0 0 auto;}
-.char-card .cc-name{font-size:1.05rem;font-weight:700;color:var(--text);font-family:Georgia,serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.char-card .cc-meta{font-size:11px;color:var(--muted);margin-top:3px;font-family:monospace;}
-.char-card .cc-del{background:none;border:1px solid rgba(239,68,68,0.35);color:var(--red);border-radius:6px;padding:5px 10px;font-size:11px;cursor:pointer;white-space:nowrap;flex-shrink:0;}
-.new-btn{margin-top:8px;width:100%;background:transparent;border:1.5px dashed rgba(251,191,36,0.3);color:var(--amber);border-radius:8px;padding:14px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;transition:border-color 0.15s;}
-.new-btn:hover{border-color:rgba(251,191,36,0.6);}
-
-.sc{background:var(--surface);border:1px solid var(--border);border-radius:10px;margin-bottom:10px;overflow:hidden;}
-.sc-title{font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--amber);padding:10px 14px 8px;border-bottom:1px solid var(--border);font-family:monospace;}
-
-.hdr-card{background:var(--surface);border:1px solid var(--border-a);border-radius:10px;padding:14px 16px;margin-bottom:10px;}
-.f-name-input{font-size:1.5rem;font-weight:700;font-family:Georgia,serif;color:var(--text);background:none;border:none;width:100%;outline:none;padding:0;}
-.f-name-input:focus{color:var(--amber);}
-.anc-row{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;align-items:center;}
-.anc-input{font-size:12px;color:var(--muted);background:none;border:none;border-bottom:1px solid rgba(251,191,36,0.2);outline:none;padding:2px 0;font-family:monospace;}
-.anc-input:focus{border-bottom-color:var(--amber);color:var(--text);}
-.pill{background:rgba(124,58,237,0.15);border:1px solid rgba(124,58,237,0.3);border-radius:20px;padding:2px 10px;font-size:11px;color:#a78bfa;font-family:monospace;display:inline-flex;align-items:center;gap:4px;}
-.pill input{background:none;border:none;color:inherit;outline:none;font-size:11px;font-family:monospace;width:24px;}
-.char-id{font-size:10px;color:var(--muted);font-family:monospace;text-align:right;margin-top:6px;}
-
-.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:10px 14px 14px;}
-.stat-badge{background:var(--surface2);border:1px solid var(--border);border-radius:8px;text-align:center;padding:10px 4px 8px;}
-.stat-badge .s-lbl{font-size:9px;letter-spacing:0.12em;color:var(--muted);text-transform:uppercase;font-family:monospace;margin-bottom:4px;}
-.stat-badge input{display:block;width:100%;text-align:center;font-size:1.6rem;font-weight:700;color:var(--amber);background:none;border:none;outline:none;font-family:monospace;-moz-appearance:textfield;}
-.stat-badge input::-webkit-outer-spin-button,.stat-badge input::-webkit-inner-spin-button{-webkit-appearance:none;}
-
-.vitals-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:8px;padding:10px 14px 14px;}
-.vital-box{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px;}
-.vital-box .v-lbl{font-size:9px;letter-spacing:0.1em;color:var(--muted);text-transform:uppercase;font-family:monospace;margin-bottom:6px;}
-.hp-row{display:flex;align-items:center;gap:6px;}
-.hp-btn{width:28px;height:28px;border-radius:50%;border:1px solid var(--teal);background:none;color:var(--teal);font-size:18px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.hp-cur{font-size:1.5rem;font-weight:700;color:var(--teal);font-family:monospace;min-width:30px;text-align:center;}
-.hp-sep{color:var(--muted);font-size:13px;}
-.hp-max input{width:36px;background:none;border:none;border-bottom:1px solid rgba(251,191,36,0.3);color:var(--muted);font-family:monospace;font-size:13px;text-align:center;outline:none;}
-.simple-val input{font-size:1.4rem;font-weight:700;color:var(--text);font-family:monospace;background:none;border:none;outline:none;width:60px;margin-top:2px;}
-
-.wounds-row{display:flex;align-items:center;gap:10px;padding:10px 14px 14px;flex-wrap:wrap;}
-.wound-dot{width:20px;height:20px;border-radius:50%;border:2px solid var(--red);background:none;padding:0;cursor:pointer;transition:background 0.1s;}
-.wound-dot.filled{background:var(--red);}
-
-.currency-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:10px 14px 14px;}
-.cur-item{background:var(--surface2);border:1px solid var(--border);border-radius:8px;text-align:center;padding:8px 4px 6px;}
-.cur-item .c-lbl{font-size:9px;letter-spacing:0.08em;color:var(--muted);text-transform:uppercase;font-family:monospace;display:block;margin-bottom:4px;}
-.cur-item input{width:100%;text-align:center;font-size:1.2rem;font-weight:700;color:var(--amber);background:none;border:none;outline:none;font-family:monospace;-moz-appearance:textfield;}
-.cur-item input::-webkit-outer-spin-button,.cur-item input::-webkit-inner-spin-button{-webkit-appearance:none;}
-
-.skills-grid{display:grid;grid-template-columns:1fr 1fr;}
-.skill-row{display:flex;justify-content:space-between;align-items:center;padding:7px 14px;border-top:1px solid var(--border);}
-.skill-row:nth-child(odd){border-right:1px solid var(--border);}
-.skill-left{display:flex;align-items:center;gap:5px;min-width:0;flex:1;}
-.skill-row .sname{font-size:12.5px;cursor:pointer;color:var(--text);border-bottom:1px dotted rgba(251,191,36,0.3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.skill-row .stag{font-size:9px;color:var(--purple);font-family:monospace;flex-shrink:0;margin-left:3px;}
-.sval-wrap{display:flex;align-items:center;gap:4px;flex-shrink:0;}
-.sv-btn{width:20px;height:20px;border-radius:4px;border:1px solid var(--border-a);background:none;color:var(--amber);font-size:13px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;}
-.skill-row .sval{font-size:14px;font-weight:700;color:var(--amber);font-family:monospace;min-width:18px;text-align:center;}
-
-.list-items{padding:4px 14px 8px;}
-.list-item{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-top:1px solid var(--border);font-size:13px;color:var(--text);}
-.item-edit-btn{background:none;border:none;color:var(--amber);font-size:16px;padding:4px 7px;min-width:34px;min-height:34px;cursor:pointer;flex-shrink:0;}
-.item-del-btn{background:none;border:none;color:var(--red);font-size:15px;padding:4px 7px;min-width:34px;min-height:34px;cursor:pointer;flex-shrink:0;}
-.add-row{display:flex;gap:8px;padding:6px 14px 14px;}
-.add-row input{flex:1;font-size:13px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:8px 10px;color:var(--text);outline:none;}
-.add-row input:focus{border-color:rgba(251,191,36,0.4);}
-.add-row button{background:var(--amber2);color:#fff;border:none;border-radius:6px;padding:0 14px;font-size:12px;cursor:pointer;flex-shrink:0;}
-.item-edit-input{flex:1;font-size:13px;background:var(--surface2);border:1px solid var(--border-a);border-radius:6px;padding:6px 8px;color:var(--text);outline:none;min-width:0;}
-.item-save-btn{background:var(--amber2);border:none;color:#fff;border-radius:6px;padding:5px 12px;cursor:pointer;font-size:14px;flex-shrink:0;}
-
-.notes-area{padding:6px 14px 14px;}
-.notes-area textarea{width:100%;min-height:110px;font-size:13px;line-height:1.6;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px;color:var(--text);resize:vertical;outline:none;}
-.notes-area textarea:focus{border-color:rgba(251,191,36,0.4);}
-
-.gallery-strip{display:flex;gap:8px;overflow-x:auto;padding:10px 14px 12px;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
-.gallery-strip::-webkit-scrollbar{display:none;}
-.gallery-thumb{position:relative;flex:0 0 auto;width:72px;height:72px;border-radius:6px;border:2px solid var(--border-a);overflow:hidden;cursor:pointer;}
-.gallery-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
-.th-remove{position:absolute;top:2px;right:2px;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,0.75);color:#fff;border:none;font-size:11px;display:flex;align-items:center;justify-content:center;cursor:pointer;}
-.gallery-add{flex:0 0 auto;width:72px;height:72px;border-radius:6px;border:2px dashed rgba(251,191,36,0.3);background:none;color:var(--amber);font-size:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;}
-
-.back-btn{display:inline-flex;align-items:center;gap:6px;background:none;border:none;color:var(--amber);font-size:12px;letter-spacing:0.04em;margin-bottom:14px;padding:0;cursor:pointer;}
-.back-btn:hover{opacity:0.8;}
-
-.saved-tag{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);font-size:11px;color:#0f1117;background:var(--teal);padding:6px 14px;border-radius:20px;opacity:0;transition:opacity 0.3s;pointer-events:none;z-index:200;font-weight:700;}
-.saved-tag.show{opacity:1;}
-.manual-save-btn{display:block;width:100%;margin-top:4px;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;background:var(--teal2);color:#fff;border:none;border-radius:8px;padding:13px;cursor:pointer;transition:background 0.15s;}
-.manual-save-btn:hover{background:var(--teal);}
-
-.loading{text-align:center;padding:60px 0;font-size:13px;color:var(--muted);}
-
-.lightbox{position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:9999;display:none;align-items:center;justify-content:center;}
-.lightbox img{max-width:96vw;max-height:82vh;object-fit:contain;border-radius:6px;display:block;}
-.lb-close{position:fixed;top:16px;right:16px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.15);border:none;color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
-.lb-prev,.lb-next{position:fixed;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,0.15);border:none;color:#fff;font-size:24px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
-.lb-prev{left:8px;}.lb-next{right:8px;}
-</style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
 
 :root{
   --sky:#12151f;
@@ -387,17 +243,8 @@ h1,h2,h3{font-family:'Cinzel',serif;margin:0;}
   font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--sky);
   background:var(--brass-bright);padding:5px 12px;border-radius:20px;
   opacity:0;transition:opacity 0.3s;pointer-events:none;
-  z-index:200;
 }
 .saved-tag.show{opacity:0.95;}
-
-.manual-save-btn{
-  display:block;width:calc(100% - 32px);margin:12px 16px 0;
-  font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;
-  background:var(--teal);color:#fff;border:none;border-radius:3px;padding:12px;
-  cursor:pointer;transition:background 0.2s;
-}
-.manual-save-btn:active{background:var(--teal-bright);}
 
 .loading{text-align:center;padding:60px 0;font-family:'IBM Plex Mono',monospace;color:#8891a8;font-size:12px;}
 
@@ -502,10 +349,6 @@ function flashSaved(){
 
 function uid(){ return 'c' + Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
 
-let currentUserRole = null; // 'gm' | 'player' | null
-let adminMode = false;
-let _sheetCtx = null; // set by renderSheet for admin-aware saveChar
-
 const defaultSkills = [
   {name:'Arcana', stat:'INT', val:2},
   {name:'Examination', stat:'INT', val:2},
@@ -537,39 +380,14 @@ function karlFischer(){
   };
 }
 
-// ---- localStorage cache (5-min TTL, skipped in admin mode) ----
-const LS_TTL = 5 * 60 * 1000;
-function lsGet(key){
-  try{
-    if(_sheetCtx) return null; // never use cache in admin mode
-    const raw = localStorage.getItem('chars_' + key);
-    if(!raw) return null;
-    const {ts, data} = JSON.parse(raw);
-    if(Date.now() - ts > LS_TTL){ localStorage.removeItem('chars_' + key); return null; }
-    return data;
-  }catch{ return null; }
-}
-function lsSet(key, data){
-  try{
-    if(_sheetCtx) return;
-    localStorage.setItem('chars_' + key, JSON.stringify({ts:Date.now(), data}));
-  }catch{}
-}
-function lsDel(key){ try{ localStorage.removeItem('chars_' + key); }catch{} }
-
 // ---- storage helpers (REST-API) ----
 async function getCharList(){
-  const cached = lsGet('list');
-  if(cached) return cached;
   try{
     const r = await fetch('/api/chars');
-    const data = r.ok ? await r.json() : [];
-    lsSet('list', data);
-    return data;
+    return r.ok ? await r.json() : [];
   }catch(e){ return []; }
 }
 async function saveCharList(list){
-  lsSet('list', list);
   try{
     await fetch('/api/chars', {
       method: 'PUT',
@@ -579,22 +397,14 @@ async function saveCharList(list){
   }catch(e){}
 }
 async function getChar(id){
-  const cached = lsGet('char_' + id);
-  if(cached) return cached;
   try{
     const r = await fetch('/api/chars/'+id);
-    const data = r.ok ? await r.json() : null;
-    if(data) lsSet('char_' + id, data);
-    return data;
+    return r.ok ? await r.json() : null;
   }catch(e){ return null; }
 }
 async function saveChar(c){
-  lsSet('char_' + c.id, c);
   try{
-    const url = _sheetCtx
-      ? '/api/admin/chars/'+_sheetCtx.userId+'/'+c.id
-      : '/api/chars/'+c.id;
-    const r = await fetch(url, {
+    const r = await fetch('/api/chars/'+c.id, {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify(c)
@@ -603,148 +413,19 @@ async function saveChar(c){
   }catch(e){ console.error('save failed', e); }
 }
 async function deleteCharStorage(id){
-  lsDel('char_' + id);
-  lsDel('list');
   try{ await fetch('/api/chars/'+id, {method:'DELETE'}); }catch(e){}
 }
 
-// ---- admin-aware API helpers ----
-async function adminGetChar(userId, id){
-  try{
-    const r = await fetch('/api/admin/chars/'+userId+'/'+id);
-    return r.ok ? await r.json() : null;
-  }catch(e){ return null; }
-}
-async function adminSaveChar(userId, c){
-  try{
-    const r = await fetch('/api/admin/chars/'+userId+'/'+c.id, {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(c)
-    });
-    if(r.ok) flashSaved();
-  }catch(e){ console.error('admin save failed', e); }
-}
-async function adminDeleteChar(userId, id){
-  try{ await fetch('/api/admin/chars/'+userId+'/'+id, {method:'DELETE'}); }catch(e){}
-}
-
-// ---- startup: detect role ----
-async function init(){
-  try{
-    const r = await fetch('/api/auth/verify-session', {method:'POST'});
-    const data = await r.json();
-    if(data.valid && data.session) currentUserRole = data.session.role;
-  }catch(e){}
-  renderRoster();
-}
-
-// ---- admin overview: all users' chars ----
-async function renderAdminRoster(){
-  app.innerHTML = '<div class="loading">Lade alle Charaktere…</div>';
-  let users;
-  try{
-    const r = await fetch('/api/admin/chars-overview');
-    users = await r.json();
-  }catch(e){ app.innerHTML='<div class="loading">Fehler beim Laden</div>'; return; }
-
-  const hasAny = users.some(u=>u.chars.length>0);
-  let html = `
-    <div class="topbar">
-      <div class="topbar-left"><h1>Alle Charaktere</h1><div class="sub">GM-Übersicht · ${users.length} Spieler</div></div>
-      <button id="switchModeBtn" class="topbar-btn teal">Meine Chars</button>
-    </div>
-  `;
-  if(!hasAny){
-    html += '<div style="text-align:center;padding:60px 20px;color:var(--amber);"><div style="font-size:48px;margin-bottom:16px">📜</div><div style="font-family:Georgia,serif;font-size:18px;color:var(--text)">Noch keine Charaktere angelegt</div></div>';
-  } else {
-    for(const user of users){
-      if(!user.chars.length) continue;
-      html += `<div style="margin-bottom:20px;">
-        <div style="font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--amber);font-family:monospace;margin-bottom:8px;padding:8px 0 6px;border-bottom:1px solid var(--border-a);">&#9812; ${escapeHtml(user.username)}</div>
-        <div class="roster" id="roster-${escapeHtml(user.userId)}"></div>
-      </div>`;
-    }
-  }
-  app.innerHTML = html;
-
-  document.getElementById('switchModeBtn').addEventListener('click',()=>{ adminMode=false; renderRoster(); });
-
-  for(const user of users){
-    const rEl = document.getElementById('roster-'+user.userId);
-    if(!rEl) continue;
-    user.chars.forEach(c=>{
-      const div = document.createElement('div');
-      div.className = 'char-card';
-      div.innerHTML = `
-        <div class="cc-left">
-          <div>
-            <div class="cc-name">${escapeHtml(c.name||'Unbenannt')}</div>
-            <div class="cc-meta">${escapeHtml(c.ancestry||'')} · ${escapeHtml(c.cls||'')} · Lvl ${c.level||1} · HP ${(c.hp||{}).cur||'?'}/${(c.hp||{}).max||'?'}</div>
-          </div>
-        </div>
-        <button class="cc-del" data-id="${c.id}" data-uid="${user.userId}">🗑 Löschen</button>
-      `;
-      div.addEventListener('click',(e)=>{
-        if(e.target.closest('.cc-del')) return;
-        renderSheet(c.id, {userId:user.userId, username:user.username});
-      });
-      div.querySelector('.cc-del').addEventListener('click', async(e)=>{
-        e.stopPropagation();
-        if(confirm(`"${c.name}" von ${user.username} wirklich löschen?`)){
-          await adminDeleteChar(user.userId, c.id);
-          renderAdminRoster();
-        }
-      });
-      rEl.appendChild(div);
-    });
-  }
-}
-
+// ---- render: roster ----
 async function renderRoster(){
-  _sheetCtx = null;
   app.innerHTML = '<div class="loading">Lade Manifest…</div>';
   let list = await getCharList();
 
-  const gmBtn = currentUserRole === 'gm'
-    ? `<button id="switchModeBtn" class="topbar-btn red">GM: Alle Chars</button>`
-    : '';
-
   if(list.length === 0){
-    app.innerHTML = `
-      <div class="topbar">
-        <div class="topbar-left"><h1>Reisemanifest</h1><div class="sub">Charakterverwaltung</div></div>
-        ${gmBtn}
-      </div>
-      <div style="text-align:center;padding:60px 20px;color:var(--brass);">
-        <div style="font-size:48px;margin-bottom:16px;">📜</div>
-        <div style="font-family:'Cinzel',serif;font-size:20px;margin-bottom:8px;">Noch keine Charaktere</div>
-        <div style="font-size:14px;opacity:0.7;">Lege deinen ersten Charakter an!</div>
-      </div>
-      <button class="new-btn" id="newBtn">+ Neuen Charakter anlegen</button>
-    `;
-    document.getElementById('newBtn').addEventListener('click', async ()=>{
-      const name = prompt('Name des neuen Charakters:');
-      if(!name) return;
-      const c = {
-        id: uid(), name, ancestry:'', cls:'', level:1, hitDice:'1d?',
-        str:0, dex:0, int:0, wil:0,
-        hp:{cur:10, max:10}, tempHp:0,
-        armor:10, initiative:0,
-        wounds:{cur:0, max:5},
-        skills: JSON.parse(JSON.stringify(defaultSkills)).map(s=>({...s,val:0})),
-        inventory:[], abilities:[], notes:'',
-        photos:[],
-        currency:{bronze:0,silver:0,gold:0,platinum:0}
-      };
-      await saveChar(c);
-      const l = await getCharList();
-      l.push(c.id);
-      await saveCharList(l);
-      renderSheet(c.id);
-    });
-    if(currentUserRole==='gm') document.getElementById('switchModeBtn')?.addEventListener('click',()=>{ adminMode=true; renderAdminRoster(); });
-    return;
+    const karl = karlFischer();
+    await saveChar(karl);
+    list = [karl.id];
+    await saveCharList(list);
   }
 
   const chars = [];
@@ -755,8 +436,7 @@ async function renderRoster(){
 
   app.innerHTML = `
     <div class="topbar">
-      <div class="topbar-left"><h1>Reisemanifest</h1><div class="sub">Charakterverwaltung</div></div>
-      ${gmBtn}
+      <div><h1>Reisemanifest</h1><div class="sub">Charakterverwaltung · Nimble</div></div>
     </div>
     <div class="roster" id="roster"></div>
     <button class="new-btn" id="newBtn">+ Neuen Charakter anlegen</button>
@@ -764,22 +444,22 @@ async function renderRoster(){
   const rosterEl = document.getElementById('roster');
   chars.forEach(c=>{
     const div = document.createElement('div');
-    div.className = 'char-card';
+    div.className = 'roster-card';
     div.innerHTML = `
-      <div class="cc-left">
-        ${((c.photos&&c.photos[0])||c.photo) ? `<img class="cc-photo" src="${(c.photos&&c.photos[0])||c.photo}" alt="">` : ''}
+      <div style="display:flex;align-items:center;gap:12px;">
+        ${((c.photos&&c.photos[0])||c.photo) ? `<img src="${(c.photos&&c.photos[0])||c.photo}" style="width:42px;height:42px;object-fit:cover;border-radius:3px;border:2px solid var(--brass);flex:0 0 auto;">` : ''}
         <div>
-          <div class="cc-name">${escapeHtml(c.name||'Unbenannt')}</div>
-          <div class="cc-meta">${escapeHtml(c.ancestry||'')} · ${escapeHtml(c.cls||'')} · Lvl ${c.level||1} · HP ${c.hp.cur}/${c.hp.max}</div>
+          <div class="name">${escapeHtml(c.name||'Unbenannt')}</div>
+          <div class="meta">${escapeHtml(c.ancestry||'')} · ${escapeHtml(c.cls||'')} · Lvl ${c.level||1} · HP ${c.hp.cur}/${c.hp.max}</div>
         </div>
       </div>
-      <button class="cc-del" data-id="${c.id}">Löschen</button>
+      <button class="del" data-id="${c.id}">Löschen</button>
     `;
     div.addEventListener('click',(e)=>{
-      if(e.target.classList.contains('cc-del')) return;
+      if(e.target.classList.contains('del')) return;
       renderSheet(c.id);
     });
-    div.querySelector('.cc-del').addEventListener('click', async (e)=>{
+    div.querySelector('.del').addEventListener('click', async (e)=>{
       e.stopPropagation();
       if(confirm(`"${c.name}" wirklich löschen?`)){
         await deleteCharStorage(c.id);
@@ -811,7 +491,6 @@ async function renderRoster(){
     await saveCharList(l);
     renderSheet(c.id);
   });
-  if(currentUserRole==='gm') document.getElementById('switchModeBtn')?.addEventListener('click',()=>{ adminMode=true; renderAdminRoster(); });
 }
 
 function escapeHtml(s){
@@ -819,104 +498,14 @@ function escapeHtml(s){
 }
 
 // ---- render: sheet ----
-async function renderSheet(id, adminCtx = null){
-  _sheetCtx = adminCtx; // used by saveChar
+async function renderSheet(id){
   app.innerHTML = '<div class="loading">Lade Charakter…</div>';
-  const c = adminCtx ? await adminGetChar(adminCtx.userId, id) : await getChar(id);
-  if(!c){ adminCtx ? renderAdminRoster() : renderRoster(); return; }
-
-  const ownerLabel = adminCtx ? ` <span style="font-size:11px;color:var(--rust);font-family:'IBM Plex Mono',monospace;">[${escapeHtml(adminCtx.username)}]</span>` : '';
+  const c = await getChar(id);
+  if(!c){ renderRoster(); return; }
 
   app.innerHTML = `
-    <button class="back-btn" id="backBtn">← ${adminCtx ? 'Zurück zur Übersicht' : 'Zurück zum Manifest'}</button>${ownerLabel}
-
-    <div class="hdr-card">
-      <input class="f-name-input" id="f-name" value="${escapeHtml(c.name)}" placeholder="Charaktername">
-      <div class="anc-row">
-        <input class="anc-input" id="f-anc" value="${escapeHtml(c.ancestry)}" placeholder="Ancestry" style="width:90px">
-        <input class="anc-input" id="f-cls" value="${escapeHtml(c.cls)}" placeholder="Klasse" style="width:80px">
-        <span class="pill">Lvl <input id="f-lvl" type="number" value="${c.level}"></span>
-        <input class="anc-input" id="f-hd" value="${escapeHtml(c.hitDice)}" placeholder="Hit Dice" style="width:48px">
-      </div>
-      <div class="char-id">#${c.id.slice(-6).toUpperCase()}</div>
-    </div>
-
-    <input type="file" id="photoInput" accept="image/*" multiple style="display:none">
-    <div class="sc"><div class="sc-title">Fotos</div><div id="galleryStrip" class="gallery-strip"></div></div>
-
-    <div class="sc">
-      <div class="sc-title">Attribute</div>
-      <div class="stat-grid">
-        <div class="stat-badge"><div class="s-lbl">STR</div><input id="f-str" type="number" value="${c.str}"></div>
-        <div class="stat-badge"><div class="s-lbl">DEX</div><input id="f-dex" type="number" value="${c.dex}"></div>
-        <div class="stat-badge"><div class="s-lbl">INT</div><input id="f-int" type="number" value="${c.int}"></div>
-        <div class="stat-badge"><div class="s-lbl">WIL</div><input id="f-wil" type="number" value="${c.wil}"></div>
-      </div>
-    </div>
-
-    <div class="sc">
-      <div class="sc-title">Vitalwerte</div>
-      <div class="vitals-grid">
-        <div class="vital-box">
-          <div class="v-lbl">Hit Points</div>
-          <div class="hp-row">
-            <button class="hp-btn" id="hp-dn">−</button>
-            <span class="hp-cur" id="hp-cur">${c.hp.cur}</span>
-            <button class="hp-btn" id="hp-up">+</button>
-            <span class="hp-sep">/ </span>
-            <span class="hp-max"><input id="f-hpmax" type="number" value="${c.hp.max}"></span>
-          </div>
-        </div>
-        <div class="vital-box">
-          <div class="v-lbl">Rüstung</div>
-          <div class="simple-val"><input id="f-armor" type="number" value="${c.armor}"></div>
-        </div>
-        <div class="vital-box">
-          <div class="v-lbl">Initiative</div>
-          <div class="simple-val"><input id="f-init" type="number" value="${c.initiative}"></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="sc">
-      <div class="sc-title">Wunden</div>
-      <div class="wounds-row"><div id="woundDots" style="display:flex;gap:8px;flex-wrap:wrap"></div></div>
-    </div>
-
-    <div class="sc">
-      <div class="sc-title">Währung</div>
-      <div class="currency-grid">
-        <div class="cur-item"><span class="c-lbl">Platin</span><input id="f-plat" type="number" value="${(c.currency||{}).platinum||0}" min="0"></div>
-        <div class="cur-item"><span class="c-lbl">Gold</span><input id="f-gold" type="number" value="${(c.currency||{}).gold||0}" min="0"></div>
-        <div class="cur-item"><span class="c-lbl">Silber</span><input id="f-silv" type="number" value="${(c.currency||{}).silver||0}" min="0"></div>
-        <div class="cur-item"><span class="c-lbl">Bronze</span><input id="f-brnz" type="number" value="${(c.currency||{}).bronze||0}" min="0"></div>
-      </div>
-    </div>
-
-    <div class="sc">
-      <div class="sc-title">Skills</div>
-      <div class="skills-grid" id="skillsGrid"></div>
-    </div>
-
-    <div class="sc">
-      <div class="sc-title">Inventar &amp; Ausrüstung</div>
-      <div class="list-items" id="invList"></div>
-      <div class="add-row"><input id="invInput" placeholder="Neuer Gegenstand…"><button id="invAdd">+ Hinzufügen</button></div>
-    </div>
-
-    <div class="sc">
-      <div class="sc-title">Fähigkeiten &amp; Talente</div>
-      <div class="list-items" id="abList"></div>
-      <div class="add-row"><input id="abInput" placeholder="Neue Fähigkeit…"><button id="abAdd">+ Hinzufügen</button></div>
-    </div>
-
-    <div class="sc">
-      <div class="sc-title">Background &amp; Notizen</div>
-      <div class="notes-area"><textarea id="f-notes" placeholder="Hintergrundgeschichte, Ziele, wichtige NPCs…">${escapeHtml(c.notes||'')}</textarea></div>
-    </div>
-
-    <button class="manual-save-btn" id="saveBtn">💾 Speichern (Strg+S)</button>
-  `;
+    <button class="back-btn" id="backBtn">← Zurück zum Manifest</button>
+    <div class="pass">
       <div class="pass-head">
         <div style="flex:1">
           <div class="eyebrow" style="color:#5c5237">Reisender</div>
@@ -1003,16 +592,11 @@ async function renderSheet(id, adminCtx = null){
         <textarea id="f-notes" placeholder="Hintergrundgeschichte, Ziele, wichtige NPCs…">${escapeHtml(c.notes||'')}</textarea>
       </div>
 
-      <button class="manual-save-btn" id="saveBtn">💾 Speichern (Strg+S)</button>
+      <div class="barcode"></div>
+    </div>
   `;
 
-  const keyAC = new AbortController();
-  document.addEventListener('keydown', (e)=>{
-    if((e.ctrlKey||e.metaKey) && e.key==='s'){ e.preventDefault(); saveChar(c); }
-  }, {signal: keyAC.signal});
-
-  document.getElementById('saveBtn').addEventListener('click', ()=> saveChar(c));
-  document.getElementById('backBtn').addEventListener('click', ()=>{ keyAC.abort(); adminCtx ? renderAdminRoster() : renderRoster(); });
+  document.getElementById('backBtn').addEventListener('click', renderRoster);
 
   // photo upload
   function compressImage(file){
@@ -1021,14 +605,14 @@ async function renderSheet(id, adminCtx = null){
       reader.onload = (e)=>{
         const img = new Image();
         img.onload = ()=>{
-          const maxDim = 900;
+          const maxDim = 9999;
           let w = img.width, h = img.height;
           if(w > h && w > maxDim){ h = h*(maxDim/w); w = maxDim; }
           else if(h > maxDim){ w = w*(maxDim/h); h = maxDim; }
           const canvas = document.createElement('canvas');
           canvas.width = w; canvas.height = h;
           canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-          resolve(canvas.toDataURL('image/jpeg', 0.75));
+          resolve(canvas.toDataURL('image/jpeg', 0.95));
         };
         img.onerror = reject;
         img.src = e.target.result;
@@ -1136,7 +720,7 @@ async function renderSheet(id, adminCtx = null){
   });
 
   // set initial HP color if above max
-  if(c.hp.cur > c.hp.max) document.getElementById('hp-cur').style.color = 'var(--amber)';
+  if(c.hp.cur > c.hp.max) document.getElementById('hp-cur').style.color = 'var(--brass-bright)';
 
   document.getElementById('f-hpmax').addEventListener('change', async (e)=>{
     c.hp.max = parseInt(e.target.value)||0;
@@ -1148,14 +732,14 @@ async function renderSheet(id, adminCtx = null){
     c.hp.cur = c.hp.cur + 1;
     const curEl = document.getElementById('hp-cur');
     curEl.textContent = c.hp.cur;
-    curEl.style.color = c.hp.cur > c.hp.max ? 'var(--amber)' : 'var(--teal)';
+    curEl.style.color = c.hp.cur > c.hp.max ? 'var(--brass-bright)' : 'var(--teal)';
     await saveChar(c);
   });
   document.getElementById('hp-dn').addEventListener('click', async ()=>{
     c.hp.cur = Math.max(0, c.hp.cur-1);
     const curEl = document.getElementById('hp-cur');
     curEl.textContent = c.hp.cur;
-    curEl.style.color = c.hp.cur > c.hp.max ? 'var(--amber)' : 'var(--teal)';
+    curEl.style.color = c.hp.cur > c.hp.max ? 'var(--brass-bright)' : 'var(--teal)';
     await saveChar(c);
   });
 
@@ -1186,9 +770,9 @@ async function renderSheet(id, adminCtx = null){
       row.innerHTML = `
         <div class="skill-left"><span class="sname" title="Tippen zum Bearbeiten">${escapeHtml(s.name)}</span><span class="stag">${s.stat}</span></div>
         <div class="sval-wrap">
-          <button class="sv-btn" data-a="dn">−</button>
+          <button data-a="dn">−</button>
           <span class="sval">${s.val}</span>
-          <button class="sv-btn" data-a="up">+</button>
+          <button data-a="up">+</button>
         </div>
       `;
       row.querySelector('.sname').addEventListener('click', ()=>{
@@ -1196,13 +780,13 @@ async function renderSheet(id, adminCtx = null){
         left.innerHTML = '';
         const ni = document.createElement('input');
         ni.value = s.name;
-        ni.style.cssText = 'font-size:12px;border:1px solid var(--border-a);border-radius:4px;padding:3px 6px;background:var(--surface2);color:var(--text);width:72px;outline:none;';
+        ni.style.cssText = 'font-size:12px;border:1px solid var(--brass);border-radius:3px;padding:3px 5px;background:#f2ead8;color:var(--ink);width:68px';
         const ti = document.createElement('input');
         ti.value = s.stat;
-        ti.style.cssText = 'font-family:monospace;font-size:10px;border:1px solid var(--border-a);border-radius:4px;padding:3px 5px;background:var(--surface2);color:var(--muted);width:36px;margin-left:4px;text-transform:uppercase;outline:none;';
+        ti.style.cssText = 'font-family:IBM Plex Mono,monospace;font-size:9px;border:1px solid var(--brass);border-radius:3px;padding:3px 4px;background:#f2ead8;color:#5c5237;width:34px;margin-left:4px;text-transform:uppercase';
         const sb = document.createElement('button');
         sb.textContent = '✓';
-        sb.style.cssText = 'background:var(--amber2);border:none;color:#fff;font-size:14px;border-radius:4px;padding:3px 10px;margin-left:4px;cursor:pointer';
+        sb.style.cssText = 'background:var(--brass);border:none;color:#fff;font-size:14px;border-radius:3px;padding:3px 8px;margin-left:4px;cursor:pointer';
         left.appendChild(ni); left.appendChild(ti); left.appendChild(sb);
         ni.focus();
         let done = false;
@@ -1340,7 +924,7 @@ async function renderSheet(id, adminCtx = null){
   });
 }
 
-init();
+renderRoster();
 </script>
 </body>
 </html>
