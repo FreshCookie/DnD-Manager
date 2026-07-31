@@ -55,6 +55,7 @@ const CharSheet = ({ char: initialChar, adminCtx, onBack }) => {
   const [skillEdit, setSkillEdit] = useState({ name: "", stat: "" });
   const photoInputRef = useRef(null);
   const savedTimer = useRef(null);
+  const isFirstRender = useRef(true);
 
   const flashSaved = () => {
     setSaved(true);
@@ -88,6 +89,19 @@ const CharSheet = ({ char: initialChar, adminCtx, onBack }) => {
     };
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [char]);
+
+  // Backstop falls ein Textfeld nie per onBlur verlassen wird (z.B. Tab
+  // direkt geschlossen statt woanders hingeklickt) - speichert 1,5s nach der
+  // letzten Änderung, analog zum Auto-Save im Pen&Paper-DataContext.
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    const timer = setTimeout(() => persist(char), 1500);
+    return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [char]);
 
