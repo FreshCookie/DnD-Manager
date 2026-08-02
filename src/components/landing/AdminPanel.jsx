@@ -21,6 +21,51 @@ export default function AdminPanel({ data, onSave, onClose }) {
   const [selectedCampaignId, setSelectedCampaignId] = useState(null);
   const [editingItem, setEditingItem] = useState(null);
   const [isUploadingBanner, setIsUploadingBanner] = useState(false);
+  const [uploadingImageFor, setUploadingImageFor] = useState(null);
+
+  const uploadImage = async (dataUrl) => {
+    const res = await fetch(`${API_BASE_URL}/api/admin/upload-image`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ dataUrl }),
+    });
+    const result = await res.json();
+    if (!result.url) throw new Error(result.error || "Upload fehlgeschlagen");
+    return result.url;
+  };
+
+  const handleCampaignImageUpload = async (campaignId, e) => {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    setUploadingImageFor(`campaign-${campaignId}`);
+    try {
+      const dataUrl = await compressImage(file, 1600, 0.82);
+      const url = await uploadImage(dataUrl);
+      updateCampaign(campaignId, "image", url);
+    } catch {
+      alert("Bild konnte nicht hochgeladen werden");
+    } finally {
+      setUploadingImageFor(null);
+    }
+  };
+
+  const handleSessionImageUpload = async (campaignId, sessionId, e) => {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    setUploadingImageFor(`session-${sessionId}`);
+    try {
+      const dataUrl = await compressImage(file, 1200, 0.80);
+      const url = await uploadImage(dataUrl);
+      updateSession(campaignId, sessionId, "image", url);
+    } catch {
+      alert("Bild konnte nicht hochgeladen werden");
+    } finally {
+      setUploadingImageFor(null);
+    }
+  };
 
   const handleBannerUpload = async (e) => {
     const file = e.target.files?.[0];
@@ -598,27 +643,38 @@ export default function AdminPanel({ data, onSave, onClose }) {
 
                       <div>
                         <label className="block text-gray-300 text-sm mb-1">
-                          Banner-Bild (URL)
+                          Banner-Bild
                         </label>
-                        <input
-                          type="text"
-                          value={campaign.image || ""}
-                          onChange={(e) =>
-                            updateCampaign(
-                              campaign.id,
-                              "image",
-                              e.target.value,
-                            )
-                          }
-                          className="w-full bg-gray-600 text-white px-3 py-1 rounded"
-                          placeholder="https://... oder /images/..."
-                        />
-                        {campaign.image && (
-                          <img
-                            src={campaign.image}
-                            alt="Vorschau"
-                            className="mt-2 h-24 w-full object-cover rounded opacity-80"
-                          />
+                        {campaign.image ? (
+                          <div className="relative">
+                            <img
+                              src={campaign.image}
+                              alt="Banner"
+                              className="h-28 w-full object-cover rounded opacity-90"
+                            />
+                            <button
+                              onClick={() => updateCampaign(campaign.id, "image", "")}
+                              className="absolute top-1 right-1 bg-red-600 hover:bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center"
+                            >
+                              <X className="w-3 h-3" />
+                            </button>
+                          </div>
+                        ) : (
+                          <label className="flex items-center gap-2 cursor-pointer bg-gray-600 hover:bg-gray-500 text-gray-300 px-3 py-2 rounded transition-colors">
+                            <Upload className="w-4 h-4" />
+                            <span className="text-sm">
+                              {uploadingImageFor === `campaign-${campaign.id}`
+                                ? "Wird hochgeladen…"
+                                : "Bild hochladen"}
+                            </span>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              className="hidden"
+                              disabled={uploadingImageFor !== null}
+                              onChange={(e) => handleCampaignImageUpload(campaign.id, e)}
+                            />
+                          </label>
                         )}
                       </div>
 
@@ -762,6 +818,42 @@ export default function AdminPanel({ data, onSave, onClose }) {
                                       className="w-full bg-gray-500 text-white px-2 py-1 rounded text-sm"
                                       placeholder="Was ist passiert?"
                                     />
+                                  </div>
+                                  <div>
+                                    <label className="block text-gray-300 text-xs mb-1">
+                                      Bild
+                                    </label>
+                                    {session.image ? (
+                                      <div className="relative">
+                                        <img
+                                          src={session.image}
+                                          alt="Session-Bild"
+                                          className="h-20 w-full object-cover rounded opacity-90"
+                                        />
+                                        <button
+                                          onClick={() => updateSession(campaign.id, session.id, "image", "")}
+                                          className="absolute top-1 right-1 bg-red-600 hover:bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center"
+                                        >
+                                          <X className="w-3 h-3" />
+                                        </button>
+                                      </div>
+                                    ) : (
+                                      <label className="flex items-center gap-2 cursor-pointer bg-gray-500 hover:bg-gray-400 text-gray-300 px-2 py-1 rounded transition-colors">
+                                        <Upload className="w-3 h-3" />
+                                        <span className="text-xs">
+                                          {uploadingImageFor === `session-${session.id}`
+                                            ? "Wird hochgeladen…"
+                                            : "Bild hochladen"}
+                                        </span>
+                                        <input
+                                          type="file"
+                                          accept="image/*"
+                                          className="hidden"
+                                          disabled={uploadingImageFor !== null}
+                                          onChange={(e) => handleSessionImageUpload(campaign.id, session.id, e)}
+                                        />
+                                      </label>
+                                    )}
                                   </div>
                                 </div>
                               )}
