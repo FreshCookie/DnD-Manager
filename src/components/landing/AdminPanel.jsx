@@ -98,7 +98,6 @@ export default function AdminPanel({ data, onSave, onClose }) {
       description: "",
       setting: "",
       status: "active",
-      startDate: new Date().toISOString().split("T")[0],
       image: "",
       sessions: [],
     };
@@ -143,6 +142,7 @@ export default function AdminPanel({ data, onSave, onClose }) {
       title: "Neue Session",
       summary: "",
       location: "",
+      status: "active",
       image: "",
     };
     setEditData({
@@ -558,42 +558,23 @@ export default function AdminPanel({ data, onSave, onClose }) {
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-2 gap-3">
-                        <div>
-                          <label className="block text-gray-300 text-sm mb-1">
-                            Setting
-                          </label>
-                          <input
-                            type="text"
-                            value={campaign.setting || ""}
-                            onChange={(e) =>
-                              updateCampaign(
-                                campaign.id,
-                                "setting",
-                                e.target.value,
-                              )
-                            }
-                            className="w-full bg-gray-600 text-white px-3 py-1 rounded"
-                            placeholder="z.B. Forgotten Realms"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-gray-300 text-sm mb-1">
-                            Startdatum
-                          </label>
-                          <input
-                            type="date"
-                            value={campaign.startDate || ""}
-                            onChange={(e) =>
-                              updateCampaign(
-                                campaign.id,
-                                "startDate",
-                                e.target.value,
-                              )
-                            }
-                            className="w-full bg-gray-600 text-white px-3 py-1 rounded"
-                          />
-                        </div>
+                      <div>
+                        <label className="block text-gray-300 text-sm mb-1">
+                          Setting
+                        </label>
+                        <input
+                          type="text"
+                          value={campaign.setting || ""}
+                          onChange={(e) =>
+                            updateCampaign(
+                              campaign.id,
+                              "setting",
+                              e.target.value,
+                            )
+                          }
+                          className="w-full bg-gray-600 text-white px-3 py-1 rounded"
+                          placeholder="z.B. Forgotten Realms"
+                        />
                       </div>
 
                       <div>
@@ -613,6 +594,32 @@ export default function AdminPanel({ data, onSave, onClose }) {
                           className="w-full bg-gray-600 text-white px-3 py-2 rounded"
                           placeholder="Kampagnen-Beschreibung..."
                         />
+                      </div>
+
+                      <div>
+                        <label className="block text-gray-300 text-sm mb-1">
+                          Banner-Bild (URL)
+                        </label>
+                        <input
+                          type="text"
+                          value={campaign.image || ""}
+                          onChange={(e) =>
+                            updateCampaign(
+                              campaign.id,
+                              "image",
+                              e.target.value,
+                            )
+                          }
+                          className="w-full bg-gray-600 text-white px-3 py-1 rounded"
+                          placeholder="https://... oder /images/..."
+                        />
+                        {campaign.image && (
+                          <img
+                            src={campaign.image}
+                            alt="Vorschau"
+                            className="mt-2 h-24 w-full object-cover rounded opacity-80"
+                          />
+                        )}
                       </div>
 
                       {/* Sessions Section */}
@@ -677,7 +684,7 @@ export default function AdminPanel({ data, onSave, onClose }) {
 
                               {editingItem === session.id && (
                                 <div className="space-y-2">
-                                  <div className="grid grid-cols-2 gap-2">
+                                  <div className="grid grid-cols-3 gap-2">
                                     <div>
                                       <label className="block text-gray-300 text-xs mb-1">
                                         Datum
@@ -695,6 +702,27 @@ export default function AdminPanel({ data, onSave, onClose }) {
                                         }
                                         className="w-full bg-gray-500 text-white px-2 py-1 rounded text-sm"
                                       />
+                                    </div>
+                                    <div>
+                                      <label className="block text-gray-300 text-xs mb-1">
+                                        Status
+                                      </label>
+                                      <select
+                                        value={session.status || "active"}
+                                        onChange={(e) =>
+                                          updateSession(
+                                            campaign.id,
+                                            session.id,
+                                            "status",
+                                            e.target.value,
+                                          )
+                                        }
+                                        className="w-full bg-gray-500 text-white px-2 py-1 rounded text-sm"
+                                      >
+                                        <option value="active">Aktiv</option>
+                                        <option value="paused">Pausiert</option>
+                                        <option value="completed">Abgeschlossen</option>
+                                      </select>
                                     </div>
                                     <div>
                                       <label className="block text-gray-300 text-xs mb-1">

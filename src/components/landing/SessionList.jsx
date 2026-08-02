@@ -53,6 +53,15 @@ export default function SessionList({ sessions }) {
                 )}
               </div>
             </div>
+            {session.status && session.status !== "active" && (
+              <span className={`px-3 py-1 rounded-full text-xs font-semibold shrink-0 ${
+                session.status === "completed"
+                  ? "bg-blue-500/20 text-blue-400"
+                  : "bg-yellow-500/20 text-yellow-400"
+              }`}>
+                {session.status === "completed" ? "Abgeschlossen" : "Pausiert"}
+              </span>
+            )}
           </div>
 
           {/* Session Summary */}

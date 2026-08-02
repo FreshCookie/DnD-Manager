@@ -1,16 +1,8 @@
 import React from "react";
-import { ArrowLeft, Calendar, MapPin, User, Sword } from "lucide-react";
+import { ArrowLeft, MapPin, User, Sword } from "lucide-react";
 import SessionList from "./SessionList";
 
 export default function CampaignDetailView({ campaign, onBack }) {
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("de-DE", {
-      year: "numeric",
-      month: "long",
-    });
-  };
-
   return (
     <div className="min-h-screen">
       {/* Back Button */}
@@ -44,12 +36,6 @@ export default function CampaignDetailView({ campaign, onBack }) {
             <div className="flex items-center gap-2">
               <MapPin className="w-5 h-5 text-purple-400" />
               <span>{campaign.setting}</span>
-            </div>
-          )}
-          {campaign.startDate && (
-            <div className="flex items-center gap-2">
-              <Calendar className="w-5 h-5 text-green-400" />
-              <span>Seit {formatDate(campaign.startDate)}</span>
             </div>
           )}
           {campaign.status === "active" && (
