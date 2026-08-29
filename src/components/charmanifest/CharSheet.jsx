@@ -3,8 +3,10 @@ import {
   AlertTriangle,
   ArrowLeft,
   Check,
+  ChevronDown,
   ChevronLeft,
   ChevronRight,
+  ChevronUp,
   Coins,
   Loader2,
   Minus,
@@ -16,6 +18,7 @@ import AbilityList from "./AbilityList";
 import EquipmentList from "./EquipmentList";
 import InventoryList from "./InventoryList";
 import DebtList from "./DebtList";
+import { moveEntry } from "./listReorder";
 import {
   compressImage,
   saveAdminChar,
@@ -31,6 +34,19 @@ const Card = ({ title, children, className = "" }) => (
     </h3>
     {children}
   </div>
+);
+
+const Toggle = ({ checked, onChange }) => (
+  <button
+    type="button"
+    onClick={onChange}
+    aria-pressed={checked}
+    className={`relative w-10 h-5 rounded-full transition-colors shrink-0 ${checked ? "bg-amber-600" : "bg-gray-700"}`}
+  >
+    <span
+      className={`absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white transition-transform ${checked ? "translate-x-5" : "translate-x-0"}`}
+    />
+  </button>
 );
 
 const NumberField = ({ label, value, onCommit }) => {
@@ -223,6 +239,18 @@ const CharSheet = ({ char: initialChar, adminCtx, onBack }) => {
     }));
   const removeSkill = (idx) =>
     apply((prev) => ({ ...prev, skills: prev.skills.filter((_, i) => i !== idx) }));
+  const moveSkill = (idx, direction) =>
+    apply((prev) => ({ ...prev, skills: moveEntry(prev.skills, idx, direction) }));
+
+  const skillModifiersEnabled = !!char.skillModifiersEnabled;
+  const toggleSkillModifiers = () =>
+    apply((prev) => ({ ...prev, skillModifiersEnabled: !prev.skillModifiersEnabled }));
+  const bumpSkillModifier = (idx, delta) =>
+    apply((prev) => {
+      const skills = [...prev.skills];
+      skills[idx] = { ...skills[idx], modifier: (skills[idx].modifier || 0) + delta };
+      return { ...prev, skills };
+    });
 
   return (
     <div className="max-w-4xl mx-auto space-y-4">
@@ -513,6 +541,10 @@ const CharSheet = ({ char: initialChar, adminCtx, onBack }) => {
 
       {/* Skills */}
       <Card title="Skills">
+        <div className="flex items-center justify-end gap-2 mb-3 -mt-1">
+          <span className="text-[10px] uppercase tracking-wide text-gray-400">Modifikator-Anzeige</span>
+          <Toggle checked={skillModifiersEnabled} onChange={toggleSkillModifiers} />
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {char.skills.map((s, idx) => (
             <div
@@ -550,6 +582,44 @@ const CharSheet = ({ char: initialChar, adminCtx, onBack }) => {
                 </button>
               )}
               <div className="flex items-center gap-1 shrink-0">
+                <button
+                  onClick={() => moveSkill(idx, -1)}
+                  disabled={idx === 0}
+                  className="text-gray-500 hover:text-amber-400 disabled:opacity-20 disabled:hover:text-gray-500"
+                  aria-label="Nach oben verschieben"
+                >
+                  <ChevronUp className="w-3.5 h-3.5" />
+                </button>
+                <button
+                  onClick={() => moveSkill(idx, 1)}
+                  disabled={idx === char.skills.length - 1}
+                  className="text-gray-500 hover:text-amber-400 disabled:opacity-20 disabled:hover:text-gray-500"
+                  aria-label="Nach unten verschieben"
+                >
+                  <ChevronDown className="w-3.5 h-3.5" />
+                </button>
+                {skillModifiersEnabled && (
+                  <>
+                    <button
+                      onClick={() => bumpSkillModifier(idx, -1)}
+                      className="w-5 h-5 rounded bg-gray-700 hover:bg-gray-600 flex items-center justify-center"
+                      aria-label="Modifikator verringern"
+                    >
+                      <Minus className="w-3 h-3" />
+                    </button>
+                    <span className="w-7 text-center text-xs font-semibold text-purple-300">
+                      {(s.modifier || 0) >= 0 ? "+" : ""}
+                      {s.modifier || 0}
+                    </span>
+                    <button
+                      onClick={() => bumpSkillModifier(idx, 1)}
+                      className="w-5 h-5 rounded bg-gray-700 hover:bg-gray-600 flex items-center justify-center"
+                      aria-label="Modifikator erhöhen"
+                    >
+                      <Plus className="w-3 h-3" />
+                    </button>
+                  </>
+                )}
                 <button
                   onClick={() => bumpSkill(idx, -1)}
                   className="w-5 h-5 rounded bg-gray-700 hover:bg-gray-600 flex items-center justify-center"

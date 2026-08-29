@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Check, Pencil, Plus, X } from "lucide-react";
+import { Check, ChevronDown, ChevronUp, Pencil, Plus, X } from "lucide-react";
+import { isFirstInGroup, isLastInGroup, moveEntry } from "./listReorder";
 
 const CATEGORIES = ["Waffe", "Rüstung", "Schild", "Sonstiges"];
 
@@ -56,7 +57,7 @@ const EntryForm = ({ draft, setDraft, onCommit, onCancel }) => (
   </div>
 );
 
-const Entry = ({ item, onEdit, onRemove }) => (
+const Entry = ({ item, onEdit, onRemove, onMoveUp, onMoveDown, canMoveUp, canMoveDown }) => (
   <div className="bg-gray-900/50 border border-purple-500/10 rounded-lg px-3 py-2">
     <div className="flex items-start justify-between gap-2">
       <div className="min-w-0">
@@ -73,6 +74,22 @@ const Entry = ({ item, onEdit, onRemove }) => (
         )}
       </div>
       <div className="flex items-center gap-1 shrink-0">
+        <button
+          onClick={onMoveUp}
+          disabled={!canMoveUp}
+          className="text-gray-500 hover:text-amber-400 disabled:opacity-20 disabled:hover:text-gray-500"
+          aria-label="Nach oben verschieben"
+        >
+          <ChevronUp className="w-3.5 h-3.5" />
+        </button>
+        <button
+          onClick={onMoveDown}
+          disabled={!canMoveDown}
+          className="text-gray-500 hover:text-amber-400 disabled:opacity-20 disabled:hover:text-gray-500"
+          aria-label="Nach unten verschieben"
+        >
+          <ChevronDown className="w-3.5 h-3.5" />
+        </button>
         <button onClick={onEdit} className="text-gray-400 hover:text-amber-400" aria-label="Bearbeiten">
           <Pencil className="w-3.5 h-3.5" />
         </button>
@@ -105,6 +122,7 @@ const EquipmentList = ({ items, onChange }) => {
   };
 
   const remove = (idx) => onChange(items.filter((_, i) => i !== idx));
+  const move = (idx, direction) => onChange(moveEntry(items, idx, direction, (it) => it.category));
 
   const startAdd = () => {
     setEditingIdx(null);
@@ -148,6 +166,10 @@ const EquipmentList = ({ items, onChange }) => {
                     item={item}
                     onEdit={() => startEdit(idx)}
                     onRemove={() => remove(idx)}
+                    onMoveUp={() => move(idx, -1)}
+                    onMoveDown={() => move(idx, 1)}
+                    canMoveUp={!isFirstInGroup(items, idx, (it) => it.category)}
+                    canMoveDown={!isLastInGroup(items, idx, (it) => it.category)}
                   />
                 ),
               )}

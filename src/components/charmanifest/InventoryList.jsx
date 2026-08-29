@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Check, Pencil, Plus, X } from "lucide-react";
+import { Check, ChevronDown, ChevronUp, Pencil, Plus, X } from "lucide-react";
+import { isFirstInGroup, isLastInGroup, moveEntry } from "./listReorder";
 
 const blankEntry = () => ({ name: "", description: "" });
 
@@ -55,6 +56,7 @@ const InventoryList = ({ items, onChange }) => {
   };
 
   const remove = (idx) => onChange(items.filter((_, i) => i !== idx));
+  const move = (idx, direction) => onChange(moveEntry(items, idx, direction));
 
   const startAdd = () => {
     setEditingIdx(null);
@@ -96,6 +98,22 @@ const InventoryList = ({ items, onChange }) => {
                 )}
               </div>
               <div className="flex items-center gap-1 shrink-0">
+                <button
+                  onClick={() => move(idx, -1)}
+                  disabled={isFirstInGroup(items, idx)}
+                  className="text-gray-500 hover:text-amber-400 disabled:opacity-20 disabled:hover:text-gray-500"
+                  aria-label="Nach oben verschieben"
+                >
+                  <ChevronUp className="w-3.5 h-3.5" />
+                </button>
+                <button
+                  onClick={() => move(idx, 1)}
+                  disabled={isLastInGroup(items, idx)}
+                  className="text-gray-500 hover:text-amber-400 disabled:opacity-20 disabled:hover:text-gray-500"
+                  aria-label="Nach unten verschieben"
+                >
+                  <ChevronDown className="w-3.5 h-3.5" />
+                </button>
                 <button
                   onClick={() => startEdit(idx)}
                   className="text-gray-400 hover:text-amber-400"
