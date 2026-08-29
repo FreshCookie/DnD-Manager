@@ -3,10 +3,8 @@ import {
   AlertTriangle,
   ArrowLeft,
   Check,
-  ChevronDown,
   ChevronLeft,
   ChevronRight,
-  ChevronUp,
   Coins,
   Loader2,
   Minus,
@@ -18,7 +16,6 @@ import AbilityList from "./AbilityList";
 import EquipmentList from "./EquipmentList";
 import InventoryList from "./InventoryList";
 import DebtList from "./DebtList";
-import { moveEntry } from "./listReorder";
 import {
   compressImage,
   saveAdminChar,
@@ -239,8 +236,6 @@ const CharSheet = ({ char: initialChar, adminCtx, onBack }) => {
     }));
   const removeSkill = (idx) =>
     apply((prev) => ({ ...prev, skills: prev.skills.filter((_, i) => i !== idx) }));
-  const moveSkill = (idx, direction) =>
-    apply((prev) => ({ ...prev, skills: moveEntry(prev.skills, idx, direction) }));
 
   const skillModifiersEnabled = !!char.skillModifiersEnabled;
   const toggleSkillModifiers = () =>
@@ -582,22 +577,6 @@ const CharSheet = ({ char: initialChar, adminCtx, onBack }) => {
                 </button>
               )}
               <div className="flex items-center gap-1 shrink-0">
-                <button
-                  onClick={() => moveSkill(idx, -1)}
-                  disabled={idx === 0}
-                  className="text-gray-500 hover:text-amber-400 disabled:opacity-20 disabled:hover:text-gray-500"
-                  aria-label="Nach oben verschieben"
-                >
-                  <ChevronUp className="w-3.5 h-3.5" />
-                </button>
-                <button
-                  onClick={() => moveSkill(idx, 1)}
-                  disabled={idx === char.skills.length - 1}
-                  className="text-gray-500 hover:text-amber-400 disabled:opacity-20 disabled:hover:text-gray-500"
-                  aria-label="Nach unten verschieben"
-                >
-                  <ChevronDown className="w-3.5 h-3.5" />
-                </button>
                 {skillModifiersEnabled && (
                   <>
                     <button
