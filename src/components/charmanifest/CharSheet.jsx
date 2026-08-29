@@ -38,7 +38,8 @@ const Toggle = ({ checked, onChange }) => (
     type="button"
     onClick={onChange}
     aria-pressed={checked}
-    className={`relative w-10 h-5 rounded-full transition-colors shrink-0 ${checked ? "bg-amber-600" : "bg-gray-700"}`}
+    className={`relative inline-block w-10 h-5 p-0 m-0 border-0 appearance-none shrink-0 rounded-full transition-colors ${checked ? "bg-amber-600" : "bg-gray-700"}`}
+    style={{ WebkitAppearance: "none" }}
   >
     <span
       className={`absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white transition-transform ${checked ? "translate-x-5" : "translate-x-0"}`}
