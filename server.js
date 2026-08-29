@@ -39,7 +39,8 @@ try {
 app.use(express.json({ limit: "50mb" }));
 app.use(cookieParser());
 
-// Stelle sicher dass der data Ordner existiert
+// Stelle sicher dass der data Ordner existiert (einmalig beim Start, vor dem
+// ersten Request - synchron hier ist unproblematisch).
 if (!fs.existsSync(path.join(__dirname, "data"))) {
   fs.mkdirSync(path.join(__dirname, "data"));
 }
@@ -69,11 +70,54 @@ if (!fs.existsSync(DATA_FILE)) {
   );
 }
 
+// ============================================================================
+// ASYNCHRONE DATEI-HELFER
+// ============================================================================
+// Alles lief bisher über fs.*Sync, was den kompletten (single-threaded) Node-
+// Prozess fuer die Dauer jedes Lese-/Schreibvorgangs blockiert hat - jede
+// andere gleichzeitige Anfrage (z.B. ein Char-Manifest laden, waehrend der GM
+// die Session speichert) musste warten. Mit fs.promises blockiert das nicht
+// mehr global. Damit das aber nicht zu Race Conditions fuehrt (zwei Requests
+// lesen dieselbe Datei, aendern sie unabhaengig und der zweite Schreibvorgang
+// ueberschreibt den ersten), werden Zugriffe auf DIESELBE Datei ueber eine
+// kleine Warteschlange weiterhin strikt nacheinander ausgefuehrt. Zugriffe
+// auf UNTERSCHIEDLICHE Dateien blockieren sich dabei nicht mehr gegenseitig.
+const fileLocks = new Map();
+function withFileLock(filePath, task) {
+  const previous = fileLocks.get(filePath) || Promise.resolve();
+  const next = previous.then(task, task);
+  fileLocks.set(
+    filePath,
+    next.catch(() => {}),
+  );
+  return next;
+}
+
+async function readJsonFile(filePath, fallback) {
+  return withFileLock(filePath, async () => {
+    try {
+      const raw = await fs.promises.readFile(filePath, "utf8");
+      return JSON.parse(raw);
+    } catch (error) {
+      if (error.code === "ENOENT" && fallback !== undefined) {
+        await fs.promises.writeFile(filePath, JSON.stringify(fallback, null, 2));
+        return fallback;
+      }
+      throw error;
+    }
+  });
+}
+
+async function writeJsonFile(filePath, data) {
+  return withFileLock(filePath, () =>
+    fs.promises.writeFile(filePath, JSON.stringify(data, null, 2)),
+  );
+}
+
 // GET - Lade Daten
-app.get("/api/data", (req, res) => {
+app.get("/api/data", async (req, res) => {
   try {
-    const data = fs.readFileSync(DATA_FILE, "utf8");
-    const parsedData = JSON.parse(data);
+    const parsedData = await readJsonFile(DATA_FILE);
 
     // Cache-Control: Bei Änderungen neu laden, aber kurzes Caching erlauben
     res.setHeader("Cache-Control", "public, max-age=5, must-revalidate");
@@ -87,9 +131,9 @@ app.get("/api/data", (req, res) => {
 });
 
 // POST - Speichere Daten
-app.post("/api/data", (req, res) => {
+app.post("/api/data", async (req, res) => {
   try {
-    fs.writeFileSync(DATA_FILE, JSON.stringify(req.body, null, 2));
+    await writeJsonFile(DATA_FILE, req.body);
     res.json({ success: true, message: "Daten erfolgreich gespeichert" });
   } catch (error) {
     console.error("Fehler beim Speichern der Daten:", error);
@@ -101,36 +145,31 @@ app.post("/api/data", (req, res) => {
 // LANDING PAGE ENDPOINTS
 // ============================================================================
 
-// GET - Lade Landing Page Daten
-app.get("/api/landing-data", (req, res) => {
-  try {
-    // Erstelle Datei falls nicht vorhanden
-    if (!fs.existsSync(LANDING_DATA_FILE)) {
-      const initialData = {
-        siteInfo: {
-          title: "Wietzendorf Landnerds",
-          subtitle: "Unsere epische D&D Kampagne",
-          description: "Willkommen bei den Wietzendorf Landnerds!",
-          welcomeText: "Willkommen!",
-          campaignName: "",
-          dm: "MasterCookie",
-        },
-        gameMasters: [],
-        campaigns: [],
-        members: [],
-        sessions: [],
-        events: [],
-        about: {
-          story: "",
-          playStyle: "",
-          schedule: "",
-        },
-      };
-      fs.writeFileSync(LANDING_DATA_FILE, JSON.stringify(initialData, null, 2));
-    }
+const DEFAULT_LANDING_DATA = {
+  siteInfo: {
+    title: "Wietzendorf Landnerds",
+    subtitle: "Unsere epische D&D Kampagne",
+    description: "Willkommen bei den Wietzendorf Landnerds!",
+    welcomeText: "Willkommen!",
+    campaignName: "",
+    dm: "MasterCookie",
+  },
+  gameMasters: [],
+  campaigns: [],
+  members: [],
+  sessions: [],
+  events: [],
+  about: {
+    story: "",
+    playStyle: "",
+    schedule: "",
+  },
+};
 
-    const data = fs.readFileSync(LANDING_DATA_FILE, "utf8");
-    const parsedData = JSON.parse(data);
+// GET - Lade Landing Page Daten
+app.get("/api/landing-data", async (req, res) => {
+  try {
+    const parsedData = await readJsonFile(LANDING_DATA_FILE, DEFAULT_LANDING_DATA);
 
     res.setHeader("Cache-Control", "public, max-age=60");
     res.json(parsedData);
@@ -141,9 +180,9 @@ app.get("/api/landing-data", (req, res) => {
 });
 
 // POST - Speichere Landing Page Daten (nur für GM)
-app.post("/api/landing-data", (req, res) => {
+app.post("/api/landing-data", async (req, res) => {
   try {
-    fs.writeFileSync(LANDING_DATA_FILE, JSON.stringify(req.body, null, 2));
+    await writeJsonFile(LANDING_DATA_FILE, req.body);
     res.json({
       success: true,
       message: "Landing-Daten erfolgreich gespeichert",
@@ -156,8 +195,8 @@ app.post("/api/landing-data", (req, res) => {
 
 // POST - Bild hochladen (nur GM), erwartet { dataUrl: "data:image/jpeg;base64,..." }
 const UPLOADS_DIR = path.join(__dirname, "public", "images", "uploads");
-app.post("/api/admin/upload-image", (req, res) => {
-  const session = getSessionUser(req);
+app.post("/api/admin/upload-image", async (req, res) => {
+  const session = await getSessionUser(req);
   if (!session || session.role !== "gm") {
     return res.status(403).json({ error: "Nur GMs können Bilder hochladen" });
   }
@@ -171,7 +210,10 @@ app.post("/api/admin/upload-image", (req, res) => {
     const ext = match[1] === "jpg" ? "jpeg" : match[1];
     if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR, { recursive: true });
     const filename = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-    fs.writeFileSync(path.join(UPLOADS_DIR, filename), Buffer.from(match[2], "base64"));
+    await fs.promises.writeFile(
+      path.join(UPLOADS_DIR, filename),
+      Buffer.from(match[2], "base64"),
+    );
     res.json({ success: true, url: `/images/uploads/${filename}` });
   } catch (error) {
     console.error("Fehler beim Bild-Upload:", error);
@@ -180,10 +222,9 @@ app.post("/api/admin/upload-image", (req, res) => {
 });
 
 // POST - Neue Session hinzufügen
-app.post("/api/landing/sessions", (req, res) => {
+app.post("/api/landing/sessions", async (req, res) => {
   try {
-    const data = fs.readFileSync(LANDING_DATA_FILE, "utf8");
-    const landingData = JSON.parse(data);
+    const landingData = await readJsonFile(LANDING_DATA_FILE, DEFAULT_LANDING_DATA);
 
     const newSession = {
       id: Date.now(),
@@ -193,7 +234,7 @@ app.post("/api/landing/sessions", (req, res) => {
 
     landingData.sessions.unshift(newSession); // Neueste zuerst
 
-    fs.writeFileSync(LANDING_DATA_FILE, JSON.stringify(landingData, null, 2));
+    await writeJsonFile(LANDING_DATA_FILE, landingData);
     res.json({ success: true, session: newSession });
   } catch (error) {
     console.error("Fehler beim Hinzufügen der Session:", error);
@@ -202,11 +243,10 @@ app.post("/api/landing/sessions", (req, res) => {
 });
 
 // PUT - Session aktualisieren
-app.put("/api/landing/sessions/:id", (req, res) => {
+app.put("/api/landing/sessions/:id", async (req, res) => {
   try {
     const sessionId = parseInt(req.params.id);
-    const data = fs.readFileSync(LANDING_DATA_FILE, "utf8");
-    const landingData = JSON.parse(data);
+    const landingData = await readJsonFile(LANDING_DATA_FILE, DEFAULT_LANDING_DATA);
 
     const sessionIndex = landingData.sessions.findIndex(
       (s) => s.id === sessionId,
@@ -221,7 +261,7 @@ app.put("/api/landing/sessions/:id", (req, res) => {
       id: sessionId,
     };
 
-    fs.writeFileSync(LANDING_DATA_FILE, JSON.stringify(landingData, null, 2));
+    await writeJsonFile(LANDING_DATA_FILE, landingData);
     res.json({ success: true, session: landingData.sessions[sessionIndex] });
   } catch (error) {
     console.error("Fehler beim Aktualisieren der Session:", error);
@@ -230,17 +270,16 @@ app.put("/api/landing/sessions/:id", (req, res) => {
 });
 
 // DELETE - Session löschen
-app.delete("/api/landing/sessions/:id", (req, res) => {
+app.delete("/api/landing/sessions/:id", async (req, res) => {
   try {
     const sessionId = parseInt(req.params.id);
-    const data = fs.readFileSync(LANDING_DATA_FILE, "utf8");
-    const landingData = JSON.parse(data);
+    const landingData = await readJsonFile(LANDING_DATA_FILE, DEFAULT_LANDING_DATA);
 
     landingData.sessions = landingData.sessions.filter(
       (s) => s.id !== sessionId,
     );
 
-    fs.writeFileSync(LANDING_DATA_FILE, JSON.stringify(landingData, null, 2));
+    await writeJsonFile(LANDING_DATA_FILE, landingData);
     res.json({ success: true });
   } catch (error) {
     console.error("Fehler beim Löschen der Session:", error);
@@ -252,27 +291,22 @@ app.delete("/api/landing/sessions/:id", (req, res) => {
 // AUTH ENDPOINTS
 // ============================================================================
 
+const DEFAULT_USERS_DATA = () => ({
+  users: [
+    {
+      id: "gm_mastercookie",
+      username: "MasterCookie",
+      passwordHash: bcrypt.hashSync("020266140297", 10),
+      role: "gm",
+      createdAt: Date.now(),
+    },
+  ],
+});
+
 // Helper: Lade Users
-const loadUsers = () => {
+const loadUsers = async () => {
   try {
-    if (!fs.existsSync(USERS_FILE)) {
-      const initialHash = bcrypt.hashSync("020266140297", 10);
-      const initialData = {
-        users: [
-          {
-            id: "gm_mastercookie",
-            username: "MasterCookie",
-            passwordHash: initialHash,
-            role: "gm",
-            createdAt: Date.now(),
-          },
-        ],
-      };
-      fs.writeFileSync(USERS_FILE, JSON.stringify(initialData, null, 2));
-      return initialData.users;
-    }
-    const data = fs.readFileSync(USERS_FILE, "utf8");
-    return JSON.parse(data).users;
+    return (await readJsonFile(USERS_FILE, DEFAULT_USERS_DATA())).users;
   } catch (error) {
     console.error("Fehler beim Laden der Users:", error);
     return [];
@@ -280,9 +314,9 @@ const loadUsers = () => {
 };
 
 // Helper: Speichere Users
-const saveUsers = (users) => {
+const saveUsers = async (users) => {
   try {
-    fs.writeFileSync(USERS_FILE, JSON.stringify({ users }, null, 2));
+    await writeJsonFile(USERS_FILE, { users });
     return true;
   } catch (error) {
     console.error("Fehler beim Speichern der Users:", error);
@@ -291,17 +325,9 @@ const saveUsers = (users) => {
 };
 
 // Helper: Lade Sessions
-const loadSessions = () => {
+const loadSessions = async () => {
   try {
-    if (!fs.existsSync(SESSIONS_FILE)) {
-      fs.writeFileSync(
-        SESSIONS_FILE,
-        JSON.stringify({ sessions: [] }, null, 2),
-      );
-      return [];
-    }
-    const data = fs.readFileSync(SESSIONS_FILE, "utf8");
-    return JSON.parse(data).sessions;
+    return (await readJsonFile(SESSIONS_FILE, { sessions: [] })).sessions;
   } catch (error) {
     console.error("Fehler beim Laden der Sessions:", error);
     return [];
@@ -309,9 +335,9 @@ const loadSessions = () => {
 };
 
 // Helper: Speichere Sessions
-const saveSessions = (sessions) => {
+const saveSessions = async (sessions) => {
   try {
-    fs.writeFileSync(SESSIONS_FILE, JSON.stringify({ sessions }, null, 2));
+    await writeJsonFile(SESSIONS_FILE, { sessions });
     return true;
   } catch (error) {
     console.error("Fehler beim Speichern der Sessions:", error);
@@ -319,29 +345,25 @@ const saveSessions = (sessions) => {
   }
 };
 
+const DEFAULT_SESSION_DATA = {
+  cities: [],
+  stories: [],
+  npcs: [],
+  locations: [],
+  items: [],
+  intros: [],
+  theme: "dark",
+  sessionTimes: {},
+  players: [],
+  companions: [],
+  activePlayers: [],
+  subLocations: [],
+};
+
 // Helper: Lade Session Data (character data)
-const loadData = () => {
+const loadData = async () => {
   try {
-    if (!fs.existsSync(DATA_FILE)) {
-      const initialData = {
-        cities: [],
-        stories: [],
-        npcs: [],
-        locations: [],
-        items: [],
-        intros: [],
-        theme: "dark",
-        sessionTimes: {},
-        players: [],
-        companions: [],
-        activePlayers: [],
-        subLocations: [],
-      };
-      fs.writeFileSync(DATA_FILE, JSON.stringify(initialData, null, 2));
-      return initialData;
-    }
-    const data = fs.readFileSync(DATA_FILE, "utf8");
-    return JSON.parse(data);
+    return await readJsonFile(DATA_FILE, DEFAULT_SESSION_DATA);
   } catch (error) {
     console.error("Fehler beim Laden der Session-Daten:", error);
     throw error;
@@ -349,9 +371,9 @@ const loadData = () => {
 };
 
 // Helper: Speichere Session Data
-const saveData = (sessionData) => {
+const saveData = async (sessionData) => {
   try {
-    fs.writeFileSync(DATA_FILE, JSON.stringify(sessionData, null, 2));
+    await writeJsonFile(DATA_FILE, sessionData);
     return true;
   } catch (error) {
     console.error("Fehler beim Speichern der Session-Daten:", error);
@@ -365,7 +387,7 @@ const generateId = () => {
 };
 
 // POST /api/auth/login - Login für GM und Spieler
-app.post("/api/auth/login", (req, res) => {
+app.post("/api/auth/login", async (req, res) => {
   try {
     const { username, password } = req.body;
 
@@ -375,7 +397,7 @@ app.post("/api/auth/login", (req, res) => {
         .json({ error: "Username und Passwort erforderlich" });
     }
 
-    const users = loadUsers();
+    const users = await loadUsers();
     const user = users.find((u) => u.username === username);
 
     if (!user) {
@@ -390,7 +412,7 @@ app.post("/api/auth/login", (req, res) => {
 
     // Erstelle Session
     const sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    const sessions = loadSessions();
+    const sessions = await loadSessions();
 
     const newSession = {
       sessionId,
@@ -403,7 +425,7 @@ app.post("/api/auth/login", (req, res) => {
     };
 
     sessions.push(newSession);
-    saveSessions(sessions);
+    await saveSessions(sessions);
 
     // Set cookie
     res.cookie("sessionId", sessionId, {
@@ -429,7 +451,7 @@ app.post("/api/auth/login", (req, res) => {
 });
 
 // POST /api/auth/register - Registrierung für Spieler
-app.post("/api/auth/register", (req, res) => {
+app.post("/api/auth/register", async (req, res) => {
   try {
     const { username, password, selectedCharacters } = req.body;
 
@@ -439,7 +461,7 @@ app.post("/api/auth/register", (req, res) => {
         .json({ error: "Username und Passwort erforderlich" });
     }
 
-    const users = loadUsers();
+    const users = await loadUsers();
 
     // Prüfe ob Username bereits existiert
     if (users.find((u) => u.username === username)) {
@@ -459,11 +481,11 @@ app.post("/api/auth/register", (req, res) => {
     };
 
     users.push(newUser);
-    saveUsers(users);
+    await saveUsers(users);
 
     // Create session and set cookie
     const sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    const sessions = loadSessions();
+    const sessions = await loadSessions();
 
     const newSession = {
       sessionId,
@@ -476,7 +498,7 @@ app.post("/api/auth/register", (req, res) => {
     };
 
     sessions.push(newSession);
-    saveSessions(sessions);
+    await saveSessions(sessions);
 
     res.cookie("sessionId", sessionId, {
       httpOnly: true,
@@ -502,7 +524,7 @@ app.post("/api/auth/register", (req, res) => {
 });
 
 // POST /api/auth/join-session - Spieler wählt Charakter und tritt Session bei
-app.post("/api/auth/join-session", (req, res) => {
+app.post("/api/auth/join-session", async (req, res) => {
   try {
     const { characterId } = req.body;
     const sessionId = req.cookies.sessionId;
@@ -513,7 +535,7 @@ app.post("/api/auth/join-session", (req, res) => {
         .json({ error: "SessionId und CharacterId erforderlich" });
     }
 
-    const sessions = loadSessions();
+    const sessions = await loadSessions();
     const session = sessions.find((s) => s.sessionId === sessionId);
 
     if (!session) {
@@ -524,7 +546,7 @@ app.post("/api/auth/join-session", (req, res) => {
     session.character = characterId;
     session.lastActivity = Date.now();
 
-    saveSessions(sessions);
+    await saveSessions(sessions);
 
     res.json({
       success: true,
@@ -538,7 +560,7 @@ app.post("/api/auth/join-session", (req, res) => {
 });
 
 // POST /api/auth/logout - Einzelner Logout
-app.post("/api/auth/logout", (req, res) => {
+app.post("/api/auth/logout", async (req, res) => {
   try {
     const sessionId = req.cookies.sessionId;
 
@@ -546,9 +568,9 @@ app.post("/api/auth/logout", (req, res) => {
       return res.status(400).json({ error: "SessionId erforderlich" });
     }
 
-    let sessions = loadSessions();
+    let sessions = await loadSessions();
     sessions = sessions.filter((s) => s.sessionId !== sessionId);
-    saveSessions(sessions);
+    await saveSessions(sessions);
 
     // Clear cookie
     res.clearCookie("sessionId");
@@ -561,7 +583,7 @@ app.post("/api/auth/logout", (req, res) => {
 });
 
 // POST /api/auth/logout-all - GM loggt alle Spieler aus
-app.post("/api/auth/logout-all", (req, res) => {
+app.post("/api/auth/logout-all", async (req, res) => {
   try {
     const sessionId = req.cookies.sessionId;
 
@@ -569,7 +591,7 @@ app.post("/api/auth/logout-all", (req, res) => {
       return res.status(401).json({ error: "Nicht autorisiert" });
     }
 
-    const sessions = loadSessions();
+    const sessions = await loadSessions();
     const gmSession = sessions.find((s) => s.sessionId === sessionId);
 
     if (!gmSession || gmSession.role !== "gm") {
@@ -580,7 +602,7 @@ app.post("/api/auth/logout-all", (req, res) => {
 
     // Entferne alle Player-Sessions, behalte GM-Session
     const newSessions = sessions.filter((s) => s.role === "gm");
-    saveSessions(newSessions);
+    await saveSessions(newSessions);
 
     res.json({ success: true, message: "Alle Spieler ausgeloggt" });
   } catch (error) {
@@ -590,7 +612,7 @@ app.post("/api/auth/logout-all", (req, res) => {
 });
 
 // GET /api/auth/online-players - GM sieht online Spieler
-app.get("/api/auth/online-players", (req, res) => {
+app.get("/api/auth/online-players", async (req, res) => {
   try {
     const sessionId = req.cookies.sessionId;
 
@@ -598,7 +620,7 @@ app.get("/api/auth/online-players", (req, res) => {
       return res.status(401).json({ error: "Nicht autorisiert" });
     }
 
-    const sessions = loadSessions();
+    const sessions = await loadSessions();
     const gmSession = sessions.find((s) => s.sessionId === sessionId);
 
     if (!gmSession || gmSession.role !== "gm") {
@@ -620,7 +642,7 @@ app.get("/api/auth/online-players", (req, res) => {
 });
 
 // POST /api/auth/verify-session - Prüfe ob Session noch gültig
-app.post("/api/auth/verify-session", (req, res) => {
+app.post("/api/auth/verify-session", async (req, res) => {
   try {
     const sessionId = req.cookies.sessionId;
 
@@ -630,7 +652,7 @@ app.post("/api/auth/verify-session", (req, res) => {
         .json({ error: "SessionId erforderlich", valid: false });
     }
 
-    const sessions = loadSessions();
+    const sessions = await loadSessions();
     const session = sessions.find((s) => s.sessionId === sessionId);
 
     if (!session) {
@@ -639,7 +661,7 @@ app.post("/api/auth/verify-session", (req, res) => {
 
     // Update lastActivity
     session.lastActivity = Date.now();
-    saveSessions(sessions);
+    await saveSessions(sessions);
 
     res.json({
       valid: true,
@@ -652,7 +674,7 @@ app.post("/api/auth/verify-session", (req, res) => {
 });
 
 // PUT /api/characters/:characterId - Update character data
-app.put("/api/characters/:characterId", (req, res) => {
+app.put("/api/characters/:characterId", async (req, res) => {
   try {
     const { characterId } = req.params;
     const { name, class: charClass, race, background, level } = req.body;
@@ -663,7 +685,7 @@ app.put("/api/characters/:characterId", (req, res) => {
       return res.status(401).json({ error: "Nicht angemeldet" });
     }
 
-    const sessions = loadSessions();
+    const sessions = await loadSessions();
     const session = sessions.find((s) => s.sessionId === sessionId);
 
     if (!session) {
@@ -681,7 +703,7 @@ app.put("/api/characters/:characterId", (req, res) => {
     }
 
     // Load session data
-    const sessionData = loadData();
+    const sessionData = await loadData();
 
     if (!sessionData.players || !Array.isArray(sessionData.players)) {
       return res.status(500).json({ error: "Spielerdaten nicht gefunden" });
@@ -725,7 +747,7 @@ app.put("/api/characters/:characterId", (req, res) => {
     }
 
     // Save updated data
-    saveData(sessionData);
+    await saveData(sessionData);
 
     console.log(`✅ Character ${characterId} updated by ${session.username}`);
 
@@ -741,7 +763,7 @@ app.put("/api/characters/:characterId", (req, res) => {
 });
 
 // GET /api/characters/:characterId/notes - Get all notes for a character
-app.get("/api/characters/:characterId/notes", (req, res) => {
+app.get("/api/characters/:characterId/notes", async (req, res) => {
   try {
     const { characterId } = req.params;
     const sessionId = req.cookies.sessionId;
@@ -751,7 +773,7 @@ app.get("/api/characters/:characterId/notes", (req, res) => {
       return res.status(401).json({ error: "Nicht angemeldet" });
     }
 
-    const sessions = loadSessions();
+    const sessions = await loadSessions();
     const session = sessions.find((s) => s.sessionId === sessionId);
 
     if (!session) {
@@ -764,7 +786,7 @@ app.get("/api/characters/:characterId/notes", (req, res) => {
     }
 
     // Load session data
-    const sessionData = loadData();
+    const sessionData = await loadData();
 
     if (!sessionData.players || !Array.isArray(sessionData.players)) {
       return res.status(500).json({ error: "Spielerdaten nicht gefunden" });
@@ -793,7 +815,7 @@ app.get("/api/characters/:characterId/notes", (req, res) => {
 });
 
 // POST /api/characters/:characterId/notes - Create a new note
-app.post("/api/characters/:characterId/notes", (req, res) => {
+app.post("/api/characters/:characterId/notes", async (req, res) => {
   try {
     const { characterId } = req.params;
     const { title, content, category } = req.body;
@@ -804,7 +826,7 @@ app.post("/api/characters/:characterId/notes", (req, res) => {
       return res.status(401).json({ error: "Nicht angemeldet" });
     }
 
-    const sessions = loadSessions();
+    const sessions = await loadSessions();
     const session = sessions.find((s) => s.sessionId === sessionId);
 
     if (!session) {
@@ -822,7 +844,7 @@ app.post("/api/characters/:characterId/notes", (req, res) => {
     }
 
     // Load session data
-    const sessionData = loadData();
+    const sessionData = await loadData();
 
     if (!sessionData.players || !Array.isArray(sessionData.players)) {
       return res.status(500).json({ error: "Spielerdaten nicht gefunden" });
@@ -857,7 +879,7 @@ app.post("/api/characters/:characterId/notes", (req, res) => {
     player.notes.push(newNote);
 
     // Save updated data
-    saveData(sessionData);
+    await saveData(sessionData);
 
     console.log(
       `✅ Note created for character ${characterId} by ${session.username}`,
@@ -875,7 +897,7 @@ app.post("/api/characters/:characterId/notes", (req, res) => {
 });
 
 // PUT /api/characters/:characterId/notes/:noteId - Update a note
-app.put("/api/characters/:characterId/notes/:noteId", (req, res) => {
+app.put("/api/characters/:characterId/notes/:noteId", async (req, res) => {
   try {
     const { characterId, noteId } = req.params;
     const { title, content, category } = req.body;
@@ -886,7 +908,7 @@ app.put("/api/characters/:characterId/notes/:noteId", (req, res) => {
       return res.status(401).json({ error: "Nicht angemeldet" });
     }
 
-    const sessions = loadSessions();
+    const sessions = await loadSessions();
     const session = sessions.find((s) => s.sessionId === sessionId);
 
     if (!session) {
@@ -904,7 +926,7 @@ app.put("/api/characters/:characterId/notes/:noteId", (req, res) => {
     }
 
     // Load session data
-    const sessionData = loadData();
+    const sessionData = await loadData();
 
     if (!sessionData.players || !Array.isArray(sessionData.players)) {
       return res.status(500).json({ error: "Spielerdaten nicht gefunden" });
@@ -943,7 +965,7 @@ app.put("/api/characters/:characterId/notes/:noteId", (req, res) => {
     };
 
     // Save updated data
-    saveData(sessionData);
+    await saveData(sessionData);
 
     console.log(
       `✅ Note ${noteId} updated for character ${characterId} by ${session.username}`,
@@ -961,7 +983,7 @@ app.put("/api/characters/:characterId/notes/:noteId", (req, res) => {
 });
 
 // DELETE /api/characters/:characterId/notes/:noteId - Delete a note
-app.delete("/api/characters/:characterId/notes/:noteId", (req, res) => {
+app.delete("/api/characters/:characterId/notes/:noteId", async (req, res) => {
   try {
     const { characterId, noteId } = req.params;
     const sessionId = req.cookies.sessionId;
@@ -971,7 +993,7 @@ app.delete("/api/characters/:characterId/notes/:noteId", (req, res) => {
       return res.status(401).json({ error: "Nicht angemeldet" });
     }
 
-    const sessions = loadSessions();
+    const sessions = await loadSessions();
     const session = sessions.find((s) => s.sessionId === sessionId);
 
     if (!session) {
@@ -984,7 +1006,7 @@ app.delete("/api/characters/:characterId/notes/:noteId", (req, res) => {
     }
 
     // Load session data
-    const sessionData = loadData();
+    const sessionData = await loadData();
 
     if (!sessionData.players || !Array.isArray(sessionData.players)) {
       return res.status(500).json({ error: "Spielerdaten nicht gefunden" });
@@ -1017,7 +1039,7 @@ app.delete("/api/characters/:characterId/notes/:noteId", (req, res) => {
     player.notes.splice(noteIndex, 1);
 
     // Save updated data
-    saveData(sessionData);
+    await saveData(sessionData);
 
     console.log(
       `✅ Note ${noteId} deleted for character ${characterId} by ${session.username}`,
@@ -1038,7 +1060,7 @@ app.delete("/api/characters/:characterId/notes/:noteId", (req, res) => {
 // ============================================================================
 
 // GET /api/characters/:characterId/abilities - Get all abilities for a character
-app.get("/api/characters/:characterId/abilities", (req, res) => {
+app.get("/api/characters/:characterId/abilities", async (req, res) => {
   try {
     const { characterId } = req.params;
     const sessionId = req.cookies.sessionId;
@@ -1048,7 +1070,7 @@ app.get("/api/characters/:characterId/abilities", (req, res) => {
       return res.status(401).json({ error: "Nicht angemeldet" });
     }
 
-    const sessions = loadSessions();
+    const sessions = await loadSessions();
     const session = sessions.find((s) => s.sessionId === sessionId);
 
     if (!session) {
@@ -1061,7 +1083,7 @@ app.get("/api/characters/:characterId/abilities", (req, res) => {
     }
 
     // Load session data
-    const sessionData = loadData();
+    const sessionData = await loadData();
 
     if (!sessionData.players || !Array.isArray(sessionData.players)) {
       return res.status(500).json({ error: "Spielerdaten nicht gefunden" });
@@ -1090,7 +1112,7 @@ app.get("/api/characters/:characterId/abilities", (req, res) => {
 });
 
 // POST /api/characters/:characterId/abilities - Create a new ability
-app.post("/api/characters/:characterId/abilities", (req, res) => {
+app.post("/api/characters/:characterId/abilities", async (req, res) => {
   try {
     const { characterId } = req.params;
     const { name, description, image } = req.body;
@@ -1101,7 +1123,7 @@ app.post("/api/characters/:characterId/abilities", (req, res) => {
       return res.status(401).json({ error: "Nicht angemeldet" });
     }
 
-    const sessions = loadSessions();
+    const sessions = await loadSessions();
     const session = sessions.find((s) => s.sessionId === sessionId);
 
     if (!session) {
@@ -1119,7 +1141,7 @@ app.post("/api/characters/:characterId/abilities", (req, res) => {
     }
 
     // Load session data
-    const sessionData = loadData();
+    const sessionData = await loadData();
 
     if (!sessionData.players || !Array.isArray(sessionData.players)) {
       return res.status(500).json({ error: "Spielerdaten nicht gefunden" });
@@ -1154,7 +1176,7 @@ app.post("/api/characters/:characterId/abilities", (req, res) => {
     player.abilities.push(newAbility);
 
     // Save updated data
-    saveData(sessionData);
+    await saveData(sessionData);
 
     console.log(
       `✅ Ability created for character ${characterId} by ${session.username}`,
@@ -1172,7 +1194,7 @@ app.post("/api/characters/:characterId/abilities", (req, res) => {
 });
 
 // PUT /api/characters/:characterId/abilities/:abilityId - Update an ability
-app.put("/api/characters/:characterId/abilities/:abilityId", (req, res) => {
+app.put("/api/characters/:characterId/abilities/:abilityId", async (req, res) => {
   try {
     const { characterId, abilityId } = req.params;
     const { name, description, image } = req.body;
@@ -1183,7 +1205,7 @@ app.put("/api/characters/:characterId/abilities/:abilityId", (req, res) => {
       return res.status(401).json({ error: "Nicht angemeldet" });
     }
 
-    const sessions = loadSessions();
+    const sessions = await loadSessions();
     const session = sessions.find((s) => s.sessionId === sessionId);
 
     if (!session) {
@@ -1196,7 +1218,7 @@ app.put("/api/characters/:characterId/abilities/:abilityId", (req, res) => {
     }
 
     // Load session data
-    const sessionData = loadData();
+    const sessionData = await loadData();
 
     if (!sessionData.players || !Array.isArray(sessionData.players)) {
       return res.status(500).json({ error: "Spielerdaten nicht gefunden" });
@@ -1233,7 +1255,7 @@ app.put("/api/characters/:characterId/abilities/:abilityId", (req, res) => {
     player.abilities[abilityIndex].updatedAt = Date.now();
 
     // Save updated data
-    saveData(sessionData);
+    await saveData(sessionData);
 
     console.log(
       `✅ Ability ${abilityId} updated for character ${characterId} by ${session.username}`,
@@ -1251,7 +1273,7 @@ app.put("/api/characters/:characterId/abilities/:abilityId", (req, res) => {
 });
 
 // DELETE /api/characters/:characterId/abilities/:abilityId - Delete an ability
-app.delete("/api/characters/:characterId/abilities/:abilityId", (req, res) => {
+app.delete("/api/characters/:characterId/abilities/:abilityId", async (req, res) => {
   try {
     const { characterId, abilityId } = req.params;
     const sessionId = req.cookies.sessionId;
@@ -1261,7 +1283,7 @@ app.delete("/api/characters/:characterId/abilities/:abilityId", (req, res) => {
       return res.status(401).json({ error: "Nicht angemeldet" });
     }
 
-    const sessions = loadSessions();
+    const sessions = await loadSessions();
     const session = sessions.find((s) => s.sessionId === sessionId);
 
     if (!session) {
@@ -1274,7 +1296,7 @@ app.delete("/api/characters/:characterId/abilities/:abilityId", (req, res) => {
     }
 
     // Load session data
-    const sessionData = loadData();
+    const sessionData = await loadData();
 
     if (!sessionData.players || !Array.isArray(sessionData.players)) {
       return res.status(500).json({ error: "Spielerdaten nicht gefunden" });
@@ -1307,7 +1329,7 @@ app.delete("/api/characters/:characterId/abilities/:abilityId", (req, res) => {
     player.abilities.splice(abilityIndex, 1);
 
     // Save updated data
-    saveData(sessionData);
+    await saveData(sessionData);
 
     console.log(
       `✅ Ability ${abilityId} deleted for character ${characterId} by ${session.username}`,
@@ -1324,7 +1346,7 @@ app.delete("/api/characters/:characterId/abilities/:abilityId", (req, res) => {
 });
 
 // GET /api/characters/:characterId/inventory - Get character inventory
-app.get("/api/characters/:characterId/inventory", (req, res) => {
+app.get("/api/characters/:characterId/inventory", async (req, res) => {
   try {
     const { characterId } = req.params;
     const sessionId = req.cookies.sessionId;
@@ -1334,7 +1356,7 @@ app.get("/api/characters/:characterId/inventory", (req, res) => {
       return res.status(401).json({ error: "Nicht angemeldet" });
     }
 
-    const sessions = loadSessions();
+    const sessions = await loadSessions();
     const session = sessions.find((s) => s.sessionId === sessionId);
 
     if (!session) {
@@ -1347,7 +1369,7 @@ app.get("/api/characters/:characterId/inventory", (req, res) => {
     }
 
     // Load session data
-    const sessionData = loadData();
+    const sessionData = await loadData();
 
     if (!sessionData.players || !Array.isArray(sessionData.players)) {
       return res.status(500).json({ error: "Spielerdaten nicht gefunden" });
@@ -1384,7 +1406,7 @@ app.get("/api/characters/:characterId/inventory", (req, res) => {
 });
 
 // PUT /api/characters/:characterId/inventory - Update character inventory (GM only)
-app.put("/api/characters/:characterId/inventory", (req, res) => {
+app.put("/api/characters/:characterId/inventory", async (req, res) => {
   try {
     const { characterId } = req.params;
     const { items, currency } = req.body;
@@ -1395,7 +1417,7 @@ app.put("/api/characters/:characterId/inventory", (req, res) => {
       return res.status(401).json({ error: "Nicht angemeldet" });
     }
 
-    const sessions = loadSessions();
+    const sessions = await loadSessions();
     const session = sessions.find((s) => s.sessionId === sessionId);
 
     if (!session) {
@@ -1410,7 +1432,7 @@ app.put("/api/characters/:characterId/inventory", (req, res) => {
     }
 
     // Load session data
-    const sessionData = loadData();
+    const sessionData = await loadData();
 
     if (!sessionData.players || !Array.isArray(sessionData.players)) {
       return res.status(500).json({ error: "Spielerdaten nicht gefunden" });
@@ -1455,7 +1477,7 @@ app.put("/api/characters/:characterId/inventory", (req, res) => {
     }
 
     // Save updated data
-    saveData(sessionData);
+    await saveData(sessionData);
 
     console.log(
       `✅ Inventory updated for character ${characterId} by ${session.username}`,
@@ -1473,7 +1495,7 @@ app.put("/api/characters/:characterId/inventory", (req, res) => {
 });
 
 // POST /api/characters/:characterId/inventory-changes - Submit inventory change request (Player)
-app.post("/api/characters/:characterId/inventory-changes", (req, res) => {
+app.post("/api/characters/:characterId/inventory-changes", async (req, res) => {
   try {
     const { characterId } = req.params;
     const { items, currency } = req.body;
@@ -1484,7 +1506,7 @@ app.post("/api/characters/:characterId/inventory-changes", (req, res) => {
       return res.status(401).json({ error: "Nicht angemeldet" });
     }
 
-    const sessions = loadSessions();
+    const sessions = await loadSessions();
     const session = sessions.find((s) => s.sessionId === sessionId);
 
     if (!session) {
@@ -1497,7 +1519,7 @@ app.post("/api/characters/:characterId/inventory-changes", (req, res) => {
     }
 
     // Load session data
-    const sessionData = loadData();
+    const sessionData = await loadData();
 
     if (!sessionData.players || !Array.isArray(sessionData.players)) {
       return res.status(500).json({ error: "Spielerdaten nicht gefunden" });
@@ -1533,7 +1555,7 @@ app.post("/api/characters/:characterId/inventory-changes", (req, res) => {
     sessionData.inventoryChanges.push(changeRequest);
 
     // Save data
-    saveData(sessionData);
+    await saveData(sessionData);
 
     console.log(
       `📋 Inventory change request submitted for ${player.name} by ${session.username}`,
@@ -1551,7 +1573,7 @@ app.post("/api/characters/:characterId/inventory-changes", (req, res) => {
 });
 
 // GET /api/inventory-changes/pending - Get all pending inventory changes (GM only)
-app.get("/api/inventory-changes/pending", (req, res) => {
+app.get("/api/inventory-changes/pending", async (req, res) => {
   try {
     const sessionId = req.cookies.sessionId;
 
@@ -1560,7 +1582,7 @@ app.get("/api/inventory-changes/pending", (req, res) => {
       return res.status(401).json({ error: "Nicht angemeldet" });
     }
 
-    const sessions = loadSessions();
+    const sessions = await loadSessions();
     const session = sessions.find((s) => s.sessionId === sessionId);
 
     if (!session) {
@@ -1573,7 +1595,7 @@ app.get("/api/inventory-changes/pending", (req, res) => {
     }
 
     // Load session data
-    const sessionData = loadData();
+    const sessionData = await loadData();
 
     // Get pending changes
     const pendingChanges =
@@ -1590,7 +1612,7 @@ app.get("/api/inventory-changes/pending", (req, res) => {
 });
 
 // PUT /api/inventory-changes/:changeId/approve - Approve inventory change (GM only)
-app.put("/api/inventory-changes/:changeId/approve", (req, res) => {
+app.put("/api/inventory-changes/:changeId/approve", async (req, res) => {
   try {
     const { changeId } = req.params;
     const sessionId = req.cookies.sessionId;
@@ -1600,7 +1622,7 @@ app.put("/api/inventory-changes/:changeId/approve", (req, res) => {
       return res.status(401).json({ error: "Nicht angemeldet" });
     }
 
-    const sessions = loadSessions();
+    const sessions = await loadSessions();
     const session = sessions.find((s) => s.sessionId === sessionId);
 
     if (!session) {
@@ -1613,7 +1635,7 @@ app.put("/api/inventory-changes/:changeId/approve", (req, res) => {
     }
 
     // Load session data
-    const sessionData = loadData();
+    const sessionData = await loadData();
 
     if (!sessionData.inventoryChanges) {
       return res.status(404).json({ error: "Keine Änderungsanträge gefunden" });
@@ -1654,7 +1676,7 @@ app.put("/api/inventory-changes/:changeId/approve", (req, res) => {
     change.approvedAt = Date.now();
 
     // Save data
-    saveData(sessionData);
+    await saveData(sessionData);
 
     console.log(
       `✅ Inventory change approved for ${change.playerName} by ${session.username}`,
@@ -1672,7 +1694,7 @@ app.put("/api/inventory-changes/:changeId/approve", (req, res) => {
 });
 
 // PUT /api/inventory-changes/:changeId/reject - Reject inventory change (GM only)
-app.put("/api/inventory-changes/:changeId/reject", (req, res) => {
+app.put("/api/inventory-changes/:changeId/reject", async (req, res) => {
   try {
     const { changeId } = req.params;
     const sessionId = req.cookies.sessionId;
@@ -1682,7 +1704,7 @@ app.put("/api/inventory-changes/:changeId/reject", (req, res) => {
       return res.status(401).json({ error: "Nicht angemeldet" });
     }
 
-    const sessions = loadSessions();
+    const sessions = await loadSessions();
     const session = sessions.find((s) => s.sessionId === sessionId);
 
     if (!session) {
@@ -1695,7 +1717,7 @@ app.put("/api/inventory-changes/:changeId/reject", (req, res) => {
     }
 
     // Load session data
-    const sessionData = loadData();
+    const sessionData = await loadData();
 
     if (!sessionData.inventoryChanges) {
       return res.status(404).json({ error: "Keine Änderungsanträge gefunden" });
@@ -1724,7 +1746,7 @@ app.put("/api/inventory-changes/:changeId/reject", (req, res) => {
     change.rejectedAt = Date.now();
 
     // Save data
-    saveData(sessionData);
+    await saveData(sessionData);
 
     console.log(
       `❌ Inventory change rejected for ${change.playerName} by ${session.username}`,
@@ -1752,10 +1774,10 @@ app.put("/api/inventory-changes/:changeId/reject", (req, res) => {
 const CHARS_BASE_DIR = path.join(__dirname, "data", "chars");
 if (!fs.existsSync(CHARS_BASE_DIR)) fs.mkdirSync(CHARS_BASE_DIR, { recursive: true });
 
-function getSessionUser(req) {
+async function getSessionUser(req) {
   const sessionId = req.cookies.sessionId;
   if (!sessionId) return null;
-  const sessions = loadSessions();
+  const sessions = await loadSessions();
   return sessions.find((s) => s.sessionId === sessionId) || null;
 }
 
@@ -1776,17 +1798,23 @@ function charFilePath(userId, id) {
   return resolved.startsWith(base + path.sep) ? resolved : null;
 }
 
-function readCharList(userId) {
+async function readCharList(userId) {
   const listFile = path.join(getUserCharsDir(userId), "_list.json");
-  try {
-    const list = JSON.parse(fs.readFileSync(listFile, "utf8"));
-    return [...new Set(list)]; // immer deduplizieren
-  } catch { return []; }
+  return withFileLock(listFile, async () => {
+    try {
+      const list = JSON.parse(await fs.promises.readFile(listFile, "utf8"));
+      return [...new Set(list)]; // immer deduplizieren
+    } catch {
+      return [];
+    }
+  });
 }
 
-function writeCharList(userId, list) {
+async function writeCharList(userId, list) {
   const listFile = path.join(getUserCharsDir(userId), "_list.json");
-  fs.writeFileSync(listFile, JSON.stringify([...new Set(list)])); // immer deduplizieren
+  return withFileLock(listFile, () =>
+    fs.promises.writeFile(listFile, JSON.stringify([...new Set(list)])), // immer deduplizieren
+  );
 }
 
 // Serve legal pages (no auth required)
@@ -1800,24 +1828,24 @@ function writeCharList(userId, list) {
 });
 
 // GET /api/chars
-app.get("/api/chars", (req, res) => {
-  const session = getSessionUser(req);
+app.get("/api/chars", async (req, res) => {
+  const session = await getSessionUser(req);
   if (!session) return res.status(401).json({ error: "Nicht angemeldet" });
-  res.json(readCharList(session.userId));
+  res.json(await readCharList(session.userId));
 });
 
 // PUT /api/chars
-app.put("/api/chars", (req, res) => {
-  const session = getSessionUser(req);
+app.put("/api/chars", async (req, res) => {
+  const session = await getSessionUser(req);
   if (!session) return res.status(401).json({ error: "Nicht angemeldet" });
   if (!Array.isArray(req.body)) return res.status(400).json({ error: "expected array" });
-  writeCharList(session.userId, req.body.filter((id) => typeof id === "string"));
+  await writeCharList(session.userId, req.body.filter((id) => typeof id === "string"));
   res.json({ ok: true });
 });
 
 // GET /api/chars/:id
-app.get("/api/chars/:id", (req, res) => {
-  const session = getSessionUser(req);
+app.get("/api/chars/:id", async (req, res) => {
+  const session = await getSessionUser(req);
   if (!session) return res.status(401).json(null);
   const id = sanitizeCharId(req.params.id);
   if (!id) return res.status(400).json(null);
@@ -1827,47 +1855,57 @@ app.get("/api/chars/:id", (req, res) => {
 });
 
 // POST /api/chars/:id
-app.post("/api/chars/:id", (req, res) => {
-  const session = getSessionUser(req);
-  if (!session) return res.status(401).json({ error: "Nicht angemeldet" });
-  const id = sanitizeCharId(req.params.id);
-  if (!id) return res.status(400).json({ error: "invalid id" });
-  const file = charFilePath(session.userId, id);
-  if (!file) return res.status(400).json({ error: "invalid id" });
-  fs.writeFileSync(file, JSON.stringify(req.body));
-  // List management is handled by PUT /api/chars
-  res.json({ ok: true });
+app.post("/api/chars/:id", async (req, res) => {
+  try {
+    const session = await getSessionUser(req);
+    if (!session) return res.status(401).json({ error: "Nicht angemeldet" });
+    const id = sanitizeCharId(req.params.id);
+    if (!id) return res.status(400).json({ error: "invalid id" });
+    const file = charFilePath(session.userId, id);
+    if (!file) return res.status(400).json({ error: "invalid id" });
+    await withFileLock(file, () => fs.promises.writeFile(file, JSON.stringify(req.body)));
+    // List management is handled by PUT /api/chars
+    res.json({ ok: true });
+  } catch (error) {
+    console.error("Fehler beim Speichern des Charakters:", error);
+    res.status(500).json({ error: "Fehler beim Speichern" });
+  }
 });
 
 // DELETE /api/chars/:id
-app.delete("/api/chars/:id", (req, res) => {
-  const session = getSessionUser(req);
-  if (!session) return res.status(401).json({ error: "Nicht angemeldet" });
-  const id = sanitizeCharId(req.params.id);
-  if (!id) return res.status(400).json({ error: "invalid id" });
-  const file = charFilePath(session.userId, id);
-  if (file && fs.existsSync(file)) fs.unlinkSync(file);
-  writeCharList(session.userId, readCharList(session.userId).filter((x) => x !== id));
-  res.json({ ok: true });
+app.delete("/api/chars/:id", async (req, res) => {
+  try {
+    const session = await getSessionUser(req);
+    if (!session) return res.status(401).json({ error: "Nicht angemeldet" });
+    const id = sanitizeCharId(req.params.id);
+    if (!id) return res.status(400).json({ error: "invalid id" });
+    const file = charFilePath(session.userId, id);
+    if (file && fs.existsSync(file)) await fs.promises.unlink(file);
+    await writeCharList(session.userId, (await readCharList(session.userId)).filter((x) => x !== id));
+    res.json({ ok: true });
+  } catch (error) {
+    console.error("Fehler beim Löschen des Charakters:", error);
+    res.status(500).json({ error: "Fehler beim Löschen" });
+  }
 });
 
 // ---- Admin-only char routes (GM role required) ----
 
 // GET /api/admin/chars-overview — alle User mit ihren Chars
-app.get("/api/admin/chars-overview", (req, res) => {
-  const session = getSessionUser(req);
+app.get("/api/admin/chars-overview", async (req, res) => {
+  const session = await getSessionUser(req);
   if (!session || session.role !== "gm") return res.status(403).json({ error: "Forbidden" });
   try {
-    const usersData = JSON.parse(fs.readFileSync(USERS_FILE, "utf8"));
+    const users = await loadUsers();
     const result = [];
-    for (const user of usersData.users) {
-      const list = readCharList(user.id);
+    for (const user of users) {
+      const list = await readCharList(user.id);
       const chars = [];
       for (const charId of list) {
         const file = charFilePath(user.id, charId);
         if (file && fs.existsSync(file)) {
           try {
-            const c = JSON.parse(fs.readFileSync(file, "utf8"));
+            const c = JSON.parse(await fs.promises.readFile(file, "utf8"));
             chars.push({ id: c.id, name: c.name || "Unbenannt", ancestry: c.ancestry || "", cls: c.cls || "", level: c.level || 1, hp: c.hp });
           } catch {}
         }
@@ -1881,12 +1919,12 @@ app.get("/api/admin/chars-overview", (req, res) => {
 });
 
 // GET /api/admin/chars/:userId/:charId
-app.get("/api/admin/chars/:userId/:charId", (req, res) => {
-  const session = getSessionUser(req);
+app.get("/api/admin/chars/:userId/:charId", async (req, res) => {
+  const session = await getSessionUser(req);
   if (!session || session.role !== "gm") return res.status(403).json(null);
   try {
-    const usersData = JSON.parse(fs.readFileSync(USERS_FILE, "utf8"));
-    if (!usersData.users.find((u) => u.id === req.params.userId)) return res.status(404).json(null);
+    const users = await loadUsers();
+    if (!users.find((u) => u.id === req.params.userId)) return res.status(404).json(null);
     const id = sanitizeCharId(req.params.charId);
     if (!id) return res.status(400).json(null);
     const file = charFilePath(req.params.userId, id);
@@ -1898,17 +1936,17 @@ app.get("/api/admin/chars/:userId/:charId", (req, res) => {
 });
 
 // POST /api/admin/chars/:userId/:charId
-app.post("/api/admin/chars/:userId/:charId", (req, res) => {
-  const session = getSessionUser(req);
+app.post("/api/admin/chars/:userId/:charId", async (req, res) => {
+  const session = await getSessionUser(req);
   if (!session || session.role !== "gm") return res.status(403).json({ error: "Forbidden" });
   try {
-    const usersData = JSON.parse(fs.readFileSync(USERS_FILE, "utf8"));
-    if (!usersData.users.find((u) => u.id === req.params.userId)) return res.status(404).json({ error: "User not found" });
+    const users = await loadUsers();
+    if (!users.find((u) => u.id === req.params.userId)) return res.status(404).json({ error: "User not found" });
     const id = sanitizeCharId(req.params.charId);
     if (!id) return res.status(400).json({ error: "invalid id" });
     const file = charFilePath(req.params.userId, id);
     if (!file) return res.status(400).json({ error: "invalid id" });
-    fs.writeFileSync(file, JSON.stringify(req.body));
+    await withFileLock(file, () => fs.promises.writeFile(file, JSON.stringify(req.body)));
     res.json({ ok: true });
   } catch (e) {
     res.status(500).json({ error: "Fehler beim Speichern" });
@@ -1916,17 +1954,17 @@ app.post("/api/admin/chars/:userId/:charId", (req, res) => {
 });
 
 // DELETE /api/admin/chars/:userId/:charId
-app.delete("/api/admin/chars/:userId/:charId", (req, res) => {
-  const session = getSessionUser(req);
+app.delete("/api/admin/chars/:userId/:charId", async (req, res) => {
+  const session = await getSessionUser(req);
   if (!session || session.role !== "gm") return res.status(403).json({ error: "Forbidden" });
   try {
-    const usersData = JSON.parse(fs.readFileSync(USERS_FILE, "utf8"));
-    if (!usersData.users.find((u) => u.id === req.params.userId)) return res.status(404).json({ error: "User not found" });
+    const users = await loadUsers();
+    if (!users.find((u) => u.id === req.params.userId)) return res.status(404).json({ error: "User not found" });
     const id = sanitizeCharId(req.params.charId);
     if (!id) return res.status(400).json({ error: "invalid id" });
     const file = charFilePath(req.params.userId, id);
-    if (file && fs.existsSync(file)) fs.unlinkSync(file);
-    writeCharList(req.params.userId, readCharList(req.params.userId).filter((x) => x !== id));
+    if (file && fs.existsSync(file)) await fs.promises.unlink(file);
+    await writeCharList(req.params.userId, (await readCharList(req.params.userId)).filter((x) => x !== id));
     res.json({ ok: true });
   } catch (e) {
     res.status(500).json({ error: "Fehler beim Löschen" });
