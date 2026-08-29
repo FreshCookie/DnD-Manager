@@ -6,6 +6,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Coins,
+  Loader2,
   Minus,
   Plus,
   Save,
@@ -53,8 +54,8 @@ const NumberField = ({ label, value, onCommit }) => {
 
 const CharSheet = ({ char: initialChar, adminCtx, onBack }) => {
   const [char, setChar] = useState(initialChar);
-  const [saved, setSaved] = useState(false);
-  const [saveError, setSaveError] = useState(false);
+  // "idle" | "saving-manual" | "saving-auto" | "saved" | "error"
+  const [saveState, setSaveState] = useState("idle");
   const [lightboxIdx, setLightboxIdx] = useState(null);
   const [editingSkillIdx, setEditingSkillIdx] = useState(null);
   const [skillEdit, setSkillEdit] = useState({ name: "", stat: "" });
@@ -63,26 +64,23 @@ const CharSheet = ({ char: initialChar, adminCtx, onBack }) => {
   const retryTimer = useRef(null);
   const isFirstRender = useRef(true);
 
-  const flashSaved = () => {
-    setSaved(true);
-    clearTimeout(savedTimer.current);
-    savedTimer.current = setTimeout(() => setSaved(false), 900);
-  };
-
   // Speichert im Hintergrund; iOS killt Fetch-Requests deutlich öfter als
   // Desktop/Android (z.B. Handy gesperrt direkt nach dem Tippen). Ohne
-  // Retry+sichtbaren Fehler blieb das bisher komplett unbemerkt.
-  const persist = async (next) => {
+  // Retry+sichtbaren Fehler blieb das bisher komplett unbemerkt. isManual
+  // steuert nur die Anzeige ("Wird gespeichert" vs. "Auto-Save").
+  const persist = async (next, isManual = false) => {
     clearTimeout(retryTimer.current);
+    clearTimeout(savedTimer.current);
+    setSaveState(isManual ? "saving-manual" : "saving-auto");
     const ok = adminCtx
       ? await saveAdminChar(adminCtx.userId, next)
       : await saveCharApi(next);
     if (ok) {
-      setSaveError(false);
-      flashSaved();
+      setSaveState("saved");
+      savedTimer.current = setTimeout(() => setSaveState("idle"), 900);
     } else {
-      setSaveError(true);
-      retryTimer.current = setTimeout(() => persist(next), 4000);
+      setSaveState("error");
+      retryTimer.current = setTimeout(() => persist(next, isManual), 4000);
     }
   };
 
@@ -91,14 +89,14 @@ const CharSheet = ({ char: initialChar, adminCtx, onBack }) => {
   // 4s-Retry zu warten.
   useEffect(() => {
     const onVisible = () => {
-      if (document.visibilityState === "visible" && saveError) {
+      if (document.visibilityState === "visible" && saveState === "error") {
         persist(char);
       }
     };
     document.addEventListener("visibilitychange", onVisible);
     return () => document.removeEventListener("visibilitychange", onVisible);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [saveError, char]);
+  }, [saveState, char]);
 
   // Strukturelle Änderungen (Buttons, Listen, Fotos) speichern sofort mit dem
   // exakten neuen Objekt - Text-/Zahlenfelder erst beim Verlassen des Feldes.
@@ -114,7 +112,7 @@ const CharSheet = ({ char: initialChar, adminCtx, onBack }) => {
     const onKeyDown = (e) => {
       if ((e.ctrlKey || e.metaKey) && e.key === "s") {
         e.preventDefault();
-        persist(char);
+        persist(char, true);
       }
     };
     document.addEventListener("keydown", onKeyDown);
@@ -242,19 +240,24 @@ const CharSheet = ({ char: initialChar, adminCtx, onBack }) => {
               [{adminCtx.username}]
             </span>
           )}
-          {saveError ? (
+          {saveState === "error" ? (
             <span className="flex items-center gap-1 text-xs font-semibold text-red-400 animate-pulse">
               <AlertTriangle className="w-3.5 h-3.5" /> nicht gespeichert – erneuter Versuch…
             </span>
+          ) : saveState === "saving-manual" || saveState === "saving-auto" ? (
+            <span className="flex items-center gap-1 text-xs font-semibold text-amber-300">
+              <Loader2 className="w-3.5 h-3.5 animate-spin" />
+              {saveState === "saving-manual" ? "Wird gespeichert…" : "Auto-Save…"}
+            </span>
           ) : (
             <span
-              className={`text-xs font-semibold text-emerald-400 transition-opacity ${saved ? "opacity-100" : "opacity-0"}`}
+              className={`text-xs font-semibold text-emerald-400 transition-opacity ${saveState === "saved" ? "opacity-100" : "opacity-0"}`}
             >
               ✓ gespeichert
             </span>
           )}
           <button
-            onClick={() => persist(char)}
+            onClick={() => persist(char, true)}
             className="flex items-center gap-2 bg-amber-700 hover:bg-amber-600 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors"
           >
             <Save className="w-4 h-4" /> Speichern
