@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
+  AlertTriangle,
   ArrowLeft,
   Check,
   ChevronLeft,
@@ -11,6 +12,7 @@ import {
   X,
 } from "lucide-react";
 import EditableList from "./EditableList";
+import AbilityList from "./AbilityList";
 import {
   compressImage,
   saveAdminChar,
@@ -50,11 +52,13 @@ const NumberField = ({ label, value, onCommit }) => {
 const CharSheet = ({ char: initialChar, adminCtx, onBack }) => {
   const [char, setChar] = useState(initialChar);
   const [saved, setSaved] = useState(false);
+  const [saveError, setSaveError] = useState(false);
   const [lightboxIdx, setLightboxIdx] = useState(null);
   const [editingSkillIdx, setEditingSkillIdx] = useState(null);
   const [skillEdit, setSkillEdit] = useState({ name: "", stat: "" });
   const photoInputRef = useRef(null);
   const savedTimer = useRef(null);
+  const retryTimer = useRef(null);
   const isFirstRender = useRef(true);
 
   const flashSaved = () => {
@@ -63,12 +67,36 @@ const CharSheet = ({ char: initialChar, adminCtx, onBack }) => {
     savedTimer.current = setTimeout(() => setSaved(false), 900);
   };
 
+  // Speichert im Hintergrund; iOS killt Fetch-Requests deutlich öfter als
+  // Desktop/Android (z.B. Handy gesperrt direkt nach dem Tippen). Ohne
+  // Retry+sichtbaren Fehler blieb das bisher komplett unbemerkt.
   const persist = async (next) => {
+    clearTimeout(retryTimer.current);
     const ok = adminCtx
       ? await saveAdminChar(adminCtx.userId, next)
       : await saveCharApi(next);
-    if (ok) flashSaved();
+    if (ok) {
+      setSaveError(false);
+      flashSaved();
+    } else {
+      setSaveError(true);
+      retryTimer.current = setTimeout(() => persist(next), 4000);
+    }
   };
+
+  // Wenn der Tab/die App wieder in den Vordergrund kommt (z.B. nach
+  // Entsperren des Handys), sofort erneut versuchen statt auf den nächsten
+  // 4s-Retry zu warten.
+  useEffect(() => {
+    const onVisible = () => {
+      if (document.visibilityState === "visible" && saveError) {
+        persist(char);
+      }
+    };
+    document.addEventListener("visibilitychange", onVisible);
+    return () => document.removeEventListener("visibilitychange", onVisible);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [saveError, char]);
 
   // Strukturelle Änderungen (Buttons, Listen, Fotos) speichern sofort mit dem
   // exakten neuen Objekt - Text-/Zahlenfelder erst beim Verlassen des Feldes.
@@ -145,6 +173,21 @@ const CharSheet = ({ char: initialChar, adminCtx, onBack }) => {
     }));
 
   const currency = char.currency || { platinum: 0, gold: 0, silver: 0, bronze: 0 };
+  const equipment = char.equipment || [];
+
+  // Ältere Chars haben abilities noch als reine String-Liste gespeichert -
+  // hier zur Anzeige in die neue Struktur überführen; geschrieben wird sie
+  // erst wieder, sobald der Spieler etwas an der Liste ändert.
+  const abilities = (char.abilities || []).map((a) =>
+    typeof a === "string" ? { name: a, type: "Fähigkeit", description: "", cost: "" } : a,
+  );
+
+  const mana = char.mana || { cur: 0, max: 0 };
+  const bumpMana = (delta) =>
+    apply((prev) => ({
+      ...prev,
+      mana: { ...(prev.mana || { cur: 0, max: 0 }), cur: Math.max(0, (prev.mana?.cur || 0) + delta) },
+    }));
 
   const startSkillEdit = (idx) => {
     setEditingSkillIdx(idx);
@@ -190,11 +233,17 @@ const CharSheet = ({ char: initialChar, adminCtx, onBack }) => {
               [{adminCtx.username}]
             </span>
           )}
-          <span
-            className={`text-xs font-semibold text-emerald-400 transition-opacity ${saved ? "opacity-100" : "opacity-0"}`}
-          >
-            ✓ gespeichert
-          </span>
+          {saveError ? (
+            <span className="flex items-center gap-1 text-xs font-semibold text-red-400 animate-pulse">
+              <AlertTriangle className="w-3.5 h-3.5" /> nicht gespeichert – erneuter Versuch…
+            </span>
+          ) : (
+            <span
+              className={`text-xs font-semibold text-emerald-400 transition-opacity ${saved ? "opacity-100" : "opacity-0"}`}
+            >
+              ✓ gespeichert
+            </span>
+          )}
           <button
             onClick={() => persist(char)}
             className="flex items-center gap-2 bg-amber-700 hover:bg-amber-600 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors"
@@ -516,8 +565,17 @@ const CharSheet = ({ char: initialChar, adminCtx, onBack }) => {
         </button>
       </Card>
 
+      {/* Ausrüstung */}
+      <Card title="Ausrüstung">
+        <EditableList
+          items={equipment}
+          placeholder="Waffe/Rüstung/Schild hinzufügen, z.B. Armbrust 1D4 + Dex…"
+          onChange={(next) => apply((prev) => ({ ...prev, equipment: next }))}
+        />
+      </Card>
+
       {/* Inventar */}
-      <Card title="Inventar & Ausrüstung">
+      <Card title="Inventar">
         <EditableList
           items={char.inventory}
           placeholder="Neuer Gegenstand…"
@@ -527,10 +585,45 @@ const CharSheet = ({ char: initialChar, adminCtx, onBack }) => {
 
       {/* Fähigkeiten */}
       <Card title="Fähigkeiten & Talente">
-        <EditableList
-          items={char.abilities}
-          placeholder="Neue Fähigkeit…"
-          onChange={(abilities) => apply((prev) => ({ ...prev, abilities }))}
+        <div className="bg-gray-900/50 border border-purple-500/10 rounded-lg py-2 px-3 flex items-center justify-between mb-3">
+          <span className="text-[10px] uppercase tracking-wide text-gray-400">Mana</span>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => bumpMana(-1)}
+              className="w-6 h-6 rounded bg-gray-700 hover:bg-gray-600 flex items-center justify-center text-gray-200"
+              aria-label="Mana verringern"
+            >
+              <Minus className="w-3.5 h-3.5" />
+            </button>
+            <span className="font-bold text-lg w-8 text-center text-teal-300">{mana.cur}</span>
+            <button
+              onClick={() => bumpMana(1)}
+              className="w-6 h-6 rounded bg-gray-700 hover:bg-gray-600 flex items-center justify-center text-gray-200"
+              aria-label="Mana erhöhen"
+            >
+              <Plus className="w-3.5 h-3.5" />
+            </button>
+            <span className="text-gray-500">/</span>
+            <input
+              type="number"
+              value={mana.max}
+              onChange={(e) =>
+                setChar((prev) => ({ ...prev, mana: { ...(prev.mana || {}), max: e.target.value } }))
+              }
+              onBlur={() => {
+                const max = parseInt(mana.max, 10) || 0;
+                apply((prev) => ({
+                  ...prev,
+                  mana: { cur: Math.min(prev.mana?.cur || 0, max), max },
+                }));
+              }}
+              className="w-10 bg-gray-800 border border-purple-500/20 rounded text-center outline-none"
+            />
+          </div>
+        </div>
+        <AbilityList
+          items={abilities}
+          onChange={(next) => apply((prev) => ({ ...prev, abilities: next }))}
         />
       </Card>
 

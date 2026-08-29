@@ -43,7 +43,9 @@ export function createBlankChar(name) {
     wounds: { cur: 0, max: 5 },
     skills: DEFAULT_SKILLS.map((s) => ({ ...s, val: 0 })),
     inventory: [],
+    equipment: [],
     abilities: [],
+    mana: { cur: 0, max: 0 },
     notes: "",
     photos: [],
     currency: { bronze: 0, silver: 0, gold: 0, platinum: 0 },
@@ -63,13 +65,20 @@ async function getJson(url) {
 }
 
 async function sendJson(url, method, body) {
-  const r = await fetch(url, {
-    method,
-    headers: { "Content-Type": "application/json" },
-    credentials: "include",
-    body: JSON.stringify(body),
-  });
-  return r.ok;
+  try {
+    const r = await fetch(url, {
+      method,
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify(body),
+    });
+    return r.ok;
+  } catch {
+    // Netzwerkfehler (z.B. Request von iOS abgebrochen, weil die Seite in
+    // den Hintergrund ging) - wie ein fehlgeschlagener Save behandeln, damit
+    // CharSheet den Retry-Mechanismus auslöst statt eines unhandled rejection.
+    return false;
+  }
 }
 
 export async function fetchCharList() {
