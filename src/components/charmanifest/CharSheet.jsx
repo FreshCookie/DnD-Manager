@@ -33,18 +33,28 @@ const Card = ({ title, children, className = "" }) => (
   </div>
 );
 
+// Bewusst kein <button> - mobile Browser (iOS UND Android) erzwingen bei
+// <button> teils eine Mindest-Tastflaeche/Hoehe, die die CSS-Groesse (h-5)
+// ueberstimmt und den Schalter aufgeblaeht wirken laesst. Als <div> mit
+// role="switch" umgeht das dieses Verhalten komplett.
 const Toggle = ({ checked, onChange }) => (
-  <button
-    type="button"
+  <div
+    role="switch"
+    aria-checked={checked}
+    tabIndex={0}
     onClick={onChange}
-    aria-pressed={checked}
-    className={`relative inline-block w-10 h-5 p-0 m-0 border-0 appearance-none shrink-0 rounded-full transition-colors ${checked ? "bg-amber-600" : "bg-gray-700"}`}
-    style={{ WebkitAppearance: "none" }}
+    onKeyDown={(e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        onChange();
+      }
+    }}
+    className={`relative inline-block w-10 h-5 shrink-0 rounded-full cursor-pointer transition-colors ${checked ? "bg-amber-600" : "bg-gray-700"}`}
   >
     <span
       className={`absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white transition-transform ${checked ? "translate-x-5" : "translate-x-0"}`}
     />
-  </button>
+  </div>
 );
 
 const NumberField = ({ label, value, onCommit }) => {
