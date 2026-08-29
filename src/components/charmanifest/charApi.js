@@ -46,6 +46,7 @@ export function createBlankChar(name) {
     equipment: [],
     abilities: [],
     mana: { cur: 0, max: 0 },
+    debts: [],
     notes: "",
     photos: [],
     currency: { bronze: 0, silver: 0, gold: 0, platinum: 0 },

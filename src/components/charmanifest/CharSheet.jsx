@@ -11,8 +11,10 @@ import {
   Save,
   X,
 } from "lucide-react";
-import EditableList from "./EditableList";
 import AbilityList from "./AbilityList";
+import EquipmentList from "./EquipmentList";
+import InventoryList from "./InventoryList";
+import DebtList from "./DebtList";
 import {
   compressImage,
   saveAdminChar,
@@ -173,13 +175,20 @@ const CharSheet = ({ char: initialChar, adminCtx, onBack }) => {
     }));
 
   const currency = char.currency || { platinum: 0, gold: 0, silver: 0, bronze: 0 };
-  const equipment = char.equipment || [];
+  const debts = char.debts || [];
 
-  // Ältere Chars haben abilities noch als reine String-Liste gespeichert -
-  // hier zur Anzeige in die neue Struktur überführen; geschrieben wird sie
-  // erst wieder, sobald der Spieler etwas an der Liste ändert.
+  // Ältere Chars haben abilities/equipment/inventory noch als reine
+  // String-Listen gespeichert - hier zur Anzeige in die neue Struktur
+  // überführen; geschrieben wird erst wieder, sobald der Spieler etwas an
+  // der jeweiligen Liste ändert.
   const abilities = (char.abilities || []).map((a) =>
     typeof a === "string" ? { name: a, type: "Fähigkeit", description: "", cost: "" } : a,
+  );
+  const equipment = (char.equipment || []).map((e) =>
+    typeof e === "string" ? { category: "Sonstiges", name: e, stat: "", description: "" } : e,
+  );
+  const inventory = (char.inventory || []).map((i) =>
+    typeof i === "string" ? { name: i, description: "" } : i,
   );
 
   const mana = char.mana || { cur: 0, max: 0 };
@@ -490,6 +499,13 @@ const CharSheet = ({ char: initialChar, adminCtx, onBack }) => {
         <div className="flex items-center gap-1 text-[10px] text-gray-500 mt-2">
           <Coins className="w-3 h-3" /> Automatisch gespeichert
         </div>
+        <div className="mt-4 pt-4 border-t border-purple-500/10">
+          <div className="text-[10px] uppercase tracking-wide text-gray-400 mb-2">Schulden</div>
+          <DebtList
+            items={debts}
+            onChange={(next) => apply((prev) => ({ ...prev, debts: next }))}
+          />
+        </div>
       </Card>
 
       {/* Skills */}
@@ -567,19 +583,17 @@ const CharSheet = ({ char: initialChar, adminCtx, onBack }) => {
 
       {/* Ausrüstung */}
       <Card title="Ausrüstung">
-        <EditableList
+        <EquipmentList
           items={equipment}
-          placeholder="Waffe/Rüstung/Schild hinzufügen, z.B. Armbrust 1D4 + Dex…"
           onChange={(next) => apply((prev) => ({ ...prev, equipment: next }))}
         />
       </Card>
 
       {/* Inventar */}
       <Card title="Inventar">
-        <EditableList
-          items={char.inventory}
-          placeholder="Neuer Gegenstand…"
-          onChange={(inventory) => apply((prev) => ({ ...prev, inventory }))}
+        <InventoryList
+          items={inventory}
+          onChange={(next) => apply((prev) => ({ ...prev, inventory: next }))}
         />
       </Card>
 
