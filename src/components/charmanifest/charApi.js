@@ -36,6 +36,7 @@ export function createBlankChar(name) {
     dex: 0,
     int: 0,
     wil: 0,
+    attributeMarks: { str: null, dex: null, int: null, wil: null },
     hp: { cur: 10, max: 10 },
     tempHp: 0,
     armor: 10,

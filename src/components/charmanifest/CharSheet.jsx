@@ -3,8 +3,10 @@ import {
   AlertTriangle,
   ArrowLeft,
   Check,
+  ChevronDown,
   ChevronLeft,
   ChevronRight,
+  ChevronUp,
   Coins,
   Loader2,
   Minus,
@@ -54,6 +56,48 @@ const Toggle = ({ checked, onChange }) => (
     <span
       className={`absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white transition-transform ${checked ? "translate-x-5" : "translate-x-0"}`}
     />
+  </div>
+);
+
+// Eigene Buttons statt Zahlenfeld zum Tippen - auf vielen mobilen Tastaturen
+// gibt es bei type="number" kein Minus-Zeichen, wodurch negative Attribute
+// (z.B. -1 WIL) sonst nicht eingebbar waeren.
+const AttributeField = ({ label, value, mark, onBump, onToggleMark }) => (
+  <div className="bg-gray-900/50 border border-purple-500/10 rounded-lg text-center py-1">
+    <button
+      onClick={() => onToggleMark("advantage")}
+      aria-label={`${label} Vorteil`}
+      aria-pressed={mark === "advantage"}
+      className={`w-full flex justify-center py-0.5 ${mark === "advantage" ? "text-emerald-400" : "text-gray-600 hover:text-gray-400"}`}
+    >
+      <ChevronUp className="w-3.5 h-3.5" />
+    </button>
+    <div className="text-[10px] uppercase tracking-wide text-gray-400">{label}</div>
+    <div className="flex items-center justify-center gap-1 mt-0.5">
+      <button
+        onClick={() => onBump(-1)}
+        className="w-5 h-5 rounded bg-gray-700 hover:bg-gray-600 flex items-center justify-center shrink-0"
+        aria-label={`${label} verringern`}
+      >
+        <Minus className="w-3 h-3" />
+      </button>
+      <span className="w-6 text-center text-lg font-bold text-gray-100">{value}</span>
+      <button
+        onClick={() => onBump(1)}
+        className="w-5 h-5 rounded bg-gray-700 hover:bg-gray-600 flex items-center justify-center shrink-0"
+        aria-label={`${label} erhöhen`}
+      >
+        <Plus className="w-3 h-3" />
+      </button>
+    </div>
+    <button
+      onClick={() => onToggleMark("disadvantage")}
+      aria-label={`${label} Nachteil`}
+      aria-pressed={mark === "disadvantage"}
+      className={`w-full flex justify-center py-0.5 ${mark === "disadvantage" ? "text-red-400" : "text-gray-600 hover:text-gray-400"}`}
+    >
+      <ChevronDown className="w-3.5 h-3.5" />
+    </button>
   </div>
 );
 
@@ -166,6 +210,18 @@ const CharSheet = ({ char: initialChar, adminCtx, onBack }) => {
       return next;
     });
   };
+
+  const attributeMarks = char.attributeMarks || {};
+  const bumpAttribute = (key, delta) =>
+    apply((prev) => ({ ...prev, [key]: (prev[key] || 0) + delta }));
+  const toggleAttributeMark = (key, mark) =>
+    apply((prev) => ({
+      ...prev,
+      attributeMarks: {
+        ...(prev.attributeMarks || {}),
+        [key]: prev.attributeMarks?.[key] === mark ? null : mark,
+      },
+    }));
 
   const photos = char.photos || [];
 
@@ -433,10 +489,16 @@ const CharSheet = ({ char: initialChar, adminCtx, onBack }) => {
         {/* Attribute */}
         <Card title="Attribute">
           <div className="grid grid-cols-4 gap-2">
-            <NumberField label="STR" value={char.str} onCommit={(v) => commitField("str", v)} />
-            <NumberField label="DEX" value={char.dex} onCommit={(v) => commitField("dex", v)} />
-            <NumberField label="INT" value={char.int} onCommit={(v) => commitField("int", v)} />
-            <NumberField label="WIL" value={char.wil} onCommit={(v) => commitField("wil", v)} />
+            {["str", "dex", "int", "wil"].map((key) => (
+              <AttributeField
+                key={key}
+                label={key.toUpperCase()}
+                value={char[key]}
+                mark={attributeMarks[key]}
+                onBump={(delta) => bumpAttribute(key, delta)}
+                onToggleMark={(mark) => toggleAttributeMark(key, mark)}
+              />
+            ))}
           </div>
         </Card>
 
